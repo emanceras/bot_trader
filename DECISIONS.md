@@ -53,3 +53,11 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Asuntos:** capital, moneda de cuenta, jurisdicción, acceso a mercados, horizonte, tolerancia al drawdown, contraparte, presupuesto de datos y dedicación operativa.
 - **Alternativas relevantes:** spot long/flat con menor complejidad de financiación; derivados/carry con mayor necesidad de margen y supervisión; alta frecuencia con datos/infraestructura más exigentes.
 - **Consecuencia:** no se presupone acceso a cortos, comisiones institucionales, apalancamiento, préstamo gratuito ni stablecoins sin riesgo. La investigación de mecanismos puede continuar sin resolver estas preferencias.
+
+## D-008 — Aprobación para continuar la investigación
+
+- **Fecha:** 2026-10-13. **Estado:** aprobada explícitamente por el usuario.
+- **Instrucción recibida:** «Sí, vamos a seguir, doy el visto bueno»; solicita instrucciones para habilitar las fuentes.
+- **Decisión:** continuar la revisión bibliográfica dentro de Fase I conforme al marco inicial. No es necesario volver a pedir aprobación para esa lectura.
+- **Límite:** no implica aceptación de la Fase I completa ni autorización de Fase II, experimentos o trading.
+- **Acceso:** lectura del borrador confirma 14 dominios académicos guardados, con política restringida. Su aplicación al entorno sigue sin confirmarse; el usuario necesita revisar/guardar y publicar la configuración antes de comprobar nuevamente las consultas afectadas.
