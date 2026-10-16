@@ -1,6 +1,6 @@
 # Investigación científica — Fase I
 
-**Fecha:** 2026-10-13 · **Versión:** 0.1 · **Estado:** preguntas y protocolo documentados; informe teórico preliminar; revisión empírica pendiente de acceso.
+**Actualizado:** 2026-10-15 · **Versión:** 0.2 · **Estado:** primer informe con fuentes verificadas y cobertura limitada; Fase I abierta. Sin experimentos propios ni autorización de Fase II.
 
 ## 1. Preguntas científicas principales
 
@@ -23,16 +23,24 @@ Estas preguntas guían la lectura. Las hipótesis concretas y sus posibles refut
 
 ## 2. Alcance, acceso y límites de esta entrega
 
-Se cubren conceptualmente las trece familias solicitadas. El trabajo actual **no constituye una revisión bibliográfica exhaustiva ni una actualización verificada a octubre de 2026**.
+El acceso externo funciona para una parte relevante de las fuentes: se recuperaron documentos de NBER, BIS, arXiv, editoriales abiertas y páginas de autores. El bloqueo general observado inicialmente queda superado en esta instancia; persisten denegaciones editoriales concretas y descargas que devuelven HTML en lugar de un PDF. No se requiere una clave de exchange para esta investigación.
 
-- El checkout inicial estaba vacío y no contenía datos, estudios ni resultados propios.
-- No hay herramienta de navegación/búsqueda académica disponible en esta sesión. Se intentó consultar directamente fuentes primarias por HTTPS con verificación TLS.
-- El proxy rechazó NBER, arXiv, Crossref, DOI y otras fuentes académicas con `CONNECT 403` / `Tunnel connection failed: 403 Forbidden`.
-- **Artículos recuperados: 0. Textos completos leídos: 0. Resúmenes leídos: 0. Metadatos bibliográficos recuperados: 0. Experimentos propios: 0.** Un intento bloqueado no cuenta como consulta de contenido.
-- Los fundamentos matemáticos siguientes son análisis teórico. Las referencias de los apéndices y de la sección 9 son **semillas bibliográficas pendientes de verificación**, no evidencia empírica evaluada.
-- Se guardó un borrador con destinos académicos en la configuración del entorno. No modifica por sí solo el acceso de esta máquina ni acredita publicación. Véase [D-003](DECISIONS.md#d-003--acceso-externo-limitado).
+Se documentan las trece familias con **28 trabajos con texto completo disponible y fichas de las secciones examinadas**, incluidos trabajos metodológicos y de mercados tradicionales. Esto no significa lectura exhaustiva de todos sus apéndices, réplica de sus resultados ni 28 pruebas de rentabilidad cripto. Las versiones de trabajo y editoriales se agrupan; se declara cuál se leyó. Las fuentes accesibles solo como resumen/metadatos se mantienen aparte.
 
-No se infieren resultados positivos ni negativos de la inaccesibilidad de los artículos. «Evidencia no evaluada» es distinto de «evidencia de ausencia de rentabilidad».
+| Bloque | Textos con ficha de lectura | Síntesis y evidencia verificable |
+|---|---:|---|
+| Momentum, reversión y factores | 4 | [Síntesis](docs/research/directional.md) · [Fichas DIR](docs/research/evidence-directional.md); otros siete trabajos con acceso parcial |
+| Arbitraje estadístico, pares y carry | 3 | [Síntesis](docs/research/relative-value.md) · [Fichas RV](docs/research/evidence-relative-value.md) |
+| ML y deep learning | 5 | [Síntesis](docs/research/ml-execution.md) · [Fichas ML](docs/research/evidence-ml.md); incluye dos trabajos metodológicos ajenos a cripto |
+| Microestructura y market making | 5 | [Síntesis](docs/research/execution.md) · [Fichas EX](docs/research/evidence-execution.md); dos empíricos Bitcoin y tres de teoría/acciones |
+| Volatilidad, regímenes y carteras | 8 | [Síntesis](docs/research/risk-portfolio.md) · [Fichas RP](docs/research/evidence-risk-portfolio.md); incluye teoría y un estudio tradicional |
+| Multiplicidad y validación | 3 | [Fichas MET](docs/research/evidence-methodology.md); tres originales adicionales solo identificados por metadatos |
+
+Las fichas registran fuentes públicas, versiones, fechas, páginas/tablas, resultados adversos y límites. Los registros JSONL de la sección 10 conservan consultas, accesos y fallos. Los PDF/textos recuperados se conservan fuera del repositorio, en `/workspace/literature-cache/`; los hashes permiten identificar versiones. No se redistribuyen esos textos en Git.
+
+**Límite de cobertura:** revisión exploratoria estructurada, no revisión sistemática exhaustiva hasta octubre de 2026. No se completaron dos rondas de saturación de citas ni una réplica independiente por familia. Reversión, funding de perpetuos, prima de opciones y combinaciones netas tienen lagunas decisivas. Cerrar esta entrega documental no satisface por sí solo la aceptación completa de Fase I.
+
+**Resultados propios: cero.** No se descargaron series para backtests, no se entrenaron modelos y no se programó el bot. Los números siguientes pertenecen a las fuentes indicadas; no son estimaciones de rentabilidad futura del proyecto.
 
 ## 3. Plan de investigación bibliográfica
 
@@ -60,7 +68,7 @@ Crossref y páginas editoriales sirven para identidad/metadatos; los índices de
 
 ### 3.3 Consultas reproducibles por familia
 
-Combinar cada consulta temática con `transaction costs`, `out-of-sample`, `replication`, `robustness`, `survivorship`, `failure`, `no predictability`, `market efficiency` y equivalentes. Son consultas **planificadas**, aún no ejecutadas en un índice bibliográfico.
+Combinar cada consulta temática con `transaction costs`, `out-of-sample`, `replication`, `robustness`, `survivorship`, `failure`, `no predictability`, `market efficiency` y equivalentes. Son plantillas del protocolo. Los registros JSONL de la sección 10 identifican las consultas efectivamente ejecutadas; no se afirma haber ejecutado todas las combinaciones ni todos los filtros.
 
 | Familia | Consulta base orientativa |
 |---|---|
@@ -94,7 +102,7 @@ Buscar también términos que cuestionen el mecanismo concreto: momentum crash, 
 
 **Exclusión de la evidencia decisiva de ventaja:** publicidad sin metodología; títulos/abstracts sin validación inspectable; estrategias irreproducibles por falta de especificación; test contaminado o costes incompatibles sin análisis alternativo. No borrar estos trabajos: registrarlos como limitados, contradicciones o pendientes y explicar la razón.
 
-**Parada de búsqueda:** aplicar el criterio de cobertura del roadmap y dos rondas de referencias/citas sin nueva evidencia material, o declarar acceso/recursos insuficientes. La entrega actual está en esta segunda situación y no cierra la revisión.
+**Parada de búsqueda:** aplicar el criterio de cobertura del roadmap y dos rondas de referencias/citas sin nueva evidencia material, o declarar acceso/recursos insuficientes. Esta entrega se consolida por límite de recursos y con lagunas explícitas; no se alcanzó la saturación y la aceptación de su cobertura sigue pendiente.
 
 ### 3.5 Ficha obligatoria por estudio
 
@@ -133,7 +141,7 @@ No se sumarán notas arbitrarias. Para cada dimensión se consignará **suficien
 
 ### Vocabulario para las conclusiones
 
-- **No evaluada:** referencia sin lectura suficiente; es el estado empírico actual de todas las familias.
+- **No evaluada:** referencia o dimensión sin lectura suficiente; se aplica a las lagunas identificadas, no a todo el corpus.
 - **Mecanismo plausible:** análisis económico/matemático coherente; no demuestra una prima o beneficio.
 - **Indicio empírico:** resultados inspeccionados con limitaciones identificadas; no implica replicación ni operabilidad.
 - **Evidencia retrospectiva más sólida:** fuentes primarias con OOS y costes creíbles, corrección de selección y contraste independiente; requiere detalle, no una etiqueta automática.
@@ -158,63 +166,73 @@ El efectivo debe definirse en una moneda y un instrumento concretos. Una stablec
 
 Una prima neta no es necesariamente alpha: puede ser compensación por exposición de mercado, iliquidez, financiación o riesgo extremo. La pregunta no será solo «¿gana?», sino «¿qué riesgo y recursos exige frente a una alternativa accesible?».
 
-## 6. Mapa crítico inicial de las trece familias
+## 6. Mapa crítico de las trece familias
 
-La tabla compara **mecanismos y requisitos teóricos** para orientar la lectura. No sustituye la matriz de selección de Fase II. **Estado empírico de todas las filas: no evaluado**, con fuentes semilla en los apéndices. No se han documentado aún resultados positivos, negativos u OOS de publicaciones consultadas.
+Esta tabla reúne evidencia y límites para orientar la investigación. No es la matriz de selección de Fase II ni una puntuación de probabilidad de éxito. Los identificadores remiten a las fichas de la sección 2; allí constan páginas y tablas. OOS significa evaluación fuera de la muestra de ajuste declarada por el estudio, sin presumir que su selección estuviera sellada.
 
-| Familia | Fundamento y pregunta central | Datos, costes y dificultad para un particular | Objeción decisiva a investigar |
+| Familia | Mecanismo y evidencia observada | Límite decisivo: OOS, ejecución y riesgo | Datos e infraestructura; viabilidad particular |
 |---|---|---|---|
-| 1. Trend/momentum | Persistencia temporal o transversal de retornos; estudiar por separado ambos mecanismos | OHLCV y universo histórico; frecuencia baja limita turnover pero no elimina slippage; spot long/flat relativamente sencillo | ¿Ventaja neta adicional a beta o solo selección de una tendencia alcista? Reversiones y whipsaw |
-| 2. Mean reversion | Desviaciones transitorias de equilibrio o presión de liquidez | Referencia de equilibrio defendible; datos más finos a corto plazo; costes pueden consumir el efecto | Una caída no implica infravaloración ni retorno a una media estable; bid-ask bounce puede aparentar señal |
-| 3. Statistical arbitrage | Cartera de residuos/spreads con rentabilidad esperada condicionada, no beneficio seguro | Sincronización y múltiples activos/exchanges; cortos, préstamos y financiación; complejidad media/alta | Neutralidad al mercado estimada puede fallar; dependencia/contraparte en estrés |
-| 4. Pares/cointegración | Combinación estacionaria de precios integrados y corrección del desequilibrio | Relaciones estimadas solo con pasado, selección múltiple de pares; borrow y dos patas | Correlación no basta; cointegración inestable, costes y no convergencia |
-| 5. Factores cripto | Primas comunes y diferencias transversales de retornos | Universo point-in-time amplio; rotación, deslistados y capacidad de pequeños tokens | ¿Prima de riesgo, sesgo de supervivencia o alpha? Exposición observable no garantiza cartera implementable |
-| 6. Volatilidad | Separar previsión de volatilidad, control de exposición y prima de opciones | Retornos para sizing; superficies/opciones/griegas/margen para prima; ejecución más exigente | Predecir riesgo no implica beneficio direccional; primas por vender convexidad pueden ocultar pérdidas extremas |
-| 7. Funding/basis | Diferencias spot-derivado y transferencias de financiación | Histórico de funding/basis/índice/marca; colateral, dos patas, fees y margen; capital operativo mayor | Funding futuro incierto; perpetuo sin vencimiento; liquidación, basis y contraparte impiden llamarlo libre de riesgo |
-| 8. Microestructura/order flow | Desequilibrio de órdenes y formación de precios | Trades/libro secuenciado, timestamps y latencia; señal breve, datos voluminosos | Predictibilidad al mid puede desaparecer al spread o antes del fill de un particular |
-| 9. Market making | Captura de spread frente a inventario y selección adversa | Libro L2/L3, simulación de colas, fills parciales, rebates reales y servicio continuo | Fills optimistas o selección adversa pueden convertir el spread aparente en pérdida |
-| 10. ML | Relación condicional entre variables disponibles y retorno/riesgo/decisión | Pipelines temporales, pocas variables justificadas, nested selection y costes comunes | Mejor precisión no implica mejor P&L; multiplicidad y no estacionariedad |
-| 11. DL/series temporales | Representaciones no lineales y dependencias secuenciales | Muestras efectivas, cómputo/semillas, splits temporales y benchmark simple equivalente | Tamaño bruto de barras no equivale a observaciones independientes; complejidad puede memorizar regímenes |
-| 12. Regímenes | Parámetros/exposiciones dependen de un estado latente | Probabilidades filtradas en tiempo real, no suavizadas con futuro; costes de conmutación | Etiquetar después de los hechos no ofrece una política negociable |
-| 13. Carteras/combinaciones | Diversificar mecanismos y estimar pesos bajo incertidumbre | Señales sincronizadas, covarianzas solo con pasado, costes y riesgo agregado | Correlaciones cambian en crisis; optimizar pesos añade grados de libertad y puede concentrar riesgos comunes |
+| 1. Trend/momentum | Persistencia temporal/transversal. DIR-001 encuentra predictibilidad; DIR-006 presenta resultados OOS distintos por activo; DIR-010 no encuentra momentum bruto significativo en toda su muestra | Correcciones de incertidumbre debilitan algunas señales; BTC pierde en el test de 2018 de DIR-006. Riesgo de reversión/crash y selección de reglas; ventaja neta actual no establecida | OHLCV y universo histórico; long/flat de baja frecuencia relativamente sencillo. Cortos transversales añaden préstamo, margen y capacidad |
+| 2. Mean reversion | Presión transitoria de liquidez o corrección de desviaciones. DIR-007/008/013 sugieren dependencia del horizonte/tamaño, pero solo se leyeron resúmenes | Falta auditar métodos, costes y OOS de esos originales. Bid-ask bounce no equivale a retorno capturable; la referencia de equilibrio puede romperse | Quotes/trades para horizonte corto; OHLCV solo si basta para la hipótesis. Regla simple viable de investigar, evidencia negociable insuficiente |
+| 3. Statistical arbitrage | Retorno residual respecto a factores o spreads; RV-E02/03 aportan casos de valor relativo | La cobertura se concentra en pares, sin demostrar neutralidad robusta de carteras residuales amplias. Dependencia común, selección múltiple y posiciones cortas | Precios sincronizados, universo point-in-time, factores, borrow/margen; dificultad media/alta |
+| 4. Pares/cointegración | Corrección de un spread estimado. RV-E02: distancia supera cointegración intradía; RV-E03: algunas cópulas son positivas tras fees | RV-E02 excluye activos sin historia continua y omite coste de cortos; RV-E03 deja funding/slippage sin modelar. Varias referencias cambian de signo con fees; pérdidas teóricas inferiores a −100% requieren auditoría de solvencia | Dos patas ejecutables, formación solo con pasado, costes y colateral conjuntos; viabilidad condicionada |
+| 5. Factores cripto | Mercado, tamaño y momentum explican diferencias de retornos en DIR-002 | Explicación factorial no prueba alpha neto. En el WP, varios momentums dejan de ser significativos al sustituir cortos de perdedores por BTC; universo y liquidez importan | Amplio universo histórico con deslistados y características disponibles entonces. Útiles como controles; cartera implementable por demostrar |
+| 6. Volatilidad | Separar previsión, exposición por riesgo y prima de opciones. RP-01 respalda un mecanismo de escalado en mercados tradicionales; RP-02/03 estudian IV/valoración | Transferencia cripto sin verificar; valoración más precisa no es P&L. Sin evidencia consultada de prima de opciones neta con hedge, margen y colas completos | Retornos para sizing; superficies bid/ask, vencimientos y colateral para opciones. Control simple más accesible que negociación de convexidad |
+| 7. Funding/basis | Segmentación y demanda de apalancamiento. RV-E01 encuentra carry de futuros con vencimiento bajo supuestos de financiación | Su Sharpe 0,59 es anterior a costes de transacción y spreads de financiación. No demuestra estrategia de funding de perpetuos; margen, contraparte y convergencia son distintos | Spot/derivado, índice/marca, funding liquidado y disponible entonces, financiación y capital de ambas patas; complejidad operativa media/alta |
+| 8. Microestructura/order flow | Presión de órdenes y formación de precios. EX-01 predice a corto plazo; EX-03 relaciona OFI y precio contemporáneos | Cont no demuestra predicción futura ni causalidad exógena. Taker de EX-01 negativo con tarifa ordinaria; spread, latencia y profundidad consumen señal | Libro secuenciado y timestamps de recepción; multivenue sincronizado. Exigencia técnica alta para un particular |
+| 9. Market making | Spread/rebates frente a inventario y selección adversa. EX-04 formaliza control de inventario; EX-01 informa un ensayo maker real positivo tras rebates | Resultado muy pequeño y condicionado a rebates/latencia, sin réplica comparable ni costes completos. Simulación de quotes no identifica prioridad/fill | Datos de órdenes/colas, fills parciales, servicio continuo, inventario y riesgo de desconexión. Viabilidad sin determinar |
+| 10. ML | Estimar relaciones condicionales. ML-06 encuentra algunos resultados OOS positivos y fuerte sensibilidad a fees; ML-09 compara boosting/LSTM | Efecto depende de activo/modelo, costes incompletos y búsqueda de especificaciones. Falta demostrar incremento neto replicado frente a referencias equivalentes | Variables disponibles entonces y pipelines temporales; ML sencillo técnicamente accesible. Mantenimiento y multiplicidad son costes de investigación |
+| 11. DL/series temporales | Representaciones secuenciales/no lineales. ML-11 comunica grandes ganancias simuladas; EX-05 predice libros de acciones | ML-11 supone ejecución inmediata sin slippage/impacto; EX-05 usa simulación mid–mid sin costes. ML-08 muestra competencia de modelos lineales en otros datos, sin demostrar superioridad universal | Más cómputo, semillas y muestras efectivas. Complejidad solo justificable si añade mejora neta fuera de muestra |
+| 12. Regímenes | Estados latentes con distintas dinámicas. RP-06 describe estados; RP-07/08 comparan previsión de volatilidad | Clasificación retrospectiva, splits poco claros y modelos simples competitivos/superiores. Filtrado con parámetros futuros o suavizado no está disponible para operar entonces | Probabilidades filtradas, estimación causal, demora de detección y costes de conmutación; beneficio de asignación no demostrado |
+| 13. Combinaciones/carteras | Diversificar mecanismos y controlar concentración. RP-04/05 formalizan optimización/ambigüedad; ML-06 estudia ensembles | RP-04 no mejora Sharpe en su propia tabla; RP-05 es teoría calibrada. Falta comparación neta independiente contra pesos simples, con estrés y turnover | P&L sincronizado, covarianzas pasadas, costes/margen agregados. Pesos simples accesibles; optimización añade inestabilidad y selección |
 
-Desarrollo matemático y preguntas de falsación:
+Los desarrollos matemáticos se encuentran en las cinco síntesis temáticas de la sección 2. Las familias se solapan: un modelo ML puede implementar momentum y un filtro de estados puede modificar una cartera. No son trece mecanismos independientes.
 
-- [Direccionales, factores, regímenes y carteras](docs/research/directional.md).
-- [Valor relativo, cointegración, volatilidad y funding](docs/research/relative-value.md).
-- [Microestructura, market making, ML y deep learning](docs/research/ml-execution.md).
+## 7. Primer informe crítico basado en fuentes
 
-Las familias se solapan: un modelo de ML puede implementar momentum, y un filtro de regímenes puede cambiar la exposición de una cartera. No se contarán como trece mecanismos independientes ni se atribuirá al estimador la prima de su señal subyacente.
+**Hay fundamentos suficientes para investigar varias líneas; no hay evidencia suficiente en este proyecto para operar ni para declarar una ganadora.** El corpus contiene resultados favorables y contrarios. La limitación no es solo acceso: muchas evaluaciones publicadas no representan conjuntamente tarifas alcanzables, disponibilidad de cortos, margen, selección y estabilidad temporal.
 
-## 7. Primer informe crítico y prioridades de lectura
+### Momentum y factores: hipótesis claras, evidencia heterogénea
 
-**No hay una estrategia ganadora ni evidencia suficiente para operar en este proyecto.** La falta actual es de evaluación y datos, no una refutación empírica de todas las estrategias.
+El [WP de Liu y Tsyvinski de 2018](https://www.nber.org/system/files/working_papers/w24877/w24877.pdf) aporta predictibilidad y una evaluación temporal de umbrales (DIR-001, §4.1). Pero algunas significaciones cambian al corregir incertidumbre: el estadístico diario ordinario 2,96 pasa a 1,22 con su bootstrap. No es evidencia suficiente de rentabilidad neta.
 
-### Lectura inicial: mecanismos simples y contrastables
+[Hudson y Urquhart](https://link.springer.com/content/pdf/10.1007/s10479-019-03357-1.pdf), DIR-006, evalúan muchas reglas y un test enero–junio de 2018: las mejores reglas de las dos series BTC presentan retornos/Sharpe/Sortino negativos, mientras LTC/XRP/ETH conservan resultados positivos (§6.5, tabla 9). Sus costes de equilibrio no equivalen a fills reales con todas las fricciones. [Grobys et al. 2025](https://link.springer.com/content/pdf/10.1007/s11408-025-00474-9.pdf), DIR-010, no encuentran momentum bruto significativo en toda la muestra 2016–2023 y documentan colas severas. Escalar por volatilidad no elimina ese riesgo.
 
-Momentum/trend y reversión simple permiten formular reglas comprensibles y contrastarlas con efectivo/exposición pasiva. Merecen una lectura temprana porque es más fácil detectar supuestos, costes y riesgo de selección. Esta prioridad se basa en falsabilidad y esfuerzo, **no en una rentabilidad demostrada**. Reversión necesita especial cautela: el «equilibrio» debe justificarse y el efecto observado puede ser una consecuencia del spread.
+Por ello, momentum temporal sencillo merece atención por su falsabilidad y menor esfuerzo de implementación, no porque la literatura haya probado su persistencia. Los factores sirven para explicar exposición antes de atribuir alpha. En el [WP de Liu, Tsyvinski y Wu](https://www.nber.org/system/files/working_papers/w25882/w25882.pdf), DIR-002, los momentums de una, dos y cuatro semanas dejan de ser significativos al sustituir la pata corta de perdedores por BTC (§5.1). La implementabilidad forma parte del resultado.
 
-Los factores sirven primero para preguntar qué exposición explica una rentabilidad. Una cartera que gana tomando más riesgo de mercado o de tokens ilíquidos puede no aportar una ventaja ajustada al riesgo. La literatura transversal requerirá mayor atención a supervivencia, disponibilidad real y tamaño de las posiciones.
+Reversión sigue siendo una pregunta interesante, especialmente su relación con liquidez, tamaño y horizonte, pero la evidencia directa consultada es insuficiente: resúmenes de DIR-007/008/013 no permiten resolver cuánto efecto queda después del spread y la selección. No se le asigna el mismo respaldo que a métodos examinados a texto completo.
 
-### Lectura condicionada: valor relativo, funding y volatilidad
+### Valor relativo y carry: mecanismos interpretables con riesgos concretos
 
-Funding/basis tiene un flujo contractual interpretable, pero necesita analizar capital, margen y riesgo de contraparte. Un perpetuo no garantiza convergencia en una fecha concreta. La neutralidad delta aproximada no elimina pérdidas ni necesidades de liquidez.
+[Crypto carry, BIS WP1087 de 2023](https://www.bis.org/publications/working-paper-1087-crypto-carry.pdf), RV-E01, relaciona la base de futuros con segmentación y demanda de apalancamiento. La estrategia de la tabla 5 presenta Sharpe anualizado 0,59 antes de costes de transacción y spreads de financiación. No es una prueba de funding de perpetuos, cuyo pago futuro y ausencia de vencimiento requieren otra hipótesis. Una posición aproximadamente neutral al precio puede exigir liquidez adicional o liquidarse antes de converger.
 
-Pares y otros spreads permiten hipótesis estadísticas claras, pero seleccionar muchos pares y ventanas puede fabricar relaciones aparentes. Habrá que investigar estabilidad temporal, rupturas y si las operaciones opuestas estaban disponibles al coste declarado.
+En pares, [Fil y Kristoufek](https://doi.org/10.1109/ACCESS.2020.3024619), RV-E02, muestran distancia más competitiva que cointegración intradía; también advierten costes/shorts y un universo limitado a historias continuas. [Tadi y Witzany](https://link.springer.com/content/pdf/10.1186/s40854-024-00702-7.pdf), RV-E03, aportan evaluación semanal móvil y resultados favorables de algunas cópulas tras fees, junto a pérdidas enormes de referencias con mayor rotación. Funding, slippage y restricciones de margen no están resueltos por esa deducción de comisiones. El contraste merece lectura adicional; escoger el Sharpe mayor del artículo sería una selección prematura.
 
-En volatilidad deben separarse dos investigaciones: ajustar exposición según el riesgo previsto, y negociar una prima de derivados. La primera puede ser accesible; la segunda exige superficies históricas, margen y escenarios de cola que una serie diaria de precios no proporciona.
+### ML/DL: hay resultados, sin superioridad general demostrada
 
-### Complejidad que debe ganarse su lugar
+[Sebastião y Godinho](https://link.springer.com/content/pdf/10.1186/s40854-020-00217-x.pdf), ML-06, separan entrenamiento/validación/test. Para Ensemble 5, la rentabilidad anualizada ETH del test pasa de 44,65% bruta a 9,622% con 0,5% por roundtrip; BTC pasa de 5,868% a −23,66% (tabla 7). Otros modelos se comportan de otra manera. El coste escalar no demuestra ejecución completa, y el Sharpe bruto no debe rotularse como neto.
 
-Microestructura y market making tienen mecanismos económicos definidos, pero el dato y el simulador de ejecución son parte de la hipótesis. Sin colas, latencia y selección adversa, un backtest no decide su viabilidad. Su prioridad práctica dependerá de recursos del operador, todavía desconocidos.
+Alessandretti et al. (ML-09) y Jiang et al. (ML-11) comunican grandes ganancias en BTC como unidad de cuenta, con simplificaciones importantes. [Jiang et al., arXiv v2](https://arxiv.org/abs/1706.10059v2), asumen expresamente ejecución inmediata sin slippage ni impacto (§2.4); esas cifras no son retornos anualizados en dólares ni una evaluación prospectiva. El trabajo de Zeng et al. (ML-08) aporta un motivo metodológico para exigir referencias lineales fuertes, pero usa otras series y no demuestra que un modelo lineal gane siempre en trading.
 
-ML y DL son herramientas de estimación. Deben competir con reglas y modelos simples usando la misma información, particiones, costes y presupuesto de investigación. La precisión predictiva no será un criterio sustitutivo de ventaja neta. El acceso a muchos modelos incrementa la necesidad de controlar selección.
+ML es una herramienta cuyo valor incremental sigue abierto. DL necesita justificar el coste de complejidad contra modelos sencillos con iguales datos y presupuesto de búsqueda.
 
-Regímenes y combinaciones merecen preguntas incrementales después de entender los componentes. Un régimen observado retrospectivamente puede explicar un fallo, pero no justificar una regla que necesitaba conocerlo de antemano. Una combinación debe mejorar frente a pesos simples sin esconder una nueva búsqueda extensa.
+### Microestructura y market making: la ejecución decide
 
-### Qué haría cambiar este orden
+[Albers et al., arXiv v1](https://arxiv.org/abs/2108.09750v1), EX-01, encuentran resultados taker negativos con tarifa ordinaria en las tablas 6/14 y algunos positivos con condiciones VIP. También realizaron un ensayo maker real: −4,4749 pb por roundtrip antes de rebates y +0,5251 pb tras ellos. No se debe ocultar este resultado favorable ni generalizarlo: utiliza condiciones de latencia muy bajas, rebates históricos y un benchmark de fechas/tamaños distintos, sin conciliación verificada de todos los gastos y riesgos de capital. No es una réplica propia.
 
-Una replicación verificable con costes minoristas, un dataset point-in-time accesible, evidencia adversa convincente o restricciones concretas de capital/mercado pueden cambiar la prioridad. Los criterios se conservarán; se documentará nueva evidencia. La selección formal pertenece a II y requiere aprobación del usuario.
+Cont, Avellaneda–Stoikov y DeepLOB (EX-03–05) permiten entender formación de precios, inventario y predicción. Estudian teoría/acciones y no acreditan por sí mismos rentabilidad neta cripto. Estas líneas requieren un nivel de datos y ejecución que aún no sabemos si está al alcance del operador.
+
+### Volatilidad, regímenes y carteras: separar riesgo de alpha
+
+Moreira–Muir (RP-01) respaldan el mecanismo de ajustar exposición usando volatilidad pasada en mercados tradicionales; no es una prueba cripto. Los artículos de opciones RP-02/03 aportan cálculo/valoración, no una prima negociada con costes de cobertura y margen. Esto deja abierta la hipótesis, sin convertir menor error numérico en rentabilidad.
+
+Los estudios de estados y carteras también contienen evidencia contraria útil: RP-04 informa menor Sharpe de su extensión que del comparador; RP-07 retira MSGARCH del OOS después de caracterizar el test; en la tabla 8 de RP-08, GARCH tiene menor RMSE en los cinco activos, pese a parte de la narrativa. RP-08 es un preprint, no un resultado revisado por pares. Estos hallazgos aconsejan investigar controles de riesgo y combinaciones simples antes de atribuir valor a la adaptación compleja.
+
+### Prioridad de investigación y condiciones para cambiarla
+
+La prioridad provisional de lectura se basa en mecanismo falsable, comparadores sencillos, costes identificables y viabilidad de los datos. Momentum temporal y control simple de exposición merecen contraste; reversión necesita mejor soporte documental; carry/pares merecen examen condicionado a financiación, costes y colas. Factores son útiles como controles. ML, estados y optimización deberán demostrar aportación incremental. Microestructura, market making y opciones requieren primero resolver sus datos y restricciones operativas.
+
+Esto no selecciona candidatos ni descarta universalmente familias. Una réplica independiente con costes alcanzables, datos point-in-time o restricciones concretas del operador puede modificar la prioridad. La selección formal pertenece a Fase II y requiere aprobación.
 
 ## 8. Control metodológico que deberá extraerse de los estudios
 
@@ -237,22 +255,22 @@ Purged CV/embargo se justifican cuando hay intervalos de etiquetas o informació
 
 Para futuras pruebas múltiples se compararán métodos adecuados a la pregunta: correcciones de hipótesis primarias, Reality Check/SPA y diagnósticos de selección/Sharpe. No se acumularán tests hasta encontrar uno favorable. El método, su familia de hipótesis y nivel de error deben quedar fijados antes de V.
 
-## 9. Referencias metodológicas semilla — no consultadas
+## 9. Evidencia metodológica consultada
 
-Las siguientes referencias se identifican a partir de conocimiento previo para organizar la búsqueda. Sus metadatos, versiones y contenido **no han sido verificados externamente en esta sesión**. No se extraen de ellas resultados empíricos para criptomonedas.
+Las [fichas metodológicas](docs/research/evidence-methodology.md) identifican versión, páginas, supuestos y límites. Ninguno de estos trabajos constituye evidencia de una estrategia cripto rentable.
 
-| ID | Referencia semilla y enlace | Motivo para leerla | Acceso actual |
-|---|---|---|---|
-| MET-01 | White, H. (2000), *A Reality Check for Data Snooping*, Econometrica. [DOI](https://doi.org/10.1111/1468-0262.00152) | Inferencia después de comparar reglas; límites bajo dependencia y universo de modelos | No consultada; sin intento individual |
-| MET-02 | Hansen, P. R. (2005), *A Test for Superior Predictive Ability*, Journal of Business & Economic Statistics. [DOI](https://doi.org/10.1198/073500105000000063) | Comparación de procedimientos y sensibilidad al conjunto de competidores | No consultada; sin intento individual |
-| MET-03 | Bailey, D. H. y López de Prado, M. (2014), *The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality*, The Journal of Portfolio Management. [DOI](https://doi.org/10.3905/jpm.2014.40.5.094) | Supuestos y límites de corregir Sharpe por selección y no normalidad | No consultada; sin intento individual |
-| MET-04 | Bailey, D. H., Borwein, J. M., López de Prado, M. y Zhu, Q. J. (2017), *The Probability of Backtest Overfitting*, The Journal of Computational Finance. [DOI](https://doi.org/10.21314/JCF.2016.322) | Diagnóstico de selección retrospectiva y límites para series no estacionarias | No consultada; sin intento individual |
-| MET-05 | Harvey, C. R., Liu, Y. y Zhu, H. (2016), *… and the Cross-Section of Expected Returns*, The Review of Financial Studies. [DOI](https://doi.org/10.1093/rfs/hhv059) | Multiplicidad en la búsqueda de factores; transferibilidad de sus criterios | No consultada; sin intento individual |
-| MET-06 | Lo, A. W. (2002), *The Statistics of Sharpe Ratios*, Financial Analysts Journal. [DOI](https://doi.org/10.2469/faj.v58.n4.2453) | Incertidumbre y anualización de Sharpe bajo dependencia | No consultada; sin intento individual |
+| ID | Fuente | Nivel y consecuencia de lectura |
+|---|---|---|
+| MET-01 | White (2000), [Reality Check](https://doi.org/10.1111/1468-0262.00152) | Identidad verificada por metadatos; original bloqueado. No se adjudican supuestos detallados sin leerlo |
+| MET-02 | Hansen (2005), [SPA](https://doi.org/10.1198/073500105000000063) | Metadatos; original bloqueado. Pendiente lectura antes de decidir aplicación |
+| MET-03 | Bailey–López de Prado, [DSR, manuscrito 2014](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) | Secciones examinadas: requiere historial de búsqueda, dispersión de Sharpes, momentos y número efectivo de ensayos. Su probabilidad no significa probabilidad de ganar en el futuro |
+| MET-04 | Bailey et al., [PBO, manuscrito 2015](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf) | Diagnóstico de posición relativa OOS de la selección IS; no probabilidad de pérdida. CSCV no sustituye walk-forward causal ni holdout final |
+| MET-05 | Harvey–Liu–Zhu, [NBER WP20592, 2014](https://www.nber.org/system/files/working_papers/w20592/w20592.pdf) | Selección/multiplicidad de factores, FWER frente a FDR. Un umbral t contextual no es regla universal ni transportable automáticamente a cripto |
+| MET-06 | Lo (2002), [Statistics of Sharpe Ratios](https://doi.org/10.2469/faj.v58.n4.2453) | Metadatos; original bloqueado. Lectura de detalles pendiente |
 
-Las referencias temáticas se encuentran en los apéndices con IDs DIR, RV y ML. El prefijo identifica la ficha, no una calificación de evidencia.
+La consecuencia práctica es conservar todos los intentos y definir el contraste antes de observar resultados de selección. No se ha elegido ni ejecutado todavía una prueba estadística para este proyecto.
 
-## 10. Registro de búsqueda inicial y continuidad
+## 10. Registro de búsqueda, lagunas y continuidad
 
 | Fecha | Operación efectivamente intentada | Resultado | Qué permite afirmar |
 |---|---|---|---|
@@ -261,4 +279,27 @@ Las referencias temáticas se encuentran en los apéndices con IDs DIR, RV y ML.
 | 2026-10-13 | GET `https://api.crossref.org/works?query.title=Common%20Risk%20Factors%20in%20Cryptocurrency&rows=1` | Proxy CONNECT 403 | No se recuperaron metadatos ni resultados de búsqueda |
 | 2026-10-13 | Comprobaciones temáticas adicionales a DOI, BIS, NBER y editoriales | Bloqueadas por proxy; detalle en apéndices | Ningún contenido académico recuperado |
 
-**Siguiente paso aprobado por el usuario el 2026-10-13:** completar la lectura crítica dentro de Fase I conforme al marco inicial. Falta habilitar las fuentes en los ajustes del entorno y comprobar el acceso. Después se actualizarán las fichas con evidencia favorable/adversa y se verificará la aceptación de I. Solo con aprobación posterior se iniciará la comparación y selección de II. No hay ensayos ni acciones de trading pendientes de ejecutarse automáticamente.
+Los fallos anteriores son históricos. Las recuperaciones posteriores demostraron acceso efectivo a contenido académico, sin que ello acredite acceso universal o publicación de la configuración del entorno. La trazabilidad actual está en:
+
+- [Direccionales](docs/research/search-directional.jsonl).
+- [Valor relativo/carry](docs/research/search-relative-value.jsonl).
+- [ML/DL](docs/research/search-ml.jsonl).
+- [Ejecución](docs/research/search-execution.jsonl).
+- [Riesgo/carteras](docs/research/search-risk-portfolio.jsonl).
+- [Metodología](docs/research/search-methodology.jsonl).
+
+Estos registros son heterogéneos por proveedor; no equivalen a un diagrama PRISMA ni a un recuento universal de publicaciones. Se preservan accesos fallidos, respuestas HTML y la exclusión EX-X01: arXiv:2108.09700 era un artículo de matemáticas, distinto del estudio financiero arXiv:2108.09750. Un HTTP 200 no verifica identidad ni contenido.
+
+### Lagunas que impiden cerrar toda la Fase I
+
+| Pendiente | Por qué afecta a las conclusiones | Siguiente trabajo de investigación propuesto |
+|---|---|---|
+| Reversión y liquidez a texto completo | No permite distinguir anomalía ejecutable de spread/selección | Obtener versión autorizada de DIR-013 y un contraste independiente; auditar horizonte, universo, costes y OOS |
+| Funding de perpetuos | El carry de futuros con vencimiento no responde a esa hipótesis | Localizar estudio con pagos históricos conocidos entonces, ambas patas, margen y comisiones alcanzables |
+| Volatilidad/opciones y combinaciones cripto | Cálculo/valoración/teoría no demuestra ventaja neta | Buscar estrategia neta con cobertura/colas y asignación OOS contra pesos simples, incluyendo resultados adversos |
+| Réplicas y literatura posterior | Fuentes distintas pueden compartir datos; la cobertura no está saturada | Rastreo hacia atrás/delante de trabajos decisivos y búsqueda explícita de refutaciones; registrar resultados y límites |
+| Reproducibilidad y métodos | No se ejecutó código de autores ni se auditaron paquetes/licencias; MET-01/02/06 pendientes | Inspección documental de datos/código y originales accesibles antes de diseñar la metodología experimental |
+
+**Estado de aceptación:** preguntas, protocolo y primer informe documentados; acceso primario comprobado; trece familias cubiertas a distinto nivel. No todas tienen un estudio de trading y contraste independiente con métodos/costes/OOS examinados. Dos rondas de saturación pendientes. No se declara terminada Fase I ni se inicia II.
+
+**Continuidad:** este cierre del 15 de octubre integra archivos y fuentes recuperados los días 13–15. Tras una interrupción, leer primero roadmap/decisiones, fichas, registros y cache; retomar tareas pendientes sin repetir búsquedas ya resueltas. El próximo paso requiere revisar este informe y acordar el tratamiento de las lagunas. Ningún experimento ni acción de trading queda programado para ejecutarse automáticamente.

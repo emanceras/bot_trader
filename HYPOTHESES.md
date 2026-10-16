@@ -1,8 +1,8 @@
 # Registro inicial de hipótesis
 
-**Fecha:** 2026-10-13 · **Versión:** 0.1 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
+**Creación:** 2026-10-13 · **Actualización:** 2026-10-15 · **Versión:** 0.2 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
-Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han observado datos para elegir estrategias o parámetros.
+Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro.
 
 ## Convenciones
 
@@ -47,8 +47,24 @@ La configuración exacta de cada contraste incluirá: instrumento/universo/moned
 
 ## Fuentes y actualizaciones
 
-Los mecanismos se desarrollan en [RESEARCH.md](RESEARCH.md) y sus apéndices. Todas las referencias temáticas están pendientes de consulta; estas hipótesis no se presentan como conclusiones publicadas verificadas.
+Los mecanismos se desarrollan en [RESEARCH.md](RESEARCH.md) y sus apéndices. Las fichas enlazadas distinguen textos con secciones examinadas, resúmenes y referencias pendientes. La evidencia publicada informa las hipótesis; no prueba ni valida ninguna para este proyecto.
 
 | Fecha | Cambio | Motivo | Relación con datos/experimentos |
 |---|---|---|---|
 | 2026-10-13 | Creación H-00 a H-14 | Definir mecanismos y falsadores para Fase I | Ningún dataset ni experimento utilizado |
+| 2026-10-15 | Añadidas implicaciones de literatura, sin cambiar H-00–H-14 ni sus falsadores | Incorporar evidencia favorable y contraria trazable | Lectura documental; cero ensayos propios |
+
+## Implicaciones de la lectura — no validación experimental
+
+| Hipótesis | Evidencia que orienta la siguiente pregunta | Estado/limitación |
+|---|---|---|
+| H-01/H-03 | DIR-001/002: predictibilidad y factores; DIR-006: BTC OOS negativo y altcoins positivas; DIR-010: momentum no significativo en toda la muestra y colas severas | Propuestas; separar temporal/transversal, costes y disponibilidad de cortos |
+| H-02 | DIR-007/008/013 relacionan reversión con horizonte/liquidez en sus resúmenes | Propuesta; texto completo y contraste neto pendientes |
+| H-04/H-05 | RV-E02/03 muestran diferencias entre métodos y deterioro por fees; selección, supervivencia y financiación limitan transferencia | Propuestas; cointegración estadística no basta para negociar un spread |
+| H-06/H-07 | RP-01 estudia exposición en mercados tradicionales; RP-02/03 cálculo/valoración de opciones | Propuestas; transferencia cripto y prima neta negociada sin resolver |
+| H-08 | RV-E01 documenta carry de futuros antes de costes completos | Propuesta; no responde por sí sola al funding de perpetuos |
+| H-09/H-10 | EX-01 aporta predicción y maker real condicionado a rebates; taker ordinario negativo; EX-03/04/05 delimitan teoría/predicción | Propuestas; latencia, colas, capital y gastos completos pendientes |
+| H-11/H-12 | ML-06 mezcla éxitos y pérdidas con costes; ML-09/11 tienen grandes resultados simulados y supuestos fuertes; ML-08 ofrece baselines ajenos a cripto | Propuestas; ninguna superioridad general de ML/DL establecida |
+| H-13/H-14 | RP-04/07/08 contienen comparaciones contrarias a una superioridad de modelos complejos y problemas temporales | Propuestas; exigir estados disponibles entonces y comparadores simples netos |
+
+No se rechaza H-00 con esta revisión. Los resultados publicados no sustituyen contabilidad, datos, control de selección y evidencia propia fuera de muestra. Los IDs y sus páginas/tablas se encuentran en los enlaces de [RESEARCH §2](RESEARCH.md#2-alcance-acceso-y-límites-de-esta-entrega). Toda hipótesis nueva surgida al observar literatura deberá fecharse, sin fingir que se registró antes de esos hallazgos.

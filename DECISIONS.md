@@ -61,3 +61,34 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Decisión:** continuar la revisión bibliográfica dentro de Fase I conforme al marco inicial. No es necesario volver a pedir aprobación para esa lectura.
 - **Límite:** no implica aceptación de la Fase I completa ni autorización de Fase II, experimentos o trading.
 - **Acceso:** lectura del borrador confirma 14 dominios académicos guardados, con política restringida. Su aplicación al entorno sigue sin confirmarse; el usuario necesita revisar/guardar y publicar la configuración antes de comprobar nuevamente las consultas afectadas.
+
+
+## D-009 — Acceso primario recuperado y evidencia versionada
+
+- **Fecha de consolidación:** 2026-10-15; consultas/lecturas del 13–15 de octubre. **Estado:** comprobado en la instancia actual.
+- **Hecho:** se recuperaron PDF y contenido bibliográfico de NBER, BIS, arXiv, editoriales abiertas y autores; ya no existe el bloqueo general descrito en D-003. Persisten denegaciones puntuales, rate limits y respuestas HTML que no son el texto solicitado.
+- **Decisión:** utilizar contenido efectivamente obtenido, conservar errores y separar texto disponible, secciones examinadas, resumen y metadatos. Las fechas/versiones y hashes están en fichas/registros. Un WP y su publicación posterior son el mismo estudio salvo cambios que deban identificarse.
+- **Alternativas:** inferir contenido a partir de un DOI/resumen o tratar HTTP 200 como PDF válido. Descartadas; EX-X01 documenta además un identificador que correspondía a matemáticas y se excluyó del corpus financiero.
+- **Límite de configuración:** la conectividad observada no prueba por sí sola cómo se publicó el borrador ni que se haya validado un entorno futuro. No se guardó nueva configuración de red/scripts/secretos en esta consolidación.
+
+## D-010 — Entrega bibliográfica acotada, sin declarar ganadora
+
+- **Fecha:** 2026-10-15. **Estado:** informe documentado; aceptación de cobertura pendiente.
+- **Decisión:** integrar 28 trabajos con lectura dirigida de secciones de PDF completos y los registros de fuentes parciales en un primer informe de las 13 familias. No proclamar exhaustividad ni finalización de toda Fase I.
+- **Fundamento:** evidencia heterogénea; costes, shorts, colas, unidades de cuenta y periodo pueden cambiar la interpretación. Deducir fees no equivale a resultado neto de todas las fricciones. Predicción/valoración no equivale a estrategia y teoría calibrada no es test empírico.
+- **Alternativas para el siguiente paso:** (a) completar lagunas de reversión, funding perpetuo, opciones/combinaciones y contrastes; (b) aceptar expresamente el alcance limitado antes de una futura comparación. La primera conserva la cobertura prevista; la segunda reduce alcance con incertidumbres explícitas. Ninguna permite inferir ventaja no demostrada.
+- **Consecuencia:** I permanece abierta. II y ensayos no iniciados. H-00–H-14 mantienen sus criterios y estado no probado; se añaden implicaciones bibliográficas sin cambiar falsadores retrospectivamente.
+
+## D-011 — Recuperación tras interrupciones y conservación del trabajo
+
+- **Fecha:** 2026-10-15. **Estado:** adoptada dentro del alcance documental autorizado.
+- **Decisión:** continuar desde documentos, logs y cache existentes; cerrar primero notas incompletas y actualizar el punto de reanudación. Conservar versiones locales en Git; no enviar cambios remotos sin autorización.
+- **Alternativas:** repetir la investigación desde cero o depender del historial del chat. Descartadas por coste, pérdida de trazabilidad y riesgo de mezclar versiones.
+- **Consecuencia:** el registro permite distinguir búsquedas completadas y pendientes. Un cache local puede no persistir en una máquina nueva: si falta, se recuperará solo lo necesario con identidad/hash, sin afirmar que toda la continuidad depende de procesos en ejecución.
+
+## D-012 — Auditoría de coherencia y límites de verificación
+
+- **Fecha:** 2026-10-15. **Estado:** revisión documental realizada.
+- **Comprobación:** un revisor independiente dentro del equipo cotejó las seis fichas y cinco síntesis, sin nueva consulta de PDF, red ni ejecución de cálculos. Confirmó 4 DIR + 5 ML + 3 RV + 5 EX + 8 RP + 3 MET = 28 trabajos, sin contar versiones ni referencias parciales como textos adicionales. No encontró contradicciones materiales de costes, OOS o versiones.
+- **Alcance:** valida consistencia de esta documentación; no verifica de nuevo cada tabla original, reproduce resultados ni demuestra ventaja financiera. Las lecturas de fuentes y sus ubicaciones están registradas por separado.
+- **Comprobación operativa del 2026-10-16:** 17 Markdown; 48 destinos locales de enlaces existentes; seis JSONL con 180 registros válidos; 38 hashes de las fichas encontrados en el cache. `git diff --check` sin incidencias. Estas verificaciones no acreditan disponibilidad futura de enlaces externos ni reproducibilidad de los resultados financieros.

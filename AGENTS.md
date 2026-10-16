@@ -9,6 +9,7 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 ## Método y honestidad científica
 
 - Separar fundamentos teóricos, evidencia empírica publicada, replicaciones independientes y resultados propios.
+- Distinguir PDF completo disponible de lectura exhaustiva: registrar las secciones efectivamente examinadas. No contar documentos metodológicos o de acciones como evidencia empírica cripto, ni versiones como réplicas.
 - Consultar fuentes primarias y registrar URL/DOI, versión, fecha de consulta y nivel de acceso: texto completo, resumen, metadatos o referencia pendiente. Nunca presentar como leído un artículo inaccesible.
 - No inventar referencias, cifras, datos ni resultados; indicar límites de acceso a Internet y de cobertura temporal.
 - Buscar evidencia contraria y condiciones de fracaso de cada hipótesis. No presuponer superioridad del ML, del deep learning ni de una estrategia compleja.
@@ -23,6 +24,7 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 
 - Leer `ROADMAP.md`, `DECISIONS.md` y las instrucciones aplicables antes de trabajar. Revisar `git status` y preservar cambios existentes.
 - Utilizar el checkout existente: cada tarea cloud ya está aislada. No crear worktrees salvo petición explícita.
+- Tras una interrupción, revisar el punto de reanudación, fichas `docs/research/evidence-*.md` y registros `search-*.jsonl` antes de buscar. Reutilizar `/workspace/literature-cache/` si existe; no repetir consultas o lecturas completadas. Si cambia el entorno y falta el cache, recuperar solo lo necesario y verificar identidad/versión/hash. Los procesos o agentes interrumpidos no equivalen a pérdida de archivos.
 - Mantener `ROADMAP.md`, `RESEARCH.md`, `HYPOTHESES.md`, `EXPERIMENTS.md`, `DECISIONS.md` y este archivo.
 - Distinguir estados: **planificado**, **documentado**, **implementado**, **probado** y **validado**. Un documento redactado no valida una hipótesis; una prueba que pasa no demuestra ventaja económica.
 - No marcar una fase como terminada sin comprobar sus criterios de aceptación. La Fase I inicial puede entregarse con cobertura bibliográfica pendiente claramente delimitada.

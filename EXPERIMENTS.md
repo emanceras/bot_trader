@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Fecha:** 2026-10-13 · **Estado:** sin experimentos; ejecución no autorizada en Fase I.
+**Actualizado:** 2026-10-15 · **Estado:** sin experimentos; ejecución no autorizada en Fase I.
 
 ## Estado real
 
@@ -60,4 +60,8 @@ Acción: continuar según plan | detener | propuesta de nueva hipótesis:
 Enmiendas: fecha, motivo, datos ya vistos y consecuencias para independencia:
 ```
 
-No hay resultados numéricos, gráficos de rendimiento ni estimaciones de rentabilidad en esta entrega.
+No hay resultados numéricos propios, gráficos de rendimiento propios ni estimaciones de rentabilidad del proyecto. Las cifras de RESEARCH y sus fichas pertenecen a publicaciones identificadas; no son experimentos realizados aquí.
+
+## Registro de continuidad documental
+
+- **2026-10-15:** consolidada revisión de literatura con lecturas dirigidas de 28 textos y fuentes parciales. Extracción de tablas/PDF, consultas HTTPS, hashes, JSONL y auditoría de enlaces son tareas documentales. No constituyen entrenamientos, optimización, backtests ni replicaciones financieras. Todos los contadores de la tabla inicial permanecen en cero.
