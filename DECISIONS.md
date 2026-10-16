@@ -92,3 +92,34 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Comprobación:** un revisor independiente dentro del equipo cotejó las seis fichas y cinco síntesis, sin nueva consulta de PDF, red ni ejecución de cálculos. Confirmó 4 DIR + 5 ML + 3 RV + 5 EX + 8 RP + 3 MET = 28 trabajos, sin contar versiones ni referencias parciales como textos adicionales. No encontró contradicciones materiales de costes, OOS o versiones.
 - **Alcance:** valida consistencia de esta documentación; no verifica de nuevo cada tabla original, reproduce resultados ni demuestra ventaja financiera. Las lecturas de fuentes y sus ubicaciones están registradas por separado.
 - **Comprobación operativa del 2026-10-16:** 17 Markdown; 48 destinos locales de enlaces existentes; seis JSONL con 180 registros válidos; 38 hashes de las fichas encontrados en el cache. `git diff --check` sin incidencias. Estas verificaciones no acreditan disponibilidad futura de enlaces externos ni reproducibilidad de los resultados financieros.
+
+
+## D-013 — Publicación autorizada y continuación de Fase I
+
+- **Fecha:** 2026-10-16. **Estado:** autorización explícita recibida y envío inicial comprobado.
+- **Instrucciones:** el usuario respondió «Sí, envíalo» al envío del avance a `emanceras/bot_trader`. Se publicó `b468369` en `main`; el remoto confirmó el mismo hash. Después, ante la propuesta de cerrar lagunas de investigación, respondió «Adelante, revisa lo que necesites».
+- **Decisión:** continuar la investigación y actualizar la documentación del repositorio autorizado, conservando versiones y verificando los envíos normales. No implica autorizar Fase II, experimentos, una cuenta financiada ni trading.
+- **Consecuencia:** los cambios documentales de esta ampliación se preparan para revisión en GitHub; no se necesita volver a solicitar el acceso o envío ya autorizado en la sesión.
+
+## D-014 — Ampliación dirigida y condición de parada explícita
+
+- **Fecha:** 2026-10-16. **Estado:** lectura completada; aceptación de cobertura pendiente.
+- **Decisión:** añadir once trabajos con secciones examinadas: REV-02/03, FUND-01/02, OPT-01–03, PORT-01–03 y CTR-01. Total 39; las versiones e identidades compartidas no se cuentan dos veces. Dos referencias antes parciales se amplían, no se convierten en estudios independientes nuevos.
+- **Alternativas:** seguir acumulando artículos sin un entregable integrado, o presentar como exhaustiva una búsqueda incompleta. Se opta por una tanda acotada de dos o tres textos por laguna y un contraste, seguida de integración, con originales/replicaciones pendientes explícitos.
+- **Fundamento:** se ha reducido la ausencia de métodos de reversión y perpetuos y se añadieron una estrategia de opciones con costes parciales y comparaciones de carteras con 1/N. Ninguna aportación resuelve conjuntamente todos los sesgos, costes, capital y ejecución. La ausencia de un ganador no obliga a buscar hasta encontrar uno.
+- **Cierre:** se comunican límites de acceso/recursos, sin afirmar dos rondas de saturación. Esta alternativa ya constaba en el roadmap; aceptarla como cierre de la Fase I corresponde al usuario. No se rebajan retrospectivamente criterios de éxito de una estrategia ni se inicia II.
+
+## D-015 — Costes, identidades y resultados adversos preservados
+
+- **Fecha:** 2026-10-16. **Estado:** adoptada al integrar nueva evidencia.
+- **Decisión:** mantener separados funding y convergencia, exceso sobre Treasury y financiación real, varianza implícita/realizada y P&L negociado, costes de asignar a un factor y costes internos de replicarlo. Un Sharpe alto sin capital/margen completo no decide viabilidad.
+- **Correcciones trazables:** versión institucional DIR-008/REV-02 identifica autor único; He/FUND-01 no recibe el DOI de Ackerer citado en su ruta de descubrimiento; el nombre del archivo de Farag no fecha su publicación; dos descargas de opciones con extensión PDF eran HTML y quedan excluidas. Los registros originales se conservan y se añaden aclaraciones.
+- **Contrastes:** la evidencia no favorece uniformemente complejidad: resultados de reversión ligados a iliquidez, costes que erosionan opciones/funding, diferencias pequeñas entre optimización y 1/N, y cambio de ranking con liquidez. Los resultados favorables también se conservan con sus supuestos. No se concluye que ningún modelo complejo pueda funcionar.
+
+## D-016 — Auditoría de la ampliación y continuidad
+
+- **Fecha:** 2026-10-16. **Estado:** comprobación de fuentes realizada en alcance acotado.
+- **Evidencia:** revisión adicional cotejó afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 con PDFs locales: signos, cifras, tablas, tarifas, capital y uso del OOS. Confirmó cinco hashes y las discrepancias de reporte documentadas; no encontró errores materiales nuevos en esas comprobaciones.
+- **Límite:** no es auditoría exhaustiva de 39 artículos ni réplica de resultados. Las fichas OPT/PORT declaran sus lecturas y controles por separado. Los logs que terminaban en «descargado, sin leer» recibieron eventos posteriores de lectura y cribado, sin borrar el pasado.
+- **Continuidad:** se reanudaron fichas incompletas desde cache y registros tras interrupciones, sin repetir búsquedas terminadas. Ningún experimento, orden o código de trading se ejecutó.
+- **Verificación documental final:** 22 archivos Markdown; 79 destinos locales de enlaces existentes; 267 registros válidos en 11 JSONL; los 55 hashes citados en fichas y ampliaciones coinciden con artefactos del cache. `git diff --check` sin errores. Los hashes incluyen textos y metadatos: no son un recuento de estudios ni una validación de rentabilidad.

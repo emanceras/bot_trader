@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Creación:** 2026-10-13 · **Actualización:** 2026-10-15 · **Versión:** 0.2 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
+**Creación:** 2026-10-13 · **Actualización:** 2026-10-16 · **Versión:** 0.3 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
 Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro.
 
@@ -59,12 +59,16 @@ Los mecanismos se desarrollan en [RESEARCH.md](RESEARCH.md) y sus apéndices. La
 | Hipótesis | Evidencia que orienta la siguiente pregunta | Estado/limitación |
 |---|---|---|
 | H-01/H-03 | DIR-001/002: predictibilidad y factores; DIR-006: BTC OOS negativo y altcoins positivas; DIR-010: momentum no significativo en toda la muestra y colas severas | Propuestas; separar temporal/transversal, costes y disponibilidad de cortos |
-| H-02 | DIR-007/008/013 relacionan reversión con horizonte/liquidez en sus resúmenes | Propuesta; texto completo y contraste neto pendientes |
+| H-02 | REV-02 amplía DIR-008: reversión en pequeñas/ilíquidas frente a momentum grande/líquido; REV-03 predice un proxy de provisión de liquidez | Propuesta; costes/cortos y selección impiden afirmar ventaja neta; DIR-007/013 siguen parciales |
 | H-04/H-05 | RV-E02/03 muestran diferencias entre métodos y deterioro por fees; selección, supervivencia y financiación limitan transferencia | Propuestas; cointegración estadística no basta para negociar un spread |
-| H-06/H-07 | RP-01 estudia exposición en mercados tradicionales; RP-02/03 cálculo/valoración de opciones | Propuestas; transferencia cripto y prima neta negociada sin resolver |
-| H-08 | RV-E01 documenta carry de futuros antes de costes completos | Propuesta; no responde por sí sola al funding de perpetuos |
+| H-06/H-07 | RP-01 estudia exposición tradicional; OPT-01 añade estrategia con cobertura y costes parciales; OPT-02/03 estiman primas/kernels | Propuestas; no confundir varianza con P&L; funding, margen, colas y selección siguen abiertos |
+| H-08 | RV-E01 documenta futuros; FUND-01/02 añaden perpetuos, funding/convergencia y deterioro por régimen; captura breve puede no cubrir fees | Propuesta; costes completos, timestamps, capital total y liquidaciones sin validar |
 | H-09/H-10 | EX-01 aporta predicción y maker real condicionado a rebates; taker ordinario negativo; EX-03/04/05 delimitan teoría/predicción | Propuestas; latencia, colas, capital y gastos completos pendientes |
 | H-11/H-12 | ML-06 mezcla éxitos y pérdidas con costes; ML-09/11 tienen grandes resultados simulados y supuestos fuertes; ML-08 ofrece baselines ajenos a cripto | Propuestas; ninguna superioridad general de ML/DL establecida |
-| H-13/H-14 | RP-04/07/08 contienen comparaciones contrarias a una superioridad de modelos complejos y problemas temporales | Propuestas; exigir estados disponibles entonces y comparadores simples netos |
+| H-13/H-14 | RP-04/07/08 cuestionan complejidad; PORT-01 compara con 1/N y costes, PORT-02 muestra fragilidad por liquidez y PORT-03 mejoras condicionadas de factores | Propuestas; no equivalencia universal de 1/N; causalidad, selección y costes internos pendientes |
 
 No se rechaza H-00 con esta revisión. Los resultados publicados no sustituyen contabilidad, datos, control de selección y evidencia propia fuera de muestra. Los IDs y sus páginas/tablas se encuentran en los enlaces de [RESEARCH §2](RESEARCH.md#2-alcance-acceso-y-límites-de-esta-entrega). Toda hipótesis nueva surgida al observar literatura deberá fecharse, sin fingir que se registró antes de esos hallazgos.
+
+## Actualización bibliográfica del 2026-10-16
+
+H-00–H-14 conservan sus proposiciones y falsadores; no se ajustaron retrospectivamente para favorecer ningún resultado. Las once lecturas adicionales elevan el corpus a 39 textos con secciones examinadas, sin ensayos propios. CTR-01/DIR-005 añade momentum no significativo al 5% en una muestra antigua; esto limita extrapolación, no prueba nulidad universal. Las nuevas fichas separan resultado neto de costes supuestos y beneficio neto integral, y contraste de autores distintos frente a réplica exacta. Ninguna hipótesis cambia a probada/validada ni se rechaza H-00.

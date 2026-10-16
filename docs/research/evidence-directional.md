@@ -2,6 +2,8 @@
 
 Fecha de revisión: 2026-10-14 UTC; conserva las consultas iniciales de 2026-10-13. Fase I exclusivamente. Esta es una extracción crítica de literatura, no una replicación ni resultados propios. Las ubicaciones distinguen **página física del PDF** de **página impresa**. Los artefactos descargados y sus hashes constan en [search-directional.jsonl](search-directional.jsonl); los PDFs permanecen fuera del repositorio en `/workspace/literature-cache/directional`. Una descarga no acredita lectura: las fichas indican qué se examinó.
 
+**Actualización 2026-10-16:** esta ficha conserva la extracción del 14 de octubre. DIR-005 ya cuenta con lectura completa dirigida en [CTR-01](gap-contrasts.md); DIR-008 se amplía en [REV-02](gap-reversal.md) con la versión institucional de autor único Milan Fičura, distinta de la atribución de la ficha SSRN. REV-03 incorpora Farag et al. 2025 como estudio adicional. Los estados «solo resumen» de esas dos entradas describen el acceso anterior; prevalecen las ampliaciones para el estado actual. No sumar versiones como estudios independientes.
+
 ## DIR-001 — Liu y Tsyvinski: Risks and Returns of Cryptocurrency
 
 - **Versiones/identidad:** texto examinado: NBER Working Paper 24877, agosto de 2018, [PDF](https://www.nber.org/system/files/working_papers/w24877/w24877.pdf). Manuscrito de trabajo, no revisado por pares por NBER. Identidad de publicación posterior verificada vía Crossref: [10.1093/rfs/hhaa113](https://doi.org/10.1093/rfs/hhaa113), *Review of Financial Studies* 34(6), 2689–2727 (2021; online 2020-09-26). El resumen editorial incorpora factores de red y producción: no asumir identidad textual con el WP. Constituyen un estudio y sus versiones, no dos réplicas.

@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-16 · Versión: 0.2 · Alcance autorizado: **Fase I**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-16 · Versión: 0.3 · Alcance autorizado: **Fase I**.
 
 ## Objetivo y estado general
 
@@ -8,7 +8,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 
 | Fase | Entregable principal | Dependencias | Estado |
 |---|---|---|---|
-| I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | En curso; primer informe con 28 textos y lectura dirigida documentada; lagunas y aceptación pendientes |
+| I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | Revisión ampliada: 39 textos con lectura dirigida; cobertura acotada y aceptación pendientes |
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Planificada |
 | III. Laboratorio | Arquitectura Python modular y capacidades verificadas | II aceptada; datos y licencias identificados | Planificada |
 | IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Planificada |
@@ -29,9 +29,9 @@ Formular preguntas contrastables y evaluar qué evidencia existe, cuánto se pue
 | I.1 | Preguntas científicas y definiciones | Ninguna | Distinguir predicción, ventaja neta y viabilidad; incluir hipótesis nulas | Documentado en RESEARCH |
 | I.2 | Protocolo de búsqueda y evaluación | I.1 | Fuentes, consultas, exclusiones, extracción, duplicados y búsqueda contraria explícitos | Documentado |
 | I.3 | Acceso a fuentes | Red del entorno | Al menos fuentes primarias relevantes consultables; registrar fallos y nivel de acceso | Comprobado: contenido primario recuperado; persisten bloqueos de algunas fuentes |
-| I.4 | Revisión de las 13 familias | I.2–I.3 | Por familia: mecanismo, evidencia positiva/negativa, OOS, costes, datos, sesgos y viabilidad | Documentado para las 13 familias; cobertura empírica desigual, contrastes pendientes |
+| I.4 | Revisión de las 13 familias | I.2–I.3 | Por familia: mecanismo, evidencia positiva/negativa, OOS, costes, datos, sesgos y viabilidad | Documentado para las 13 familias; ampliadas las cuatro lagunas prioritarias, límites de cobertura explícitos |
 | I.5 | Auditoría de bibliografía | I.4 | Identidad/versiones verificadas; afirmaciones enlazadas a fuente y ubicación; no contar preprint/publicación dos veces | Auditadas fichas y coherencia de la síntesis; originales inaccesibles y réplicas pendientes |
-| I.6 | Primer informe y mapa de lagunas | I.1–I.4 | Conclusiones limitadas a lo observado; prioridades de lectura justificadas | Documentado con fuentes verificadas y lagunas, versión 0.2 |
+| I.6 | Primer informe y mapa de lagunas | I.1–I.4 | Conclusiones limitadas a lo observado; prioridades de lectura justificadas | Documentado con fuentes verificadas y lagunas, versión 0.3 |
 | I.7 | Revisión y aprobación del usuario | I.5–I.6 | Usuario acepta la cobertura o sus límites y autoriza el siguiente paso | Pendiente |
 
 **Aceptación de la fase completa:** cumplir I.1–I.7. Para cada familia con literatura localizable se buscarán al menos un estudio primario y un contraste independiente, además de un trabajo metodológico cuando corresponda. Esto es un mínimo de cobertura, no una garantía de exhaustividad: si no aparecen estudios o resultados negativos, se registrarán las consultas y la laguna, sin inventar evidencia. Las afirmaciones decisivas requieren lectura de métodos, costes y validación del texto completo. Una revisión con solo referencias semilla no satisface este criterio.
@@ -133,12 +133,19 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 
 - **2026-10-16:** reanudación desde los archivos existentes, sin repetir búsquedas. Comprobados 17 Markdown, 48 destinos locales de enlaces, 180 registros en seis JSONL y los 38 hashes registrados en fichas frente al cache; sin errores. `git diff --check` correcto. Son comprobaciones documentales, no experimentos financieros. Consolidación guardada en un commit local para continuidad.
 
-## Punto de reanudación — 2026-10-16
+- **2026-10-16:** el usuario autoriza enviar el avance; se publicó `b468369` en `origin/main` y se comprobó igualdad con el commit local. Posteriormente autoriza continuar la revisión de las lagunas de Fase I: «Adelante, revisa lo que necesites».
+- **2026-10-16:** completada ampliación de once trabajos con lectura dirigida: dos de reversión, dos de perpetuos, tres de opciones, tres de carteras y un contraste direccional. Total 39 trabajos con texto y secciones examinadas. DIR-005/008 pasan de acceso parcial a versiones completas identificadas; no cuentan doble. Cinco fichas de ampliación y cinco registros adicionales conservan recuperaciones, exclusiones, lecturas y límites.
+- **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
+- **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-**Entregado:** preguntas científicas; protocolo reproducible de revisión; criterios no numéricos; desarrollo de las 13 familias; primer informe basado en fuentes y límites; roadmap completo. Leer [RESEARCH.md](RESEARCH.md), especialmente §§2, 7 y 10, y las fichas antes de buscar de nuevo.
+## Punto de reanudación — revisión ampliada del 2026-10-16
 
-**Auditoría de aceptación de I:** I.1/I.2 documentadas; I.3 comprobada con acceso parcial; I.4 parcial por las lagunas empíricas; I.5 comprobada dentro del corpus disponible, sin réplica; I.6 documentada; I.7 pendiente de revisión de esta entrega. No se cumplieron dos rondas de saturación ni el contraste independiente por familia. **Fase I permanece abierta.** No se reescriben sus criterios para declarar un cierre artificial.
+**Entregado:** preguntas y protocolo; criterios de evidencia; revisión de 13 familias; 39 textos con lectura dirigida, fuentes parciales diferenciadas y resultados adversos; roadmap completo. La síntesis vigente es [RESEARCH.md](RESEARCH.md), §§2, 6–7 y 10. Las notas `gap-*.md` amplían las fichas originales sin borrar sus versiones ni fallos.
 
-**Próximo trabajo propuesto:** completar reversión/liquidez a texto completo y funding de perpetuos; buscar evidencia negociable de opciones y combinaciones; contrastes independientes y rastreo de citas. La alternativa es aceptar explícitamente una cobertura limitada para una futura comparación, dejando fuera conclusiones no sustentadas. Esa aceptación y la autorización de II siguen pendientes; no hay selección, implementación ni experimento autorizado por defecto.
+**Auditoría de aceptación:** I.1/I.2 documentadas; I.3 comprobada con acceso parcial; I.4 ampliada en las cuatro lagunas prioritarias, con cobertura desigual y algunos originales pendientes; I.5 trazable, con comprobaciones de identidad/afirmaciones, sin réplica; I.6 documentada. I.7 y aceptación de límites pendientes. No se cumplieron dos rondas de saturación. **La Fase I no se declara finalizada ni se inicia II.** La insuficiencia de evidencia neta es una conclusión válida; no se exige encontrar un ganador para cerrar una revisión.
 
-**Archivos reutilizables:** fichas `docs/research/evidence-*.md`, registros `docs/research/search-*.jsonl` y cache local `/workspace/literature-cache/` con PDF/textos y hashes. La documentación en Git es el punto de continuidad; el cache es auxiliar y puede no acompañar a un nuevo entorno. Si falta un archivo, recuperar solo la versión necesaria y comprobar identidad/hash. No reiniciar la revisión entera por una interrupción.
+**Decisión propuesta al usuario:** aceptar esta cobertura acotada y sus límites como base de comparación en II, o solicitar una ampliación documental concreta. No se cambia la condición de cierre: la alternativa de límite explícito de acceso/recursos ya existía y necesita aceptación. Las referencias pendientes —entre ellas DIR-007/013, Cederburg y métodos originales— se identifican en RESEARCH y las fichas; no se les atribuyen resultados no leídos.
+
+**Próxima fase, aún sin autorización:** II concretaría capital, moneda, jurisdicción, exchanges/productos accesibles, frecuencia, tolerancia al drawdown y presupuesto de datos; después compararía hipótesis por criterios explícitos. III/IV deberán preparar laboratorio y protocolo antes de cualquier ensayo. No hace falta cuenta financiada ni claves para decidir II.
+
+**Continuidad:** reutilizar `evidence-*.md`, `gap-*.md` y `search-*.jsonl`. Cache auxiliar `/workspace/literature-cache/`; comprobar versión/hash si falta un archivo y hay que recuperarlo. No reiniciar búsquedas ya resueltas, ni contar como texto examinado un PDF solo descargado o un HTML con extensión `.pdf`. Documentación en Git y actualización normal del remoto autorizado; ninguna orden de mercado programada.

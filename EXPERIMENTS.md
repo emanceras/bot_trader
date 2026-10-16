@@ -65,3 +65,5 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 ## Registro de continuidad documental
 
 - **2026-10-15:** consolidada revisión de literatura con lecturas dirigidas de 28 textos y fuentes parciales. Extracción de tablas/PDF, consultas HTTPS, hashes, JSONL y auditoría de enlaces son tareas documentales. No constituyen entrenamientos, optimización, backtests ni replicaciones financieras. Todos los contadores de la tabla inicial permanecen en cero.
+
+- **2026-10-16, ampliación:** once trabajos adicionales con lectura dirigida, para un total de 39, y cotejos puntuales de cifras frente a PDF. Las restas documentales de costes publicados y comprobaciones aritméticas de tablas no son backtests ni resultados propios. No se ejecutó código de autores ni se alteró ningún contador de experimentos.

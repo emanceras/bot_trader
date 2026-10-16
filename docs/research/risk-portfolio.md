@@ -2,7 +2,9 @@
 
 Fecha de cierre documental local: **2026-10-15**. Estado: revisión de Fase I con cobertura limitada explícita. Ocho PDF disponibles con fichas y alcance de lectura declarado; se cotejaron métodos y resultados de RP-06–08 para cerrar las notas preliminares. No se afirma lectura exhaustiva de cada apéndice. Ningún experimento propio, estrategia implementada o selección de Fase II.
 
-La literatura leída aporta evidencia sobre dinámica del riesgo, valoración de opciones y sensibilidad de asignaciones a supuestos. **No demuestra una ventaja cripto neta, robusta y ejecutable para un particular.** El trabajo de exposición por volatilidad con costes más claro del bloque estudia acciones/divisas; los artículos de opciones estudian cálculo o valoración; el caso de optimización cripto de 2025 ni siquiera muestra mejor Sharpe en su comparación publicada.
+**Ampliación del 2026-10-16:** las fichas [de opciones](gap-options.md) y [de carteras](gap-portfolios.md) añaden estrategias con costes parciales, contrastes contra 1/N y límites de liquidez. El bloque RP de abajo conserva sus ocho fuentes y alcance; sus observaciones sobre falta de P&L en RP-02/03 no se aplican automáticamente a los nuevos estudios. La síntesis vigente se integra en [RESEARCH](../../RESEARCH.md).
+
+La literatura del bloque RP aporta evidencia sobre dinámica del riesgo, valoración de opciones y sensibilidad de asignaciones a supuestos. **No demuestra una ventaja cripto neta, robusta y ejecutable para un particular.** El trabajo de exposición por volatilidad con costes más claro del bloque estudia acciones/divisas; los artículos de opciones estudian cálculo o valoración; el caso de optimización cripto de 2025 ni siquiera muestra mejor Sharpe en su comparación publicada.
 
 ## Preguntas y delimitación
 
