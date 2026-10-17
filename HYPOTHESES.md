@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Creación:** 2026-10-13 · **Actualización:** 2026-10-17 · **Versión:** 0.5 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
+**Creación:** 2026-10-13 · **Actualización:** 2026-10-17 · **Versión:** 0.6 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
 Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro.
 
@@ -104,3 +104,18 @@ Todas deberán fijar horizonte, efecto mínimo relevante, tamaño efectivo por e
 No se afirma que las variables débiles o una mezcla de estrategias perdedoras contengan alpha. La diversificación reduce varianza bajo ciertas covarianzas, pero una mezcla estática con pesos no negativos que suman uno, de medias netas verdaderamente negativas, sigue teniendo media negativa si los costes son aditivos. Neteo y pesos adaptativos cambian supuestos y requieren hipótesis/contabilidad explícitas.
 
 Antes de cualquier experimento se fijarán target (retorno/riesgo), horizonte, información restringida, factores y posibles interacciones primarias, universo/particiones, efecto mínimo, inferencia bajo dependencia temporal/transversal, presupuesto y holdout. Comparar grafos aprendidos exige reestimar selección dentro de cada ventana. Las sensibilidades por regímenes no autorizan elegirlos ex post. H-00 sigue sin rechazarse.
+
+## Auditoría de cobertura del 2026-10-17 — precisiones sin nuevas hipótesis
+
+La [auditoría](docs/research/coverage-audit.md) no añade una familia ni H-25, no selecciona candidatos y conserva H-00–H-24 y sus falsadores. Las siguientes fuentes pueden integrarse, si posteriormente se justifican y autorizan, en las preguntas existentes:
+
+| Fuente/estado | Hipótesis relacionadas | Condición previa para considerar su evaluación |
+|---|---|---|
+| Actividad/flujos on-chain | H-03/11/13/20/24 | Significado de variable, cadena/entidades, versión, disponibilidad/confirmación y comparación incremental frente a precio/volumen; transferencia no equivale a venta |
+| Posicionamiento/OI de derivados | H-07/08/09/13/24 | Contrato, unidades/población y publicación; OI no identifica dirección neta; distinguir cobertura de apuesta direccional |
+| Liquidaciones/flujos forzados | H-02/08/09/19/23 | Cobertura/censura del feed, orden frente a fill, recepción y demora; efecto después de recibirlo; margen propio separado de señal de terceros |
+| Eventos de oferta, listados/bajas, contratos y seguridad | H-03/04/17/19/20/21/24 | Calendario/primera comunicación disponibles entonces, evento esperado frente a sorpresa, bajas y cambios de unidades; unlock no equivale a venta efectiva |
+
+Estas asignaciones no demuestran evidencia específica ni conceden prioridad. El histórico de bajas/migraciones es requisito de integridad aunque nunca se utilice como señal. Los demás inputs son opcionales y deben justificar su coste/incremento; no se probarán todas sus combinaciones.
+
+**Interpretaciones para el protocolo futuro:** H-00 es una regla global sobre las alternativas efectivamente evaluadas, no una prueba universal de inexistencia de oportunidades. H-06/07/14/19 pueden referirse a riesgo/utilidad sin alpha; el comparador deberá incorporar exposición, colas y oportunidad perdida. H-24 mide incremento frente a un aditivo especificado con el mismo soporte, información y presupuesto, no identifica necesariamente interacción estructural o causal. Ninguna de estas precisiones cambia retrospectivamente un umbral ni un resultado: no hay experimentos y los parámetros siguen pendientes de II/IV.

@@ -1,6 +1,8 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-17 · **Versión:** 0.5 · **Estado:** revisión ampliada con fuentes verificadas y cobertura limitada; pendiente de aceptación de Fase I. Sin experimentos propios ni autorización de Fase II.
+**Actualizado:** 2026-10-17 · **Versión:** 0.6 · **Estado:** auditoría de cobertura realizada; cierre limitado de Fase I recomendado, pendiente de aceptación. Sin experimentos propios ni autorización de Fase II.
+
+**Dictamen vigente:** la [auditoría crítica de cobertura](docs/research/coverage-audit.md) recomienda cerrar la búsqueda bibliográfica general con límites explícitos. Los mecanismos principales están suficientemente representados para una futura comparación; no hay ventaja operable demostrada. On-chain, posicionamiento, liquidaciones y eventos de tokens tienen cobertura desigual y requisitos de datos/incrementalidad pendientes, pero no justifican otra familia ni una ampliación general. Las notas históricas de fichas que mantenían abierta su cobertura conservan su fecha; el dictamen global actual no afirma saturación ni elimina sus limitaciones. La aceptación y cualquier paso a II corresponden al usuario.
 
 ## 1. Preguntas científicas principales
 
@@ -410,6 +412,14 @@ I.1–I.3: preguntas/protocolo documentados y acceso primario comprobado. I.4: l
 La Fase I no exige encontrar una estrategia ganadora: puede terminar con evidencia insuficiente. Tampoco se confunde revisión documental con experimento. El usuario amplió Fase I con noticias y después con relaciones entre monedas/interacciones; ambas ampliaciones quedan integradas para revisión, sin presumir aceptación de la cobertura ni autorización de II. Los criterios adicionales están en [ROADMAP](ROADMAP.md) y la línea transversal. Cuando se autorice II, deberá incluir estrategias de noticias solas e híbridas y fijar recursos del operador antes de seleccionar hipótesis; los experimentos seguirán esperando III/IV. No se cambia retrospectivamente ningún criterio para hacer pasar una estrategia.
 
 **Continuidad:** versión 0.5 consolidada el 17 de octubre, con el corpus del 13–17 y las dos ampliaciones solicitadas. Se reutilizaron archivos/cache; las lecturas y los límites se conservaron durante las interrupciones. La documentación y los registros son el punto de continuidad; una interrupción no obliga a repetir lo completado. Ninguna operación de mercado ni experimento queda programado automáticamente.
+
+### Auditoría crítica de cobertura — versión 0.6
+
+La auditoría posterior revisó las fichas de los 53 trabajos, las 25 hipótesis H-00–H-24, los resultados favorables/adversos y las limitaciones, con revisiones paralelas internas y comprobaciones acotadas de documentación de datos. No releyó íntegramente todos los originales ni replicó resultados; el recuento académico permanece en 53. Distingue mecanismo, fuente de información, estimador y política de riesgo: añadir un indicador no añade necesariamente una fuente económica de beneficio.
+
+La [matriz de lagunas](docs/research/coverage-audit.md#lagunas-materiales-alcance-y-decisión-recomendada) separa ausencia de atribución incremental on-chain, interpretación de OI, cobertura/recepción de liquidaciones y eventos de oferta versionados. Requieren condiciones específicas antes de admitir/evaluar hipótesis; no se presupone rentabilidad ni se exige completarlas todas para cerrar una revisión exploratoria. DEX/AMM, MEV, staking y préstamo DeFi quedan delimitados como cobertura insuficiente y líneas pospuestas, sin declarar inviabilidad ni incorporarlas automáticamente.
+
+**Recomendación:** aceptar el cierre limitado bajo la alternativa de acceso/recursos ya prevista, sin otra ronda general de literatura. No se alcanza el estándar de saturación ni se acredita una réplica neta independiente por familia. Antes de experimentar habrá que resolver datos, universo, capital/ejecución y protocolo de las hipótesis efectivamente seleccionadas; los parámetros del operador siguen pendientes de una Fase II explícitamente autorizada. Las fuentes inaccesibles solo se reabrirán si pueden cambiar una decisión concreta, con presupuesto acotado. Se conciliaron registros de lectura históricos con sus fichas sin fingir nuevas lecturas ni borrar eventos. El informe completo incluye alcance, fuentes, asuntos pendientes y criterios de aceptación.
 
 ### Auditoría de la ampliación de noticias
 

@@ -59,3 +59,10 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 - Distinguir mismo activo entre venues de monedas distintas; sincronización/recepción, numerario, factores comunes y pasado propio preceden a atribuir incremento. Precio en BTC no equivale a neutralidad al factor BTC.
 - Un modelo multivariable, importancia/SHAP, autoencoder o grafo no prueba interacción predictiva ni beneficio. Exigir comparación aditiva con mismos inputs/presupuesto y ablaciones; separar mezcla de P&L de combinación de variables.
 - Universo futuro dinámico, elegibilidad conocida antes, liquidez/capacidad y bajas; ningún número de monedas arbitrario ni selección de supervivientes. La complejidad y un p-value no justifican operar. Mantener nulas, resultados adversos, criterios de posponer/descartar y todas las restricciones de Fase I.
+
+## Auditoría de cobertura y cierre limitado
+
+- Consultar `docs/research/coverage-audit.md` antes de proponer otra ampliación. El dictamen recomienda cerrar la búsqueda general con límites aceptados; no marca I terminada ni autoriza II. Las fichas históricas preservan su fecha/alcance, y el informe global indica el estado vigente.
+- Reabrir una lectura solo si puede cambiar una decisión concreta de elegibilidad, datos, ejecución/riesgo o interpretación; indicar fuente, pregunta y presupuesto finito. Una nueva métrica o falta de ganador no justifican expansión automática.
+- On-chain, posicionamiento, liquidaciones y eventos de token son fuentes/estados integrables en hipótesis actuales; no presumir alpha ni crear familias por cantidad. Exigir disponibilidad temporal, semántica y comparación incremental. Bajas/migraciones/cambios de unidades son requisitos de integridad con independencia de su uso predictivo.
+- Conciliar estados de logs mediante eventos actuales que remitan a fichas previas; no alterar fechas originales ni presentar una conciliación como nueva lectura del PDF. La auditoría documental interna no equivale a revisión externa o réplica financiera.
