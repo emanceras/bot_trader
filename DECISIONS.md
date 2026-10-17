@@ -123,3 +123,34 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Límite:** no es auditoría exhaustiva de 39 artículos ni réplica de resultados. Las fichas OPT/PORT declaran sus lecturas y controles por separado. Los logs que terminaban en «descargado, sin leer» recibieron eventos posteriores de lectura y cribado, sin borrar el pasado.
 - **Continuidad:** se reanudaron fichas incompletas desde cache y registros tras interrupciones, sin repetir búsquedas terminadas. Ningún experimento, orden o código de trading se ejecutó.
 - **Verificación documental final:** 22 archivos Markdown; 79 destinos locales de enlaces existentes; 267 registros válidos en 11 JSONL; los 55 hashes citados en fichas y ampliaciones coinciden con artefactos del cache. `git diff --check` sin errores. Los hashes incluyen textos y metadatos: no son un recuento de estudios ni una validación de rentabilidad.
+
+## D-017 — Ampliación paralela de noticias, sentimiento y eventos
+
+- **Solicitud:** ampliación explícita del usuario durante Fase I; **consolidación:** 2026-10-17. **Estado:** documentada, sin selección/implementación.
+- **Decisión:** añadir la línea transversal a las trece familias y continuar su investigación; PORT-04 amplía carteras en paralelo. Nueve lecturas de noticias más una de carteras elevan el corpus de 39 a 49, sin sumar versiones, accesos parciales o documentación comercial.
+- **Alternativas:** sustituir las familias anteriores por un bot de noticias o avanzar a II bajo aprobaciones antiguas. Incompatibles con el alcance solicitado. Se conserva el roadmap y sus puertas de aceptación.
+- **Rentabilidad:** el usuario exige no imponer techo artificial. Se adopta como regla; magnitud alta o baja se evalúa con igual integridad, incertidumbre, riesgo y capacidad. Esto no elimina futuros límites de pérdida/exposición.
+
+## D-018 — Disponibilidad temporal y valor incremental
+
+- **Fecha:** 2026-10-17. **Estado:** criterio de investigación adoptado; protocolo experimental pendiente.
+- **Decisión:** separar anticipación, reacción y riesgo; noticia original/recepción/revisiones; primera publicación macro y consenso anterior; duplicados y conocimiento del modelo. Un CAR, correlación, Granger o accuracy favorable no acredita beneficio tras recepción.
+- **Alternativas:** ordenar solo por fecha editorial, usar el texto revisado actual o dar por limpio un LLM por separar precios cronológicamente. Descartadas por posible información futura.
+- **Comparación propuesta:** precio, calendario, texto y combinaciones; NLP sencillo y LLM con información/riesgo/búsqueda comparables. Costes de órdenes, feed/inferencia y demora total. No se elige candidato ni se ejecuta comparación ahora.
+
+## D-019 — Fuentes de datos: documentación frente a aptitud comprobada
+
+- **Fecha de fuentes:** 2026-10-16; **integración:** 2026-10-17. **Estado:** evaluación documental, sin contratos ni feeds probados.
+- **Decisión:** distinguir ocho fuentes con secciones oficiales examinadas y Benzinga pendiente. Las 22 páginas leídas no son estudios académicos ni evidencia de rendimiento. Tarifas y prestaciones son declaraciones fechadas de proveedor.
+- **Hallazgos:** archivos BLS/Fed ayudan con publicaciones; ALFRED ofrece vintages por fecha, no recepción intradía; Trading Economics documenta consenso pero el ejemplo no prueba todos sus cortes históricos; NewsAPI no entrega texto completo y Developer demora 24 h. X tiene costes por recurso; Reddit impone condiciones de acceso/borrado. Falta validar cobertura, derechos y disponibilidad temporal de muestras concretas.
+- **Alternativas:** asumir datos gratuitos equivalentes a terminales usadas por autores, o comprar un feed antes de fijar necesidad/capital. No se adoptan. No se solicitaron credenciales ni hicieron compras.
+
+## D-020 — Consolidación, auditoría y límites de la ampliación
+
+- **Fecha:** 2026-10-17. **Estado:** revisión documental integrada; Fase I abierta.
+- **Recuento:** MAC-01/02, SENT01/02, LLM-01–03, EVT-01/02 y PORT-04. LLM-02 clasifica texto sin retorno y LLM-03 estudia acciones; no son diez evidencias de rentabilidad cripto. Mai/IMF y otras fuentes parciales siguen fuera del recuento.
+- **Auditoría:** cotejo adicional de títulos/versiones y diez hashes PDF; cuatro verificaciones dirigidas de afirmaciones de SENT01, LLM-01, MAC-01 y EVT-02. Sin contradicciones materiales nuevas en ese alcance. No es auditoría exhaustiva ni réplica; cronología externa de los eventos ETF no reconstruida.
+- **Límites:** macro entregó dos textos frente al presupuesto inicial de tres/cuatro por acceso/recursos. No se alcanzó saturación ni validación neta OOS de noticias con latencia realista. Se preservan los resultados favorables, nulos y adversos y discrepancias de tablas/prosa. Cerrar esta tanda no significa completar Fase I.
+- **Continuidad:** fichas/cache recuperados tras interrupciones; se añaden eventos de lectura sin borrar descargas/fallos. Actualizados los seis documentos principales. La aprobación de Fase II y cualquier experimento siguen pendientes; cero órdenes y experimentos propios.
+
+- **Verificación documental del 2026-10-17:** 29 Markdown, 116 enlaces locales (incluidas dos anclas), 17 JSONL con 393 registros válidos y 68 hashes citados en Markdown encontrados en el cache. Además se cotejaron los hashes de las 22 páginas oficiales al registrar su lectura. Sin errores detectados en estas comprobaciones; no validan resultados financieros ni disponibilidad futura de las fuentes.

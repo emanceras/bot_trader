@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-15 · **Estado:** sin experimentos; ejecución no autorizada en Fase I.
+**Actualizado:** 2026-10-17 · **Estado:** sin experimentos; ejecución no autorizada en Fase I.
 
 ## Estado real
 
@@ -43,6 +43,8 @@ Holdout: sellado | abierto; registro de acceso:
 Código/commit, entorno, dependencias, semilla y comando:
 Señal, cartera, horarios, límites, ejecución y fill:
 Comisiones, spread, slippage/impacto, financiación/funding, margen:
+Noticias (si aplica): versiones, consenso anterior, recepción, grupos de eventos, demora total:
+NLP/LLM (si aplica): snapshot, conocimiento previo, prompts/herramientas y coste de inferencia:
 Parámetros probados y presupuesto acumulado de búsqueda:
 Comparadores y condiciones comunes:
 Métrica primaria, efecto mínimo, método y criterio fijados antes del resultado:
@@ -67,3 +69,5 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 - **2026-10-15:** consolidada revisión de literatura con lecturas dirigidas de 28 textos y fuentes parciales. Extracción de tablas/PDF, consultas HTTPS, hashes, JSONL y auditoría de enlaces son tareas documentales. No constituyen entrenamientos, optimización, backtests ni replicaciones financieras. Todos los contadores de la tabla inicial permanecen en cero.
 
 - **2026-10-16, ampliación:** once trabajos adicionales con lectura dirigida, para un total de 39, y cotejos puntuales de cifras frente a PDF. Las restas documentales de costes publicados y comprobaciones aritméticas de tablas no son backtests ni resultados propios. No se ejecutó código de autores ni se alteró ningún contador de experimentos.
+
+- **2026-10-17, noticias y continuidad:** añadidos nueve estudios documentales de noticias/sentimiento/eventos y PORT-04, total 49 textos con lectura dirigida. Evaluación documental de proveedores y sus tarifas, sin feed probado ni dataset de trading adquirido. Las cifras de autores y ejemplos aritméticos de precio de API no son resultados propios. No se entrenó NLP/LLM, ejecutó código de autores, seleccionó estrategia ni abrió holdout. **Todos los contadores permanecen en cero.**

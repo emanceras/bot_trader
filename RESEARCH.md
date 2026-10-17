@@ -1,6 +1,6 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-16 · **Versión:** 0.3 · **Estado:** revisión ampliada con fuentes verificadas y cobertura limitada; pendiente de aceptación de Fase I. Sin experimentos propios ni autorización de Fase II.
+**Actualizado:** 2026-10-17 · **Versión:** 0.4 · **Estado:** revisión ampliada con fuentes verificadas y cobertura limitada; pendiente de aceptación de Fase I. Sin experimentos propios ni autorización de Fase II.
 
 ## 1. Preguntas científicas principales
 
@@ -19,13 +19,15 @@
 13. **¿Diversificar reduce realmente el riesgo?** Distinguir diversificación entre activos de diversificación de mecanismos; medir costes adicionales y correlaciones en estrés, no solo las medias históricas.
 14. **¿Qué observación nos haría abandonar cada hipótesis?** Definir falsadores y condiciones de parada antes de elegir parámetros. La falta de significación con baja potencia no prueba inexistencia de ventaja; sí puede impedir justificar capital.
 
+15. **¿Qué aportan noticias y sentimiento, y cuándo era utilizable esa información?** Separar anticipación, reacción tras recepción y gestión del riesgo; medir información incremental respecto a precios/calendario, sorpresa frente a consenso anterior, revisiones y contaminación de modelos preentrenados. El desarrollo de estas preguntas está en la [nueva línea transversal](docs/research/news-events.md).
+
 Estas preguntas guían la lectura. Las hipótesis concretas y sus posibles refutaciones están en [HYPOTHESES.md](HYPOTHESES.md).
 
 ## 2. Alcance, acceso y límites de esta entrega
 
 El acceso externo funciona para una parte relevante de las fuentes: se recuperaron documentos de NBER, BIS, arXiv, editoriales abiertas y páginas de autores. El bloqueo general observado inicialmente queda superado en esta instancia; persisten denegaciones editoriales concretas y descargas que devuelven HTML en lugar de un PDF. No se requiere una clave de exchange para esta investigación.
 
-Se documentan las trece familias con **39 trabajos con texto completo disponible y fichas de las secciones examinadas**, incluidos trabajos metodológicos y de mercados tradicionales. Esto no significa lectura exhaustiva de todos sus apéndices, réplica de sus resultados ni 39 pruebas de rentabilidad cripto. Las versiones de trabajo y editoriales se agrupan; se declara cuál se leyó. Las fuentes accesibles solo como resumen/metadatos se mantienen aparte.
+Se documentan las trece familias originales y una **línea transversal de noticias, sentimiento y eventos**, con **49 trabajos con texto completo disponible y fichas de las secciones examinadas**, incluidos trabajos metodológicos y de mercados tradicionales. Esto no significa lectura exhaustiva de todos sus apéndices, réplica de sus resultados ni 49 pruebas de rentabilidad cripto. Las versiones de trabajo y editoriales se agrupan; se declara cuál se leyó. Las fuentes accesibles solo como resumen/metadatos se mantienen aparte.
 
 La base entregada el 15 de octubre comprende 28 trabajos:
 
@@ -48,7 +50,19 @@ La ampliación del 16 de octubre incorpora once trabajos al corpus de lectura di
 | Carteras y referencias simples | 3: Platanakis et al., Petukhina et al., Han et al. (PORT-01–03) | [Fichas](docs/research/gap-portfolios.md) · [Registro](docs/research/search-gap-portfolios.jsonl) |
 | Contraste direccional | 1: Grobys–Sapkota (DIR-005/CTR-01) | [Ficha](docs/research/gap-contrasts.md) · [Registro](docs/research/search-gap-contrasts.jsonl) |
 
-El total es **28 + 11 = 39**, sin sumar versiones, fuentes parciales o PDF descargados pero no examinados. Los dos textos que antes eran solo resumen son DIR-005 y DIR-008. Las nuevas fichas declaran independencias parciales: varios trabajos comparten autores, proveedores o periodos, y ninguno constituye una réplica propia.
+El total de aquella consolidación fue **28 + 11 = 39**, sin sumar versiones, fuentes parciales o PDF descargados pero no examinados. Los dos textos que antes eran solo resumen son DIR-005 y DIR-008. Las nuevas fichas declaran independencias parciales: varios trabajos comparten autores, proveedores o periodos, y ninguno constituye una réplica propia.
+
+La ampliación solicitada de noticias se investigó el 16 de octubre y se integra el 17, conservando las líneas anteriores:
+
+| Incorporación | Trabajos nuevos con lectura dirigida | Fichas y registro |
+|---|---:|---|
+| Macro y regulación | 2: MAC-01/02 | [Fichas](docs/research/evidence-news-macro.md) · [Registro](docs/research/search-news-macro.jsonl) |
+| Sentimiento social | 2: SENT01/02; Mai/SENT03 permanece parcial | [Fichas](docs/research/evidence-news-sentiment.md) · [Registro](docs/research/search-news-sentiment.jsonl) |
+| NLP/LLM | 3: LLM-01–03; una clasificación sin P&L y un contraste en acciones | [Fichas](docs/research/evidence-news-llm.md) · [Registro](docs/research/search-news-llm.jsonl) |
+| Eventos e incorporación intradía | 2: EVT-01/02 | [Fichas](docs/research/evidence-news-execution.md) · [Registro](docs/research/search-news-execution.jsonl) |
+| Continuidad de carteras | 1: PORT-04, antes solo portada | [Ficha](docs/research/portfolio-followup.md) · [Registro](docs/research/search-portfolio-followup.jsonl) |
+
+**Corpus actual: 39 + 9 + 1 = 49 trabajos**. La [síntesis de noticias](docs/research/news-events.md) compara impacto, predicción, ejecución e híbridos; la [matriz de datos](docs/research/news-data-sources.md) revisa ocho fuentes y mantiene Benzinga pendiente. Sus 22 páginas oficiales de documentación no se suman como estudios de estrategia. [Registro de datos](docs/research/search-news-data.jsonl): prestaciones/precios documentados, sin mediciones de feed ni adquisición de históricos.
 
 Las fichas registran fuentes públicas, versiones, fechas, páginas/tablas, resultados adversos y límites. Los registros JSONL de la sección 10 conservan consultas, accesos y fallos. Los PDF/textos recuperados se conservan fuera del repositorio, en `/workspace/literature-cache/`; los hashes permiten identificar versiones. No se redistribuyen esos textos en Git.
 
@@ -99,6 +113,11 @@ Combinar cada consulta temática con `transaction costs`, `out-of-sample`, `repl
 | DL/series temporales | `cryptocurrency AND ("deep learning" OR LSTM OR transformer OR "time series forecasting") AND (trading OR returns)` |
 | Regímenes | `cryptocurrency AND ("regime switching" OR "hidden Markov" OR "structural breaks") AND trading` |
 | Carteras/combinaciones | `cryptocurrency AND ("portfolio allocation" OR "strategy combination" OR diversification OR ensemble)` |
+| Macro/regulación/eventos | `(bitcoin OR cryptocurrency) AND ("monetary policy surprises" OR inflation OR employment OR regulation OR "event study")` |
+| Noticias/sentimiento/NLP | `(bitcoin OR cryptocurrency) AND (news OR sentiment OR NLP OR "large language model") AND ("out of sample" OR trading OR "incremental value")` |
+| Incorporación y datos históricos | `cryptocurrency AND news AND (latency OR delay OR "first seen" OR "point in time" OR revisions OR consensus)` |
+
+Para la ampliación se añaden `reverse causality`, `no predictive power`, `transaction costs`, `publication timestamp`, `pretraining contamination`, `news revisions` y `surprise versus consensus` como contrastes previstos; las consultas realmente ejecutadas están en los nuevos JSONL, sin afirmar que se agotaron estas combinaciones.
 
 Buscar también términos que cuestionen el mecanismo concreto: momentum crash, cointegration breakdown, funding reversal, queue position, latency, nonstationarity, fee sensitivity y backtest overfitting. Comparar artículos que usan horizontes y costes similares; diferencias de mercado o fecha pueden explicar resultados opuestos.
 
@@ -180,7 +199,7 @@ El efectivo debe definirse en una moneda y un instrumento concretos. Una stablec
 
 Una prima neta no es necesariamente alpha: puede ser compensación por exposición de mercado, iliquidez, financiación o riesgo extremo. La pregunta no será solo «¿gana?», sino «¿qué riesgo y recursos exige frente a una alternativa accesible?».
 
-## 6. Mapa crítico de las trece familias
+## 6. Mapa crítico de las trece familias y la línea de noticias
 
 Esta tabla reúne evidencia y límites para orientar la investigación. No es la matriz de selección de Fase II ni una puntuación de probabilidad de éxito. Los identificadores remiten a las fichas de la sección 2; allí constan páginas y tablas. OOS significa evaluación fuera de la muestra de ajuste declarada por el estudio, sin presumir que su selección estuviera sellada.
 
@@ -198,9 +217,10 @@ Esta tabla reúne evidencia y límites para orientar la investigación. No es la
 | 10. ML | Estimar relaciones condicionales. ML-06 encuentra algunos resultados OOS positivos y fuerte sensibilidad a fees; ML-09 compara boosting/LSTM | Efecto depende de activo/modelo, costes incompletos y búsqueda de especificaciones. Falta demostrar incremento neto replicado frente a referencias equivalentes | Variables disponibles entonces y pipelines temporales; ML sencillo técnicamente accesible. Mantenimiento y multiplicidad son costes de investigación |
 | 11. DL/series temporales | Representaciones secuenciales/no lineales. ML-11 comunica grandes ganancias simuladas; EX-05 predice libros de acciones | ML-11 supone ejecución inmediata sin slippage/impacto; EX-05 usa simulación mid–mid sin costes. ML-08 muestra competencia de modelos lineales en otros datos, sin demostrar superioridad universal | Más cómputo, semillas y muestras efectivas. Complejidad solo justificable si añade mejora neta fuera de muestra |
 | 12. Regímenes | Estados latentes con distintas dinámicas. RP-06 describe estados; RP-07/08 comparan previsión de volatilidad | Clasificación retrospectiva, splits poco claros y modelos simples competitivos/superiores. Filtrado con parámetros futuros o suavizado no está disponible para operar entonces | Probabilidades filtradas, estimación causal, demora de detección y costes de conmutación; beneficio de asignación no demostrado |
-| 13. Combinaciones/carteras | Diversificación y asignación. PORT-01 compara optimización con 1/N y costes; PORT-02 muestra sensibilidad a liquidez; PORT-03 declara beneficios al incorporar factores | Diferencias pequeñas/no significativas frente a 1/N en PORT-01; ranking cambia con restricciones en PORT-02; supervivencia, selección y costes de factores limitan PORT-03 | P&L sincronizado, covarianzas pasadas, turnover/capital conjunto. Referencias simples imprescindibles; complejidad sin superioridad general demostrada |
+| 13. Combinaciones/carteras | Diversificación y asignación. PORT-01 compara optimización con 1/N y costes; PORT-02 muestra sensibilidad a liquidez; PORT-03 declara beneficios de factores; PORT-04 contrasta estimación de medias y mínimo riesgo con 1/N | Diferencias pequeñas/no significativas en PORT-01; ranking sensible a liquidez en PORT-02; costes de factores en PORT-03; DL no mejora medias en PORT-04 y la penalización de turnover no favorece todas las variantes | P&L sincronizado, covarianzas pasadas, turnover/capital conjunto. Referencias simples imprescindibles; complejidad sin superioridad general demostrada |
+| 14. Noticias/sentimiento/eventos — transversal | Sorpresa, atención y desacuerdo; MAC-01/02 y EVT-01/02 describen impactos, SENT01 simulación y LLM-01 híbrido. Posibles usos direccionales y de riesgo separados | Nulos macro y de sentimiento, pérdida por fees en SENT01, baselines simples competitivos en LLM-01; texto corregido, preentrenamiento, eventos seleccionados y recepción sin resolver. Impacto no es P&L restante | Primeras versiones, consenso anterior, reloj de disponibilidad, licencias y costes de datos/inferencia. Viabilidad condicionada a horizonte y capital; reacción rápida no demostrada |
 
-Los desarrollos matemáticos se encuentran en las cinco síntesis temáticas de la sección 2. Las familias se solapan: un modelo ML puede implementar momentum y un filtro de estados puede modificar una cartera. No son trece mecanismos independientes.
+Los desarrollos matemáticos se encuentran en las cinco síntesis originales y en la [línea de noticias](docs/research/news-events.md). Las familias se solapan: un modelo ML puede implementar momentum y un filtro de estados puede modificar una cartera. No son mecanismos independientes; la línea 14 puede cruzarse con las trece familias, sin sustituirlas.
 
 ## 7. Informe crítico ampliado basado en fuentes
 
@@ -257,6 +277,24 @@ Las nuevas [fichas de carteras](docs/research/gap-portfolios.md) aportan compara
 Han et al. (PORT-03) reportan mejoras frente a cartera tradicional y costes proporcionales de asignación, también con pesos iguales. ML no domina todos los comparadores. La selección de dirección del factor necesita aclaración temporal, y los costes del cambio de peso del factor no reconstruyen necesariamente su rotación interna y cortos. La prohibición de pesos negativos en la cartera de factores tampoco elimina las posiciones cortas de sus componentes. Estas ambigüedades impiden declarar ventaja operable; no prueban por sí solas qué hizo su código.
 Los estudios de estados y carteras también contienen evidencia contraria útil: RP-04 informa menor Sharpe de su extensión que del comparador; RP-07 retira MSGARCH del OOS después de caracterizar el test; en la tabla 8 de RP-08, GARCH tiene menor RMSE en los cinco activos, pese a parte de la narrativa. RP-08 es un preprint, no un resultado revisado por pares. Estos hallazgos aconsejan investigar controles de riesgo y combinaciones simples antes de atribuir valor a la adaptación compleja.
 
+### Noticias y sentimiento: impacto observable, ventaja incremental todavía abierta
+
+La [revisión ampliada](docs/research/news-events.md) distingue **anticipar, reaccionar y gestionar riesgo**. [Benigno–Rosa, NY Fed SR1052](https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr1052.pdf), MAC-01, encuentra sensibilidad a CPI subyacente en la muestra que incluye 2022 y varios coeficientes nulos; al retirar 2022 CPI deja de ser significativo. [Auer–Claessens, BIS 2018](https://www.bis.org/publications/regulating-cryptocurrencies-assessing-market-reactions_0.pdf), MAC-02, encuentra respuestas distintas según categoría regulatoria y movimiento anterior a titulares. Son estudios de impacto, sin prueba de P&L después de recibir la noticia. No sustentan una regla universal «noticia favorable = comprar».
+
+[García–Schweitzer](https://doi.org/10.1098/rsos.150288), SENT01, ofrece una simulación social favorable en BTC durante 2014, pero deja de ser rentable por encima de 0,25% por intercambio bajo sus simplificaciones de costes. SENT02 documenta Granger en algunos activos y nulos en otros, sin predicción OOS ni cartera. La precisión o significación no demuestra rentabilidad ni descarta causalidad inversa.
+
+[CryptoTrade, EMNLP 2024](https://doi.org/10.18653/v1/2024.emnlp-main.63), LLM-01, combina precios, on-chain y noticias: BTC alcista GPT-4o obtiene 28,47% frente a 39,66% de buy and hold en la tabla publicada. Hay resultados/ablaciones favorables, pero también comparadores simples superiores, comisión sin tasa localizada y una discrepancia de activo/cifra en ablación. LLM-02 compara clasificación de sentimiento, sin retornos. LLM-03 examina conocimiento previo en acciones y omite costes. Ninguno demuestra superioridad económica general de LLM ni sanea automáticamente la contaminación del preentrenamiento mediante un split cronológico.
+
+Ante (EVT-01) y Mehdian et al. (EVT-02) describen reacciones intradía, con positivos, negativos y nulos. Sus CAR incluyen movimiento contemporáneo o previo; no identifican qué retorno quedaría después de distribución, inferencia y fill. EVT-02 mezcla aprobación/debut/apertura y no ancla de manera verificable la primera noticia. **La velocidad aprovechable de incorporación sigue sin determinarse**; no se extrapolan velas de un minuto a ejecución subminuto.
+
+La comparación futura debe aislar precio, calendario, texto y combinaciones bajo información/riesgo comunes, incluyendo lexicones/modelos lineales frente a NLP/LLM. Son interesantes la sorpresa macro, las noticias específicas de activo y las alertas de riesgo; no se selecciona un ganador. [BLS/Fed/ALFRED y proveedores](docs/research/news-data-sources.md) ofrecen piezas distintas del problema. El histórico de consenso, texto original, versiones y recepción sigue sin validarse; disponibilidad comercial no prueba aptitud científica.
+
+**Sin techo artificial de rentabilidad:** no se excluye un resultado por su magnitud ni se exige que sea modesto. Se exigirán trazabilidad, costes, capacidad, riesgo e incertidumbre con el mismo criterio para cualquier retorno. Los límites de exposición/pérdida del futuro sistema son una decisión distinta de imponer un límite al potencial de una estrategia.
+
+### Continuidad de carteras: contraste adicional durante la ampliación
+
+[Chen–Cai, arXiv v3](https://arxiv.org/abs/2501.12841v3), [PORT-04](docs/research/portfolio-followup.md), mantiene activa la línea previa. Con 50 pb proporcionales, sus variantes media–varianza y estimadores DL pierden frente a 1/N en la utilidad publicada; varios mínimos de varianza mejoran, con excepciones y sensibilidad al turnover. La penalización mejora DCC diario y empeora el mínimo de varianza muestral diario. Los totales publicados son sumas de retornos y la descripción mezcla log-retornos con factores `1+r`: no convertirlos en riqueza compuesta ni imputar un error al código no ejecutado. El estudio refuerza referencias simples y examen contable, sin declarar superioridad universal.
+
 ### Prioridad de investigación y condiciones para cambiarla
 
 La prioridad provisional de lectura se basa en mecanismo falsable, comparadores sencillos, costes identificables y viabilidad de los datos. Momentum temporal y control simple de exposición merecen contraste; reversión requiere distinguir la señal de su iliquidez; carry/pares merecen examen condicionado a financiación, costes y colas. La comparación de carteras refuerza el valor de usar pesos simples como referencia. Factores son útiles como controles. ML, estados y optimización deberán demostrar aportación incremental. Microestructura, market making y opciones requieren primero resolver sus datos y restricciones operativas.
@@ -279,6 +317,9 @@ Esta sección define preguntas de lectura y requisitos a diseñar en IV; **no es
 | Incertidumbre temporal | Bootstrap por bloques/estacionario u otro estimador justificado; sensibilidad a dependencia y colas; tamaño efectivo |
 | Regímenes | Diferenciar clasificación ex post de variables/estados disponibles ex ante |
 | Holdout final | Una apertura confirmatoria del procedimiento congelado; registro de acceso; no reutilizarlo tras rediseñar |
+| Noticias/consenso | Primera publicación y revisiones, corte anterior de consenso, duplicados por evento, precisión/zona/recepción; no usar engagement final o verdad conocida después |
+| LLM/NLP | Congelar versión/prompt/herramientas; preentrenamiento y etiquetas; separar clasificación, predicción y P&L; anonimizar no garantiza descontaminación |
+| Valor incremental y latencia | Precio/calendario/texto e híbridos con información/riesgo comparables; entrada después de demora total, costes de feed/inferencia y órdenes |
 
 Purged CV/embargo se justifican cuando hay intervalos de etiquetas o información solapada; no son una receta universal ni corrigen datos ya contaminados. Walk-forward valida un procedimiento móvil solo si cada refit/selección utiliza pasado. El Deflated Sharpe Ratio no subsana un historial de ensayos oculto ni demuestra persistencia; revisar supuestos de momentos, dependencia y número efectivo de intentos. Los intervalos estrechos bajo un proceso histórico no eliminan riesgo de cambio estructural.
 
@@ -326,7 +367,8 @@ Estos registros son heterogéneos por proveedor; no equivalen a un diagrama PRIS
 | Reversión y liquidez | Dos textos con métodos, costes examinados y contraste de autores/proveedores | DIR-007/013 inaccesibles; no ventaja neta ni réplica exacta; versión/autoría de DIR-008 identificada |
 | Funding de perpetuos | Dos trabajos empíricos distintos; funding y convergencia separados; costes parciales y resultados adversos documentados | Capital total, financiación, tarifas alcanzables, liquidación y causalidad de timestamps sin validación conjunta |
 | Opciones | Estrategia con cobertura y deducción parcial de costes; dos trabajos de primas/riesgo | Un contrato no generaliza; colas, funding/margen, bid/ask y selección; no convertir varianza en P&L |
-| Carteras | Comparación con 1/N y costes; evidencia de restricciones de liquidez y de factores | Supervivencia, capital, costes internos, trazabilidad temporal y superioridad incremental actual |
+| Carteras | Cuatro lecturas PORT, incluida PORT-04; comparación con 1/N, costes, liquidez y factores | Supervivencia, capital, costes internos, trazabilidad temporal y superioridad incremental actual |
+| Noticias, macro y sentimiento | Nueve lecturas y matriz de ocho fuentes documentadas; evidencia favorable/adversa y comparación incremental propuesta | Mai/IMF parciales, cobertura geográfica/reciente limitada; recepción/consenso, OOS neto y duración aprovechable de efectos sin verificar |
 | Contrastes y rastreo | Original adverso de momentum recuperado; consultas backward/forward, exclusiones y duplicados registradas | Nuevas referencias pertinentes siguen apareciendo; no se alcanzaron dos rondas sin evidencia material |
 | Reproducibilidad y métodos | Fuentes, versiones, páginas, hashes y disponibilidad declarados | No se ejecutó código de autores; paquetes/licencias no auditados en su totalidad; MET-01/02/06 y Cederburg pendientes de texto |
 
@@ -336,6 +378,10 @@ Las cinco ampliaciones y sus registros están enlazados en §2. El análisis con
 
 I.1–I.3: preguntas/protocolo documentados y acceso primario comprobado. I.4: las trece familias cuentan con mecanismo, evidencia y limitaciones; la cobertura ahora incluye métodos de las cuatro lagunas prioritarias. Sigue desigual: statistical arbitrage se cubre principalmente mediante pares, hay textos específicos pendientes y las autorías distintas no son réplicas exactas. I.5: versiones, afirmaciones y costes trazables en las fichas, con discrepancias conservadas; sin replicación. I.6: informe y mapa de lagunas actualizados. **I.7 y aceptación de la cobertura limitada siguen pendientes.** No se declara finalizada toda Fase I ni se inicia II.
 
-La Fase I no exige encontrar una estrategia ganadora: puede terminar con evidencia insuficiente. Tampoco se confunde revisión documental con experimento. La decisión propuesta al usuario es **aceptar esta revisión acotada y sus límites como base para Fase II**, o encargar una ampliación concreta de los originales/contrastes pendientes. Si se acepta, II deberá fijar recursos del operador y seleccionar pocas hipótesis por criterios explícitos; los experimentos seguirán esperando III/IV. No se cambia retrospectivamente ningún criterio para hacer pasar una estrategia.
+La Fase I no exige encontrar una estrategia ganadora: puede terminar con evidencia insuficiente. Tampoco se confunde revisión documental con experimento. El usuario optó por ampliar Fase I con noticias, sentimiento y eventos; esa ampliación queda integrada para revisión, sin presumir aceptación de la cobertura ni autorización de II. Los criterios adicionales están en [ROADMAP](ROADMAP.md) y la línea transversal. Cuando se autorice II, deberá incluir estrategias de noticias solas e híbridas y fijar recursos del operador antes de seleccionar hipótesis; los experimentos seguirán esperando III/IV. No se cambia retrospectivamente ningún criterio para hacer pasar una estrategia.
 
-**Continuidad:** esta versión incorpora el corpus del 13–15 de octubre y lecturas dirigidas del 16, reanudadas desde archivos/cache. La documentación y los registros son el punto de continuidad; una interrupción no obliga a repetir lo completado. Ninguna operación de mercado ni experimento queda programado automáticamente.
+**Continuidad:** versión 0.4 consolidada el 17 de octubre, con el corpus del 13–16 y la ampliación solicitada. Se reutilizaron archivos/cache; las lecturas y los límites se conservaron durante las interrupciones. La documentación y los registros son el punto de continuidad; una interrupción no obliga a repetir lo completado. Ninguna operación de mercado ni experimento queda programado automáticamente.
+
+### Auditoría de la ampliación de noticias
+
+Revisión adicional acotada: identidad de diez originales y sus hashes; cotejo de afirmaciones decisivas de SENT01, LLM-01, MAC-01 y EVT-02 contra textos locales. Confirmó el recuento 9+1, el umbral de coste, comparadores, nulos y problemas de cronología descritos. No encontró contradicciones materiales nuevas en esos cotejos. No fue auditoría exhaustiva, reconstrucción externa de eventos ni réplica financiera. Los registros de descarga reciben eventos posteriores de lectura, sin borrar fallos ni presentar fuentes parciales como completas.

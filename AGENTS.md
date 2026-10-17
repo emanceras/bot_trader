@@ -39,3 +39,15 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 - No descargar datos privados ni contratar servicios sin autorización. Respetar licencias y condiciones de acceso.
 - No habilitar trading real por defecto. Las futuras decisiones de arquitectura deberán incluir límites de riesgo, reconciliación, validación de órdenes y parada de emergencia.
 - No desactivar verificaciones TLS, firmas ni checksums para sortear problemas de acceso.
+
+## Noticias, sentimiento y eventos — ampliación de Fase I
+
+- Mantener esta línea en paralelo a las trece familias; consultar `docs/research/news-events.md`, fichas `evidence-news-*.md`, `news-data-sources.md` y logs antes de continuar. `portfolio-followup.md` registra el avance paralelo de PORT-04.
+- Distinguir anticipar, reaccionar después de recibir información y gestionar riesgo. CAR, Granger, accuracy/F1 y reducción de exposición no equivalen a P&L neto incremental.
+- Exigir versiones de primera publicación, revisiones, consenso anterior, zona/DST y precisión, primera observación del proveedor y recepción local cuando existan. No inventar timestamps ni usar texto final, engagement final o veracidad conocida después como si fueran iniciales.
+- Separar eventos independientes de noticias duplicadas, traducciones, actualizaciones y hilos. El agrupamiento usado para decidir debe ser causal; la evaluación debe controlar contaminación entre particiones.
+- Congelar modelo/snapshot, prompts, herramientas y fecha de conocimiento conocida o desconocida. Un split cronológico no elimina contaminación del preentrenamiento; anonimización tampoco lo prueba. Declarar limitaciones y exigir posterior evaluación prospectiva.
+- Comparar precio, calendario, texto y combinaciones con información/riesgo/costes/búsqueda comunes; incluir NLP sencillo antes de atribuir valor a complejidad. Incorporar demora completa, spread/impacto, costes del feed e inferencia.
+- Evaluar contratos, licencias y borrados; un endpoint histórico o una promesa comercial de tiempo real no certifica versiones point-in-time o SLA de recepción. No contratar ni solicitar secretos para esta revisión.
+- No imponer un límite máximo artificial a la rentabilidad. Aplicar idéntico rigor a toda magnitud, sin confundir límites de riesgo/capital con techo de beneficios. No seleccionar ganadores ni iniciar implementación/backtests en esta ampliación.
+- Publicación documental autorizada en esta sesión según D-013; comprobar cambios y envío normal al repositorio. Esa autorización no permite nuevas fases, operaciones de mercado ni modificación de criterios para favorecer resultados.
