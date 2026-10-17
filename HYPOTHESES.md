@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Creación:** 2026-10-13 · **Actualización:** 2026-10-17 · **Versión:** 0.4 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
+**Creación:** 2026-10-13 · **Actualización:** 2026-10-17 · **Versión:** 0.5 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
 Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro.
 
@@ -91,3 +91,16 @@ H-15–H-22 son **propuestas no probadas**, formuladas después de leer los estu
 Para H-15, el efecto contemporáneo no valida anticipación ni una reacción negociable; para H-19, menor riesgo no demuestra alpha. MAC-01/02 y EVT-01/02 orientan impacto/cronología; SENT01/02, valor social y nulos; LLM-01–03, incremento textual y contaminación. La evidencia de clasificación o de acciones no prueba ventaja cripto.
 
 Todas deberán fijar horizonte, efecto mínimo relevante, tamaño efectivo por eventos independientes, métricas, costes, incertidumbre y presupuesto de búsqueda antes de experimentar. **No existe un límite máximo artificial de rentabilidad admisible**; un retorno alto tampoco exime de integridad y evidencia. Fallos de datos pueden impedir evaluar una hipótesis sin demostrar que el mecanismo no exista. Todos los contadores experimentales siguen en cero.
+
+## Ampliación del 2026-10-17 — relaciones entre activos e interacciones
+
+**H-23/H-24: propuestas, no probadas ni seleccionadas.** Se formulan después de la lectura bibliográfica y no constituyen preregistro. H-00–H-22 se conservan; ninguna conclusión previa se modifica para acomodar la propuesta. Se integran en familias existentes, sin añadir otra. Fuentes y diseño conceptual: [relaciones e interacciones](docs/research/cross-asset-interactions.md).
+
+| ID y relación | Proposición y fundamento | Nulas y comparadores a fijar | Refutación/retirada o motivo para posponer | Datos necesarios |
+|---|---|---|---|---|
+| H-23; H-03/04/05/09/11/13 | Retardos de otros activos podrían aportar información condicional al pasado propio y factores comunes, con efecto dependiente de horizonte/liquidez | Nula predictiva: no mejora OOS sobre propio+factores; nula económica separada: incremento neto no supera el mínimo relevante predefinido. Comparar propio, propio+factores y +otros activos con igual periodo/información | Señal desaparece al sincronizar, controlar factores o usar precios frescos; falla en nuevas ventanas o vive menos que demora/fill; fees/capacidad consumen efecto. Datos insuficientes implican posponer, no probar inexistencia universal | Universo histórico dinámico, clocks/recepción, quotes/trades, factores estimados con pasado, liquidez/costes, funding disponible y acceso a cortos si aplica |
+| H-24; H-11/12/14 y H-18/20/22 | Variables débiles individualmente podrían modificar la utilidad de otras según contexto y mejorar una decisión conjunta | Nula de interacción: modelo con términos conjuntos no mejora OOS sobre aditivo comparable con los mismos inputs. Nula económica: no hay incremento neto relevante a riesgo/capital/costes comunes. Separar individual, lineal regularizado, aditivo no lineal e interacción | Aparente mejora explicada por más datos/búsqueda/exposición, desaparece al reentrenar ablaciones, depende de test reutilizado o aumenta costes/pérdidas. No confundir mejores etiquetas/error con beneficio | Variables con disponibilidad real, contexto inferido usando pasado, registro de selección/prompts/modelos cuando aplique y contabilidad conjunta de patas/turnover |
+
+No se afirma que las variables débiles o una mezcla de estrategias perdedoras contengan alpha. La diversificación reduce varianza bajo ciertas covarianzas, pero una mezcla estática con pesos no negativos que suman uno, de medias netas verdaderamente negativas, sigue teniendo media negativa si los costes son aditivos. Neteo y pesos adaptativos cambian supuestos y requieren hipótesis/contabilidad explícitas.
+
+Antes de cualquier experimento se fijarán target (retorno/riesgo), horizonte, información restringida, factores y posibles interacciones primarias, universo/particiones, efecto mínimo, inferencia bajo dependencia temporal/transversal, presupuesto y holdout. Comparar grafos aprendidos exige reestimar selección dentro de cada ventana. Las sensibilidades por regímenes no autorizan elegirlos ex post. H-00 sigue sin rechazarse.

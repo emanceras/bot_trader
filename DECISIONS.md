@@ -154,3 +154,24 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Continuidad:** fichas/cache recuperados tras interrupciones; se añaden eventos de lectura sin borrar descargas/fallos. Actualizados los seis documentos principales. La aprobación de Fase II y cualquier experimento siguen pendientes; cero órdenes y experimentos propios.
 
 - **Verificación documental del 2026-10-17:** 29 Markdown, 116 enlaces locales (incluidas dos anclas), 17 JSONL con 393 registros válidos y 68 hashes citados en Markdown encontrados en el cache. Además se cotejaron los hashes de las 22 páginas oficiales al registrar su lectura. Sin errores detectados en estas comprobaciones; no validan resultados financieros ni disponibilidad futura de las fuentes.
+
+## D-021 — Relaciones entre activos e interacciones: alcance acotado
+
+- **Fecha:** 2026-10-17. **Estado:** ampliación de Fase I autorizada expresamente por el usuario; marco de revisión documentado antes de completar nuevas lecturas.
+- **Decisión:** separar dos preguntas: información predictiva entre criptomonedas y mejora incremental por interacciones entre variables. Integrarlas en arbitraje estadístico/pares, factores, ML/DL, regímenes y carteras; no crear otra familia ni otorgar prioridad por el origen de la propuesta.
+- **Presupuesto:** reutilizar corpus; máximo seis textos nuevos, dos por bloque de lead-lag, factores/contexto e interacciones. Por bloque: hasta seis consultas bibliográficas con ocho resultados por consulta y doce intentos de recuperar originales. Parar con la tanda o límite de acceso/recursos, sin buscar hasta confirmar una hipótesis ni afirmar saturación.
+- **Alternativas:** equiparar correlación/Granger con causalidad o retorno, mezclar estrategias perdedoras esperando beneficio automático, o expandir indefinidamente universo y combinaciones. Descartadas como premisas. Los hallazgos pueden justificar posponer o descartar una línea.
+- **Límites:** solo literatura pública y documentación; sin datos de backtesting, código de estrategias, entrenamiento, experimentos ni Fase II. Las puertas de aprobación previas permanecen vigentes.
+
+## D-022 — Resultado acotado y disposición de las dos preguntas
+
+- **Fecha:** 2026-10-17. **Estado:** cuatro lecturas dirigidas completadas e integradas; corpus 53, Fase I abierta.
+- **Evidencia:** CX-01/02 sobre precedencia/redes cripto; CF-01 sobre contexto y dependencia; IX-01 sobre interacciones en acciones. No son cuatro pruebas de rentabilidad. Factores comunes, correlación condicionada y comparación OOS son cuestiones separadas; cotizar en BTC no neutraliza automáticamente su factor.
+- **Límites:** referencias completas de correlación parcial y predicción cripto con ML no accesibles; resumen/metadatos no permiten certificar desaparición tras factores ni rentabilidad incremental. Se cierra con cuatro textos de un máximo de seis por acceso/recursos y pertinencia, sin afirmar saturación. Interrupciones se resolvieron desde cache, conservando búsquedas/fallos.
+- **Disposición:** mantener H-23/H-24 como preguntas dentro de familias existentes, sin elegir candidatos. Posponer diseño operativo de lead-lag rápido y grafos profundos hasta demostrar información incremental y ejecución. Descartar la premisa de que mezclar reglas con media neta negativa genera beneficio automáticamente; cambios de coste/pesos/objetivo requieren otra prueba.
+- **Alternativa razonada:** controles simples de sincronización, pasado propio y factores antes de añadir complejidad; mayor relevancia metodológica para distinguir señal de artefacto. No se incorpora una familia nueva ni se implementa ahora.
+- **Evaluación futura:** comparaciones anidadas, aditivo no lineal, interacción preespecificada, ablaciones reentrenadas y mismo presupuesto; universo dinámico sin número arbitrario, dependencia transversal, costes/demora/capacidad. No se descargaron datasets, entrenaron modelos o ejecutaron experimentos; Fase II sigue pendiente de autorización.
+
+- **Auditoría del 2026-10-17, relaciones/interacciones:** revisión adicional de coherencia de síntesis, hipótesis, roadmap y decisiones contra las tres fichas, y cotejo dirigido de identidad/hash, tablas, Bonferroni y objetivo de reconstrucción de CX-02. Sin errores materiales en ese alcance; precisado que los pesos de la mezcla estática suman uno. CX-01 también cotejado localmente en ecuación 2 y tablas 1–4. No fue auditoría exhaustiva ni réplica financiera.
+
+- **Comprobación documental de esta entrega:** 33 Markdown, 144 enlaces locales (tres con ancla), 20 JSONL con 435 registros válidos y 76 hashes citados encontrados en el cache; sin incidencias. Comprobación de integridad documental, no validación económica ni verificación futura de los enlaces externos.

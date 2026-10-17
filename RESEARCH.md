@@ -1,6 +1,6 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-17 · **Versión:** 0.4 · **Estado:** revisión ampliada con fuentes verificadas y cobertura limitada; pendiente de aceptación de Fase I. Sin experimentos propios ni autorización de Fase II.
+**Actualizado:** 2026-10-17 · **Versión:** 0.5 · **Estado:** revisión ampliada con fuentes verificadas y cobertura limitada; pendiente de aceptación de Fase I. Sin experimentos propios ni autorización de Fase II.
 
 ## 1. Preguntas científicas principales
 
@@ -21,13 +21,15 @@
 
 15. **¿Qué aportan noticias y sentimiento, y cuándo era utilizable esa información?** Separar anticipación, reacción tras recepción y gestión del riesgo; medir información incremental respecto a precios/calendario, sorpresa frente a consenso anterior, revisiones y contaminación de modelos preentrenados. El desarrollo de estas preguntas está en la [nueva línea transversal](docs/research/news-events.md).
 
+16. **¿Las relaciones entre monedas aportan información adicional a factores y pasado propio, y las variables interactúan o solo se suman?** Separar dependencia, predicción OOS e incremento económico. Comparar individual/aditivo/interacción, controlando universo, relojes, numerario y múltiples búsquedas; no presuponer que mezclar reglas perdedoras produzca beneficio.
+
 Estas preguntas guían la lectura. Las hipótesis concretas y sus posibles refutaciones están en [HYPOTHESES.md](HYPOTHESES.md).
 
 ## 2. Alcance, acceso y límites de esta entrega
 
 El acceso externo funciona para una parte relevante de las fuentes: se recuperaron documentos de NBER, BIS, arXiv, editoriales abiertas y páginas de autores. El bloqueo general observado inicialmente queda superado en esta instancia; persisten denegaciones editoriales concretas y descargas que devuelven HTML en lugar de un PDF. No se requiere una clave de exchange para esta investigación.
 
-Se documentan las trece familias originales y una **línea transversal de noticias, sentimiento y eventos**, con **49 trabajos con texto completo disponible y fichas de las secciones examinadas**, incluidos trabajos metodológicos y de mercados tradicionales. Esto no significa lectura exhaustiva de todos sus apéndices, réplica de sus resultados ni 49 pruebas de rentabilidad cripto. Las versiones de trabajo y editoriales se agrupan; se declara cuál se leyó. Las fuentes accesibles solo como resumen/metadatos se mantienen aparte.
+Se documentan las trece familias originales y una **línea transversal de noticias, sentimiento y eventos**, con **53 trabajos con texto completo disponible y fichas de las secciones examinadas**, incluidos trabajos metodológicos y de mercados tradicionales. Esto no significa lectura exhaustiva de todos sus apéndices, réplica de sus resultados ni 53 pruebas de rentabilidad cripto. Las versiones de trabajo y editoriales se agrupan; se declara cuál se leyó. Las fuentes accesibles solo como resumen/metadatos se mantienen aparte.
 
 La base entregada el 15 de octubre comprende 28 trabajos:
 
@@ -62,7 +64,17 @@ La ampliación solicitada de noticias se investigó el 16 de octubre y se integr
 | Eventos e incorporación intradía | 2: EVT-01/02 | [Fichas](docs/research/evidence-news-execution.md) · [Registro](docs/research/search-news-execution.jsonl) |
 | Continuidad de carteras | 1: PORT-04, antes solo portada | [Ficha](docs/research/portfolio-followup.md) · [Registro](docs/research/search-portfolio-followup.jsonl) |
 
-**Corpus actual: 39 + 9 + 1 = 49 trabajos**. La [síntesis de noticias](docs/research/news-events.md) compara impacto, predicción, ejecución e híbridos; la [matriz de datos](docs/research/news-data-sources.md) revisa ocho fuentes y mantiene Benzinga pendiente. Sus 22 páginas oficiales de documentación no se suman como estudios de estrategia. [Registro de datos](docs/research/search-news-data.jsonl): prestaciones/precios documentados, sin mediciones de feed ni adquisición de históricos.
+**Corpus tras la ampliación de noticias: 39 + 9 + 1 = 49 trabajos**. La [síntesis de noticias](docs/research/news-events.md) compara impacto, predicción, ejecución e híbridos; la [matriz de datos](docs/research/news-data-sources.md) revisa ocho fuentes y mantiene Benzinga pendiente. Sus 22 páginas oficiales de documentación no se suman como estudios de estrategia. [Registro de datos](docs/research/search-news-data.jsonl): prestaciones/precios documentados, sin mediciones de feed ni adquisición de históricos.
+
+La ampliación posterior de **relaciones entre criptomonedas e interacciones** añade cuatro lecturas dirigidas, sin crear una familia adicional:
+
+| Bloque | Nuevas lecturas | Evidencia y fuentes |
+|---|---:|---|
+| Lead-lag y redes | 2: CX-01 Anderson; CX-02 Schnoering–Inzirillo | [Fichas](docs/research/evidence-cross-leadlag.md) · [Registro](docs/research/search-cross-leadlag.jsonl) |
+| Factores/contexto | 1: CF-01 Drożdż et al.; otras dos referencias parciales | [Ficha](docs/research/evidence-cross-factors.md) · [Registro](docs/research/search-cross-factors.jsonl) |
+| Interacciones y modelos | 1: IX-01 Gu–Kelly–Xiu, acciones; Filippou parcial | [Ficha](docs/research/evidence-variable-interactions.md) · [Registro](docs/research/search-variable-interactions.jsonl) |
+
+**Corpus actual: 49 + 4 = 53**. La [síntesis integrada](docs/research/cross-asset-interactions.md) separa predicción entre monedas e interacción entre variables, incluye fuentes adversas, nulas y límites de acceso. Dos bloques cierran con un original completo frente al máximo de dos, sin fingir agotamiento de toda la literatura. Las cuatro lecturas adicionales no acreditan cuatro estrategias rentables.
 
 Las fichas registran fuentes públicas, versiones, fechas, páginas/tablas, resultados adversos y límites. Los registros JSONL de la sección 10 conservan consultas, accesos y fallos. Los PDF/textos recuperados se conservan fuera del repositorio, en `/workspace/literature-cache/`; los hashes permiten identificar versiones. No se redistribuyen esos textos en Git.
 
@@ -115,6 +127,8 @@ Combinar cada consulta temática con `transaction costs`, `out-of-sample`, `repl
 | Carteras/combinaciones | `cryptocurrency AND ("portfolio allocation" OR "strategy combination" OR diversification OR ensemble)` |
 | Macro/regulación/eventos | `(bitcoin OR cryptocurrency) AND ("monetary policy surprises" OR inflation OR employment OR regulation OR "event study")` |
 | Noticias/sentimiento/NLP | `(bitcoin OR cryptocurrency) AND (news OR sentiment OR NLP OR "large language model") AND ("out of sample" OR trading OR "incremental value")` |
+| Dependencias entre criptomonedas | `cryptocurrency AND ("lead lag" OR "partial correlation" OR "common factor" OR "Granger causality") AND (stability OR costs OR "out of sample")` |
+| Interacciones e incremento | `cryptocurrency AND ("feature interactions" OR "nonlinear predictability" OR "cross cryptocurrency") AND (ablation OR additive OR "machine learning")` |
 | Incorporación y datos históricos | `cryptocurrency AND news AND (latency OR delay OR "first seen" OR "point in time" OR revisions OR consensus)` |
 
 Para la ampliación se añaden `reverse causality`, `no predictive power`, `transaction costs`, `publication timestamp`, `pretraining contamination`, `news revisions` y `surprise versus consensus` como contrastes previstos; las consultas realmente ejecutadas están en los nuevos JSONL, sin afirmar que se agotaron estas combinaciones.
@@ -220,7 +234,7 @@ Esta tabla reúne evidencia y límites para orientar la investigación. No es la
 | 13. Combinaciones/carteras | Diversificación y asignación. PORT-01 compara optimización con 1/N y costes; PORT-02 muestra sensibilidad a liquidez; PORT-03 declara beneficios de factores; PORT-04 contrasta estimación de medias y mínimo riesgo con 1/N | Diferencias pequeñas/no significativas en PORT-01; ranking sensible a liquidez en PORT-02; costes de factores en PORT-03; DL no mejora medias en PORT-04 y la penalización de turnover no favorece todas las variantes | P&L sincronizado, covarianzas pasadas, turnover/capital conjunto. Referencias simples imprescindibles; complejidad sin superioridad general demostrada |
 | 14. Noticias/sentimiento/eventos — transversal | Sorpresa, atención y desacuerdo; MAC-01/02 y EVT-01/02 describen impactos, SENT01 simulación y LLM-01 híbrido. Posibles usos direccionales y de riesgo separados | Nulos macro y de sentimiento, pérdida por fees en SENT01, baselines simples competitivos en LLM-01; texto corregido, preentrenamiento, eventos seleccionados y recepción sin resolver. Impacto no es P&L restante | Primeras versiones, consenso anterior, reloj de disponibilidad, licencias y costes de datos/inferencia. Viabilidad condicionada a horizonte y capital; reacción rápida no demostrada |
 
-Los desarrollos matemáticos se encuentran en las cinco síntesis originales y en la [línea de noticias](docs/research/news-events.md). Las familias se solapan: un modelo ML puede implementar momentum y un filtro de estados puede modificar una cartera. No son mecanismos independientes; la línea 14 puede cruzarse con las trece familias, sin sustituirlas.
+Los desarrollos matemáticos se encuentran en las cinco síntesis originales y en la [línea de noticias](docs/research/news-events.md). Las familias se solapan: un modelo ML puede implementar momentum y un filtro de estados puede modificar una cartera. No son mecanismos independientes; la línea 14 puede cruzarse con las trece familias, sin sustituirlas. La ampliación de relaciones entre activos e interacciones se integra en las filas 3–5 y 10–13, con controles de ejecución de 8–9: no añade una fila/familia nueva.
 
 ## 7. Informe crítico ampliado basado en fuentes
 
@@ -295,6 +309,20 @@ La comparación futura debe aislar precio, calendario, texto y combinaciones baj
 
 [Chen–Cai, arXiv v3](https://arxiv.org/abs/2501.12841v3), [PORT-04](docs/research/portfolio-followup.md), mantiene activa la línea previa. Con 50 pb proporcionales, sus variantes media–varianza y estimadores DL pierden frente a 1/N en la utilidad publicada; varios mínimos de varianza mejoran, con excepciones y sensibilidad al turnover. La penalización mejora DCC diario y empeora el mínimo de varianza muestral diario. Los totales publicados son sumas de retornos y la descripción mezcla log-retornos con factores `1+r`: no convertirlos en riqueza compuesta ni imputar un error al código no ejecutado. El estudio refuerza referencias simples y examen contable, sin declarar superioridad universal.
 
+### Relaciones entre criptomonedas e interacciones: dos hipótesis, sin nueva familia
+
+La [ampliación acotada](docs/research/cross-asset-interactions.md) se integra en arbitraje estadístico, factores, ML/DL, regímenes y carteras. **Correlación, precedencia, Granger, causalidad económica y beneficio neto son conclusiones distintas.** EX-01 sobre BTC entre venues tampoco demuestra que una moneda anticipe otra.
+
+[Anderson 2023](https://doi.org/10.21511/imfi.20(1).2023.15), CX-01, estima lead-lag BTC–ADA entre 16 y 118 segundos según mes, con tendencia decreciente; busca el último retardo significativo, sin prueba OOS, controles completos de factores o trading neto. [Schnoering–Inzirillo, arXiv v2](https://arxiv.org/abs/2201.02040v2), CX-02, estudia 69 monedas: a un minuto la mediana de enlaces baja de 1.332 contemporáneos a 20 con un retardo y 2 con dos; abundan ceros y la red se concentra en grandes caídas. Corrige por matriz, pero no controla factores de forma condicional ni demuestra beneficio. Su autoencoder reconstruye grafos; no es un predictor de retornos validado OOS.
+
+[Drożdż et al. 2020](https://doi.org/10.3390/e22091043), CF-01, describe dependencias que cambian por contexto, escala y amplitud. La afirmación de neutralizar BTC cotizando todo en BTC no se acepta como control factorial: un denominador común no equivale a residualizar betas. Es una objeción algebraica de esta revisión, no una réplica empírica. **No se verificó un original completo que muestre desaparición de un lead-lag específico al aplicar exactamente todos los controles propuestos**; la referencia de correlación parcial quedó en acceso parcial y esa pregunta permanece abierta.
+
+[Gu–Kelly–Xiu, WP revisado 2019](https://www.nber.org/system/files/working_papers/w25398/w25398.pdf), IX-01, aporta evidencia de interacciones/flexibilidad en acciones, no cripto. Su evaluación recursiva incluye mejoras y límites: OLS con todos los inputs pierde frente a pronóstico cero; redes más profundas no mejoran siempre y muchas diferencias se debilitan con corrección múltiple. Los inputs lineales ya contienen productos macro×característica; no es un contraste puro de ausencia/presencia de toda interacción. La mejora de predicción y los ensembles no dominan todas las carteras, con turnover alto y costes completos ausentes.
+
+La información conjunta puede ser útil aunque una variable sea débil marginalmente; **esta revisión no prueba esa ventaja neta en cripto**. Combinar variables, pronósticos y carteras son problemas diferentes. Una mezcla estática con pesos no negativos y costes aditivos no transforma medias verdaderas negativas en una media positiva por diversificación. Cambios de pesos, costes por neteo u objetivos distintos necesitan otra hipótesis comprobable.
+
+Se conservan H-23/H-24 como preguntas dentro de familias existentes, sin prioridad concedida por la solicitud. Se posponen el diseño operativo de lead-lag rápido y la ingeniería de grafos profundos hasta demostrar información incremental y ejecución. La alternativa metodológica relevante es primero controlar sincronización y factores con referencias sencillas. Universo futuro dinámico por liquidez/disponibilidad conocidas entonces, con entradas/bajas y sin fijar arbitrariamente número de monedas; no limitarlo a BTC/ETH ni elegir supervivientes actuales.
+
 ### Prioridad de investigación y condiciones para cambiarla
 
 La prioridad provisional de lectura se basa en mecanismo falsable, comparadores sencillos, costes identificables y viabilidad de los datos. Momentum temporal y control simple de exposición merecen contraste; reversión requiere distinguir la señal de su iliquidez; carry/pares merecen examen condicionado a financiación, costes y colas. La comparación de carteras refuerza el valor de usar pesos simples como referencia. Factores son útiles como controles. ML, estados y optimización deberán demostrar aportación incremental. Microestructura, market making y opciones requieren primero resolver sus datos y restricciones operativas.
@@ -368,6 +396,7 @@ Estos registros son heterogéneos por proveedor; no equivalen a un diagrama PRIS
 | Funding de perpetuos | Dos trabajos empíricos distintos; funding y convergencia separados; costes parciales y resultados adversos documentados | Capital total, financiación, tarifas alcanzables, liquidación y causalidad de timestamps sin validación conjunta |
 | Opciones | Estrategia con cobertura y deducción parcial de costes; dos trabajos de primas/riesgo | Un contrato no generaliza; colas, funding/margen, bid/ask y selección; no convertir varianza en P&L |
 | Carteras | Cuatro lecturas PORT, incluida PORT-04; comparación con 1/N, costes, liquidez y factores | Supervivencia, capital, costes internos, trazabilidad temporal y superioridad incremental actual |
+| Relaciones/interacciones | Cuatro lecturas, antecedentes reutilizados; controles, comparadores y H-23/H-24 propuestos | Ventaja crosscoin neta OOS e interacción cripto marginalmente débil no demostradas; originales de controles exactos parciales |
 | Noticias, macro y sentimiento | Nueve lecturas y matriz de ocho fuentes documentadas; evidencia favorable/adversa y comparación incremental propuesta | Mai/IMF parciales, cobertura geográfica/reciente limitada; recepción/consenso, OOS neto y duración aprovechable de efectos sin verificar |
 | Contrastes y rastreo | Original adverso de momentum recuperado; consultas backward/forward, exclusiones y duplicados registradas | Nuevas referencias pertinentes siguen apareciendo; no se alcanzaron dos rondas sin evidencia material |
 | Reproducibilidad y métodos | Fuentes, versiones, páginas, hashes y disponibilidad declarados | No se ejecutó código de autores; paquetes/licencias no auditados en su totalidad; MET-01/02/06 y Cederburg pendientes de texto |
@@ -378,9 +407,9 @@ Las cinco ampliaciones y sus registros están enlazados en §2. El análisis con
 
 I.1–I.3: preguntas/protocolo documentados y acceso primario comprobado. I.4: las trece familias cuentan con mecanismo, evidencia y limitaciones; la cobertura ahora incluye métodos de las cuatro lagunas prioritarias. Sigue desigual: statistical arbitrage se cubre principalmente mediante pares, hay textos específicos pendientes y las autorías distintas no son réplicas exactas. I.5: versiones, afirmaciones y costes trazables en las fichas, con discrepancias conservadas; sin replicación. I.6: informe y mapa de lagunas actualizados. **I.7 y aceptación de la cobertura limitada siguen pendientes.** No se declara finalizada toda Fase I ni se inicia II.
 
-La Fase I no exige encontrar una estrategia ganadora: puede terminar con evidencia insuficiente. Tampoco se confunde revisión documental con experimento. El usuario optó por ampliar Fase I con noticias, sentimiento y eventos; esa ampliación queda integrada para revisión, sin presumir aceptación de la cobertura ni autorización de II. Los criterios adicionales están en [ROADMAP](ROADMAP.md) y la línea transversal. Cuando se autorice II, deberá incluir estrategias de noticias solas e híbridas y fijar recursos del operador antes de seleccionar hipótesis; los experimentos seguirán esperando III/IV. No se cambia retrospectivamente ningún criterio para hacer pasar una estrategia.
+La Fase I no exige encontrar una estrategia ganadora: puede terminar con evidencia insuficiente. Tampoco se confunde revisión documental con experimento. El usuario amplió Fase I con noticias y después con relaciones entre monedas/interacciones; ambas ampliaciones quedan integradas para revisión, sin presumir aceptación de la cobertura ni autorización de II. Los criterios adicionales están en [ROADMAP](ROADMAP.md) y la línea transversal. Cuando se autorice II, deberá incluir estrategias de noticias solas e híbridas y fijar recursos del operador antes de seleccionar hipótesis; los experimentos seguirán esperando III/IV. No se cambia retrospectivamente ningún criterio para hacer pasar una estrategia.
 
-**Continuidad:** versión 0.4 consolidada el 17 de octubre, con el corpus del 13–16 y la ampliación solicitada. Se reutilizaron archivos/cache; las lecturas y los límites se conservaron durante las interrupciones. La documentación y los registros son el punto de continuidad; una interrupción no obliga a repetir lo completado. Ninguna operación de mercado ni experimento queda programado automáticamente.
+**Continuidad:** versión 0.5 consolidada el 17 de octubre, con el corpus del 13–17 y las dos ampliaciones solicitadas. Se reutilizaron archivos/cache; las lecturas y los límites se conservaron durante las interrupciones. La documentación y los registros son el punto de continuidad; una interrupción no obliga a repetir lo completado. Ninguna operación de mercado ni experimento queda programado automáticamente.
 
 ### Auditoría de la ampliación de noticias
 

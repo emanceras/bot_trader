@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-17 · Versión: 0.4 · Alcance autorizado: **Fase I**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-17 · Versión: 0.5 · Alcance autorizado: **Fase I**.
 
 ## Objetivo y estado general
 
@@ -8,7 +8,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 
 | Fase | Entregable principal | Dependencias | Estado |
 |---|---|---|---|
-| I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | Revisión ampliada: 49 textos; noticias/sentimiento integrados en paralelo; cobertura y aceptación pendientes |
+| I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | Revisión ampliada: 53 textos; noticias y relaciones/interacciones integradas; cobertura y aceptación pendientes |
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Planificada |
 | III. Laboratorio | Arquitectura Python modular y capacidades verificadas | II aceptada; datos y licencias identificados | Planificada |
 | IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Planificada |
@@ -31,7 +31,7 @@ Formular preguntas contrastables y evaluar qué evidencia existe, cuánto se pue
 | I.3 | Acceso a fuentes | Red del entorno | Al menos fuentes primarias relevantes consultables; registrar fallos y nivel de acceso | Comprobado: contenido primario recuperado; persisten bloqueos de algunas fuentes |
 | I.4 | Revisión de las 13 familias | I.2–I.3 | Por familia: mecanismo, evidencia positiva/negativa, OOS, costes, datos, sesgos y viabilidad | Documentado para las 13 familias; ampliadas las cuatro lagunas prioritarias, límites de cobertura explícitos |
 | I.5 | Auditoría de bibliografía | I.4 | Identidad/versiones verificadas; afirmaciones enlazadas a fuente y ubicación; no contar preprint/publicación dos veces | Auditadas fichas y coherencia de la síntesis; originales inaccesibles y réplicas pendientes |
-| I.6 | Primer informe y mapa de lagunas | I.1–I.4 | Conclusiones limitadas a lo observado; prioridades de lectura justificadas | Documentado con fuentes verificadas y lagunas, versión 0.4 |
+| I.6 | Primer informe y mapa de lagunas | I.1–I.4 | Conclusiones limitadas a lo observado; prioridades de lectura justificadas | Documentado con fuentes verificadas y lagunas, versión 0.5 |
 | I.7 | Revisión y aprobación del usuario | I.5–I.6 | Usuario acepta la cobertura o sus límites y autoriza el siguiente paso | Pendiente |
 
 ### Ampliación paralela: noticias, sentimiento y eventos
@@ -46,7 +46,18 @@ Solicitada por el usuario; **mantiene las trece familias y sus pendientes**. Las
 | I.N4 | Integración comparativa; I.4 + I.N2–I.N3 | Noticias solas e híbridos frente a precio/calendario, igual información/riesgo; conservar líneas anteriores | Integrado; PORT-04 añade continuidad de carteras, sin ranking ganador |
 | I.N5 | Auditoría y revisión; I.5–I.6 + I.N1–I.N4 | Trazabilidad, límites y pendientes revisables; aceptación del usuario para cerrar alcance | Cotejo acotado de fuentes realizado; aceptación pendiente |
 
-**Aceptación de la fase completa:** cumplir I.1–I.7 e incorporar I.N1–I.N5 con sus límites expresamente aceptados. La revisión documental no exige que una fuente comercial ya esté contratada ni que un feed esté implementado; sí exige distinguir qué aptitud sigue sin verificar. Para cada familia con literatura localizable se buscarán al menos un estudio primario y un contraste independiente, además de un trabajo metodológico cuando corresponda. Esto es un mínimo de cobertura, no una garantía de exhaustividad: si no aparecen estudios o resultados negativos, se registrarán las consultas y la laguna, sin inventar evidencia. Las afirmaciones decisivas requieren lectura de métodos, costes y validación del texto completo. Una revisión con solo referencias semilla no satisface este criterio.
+### Ampliación acotada: relaciones entre criptomonedas e interacciones
+
+Se integra en las familias existentes; no se abre otra familia ni se cambia la prioridad por iniciativa del usuario. Presupuesto previo D-021: hasta seis textos nuevos; entregados cuatro, con originales inaccesibles separados y sin búsqueda de confirmación.
+
+| ID | Tarea/dependencia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| I.X1 | Revisar corpus y dos preguntas; I.1–I.4 | Diferenciar predicción crosscoin e interacción, antecedentes sin duplicar | Documentado |
+| I.X2 | Contraste bibliográfico; I.3 + I.X1 | Métodos/versiones, favorables/adversos, OOS/factores/ejecución y límites | Cuatro lecturas dirigidas, referencias parciales explícitas; sin saturación |
+| I.X3 | Integración y evaluación futura; I.X2 | Comparadores propio/factores/otros activos e individual/aditivo/interacción; universo dinámico, ablaciones y descartes | Documentado en síntesis y H-23/H-24; no implementado |
+| I.X4 | Revisión de entrega; I.5–I.6 + I.X1–I.X3 | Trazabilidad, no nuevas familias ni ganadores, límites revisables | Integrado; aceptación del usuario pendiente |
+
+**Aceptación de la fase completa:** cumplir I.1–I.7 e incorporar I.N1–I.N5 e I.X1–I.X4 con sus límites expresamente aceptados. La revisión documental no exige que una fuente comercial ya esté contratada ni que un feed esté implementado; sí exige distinguir qué aptitud sigue sin verificar. Para cada familia con literatura localizable se buscarán al menos un estudio primario y un contraste independiente, además de un trabajo metodológico cuando corresponda. Esto es un mínimo de cobertura, no una garantía de exhaustividad: si no aparecen estudios o resultados negativos, se registrarán las consultas y la laguna, sin inventar evidencia. Las afirmaciones decisivas requieren lectura de métodos, costes y validación del texto completo. Una revisión con solo referencias semilla no satisface este criterio.
 
 **Condición de cierre de la búsqueda:** dos rondas documentadas de búsqueda hacia atrás/hacia delante sin nueva evidencia material, o límite explícito de acceso/recursos comunicado al usuario. La aceptación de una cobertura limitada exige documentar qué conclusiones quedan abiertas.
 
@@ -62,6 +73,8 @@ Tareas previstas:
 - II.4: fijar referencias comunes —efectivo definido, buy and hold, momentum simple y reversión simple cuando sean aplicables— y ordenar candidatos por razones explícitas. Documentar alternativas descartadas.
 - II.5: estimar esfuerzo, disponibilidad de datos y presupuesto de búsqueda para cada candidato. Cualquier ML necesita un benchmark simple con las mismas variables y costes.
 - II.6: incluir noticias solas e híbridos en la matriz común, separados por anticipación/reacción/riesgo; comparar incremento frente a precio/calendario y modelos textuales simples. Examinar capital frente a costes fijos del feed/inferencia y demora alcanzable. No imponer un techo artificial de rentabilidad ni confundir un límite de riesgo con ese techo.
+
+- II.7: evaluar H-23/H-24 dentro de las familias actuales, sin preferencia automática; decidir continuar/posponer/descartar por datos, incrementalidad y viabilidad. No fijar un número de criptomonedas: justificar universo operable y representativo por información histórica, liquidez y capacidad.
 
 **Aceptación:** matriz trazable; requisitos del operador documentados; hipótesis primarias/ secundarias diferenciadas; lista de candidatos y descartes razonada; aprobación del usuario. Ni puntuaciones arbitrarias ni probabilidades de éxito inferidas de etiquetas cualitativas.
 
@@ -96,6 +109,8 @@ Tareas previstas:
 - IV.7: incertidumbre con bootstrap temporal apropiado; dependencia/colas; múltiples pruebas y selección; Deflated Sharpe Ratio como diagnóstico condicionado a sus supuestos; pruebas de sensibilidad y de regímenes definidos sin futuro.
 - IV.8: congelar registro, configuración y criterios; fechar y justificar cualquier enmienda antes de usar datos nuevos.
 - IV.9: para noticias, joins por disponibilidad, particiones por grupos de eventos/duplicados y etiquetas solapadas; primeras publicaciones y consenso versionado. Congelar NLP/LLM, prompts, herramientas y conocimiento previo; registrar incertidumbre del preentrenamiento. Definir ablaciones precio/calendario/texto y estrés de demora/correcciones antes de resultados.
+
+- IV.10: si se seleccionan estas hipótesis, comparar propio→factores→otros activos e individual→aditivo→interacción con presupuesto común; reestimar universo/grafo/factores solo dentro del desarrollo. Bloquear fechas compartidas entre activos, controlar etiquetas solapadas y dependencia transversal; probar ablaciones y demora sin consultar holdout.
 
 **Aceptación:** diseño reproducible y aprobado; ninguna decisión dependiente de resultados ocultos; presupuesto de pruebas trazable; holdout inaccesible por defecto; costes y rechazo definidos. No se aceptan umbrales elegidos tras ver qué estrategia pasa.
 
@@ -154,11 +169,11 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 
 ## Punto de reanudación — consolidación del 2026-10-17
 
-**Entregado:** preguntas y protocolo; criterios de evidencia; revisión de 13 familias y línea transversal de noticias; 49 textos con lectura dirigida, fuentes parciales diferenciadas y resultados adversos; roadmap completo. La síntesis vigente es [RESEARCH.md](RESEARCH.md), §§2, 6–7 y 10. Las notas `gap-*.md` amplían las fichas originales sin borrar sus versiones ni fallos.
+**Entregado:** preguntas y protocolo; criterios de evidencia; revisión de 13 familias y línea transversal de noticias; 53 textos con lectura dirigida, fuentes parciales diferenciadas y resultados adversos; roadmap completo. La síntesis vigente es [RESEARCH.md](RESEARCH.md), §§2, 6–7 y 10. Las notas `gap-*.md` amplían las fichas originales sin borrar sus versiones ni fallos.
 
 **Auditoría de aceptación:** I.1/I.2 documentadas; I.3 comprobada con acceso parcial; I.4 ampliada en las cuatro lagunas prioritarias, con cobertura desigual y algunos originales pendientes; I.5 trazable, con comprobaciones de identidad/afirmaciones, sin réplica; I.6 documentada. I.7 y aceptación de límites pendientes. No se cumplieron dos rondas de saturación. **La Fase I no se declara finalizada ni se inicia II.** La insuficiencia de evidencia neta es una conclusión válida; no se exige encontrar un ganador para cerrar una revisión.
 
-**Ampliación vigente:** el usuario eligió ampliar Fase I con noticias, sentimiento y eventos. Se entregan la síntesis, fichas, datos e hipótesis para revisión. No se presupone aceptación de los límites ni inicio de II. Las lecturas pendientes permanecen identificadas; la condición de cierre no cambia. Las referencias pendientes —entre ellas DIR-007/013, Cederburg y métodos originales— se identifican en RESEARCH y las fichas; no se les atribuyen resultados no leídos.
+**Ampliación vigente:** el usuario añadió noticias y después relaciones entre criptomonedas/interacciones; ambas siguen dentro de Fase I. Se entregan la síntesis, fichas, datos e hipótesis para revisión. No se presupone aceptación de los límites ni inicio de II. Las lecturas pendientes permanecen identificadas; la condición de cierre no cambia. Las referencias pendientes —entre ellas DIR-007/013, Cederburg y métodos originales— se identifican en RESEARCH y las fichas; no se les atribuyen resultados no leídos.
 
 **Próxima fase, aún sin autorización:** II concretaría capital, moneda, jurisdicción, exchanges/productos accesibles, frecuencia, tolerancia al drawdown y presupuesto de datos; después compararía hipótesis por criterios explícitos. III/IV deberán preparar laboratorio y protocolo antes de cualquier ensayo. No hace falta cuenta financiada ni claves para decidir II.
 
@@ -168,6 +183,12 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 
 - **2026-10-16–17:** integrados nueve estudios con lectura dirigida y un contraste adicional de carteras (PORT-04); corpus de 49. Evaluadas secciones relevantes de 22 páginas oficiales de datos, fuera del recuento académico. Actualizados preguntas, matriz transversal, H-15–H-22 y tareas de II/III/IV; sin implementarlas.
 - **2026-10-17:** auditoría acotada de identidad/hash de diez originales y afirmaciones decisivas de cuatro estudios de noticias; sin contradicciones materiales nuevas en los cotejos. Se conservan discrepancias de fuentes, resultados adversos y accesos parciales. No equivale a réplica ni cierre de toda la fase.
-- **Siguiente trabajo dentro de I:** revisar la entrega y sus lagunas: consenso/recepción histórica, contraste macro más reciente/geográficamente amplio, réplicas netas con retrasos y referencias parciales. No reiniciar búsquedas completadas ni buscar hasta obtener una ganadora. Fase II sigue pendiente de aprobación explícita.
+- **Siguiente trabajo dentro de I:** revisar las entregas acotadas y sus lagunas, incluidas consenso/recepción, control exacto de factores e interacciones netas OOS. Priorizar una nueva lectura solo si puede cambiar una decisión y cabe en un límite explícito; no prolongar la revisión para conseguir confirmación. No reiniciar búsquedas completadas ni buscar hasta obtener una ganadora. Fase II sigue pendiente de aprobación explícita.
 
 - **Verificación documental del 2026-10-17:** 29 Markdown, 116 enlaces locales (incluidas dos anclas), 17 JSONL con 393 registros válidos y 68 hashes citados en Markdown encontrados en el cache. Además se cotejaron los hashes de las 22 páginas oficiales al registrar su lectura. Sin errores detectados en estas comprobaciones; no validan resultados financieros ni disponibilidad futura de las fuentes.
+
+- **2026-10-17, relaciones e interacciones:** cuatro nuevas lecturas (CX-01/02, CF-01, IX-01), total 53; tres textos cripto descriptivos y un contraste en acciones. Dos hipótesis y comparadores/ablaciones futuros, sin nuevas familias ni estrategias. Pospuestos diseño operativo rápido y complejidad de grafos; originales parciales y falta de prueba incremental neta preservados. Cierre de esta tanda, no aceptación de toda Fase I.
+
+- **Auditoría del 2026-10-17, relaciones/interacciones:** revisión adicional de coherencia de síntesis, hipótesis, roadmap y decisiones contra las tres fichas, y cotejo dirigido de identidad/hash, tablas, Bonferroni y objetivo de reconstrucción de CX-02. Sin errores materiales en ese alcance; precisado que los pesos de la mezcla estática suman uno. CX-01 también cotejado localmente en ecuación 2 y tablas 1–4. No fue auditoría exhaustiva ni réplica financiera.
+
+- **Comprobación documental de esta entrega:** 33 Markdown, 144 enlaces locales (tres con ancla), 20 JSONL con 435 registros válidos y 76 hashes citados encontrados en el cache; sin incidencias. Comprobación de integridad documental, no validación económica ni verificación futura de los enlaces externos.

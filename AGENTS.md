@@ -51,3 +51,11 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 - Evaluar contratos, licencias y borrados; un endpoint histórico o una promesa comercial de tiempo real no certifica versiones point-in-time o SLA de recepción. No contratar ni solicitar secretos para esta revisión.
 - No imponer un límite máximo artificial a la rentabilidad. Aplicar idéntico rigor a toda magnitud, sin confundir límites de riesgo/capital con techo de beneficios. No seleccionar ganadores ni iniciar implementación/backtests en esta ampliación.
 - Publicación documental autorizada en esta sesión según D-013; comprobar cambios y envío normal al repositorio. Esa autorización no permite nuevas fases, operaciones de mercado ni modificación de criterios para favorecer resultados.
+
+## Relaciones entre criptomonedas e interacciones — Fase I
+
+- Consultar `docs/research/cross-asset-interactions.md`, sus tres fichas y registros antes de reanudar. D-021/D-022 limitan la tanda a un máximo de seis textos; entregados cuatro con lagunas explícitas. No reiniciar búsquedas ni ampliarlas para obtener confirmación.
+- Integrar en familias existentes; separar predicción entre monedas de interacciones entre variables. No priorizar propuestas por venir del usuario ni cambiar conclusiones previas para acomodarlas.
+- Distinguir mismo activo entre venues de monedas distintas; sincronización/recepción, numerario, factores comunes y pasado propio preceden a atribuir incremento. Precio en BTC no equivale a neutralidad al factor BTC.
+- Un modelo multivariable, importancia/SHAP, autoencoder o grafo no prueba interacción predictiva ni beneficio. Exigir comparación aditiva con mismos inputs/presupuesto y ablaciones; separar mezcla de P&L de combinación de variables.
+- Universo futuro dinámico, elegibilidad conocida antes, liquidez/capacidad y bajas; ningún número de monedas arbitrario ni selección de supervivientes. La complejidad y un p-value no justifican operar. Mantener nulas, resultados adversos, criterios de posponer/descartar y todas las restricciones de Fase I.
