@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-18 · Versión: 0.7 · Alcance autorizado: **Fase II documental**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-18 · Versión: 0.8 · Alcance autorizado: **Fase II documental**.
 
 ## Objetivo y estado general
 
@@ -9,7 +9,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | Fase | Entregable principal | Dependencias | Estado |
 |---|---|---|---|
 | I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | Cierre limitado aceptado por el usuario; 53 trabajos, sin saturación ni validación económica |
-| II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | En curso: comparación y propuesta documentadas; restricciones y selección definitiva pendientes |
+| II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Propuesta final documentada tras preferencias; pendiente de aceptación del usuario, con dependencias futuras explícitas |
 | III. Laboratorio | Arquitectura Python modular y capacidades verificadas | II aceptada; datos y licencias identificados | Planificada |
 | IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Planificada |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
@@ -86,21 +86,24 @@ Tareas y criterios de aceptación conservados; progreso documental de II al 2026
 
 - II.7: evaluar H-23/H-24 dentro de las familias actuales, sin preferencia automática; decidir continuar/posponer/descartar por datos, incrementalidad y viabilidad. No fijar un número de criptomonedas: justificar universo operable y representativo por información histórica, liquidez y capacidad.
 
+- II.8: elegir escalas por mecanismo, disponibilidad y fricciones, separando los relojes de información/operación; proponer proceso finito de exploración, validación y test final. Mantener prioridad, reserva con condición y construcción sin justificación diferenciadas; capital o sencillez no son límites al potencial económico.
+
 - Aplicar a II.2–II.5 el dictamen de cobertura: distinguir variables opcionales on-chain/posicionamiento/eventos de los requisitos obligatorios de universo, cambios de token y margen. Si una hipótesis depende de ellas, verificar definición, disponibilidad histórica y coste antes de admitirla; posponerla si no puede comprobarse. Esta condición está documentada, no ejecutada; no obliga a añadir candidatos ni a investigar todos los indicadores.
 
 **Aceptación:** matriz trazable; requisitos del operador documentados; hipótesis primarias/ secundarias diferenciadas; lista de candidatos y descartes razonada; aprobación del usuario. Ni puntuaciones arbitrarias ni probabilidades de éxito inferidas de etiquetas cualitativas.
 
 | Tarea | Progreso comprobable | Pendiente para aceptar II |
 |---|---|---|
-| II.1 | Tres escenarios provisionales y cinco grupos de preguntas en [FEASIBILITY](docs/phase-ii/FEASIBILITY.md) | Respuestas del operador; no convertir escenarios en preferencias |
-| II.2 | [COMPARISON](docs/phase-ii/COMPARISON.md): dos matrices cubren H-00–H-24 y trazan los 53 trabajos | Revisar cualquier cambio material causado por restricciones |
-| II.3 | Filtros de datos, costes, capital, riesgo y reproducción explícitos | Concretar acceso y condiciones documentales relevantes; datasets aún no auditados ni adquiridos |
-| II.4 | [SELECTION](docs/phase-ii/SELECTION.md): C1/C3 primarias propuestas, C2 secundaria de riesgo, C4/C5 reservas; referencias y aplazamientos razonados | Selección definitiva y aceptación del usuario |
-| II.5 | Necesidades y esfuerzo relativos por candidata; reglas para acotar comparaciones | Presupuesto/recursos del operador y alcance final; umbrales, particiones y presupuesto experimental se congelarán en IV |
+| II.1 | [FEASIBILITY](docs/phase-ii/FEASIBILITY.md): USD/España, recursos personales y escenarios 1.000/5.000/10.000; capital/riesgo reales abiertos deliberadamente, con puertas | Aceptar que estas decisiones pueden esperar al trabajo que dependa de ellas; no repetir las preguntas resueltas |
+| II.2 | [COMPARISON](docs/phase-ii/COMPARISON.md): dos matrices cubren H-00–H-24 y trazan los 53 trabajos; preferencias incorporadas | Aceptación documental; ninguna rentabilidad propia |
+| II.3 | Filtros de datos, costes, capital, riesgo y reproducción; [ACCESS](docs/phase-ii/ACCESS.md) distingue entidad/producto y situación jurídica | Aceptar dependencias explícitas; ningún venue/dataset homologado. Su aptitud se verificará antes de comprometer o usar el componente dependiente |
+| II.4 | [SELECTION](docs/phase-ii/SELECTION.md): C1/C3 prioritarias propuestas, C2 secundaria, C4/C5 reservas; referencias, adversos y reconsideración razonados | Aceptación de la propuesta final; no admisión experimental automática |
+| II.5 | Tres niveles de recursos, costes separados y sensibilidad F/K; capitales sin mínimo/máximo | Presupuesto concreto antes del trabajo/gasto dependiente; protocolo y presupuesto de contrastes en IV |
 | II.6 | Noticias solas, híbridos y riesgo por eventos comparados; latencia, versiones y gasto fijo explícitos | Reabrir solo una cuestión de fuente que cambie admisión; líneas primarias textuales pospuestas |
-| II.7 | H-23/H-24 diferenciadas; universo dinámico, ablaciones y comparadores definidos conceptualmente | Elegir alcance informativo/operable tras restricciones; sin número arbitrario de activos |
+| II.7 | H-23/H-24 diferenciadas; C3-I informativa y C3-X interacción, sin cambiar nulas; universo dinámico y ablaciones | Alcance informativo/operable y datos antes de protocolo, sin número arbitrario ni filtro de rentabilidad marginal |
+| II.8 | [HORIZONS](docs/phase-ii/HORIZONS.md): escalas justificadas, relojes separados y proceso prospectivo finito | Aceptar proceso; valores, multiplicidad y particiones se congelarán antes de ensayos autorizados |
 
-**Estado de aceptación:** propuesta documental revisada; II permanece abierta. No hay estrategias implementadas, probadas ni validadas. Cinco fichas no son cinco estrategias aprobadas ni autorización para experimentar.
+**Estado de aceptación:** propuesta final documental preparada; II permanece abierta únicamente a su revisión/aceptación y a cambios que esa revisión motive. Capital real, exchange y riesgo definitivos no son requisitos de cierre documental si se aceptan sus puertas futuras. No hay estrategias implementadas, probadas ni validadas. Cinco fichas no son cinco estrategias aprobadas ni autorización para experimentar. Aceptar II y autorizar III son decisiones separadas.
 
 ## Fase III — Laboratorio cuantitativo
 
@@ -136,6 +139,8 @@ Tareas previstas:
 
 - IV.10: si se seleccionan estas hipótesis, comparar propio→factores→otros activos e individual→aditivo→interacción con presupuesto común; reestimar universo/grafo/factores solo dentro del desarrollo. Bloquear fechas compartidas entre activos, controlar etiquetas solapadas y dependencia transversal; probar ablaciones y demora sin consultar holdout.
 
+- IV.11: concretar el proceso de horizontes de II: reloj informativo, lookback, target, mantenimiento, rebalanceo, ejecución y riesgo; familia finita motivada y sensibilidades. Registrar todos los horizontes y ajustes descartados en desarrollo; validación del procedimiento completo y test final único. No ralentizar una señal ni elegir intervalos por rendimiento retrospectivo sin contabilizar selección. USD, conversiones y escenarios de capital/riesgo serán comunes en los comparadores pertinentes.
+
 **Aceptación:** diseño reproducible y aprobado; ninguna decisión dependiente de resultados ocultos; presupuesto de pruebas trazable; holdout inaccesible por defecto; costes y rechazo definidos. No se aceptan umbrales elegidos tras ver qué estrategia pasa.
 
 ## Fase V — Experimentación
@@ -170,7 +175,7 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 | Asunto | Impacto | Resolución prevista |
 |---|---|---|
 | Acceso parcial y cobertura limitada | Algunos originales siguen inaccesibles; no todas las familias tienen contraste neto independiente | Aceptación de límites; recuperar una fuente solo si cambia una decisión concreta, sin nueva búsqueda general |
-| Capital, jurisdicción, exchange y horizonte desconocidos | Viabilidad minorista solo cualitativa | Concretar en II, antes de elegir candidatos |
+| USD/España confirmados; capital real, riesgo, exchange, horizonte y presupuesto abiertos | Admisión experimental y operabilidad aún condicionadas | Puertas concretas en SELECTION/FEASIBILITY; valores antes del trabajo dependiente, sin bloquear propuesta documental |
 | Datos point-in-time y deslistados | Sesgo de supervivencia y selección | Auditar proveedores antes de aprobar III/IV |
 | Cambios de microestructura y costes | Evidencia antigua puede no generalizar | Replicación temporal y pruebas prospectivas |
 | Múltiples decisiones de investigación | Inflación de resultados | Registro integral y presupuesto de búsqueda |
@@ -195,9 +200,9 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 
 **Autorización:** cierre limitado de I aceptado; II documental autorizada, D-025. No repetir la revisión general ni solicitar de nuevo la aprobación de I. Los 53 trabajos y H-00–H-24 siguen siendo el corpus; ninguna hipótesis tiene resultados propios.
 
-**Entregado en II:** [matriz](docs/phase-ii/COMPARISON.md), [viabilidad/universo](docs/phase-ii/FEASIBILITY.md) e [informe de candidatas](docs/phase-ii/SELECTION.md). C1 momentum y C3 información combinada son preguntas primarias propuestas; C2 es comparación secundaria de riesgo; C4 relaciones entre activos y C5 carry son reservas condicionadas. D-026/D-027 conservan método y justificación.
+**Entregado en II:** [matriz](docs/phase-ii/COMPARISON.md), [viabilidad/universo](docs/phase-ii/FEASIBILITY.md), [propuesta final](docs/phase-ii/SELECTION.md), [horizontes](docs/phase-ii/HORIZONS.md) y [acceso](docs/phase-ii/ACCESS.md). C1/C3 prioritarias, C2 secundaria, C4/C5 reservas; C3 distingue combinación aditiva útil de complejidad incremental. D-026/D-027 conservan la propuesta inicial; D-028–D-030 incorporan preferencias y revisión final.
 
-**Siguiente trabajo:** recibir capital/moneda/riesgo, jurisdicción/venues, productos/margen, horizonte/supervisión y presupuesto; ajustar la selección y resolver solo las dependencias documentales decisivas. Cerrar II exige aceptación explícita. III y cualquier dataset de backtesting, implementación, entrenamiento o experimento siguen sin autorización. No hacen falta claves ni cuenta financiada.
+**Siguiente trabajo:** revisión y aceptación del usuario de la propuesta final de II. USD, España y escenarios de capital ya están recibidos; no volver a pedirlos ni fijar una frecuencia por comodidad. Capital real, riesgo personal, venue y presupuesto final pueden seguir abiertos con dependencias documentadas. Tras aceptar II, cualquier III necesita autorización explícita separada. Laboratorio, datasets de backtesting, implementación, entrenamiento y experimentos siguen sin autorización; no hacen falta claves ni cuenta financiada.
 
 **Continuidad:** conservar fichas/logs y versiones negativas; usar el cache auxiliar solo cuando haga falta cotejar una fuente ya consultada. Comprobaciones documentales y publicación normal autorizadas; no validan una ventaja financiera.
 
@@ -241,3 +246,11 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - Documentadas comparación completa, escenarios/universo y selección provisional. Dos preguntas primarias, una comparación secundaria de riesgo y dos reservas condicionadas; restricciones y aceptación de II pendientes. Corpus conservado en 53 trabajos; cero experimentos propios.
 - Revisión adicional de coherencia de los tres entregables, HYPOTHESES, ROADMAP y D-025–D-027; sin bloqueos materiales en ese alcance. Precisados capital sin doble cómputo de colateral y universo histórico sin elección de supervivientes actuales. No se releyeron todos los originales ni se validó rentabilidad.
 - **Verificación documental:** 38 Markdown, 236 enlaces locales (cuatro anclas), 21 JSONL con 468 registros válidos; H-00–H-24 presentes una vez en cada matriz, cinco fichas con los siete campos requeridos e inventario bibliográfico que suma 53. Sin incidencias. No se comprobaron de nuevo todos los enlaces externos, hashes históricos ni datasets; estas comprobaciones no son ensayos financieros.
+
+## Revisión final propuesta de Fase II — 2026-10-18
+
+- Recibidas preferencias: USD, España, infraestructura personal, apertura de productos/horizontes y escenarios de 1.000/5.000/10.000 USD. Capital real, riesgo personal, venue y presupuestos siguen abiertos por decisión del usuario, con puertas para resolverlos antes del trabajo dependiente. D-028–D-030 conservan razones y alcance.
+- Mantenidas C1/C3 prioritarias, C2 secundaria y C4/C5 reservas condicionadas. Precisados valor de información frente a facilidad, combinación aditiva frente a interacción, proceso finito de horizontes y condiciones para reconsiderar o no invertir en una construcción. No se repite la revisión general ni se añade una hipótesis para llenar una cuota.
+- Contraste oficial acotado: seis objetivos, diez recuperaciones por rutas alternativas, tres fuentes con contenido pertinente leído (CNMV, ESMA y AEAT); fallos y alcance de originales inaccesibles registrados. Corpus académico sigue en 53; no homologación de exchange/producto ni asesoramiento fiscal individual.
+- **Verificación de esta revisión:** 40 Markdown, 275 enlaces locales (cuatro anclas), 22 JSONL con 481 registros válidos. Dos matrices completas H-00–H-24, cinco fichas con siete campos, inventario de 53 y diez hashes de recuperaciones oficiales cotejados. Filas originales de hipótesis/nulas y contadores experimentales conservados frente al commit anterior. `git diff --check` correcto. Sin incidencias documentales; no validación financiera ni revisión de todos los enlaces remotos.
+- **Estado:** propuesta final preparada para aceptación del usuario; no declarar II cerrada todavía. Laboratorio, datos para backtesting, estrategias, entrenamiento, experimentos, compras y operación no iniciados ni autorizados.

@@ -1,10 +1,10 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-18 · **Versión:** 0.7 · **Estado actual:** cierre limitado de Fase I aceptado por el usuario; Fase II autorizada exclusivamente para comparación, viabilidad y selección documental. Sin experimentos propios; ninguna fase posterior autorizada.
+**Actualizado:** 2026-10-18 · **Versión:** 0.8 · **Estado actual:** cierre limitado de Fase I aceptado; propuesta final de Fase II presentada para revisión, pendiente de aceptación. Sin experimentos propios; ninguna fase posterior autorizada.
 
 **Transición aceptada:** el usuario aceptó el dictamen de la [auditoría crítica de cobertura](docs/research/coverage-audit.md) y sus reservas; D-025 registra esa aprobación. No se alcanzó saturación ni se demuestra una ventaja operable. Los 53 trabajos, fuentes parciales y resultados adversos se conservan. On-chain, posicionamiento, liquidaciones y eventos de tokens mantienen sus requisitos de datos/incrementalidad y no originan otra familia ni una búsqueda general.
 
-**Comparación actual:** [matriz de Fase II](docs/phase-ii/COMPARISON.md), [viabilidad y escenarios provisionales](docs/phase-ii/FEASIBILITY.md) e [informe de selección provisional](docs/phase-ii/SELECTION.md). Las propuestas se basan en el corpus existente; recursos del operador y aceptación de la selección siguen pendientes. No son resultados experimentales.
+**Comparación actual:** [matriz de Fase II](docs/phase-ii/COMPARISON.md), [viabilidad y escenarios](docs/phase-ii/FEASIBILITY.md) e [informe final propuesto](docs/phase-ii/SELECTION.md). USD/España y recursos personales incorporados; tres capitales ilustrativos sin límites. [Horizontes](docs/phase-ii/HORIZONS.md) reutiliza evidencia por mecanismo; [acceso regulatorio](docs/phase-ii/ACCESS.md) añade un contraste acotado de fuentes oficiales fuera del corpus académico de 53. Se mantienen C1/C3 prioritarias, C2 secundaria y C4/C5 reservas, con reapertura material y presupuesto finito. No son resultados experimentales ni aceptación de fases posteriores.
 
 **Lectura del historial:** las secciones que siguen conservan el informe y sus estados de entrega de Fase I al 2026-10-17, incluidos «aceptación pendiente» y «II no autorizada». Esas frases registran el estado anterior y quedan superadas exclusivamente en gobernanza por D-025, no en evidencia, resultados ni limitaciones. El estado vigente es el del encabezado y de [ROADMAP.md](ROADMAP.md).
 

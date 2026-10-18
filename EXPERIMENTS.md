@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-18 · **Versión:** 0.7 · **Estado:** sin experimentos; Fase II documental autorizada, ejecución experimental y fases posteriores no autorizadas.
+**Actualizado:** 2026-10-18 · **Versión:** 0.8 · **Estado:** sin experimentos; Fase II documental autorizada, ejecución experimental y fases posteriores no autorizadas.
 
 ## Estado real
 
@@ -77,3 +77,5 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 - **2026-10-17, auditoría de cobertura:** revisadas fichas, hipótesis, fuentes y registros; contraste acotado de documentación pública de datos, sin adquirir series de mercado. Conciliaciones de logs basadas en lecturas previamente documentadas, sin nuevas lecturas ficticias ni aumento del corpus académico de 53. Recomendación de cierre limitado pendiente de aceptación; ningún candidato seleccionado ni avance a II. Las comprobaciones documentales no son backtests, entrenamientos ni validaciones financieras. Todos los contadores permanecen en cero.
 
 - **2026-10-18, transición y comparación documental:** el usuario acepta el cierre limitado de I y autoriza II; D-025 registra el alcance. La [matriz](docs/phase-ii/COMPARISON.md), la [viabilidad provisional](docs/phase-ii/FEASIBILITY.md) y el [informe de selección](docs/phase-ii/SELECTION.md) reutilizan los 53 trabajos y H-00–H-24, sin nueva búsqueda general, adquisición de datasets, código de estrategias ni ensayos. C1/C3 son preguntas primarias propuestas, C2 una comparación secundaria de riesgo y C4/C5 alternativas condicionadas; no son resultados, preregistros definitivos ni permiso de ejecución. Recursos y aceptación de la selección pendientes. **Todos los contadores permanecen en cero.**
+
+- **2026-10-18, preferencias y propuesta final de II:** USD y España confirmados; capitales y drawdowns solo sensibilidades documentales. La tabla F/K es aritmética ilustrativa de costes, no un ensayo ni una rentabilidad observada. Proceso de horizontes y contrastes C3-I/C3-X definidos conceptualmente, sin cambiar nulas. Fuentes oficiales de acceso consultadas sin datos de mercado ni cuentas; corpus académico sigue en 53. No laboratorio, backtests, modelos entrenados, compras o gasto. Propuesta final pendiente de aceptación; **todos los contadores experimentales permanecen en cero**.
