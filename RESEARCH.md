@@ -1,8 +1,12 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-17 · **Versión:** 0.6 · **Estado:** auditoría de cobertura realizada; cierre limitado de Fase I recomendado, pendiente de aceptación. Sin experimentos propios ni autorización de Fase II.
+**Actualizado:** 2026-10-18 · **Versión:** 0.7 · **Estado actual:** cierre limitado de Fase I aceptado por el usuario; Fase II autorizada exclusivamente para comparación, viabilidad y selección documental. Sin experimentos propios; ninguna fase posterior autorizada.
 
-**Dictamen vigente:** la [auditoría crítica de cobertura](docs/research/coverage-audit.md) recomienda cerrar la búsqueda bibliográfica general con límites explícitos. Los mecanismos principales están suficientemente representados para una futura comparación; no hay ventaja operable demostrada. On-chain, posicionamiento, liquidaciones y eventos de tokens tienen cobertura desigual y requisitos de datos/incrementalidad pendientes, pero no justifican otra familia ni una ampliación general. Las notas históricas de fichas que mantenían abierta su cobertura conservan su fecha; el dictamen global actual no afirma saturación ni elimina sus limitaciones. La aceptación y cualquier paso a II corresponden al usuario.
+**Transición aceptada:** el usuario aceptó el dictamen de la [auditoría crítica de cobertura](docs/research/coverage-audit.md) y sus reservas; D-025 registra esa aprobación. No se alcanzó saturación ni se demuestra una ventaja operable. Los 53 trabajos, fuentes parciales y resultados adversos se conservan. On-chain, posicionamiento, liquidaciones y eventos de tokens mantienen sus requisitos de datos/incrementalidad y no originan otra familia ni una búsqueda general.
+
+**Comparación actual:** [matriz de Fase II](docs/phase-ii/COMPARISON.md), [viabilidad y escenarios provisionales](docs/phase-ii/FEASIBILITY.md) e [informe de selección provisional](docs/phase-ii/SELECTION.md). Las propuestas se basan en el corpus existente; recursos del operador y aceptación de la selección siguen pendientes. No son resultados experimentales.
+
+**Lectura del historial:** las secciones que siguen conservan el informe y sus estados de entrega de Fase I al 2026-10-17, incluidos «aceptación pendiente» y «II no autorizada». Esas frases registran el estado anterior y quedan superadas exclusivamente en gobernanza por D-025, no en evidencia, resultados ni limitaciones. El estado vigente es el del encabezado y de [ROADMAP.md](ROADMAP.md).
 
 ## 1. Preguntas científicas principales
 

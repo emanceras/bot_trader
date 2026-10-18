@@ -1,8 +1,8 @@
 # Registro inicial de hipótesis
 
-**Creación:** 2026-10-13 · **Actualización:** 2026-10-17 · **Versión:** 0.6 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
+**Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.7 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
-Este documento formula preguntas falsables para guiar la Fase I. No selecciona candidatos ni constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro.
+Este documento conserva las preguntas falsables de Fase I y añade su disposición provisional en la Fase II autorizada. No constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro. Las notas fechadas que indicaban «no seleccionadas» describen las entregas históricas; el mapa actual del final no modifica sus proposiciones, nulas ni falsadores.
 
 ## Convenciones
 
@@ -119,3 +119,21 @@ La [auditoría](docs/research/coverage-audit.md) no añade una familia ni H-25, 
 Estas asignaciones no demuestran evidencia específica ni conceden prioridad. El histórico de bajas/migraciones es requisito de integridad aunque nunca se utilice como señal. Los demás inputs son opcionales y deben justificar su coste/incremento; no se probarán todas sus combinaciones.
 
 **Interpretaciones para el protocolo futuro:** H-00 es una regla global sobre las alternativas efectivamente evaluadas, no una prueba universal de inexistencia de oportunidades. H-06/07/14/19 pueden referirse a riesgo/utilidad sin alpha; el comparador deberá incorporar exposición, colas y oportunidad perdida. H-24 mide incremento frente a un aditivo especificado con el mismo soporte, información y presupuesto, no identifica necesariamente interacción estructural o causal. Ninguna de estas precisiones cambia retrospectivamente un umbral ni un resultado: no hay experimentos y los parámetros siguen pendientes de II/IV.
+
+## Disposición provisional de Fase II — 2026-10-18
+
+El cierre limitado de I fue aceptado y II autorizada en D-025. La [matriz comparativa](docs/phase-ii/COMPARISON.md) cubre H-00–H-24 y conserva evidencia favorable/adversa y motivos de aplazamiento. El [informe de selección](docs/phase-ii/SELECTION.md) propone dos preguntas primarias y una comparación secundaria de riesgo; dos alternativas quedan condicionadas a recursos concretos. **No son cinco estrategias aprobadas para ejecutar.** La selección final espera restricciones del operador y aceptación; todas las hipótesis siguen propuestas, no probadas ni validadas, y H-00 no se rechaza.
+
+| Candidata y papel provisional | Hipótesis | Pregunta delimitada y condición |
+|---|---|---|
+| C1 — individual, primaria | H-01 | Momentum temporal simple frente a efectivo, buy and hold y exposición/riesgo comparable, con datos y costes accesibles; su rentabilidad sigue desconocida |
+| C2 — comparación secundaria de riesgo | H-06 | Exposición ajustada por volatilidad frente a referencias de riesgo/efectivo equivalentes; no es una promesa separada de alpha ni autoriza apalancamiento |
+| C3 — información combinada, primaria condicionada a recursos | H-11/H-24 | Información endógena de precio, volumen y volatilidad: variables individuales, aditivo y términos conjuntos con el mismo soporte, presupuesto y costes; concretar datos, muestra efectiva y esfuerzo antes de admitirla definitivamente |
+| C4 — alternativa condicionada | H-23 | Otros activos frente a pasado propio y factores; supeditada a universo histórico, sincronización, disponibilidad y coste de investigar dependencias |
+| C5 — alternativa condicionada | H-08 | Carry de funding/basis con capital y garantías completos; supeditada a productos accesibles, margen, costes y capacidad operativa |
+
+La [evaluación de viabilidad](docs/phase-ii/FEASIBILITY.md) utiliza escenarios explícitamente provisionales. La recomendación puede cambiar por recursos, acceso o imposibilidad de una comparación rigurosa, sin haber observado rendimientos propios. C3 no exige éxito previo de C1 ni rentabilidad marginal positiva de sus inputs. H-24 exige incremento frente al aditivo comparable; una mejora predictiva sola no satisface su nula económica. La mezcla de P&L, el efecto aditivo y la interacción siguen siendo preguntas distintas.
+
+Las restantes H-02–H-05, H-07, H-09/H-10, H-12–H-22 y H-14 como combinación de estrategias se conservan con su disposición trazable en la matriz; no admitirlas en la lista inicial no equivale a refutarlas. H-03 puede servir como control de factores sin aprobar una cartera factorial; una referencia sencilla de reversión tampoco convierte H-02 en candidata primaria. Parejas, fuentes nuevas, redes neuronales, boosting o variantes de estimador no permiten ampliar libremente el número de pruebas: toda incorporación necesita necesidad incremental y presupuesto de búsqueda definidos antes de experimentar.
+
+No se cambian H-00–H-24, sus nulas, falsadores ni resultados publicados. No se crean H-25 ni nuevos umbrales tras resultados. Laboratorio, datasets de backtesting, entrenamientos y experimentos continúan sin autorización.

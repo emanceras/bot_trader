@@ -4,7 +4,7 @@
 
 Investigar un sistema cuantitativo de criptomonedas con evidencia reproducible de ventaja neta y robusta fuera de muestra. La complejidad no es un objetivo. La conclusión «evidencia insuficiente para operar» es válida.
 
-El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadmap y de los documentos iniciales. Se necesita aprobación explícita del usuario antes de iniciar la Fase II o cualquier implementación de estrategias, backtest, optimización o bot. No conectar cuentas financiadas ni enviar órdenes reales sin autorización explícita independiente. El paper trading tampoco autoriza operativa real.
+El usuario **aceptó el cierre limitado de Fase I y autorizó exclusivamente la Fase II**: comparación, viabilidad y propuesta/selección de hipótesis para experimentación futura. Registro de la transición: D-025. No están autorizados el laboratorio de III, descargas de datasets para backtesting, implementación de estrategias, entrenamiento, optimización, experimentos, paper trading ni bot. Se necesita aprobación explícita para fases posteriores. No conectar cuentas financiadas ni enviar órdenes reales sin autorización independiente. El paper trading tampoco autoriza operativa real.
 
 ## Método y honestidad científica
 
@@ -35,7 +35,7 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 
 ## Seguridad operativa y datos
 
-- No solicitar ni registrar claves secretas en chat, archivos versionados, informes o logs. En Fase I no se necesitan credenciales de exchanges.
+- No solicitar ni registrar claves secretas en chat, archivos versionados, informes o logs. Para la comparación documental de Fase II no se necesitan credenciales de exchanges.
 - No descargar datos privados ni contratar servicios sin autorización. Respetar licencias y condiciones de acceso.
 - No habilitar trading real por defecto. Las futuras decisiones de arquitectura deberán incluir límites de riesgo, reconciliación, validación de órdenes y parada de emergencia.
 - No desactivar verificaciones TLS, firmas ni checksums para sortear problemas de acceso.
@@ -62,7 +62,16 @@ El encargo actual autoriza exclusivamente la **Fase I** y la creación del roadm
 
 ## Auditoría de cobertura y cierre limitado
 
-- Consultar `docs/research/coverage-audit.md` antes de proponer otra ampliación. El dictamen recomienda cerrar la búsqueda general con límites aceptados; no marca I terminada ni autoriza II. Las fichas históricas preservan su fecha/alcance, y el informe global indica el estado vigente.
+- Consultar `docs/research/coverage-audit.md` antes de proponer otra ampliación. Su recomendación histórica de cierre limitado ya fue aceptada por el usuario en D-025; las fichas conservan su fecha/alcance y no se convierten en evidencia exhaustiva. La búsqueda general de I está cerrada; II está autorizada.
 - Reabrir una lectura solo si puede cambiar una decisión concreta de elegibilidad, datos, ejecución/riesgo o interpretación; indicar fuente, pregunta y presupuesto finito. Una nueva métrica o falta de ganador no justifican expansión automática.
 - On-chain, posicionamiento, liquidaciones y eventos de token son fuentes/estados integrables en hipótesis actuales; no presumir alpha ni crear familias por cantidad. Exigir disponibilidad temporal, semántica y comparación incremental. Bajas/migraciones/cambios de unidades son requisitos de integridad con independencia de su uso predictivo.
 - Conciliar estados de logs mediante eventos actuales que remitan a fichas previas; no alterar fechas originales ni presentar una conciliación como nueva lectura del PDF. La auditoría documental interna no equivale a revisión externa o réplica financiera.
+
+## Fase II — comparación autorizada
+
+- Reutilizar los 53 trabajos y H-00–H-24. Mantener trazabilidad de evidencia favorable/adversa y distinguir mecanismo, fuente informativa, estimador y política de riesgo. Las restricciones históricas de selección en las ampliaciones de I describen aquella fase; D-025 autoriza ahora la selección documental de candidatas.
+- Usar criterios cualitativos explícitos y filtros no compensatorios; no puntuaciones arbitrarias, probabilidades inventadas ni techos de rentabilidad. Una candidata recomendada no está probada ni validada.
+- Restricciones del operador aún pendientes: usar escenarios identificados como provisionales, sin inventar preferencias, capital, productos o tarifas accesibles. Agrupar al final las preguntas imprescindibles; la lista corta será provisional mientras sus respuestas puedan cambiarla.
+- Comparar estrategias individuales y combinación de información por separado. No excluir un input solo porque su estrategia individual pierde; exigir incremento frente a un aditivo con los mismos datos y presupuesto. H-23/H-24 no reciben prioridad automática.
+- Universo dinámico y conocido en cada fecha, sin fijar cantidad arbitraria ni elegir por resultados; distinguir investigación y operabilidad. Compras de datos, datasets, código de trading y fases posteriores continúan sin autorización.
+- Actualizaciones documentales y publicación normal en GitHub expresamente autorizadas; conservar historial y comprobar el envío. La matriz y el informe de II no convierten fuentes anunciadas en datasets verificados.
