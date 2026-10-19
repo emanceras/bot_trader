@@ -1,16 +1,17 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-18 · Versión: 0.8 · Alcance autorizado: **Fase II documental**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-18 · Versión: 0.9 en desarrollo · Alcance autorizado: **Fase III.A y III.B completas; pruebas técnicas sintéticas**.
 
 ## Objetivo y estado general
 
-Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. El usuario aceptó el cierre limitado de I y autorizó II en D-025. III y fases posteriores no están autorizadas. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
+Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B autorizadas explícitamente en D-031. IV–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
 
 | Fase | Entregable principal | Dependencias | Estado |
 |---|---|---|---|
 | I. Investigación | Preguntas, protocolo, revisión crítica y mapa de evidencia | Acceso a fuentes primarias | Cierre limitado aceptado por el usuario; 53 trabajos, sin saturación ni validación económica |
-| II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Propuesta final documentada tras preferencias; pendiente de aceptación del usuario, con dependencias futuras explícitas |
-| III. Laboratorio | Arquitectura Python modular y capacidades verificadas | II aceptada; datos y licencias identificados | Planificada |
+| II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
+| III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | En curso; no experimentación financiera |
+| III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Pendiente de la arquitectura y contratos |
 | IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Planificada |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
@@ -105,9 +106,20 @@ Tareas y criterios de aceptación conservados; progreso documental de II al 2026
 
 **Estado de aceptación:** propuesta final documental preparada; II permanece abierta únicamente a su revisión/aceptación y a cambios que esa revisión motive. Capital real, exchange y riesgo definitivos no son requisitos de cierre documental si se aceptan sus puertas futuras. No hay estrategias implementadas, probadas ni validadas. Cinco fichas no son cinco estrategias aprobadas ni autorización para experimentar. Aceptar II y autorizar III son decisiones separadas.
 
-## Fase III — Laboratorio cuantitativo
+## Fase III — Plataforma y laboratorio cuantitativo
 
-**Objetivo:** disponer de una infraestructura sencilla y verificable para investigar. El diseño y la selección de bibliotecas se realizarán en esta fase, con alternativas y justificación.
+**Objetivo:** implementar una única plataforma modular verificable, con núcleo, persistencia, laboratorio sintético y web reutilizable, bajo la solicitud de III completa. [Solicitud conservada](docs/phase-iii/REQUEST.es.md), [arquitectura EN](docs/en/architecture/platform.md), [arquitectura ES](docs/es/architecture/platform.md) y [matriz de aceptación](docs/phase-iii/acceptance.md). III.A y III.B autorizadas; no se necesita permiso adicional entre ellas. IV–VI permanecen excluidas.
+
+| Etapa | Entregable/criterio | Estado de reanudación 2026-10-19 |
+|---|---|---|
+| III.A.1 | Diagnóstico y revisión de restricciones/ciencia | Documentado; checkout recuperado, base `f8f4ff8` |
+| III.A.2 | Comparación oficial de motores, stack, investigación IA y gráficos; licencias | Documentos EN/ES conservados; conciliación de registros técnicos en curso |
+| III.A.3 | Arquitectura de quince dominios, contratos, seguridad, persistencia, web y plan | Documentado; revisión de admisión anterior a implementación |
+| III.B.1 | Contratos, configuración, módulos, permisos, migraciones y repositorios | Pendiente |
+| III.B.2 | Datos sintéticos, hipótesis, transformaciones, jobs, resultados e interfaces | Pendiente; depende de B.1 |
+| III.B.3 | API/worker, web real y gráficos reutilizables | Pendiente; depende de B.1/B.2 |
+| III.B.4 | Pruebas A–F, instalación/arranque, calidad, seguridad, recuperación y reproducibilidad | Pendiente; criterios esenciales no dispensables |
+| III.B.5 | Documentación EN/ES, inventario operativo/preparado/futuro y publicación | En curso; cierre solo con evidencia técnica |
 
 Módulos previstos, aún sin implementar:
 
@@ -196,13 +208,13 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-18
+## Punto de reanudación vigente — 2026-10-19
 
-**Autorización:** cierre limitado de I aceptado; II documental autorizada, D-025. No repetir la revisión general ni solicitar de nuevo la aprobación de I. Los 53 trabajos y H-00–H-24 siguen siendo el corpus; ninguna hipótesis tiene resultados propios.
+**Autorización:** I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B completas autorizadas en D-031. No repetir aprobaciones. Los 53 trabajos y H-00–H-24 siguen siendo el corpus; ninguna hipótesis tiene resultados financieros propios.
 
 **Entregado en II:** [matriz](docs/phase-ii/COMPARISON.md), [viabilidad/universo](docs/phase-ii/FEASIBILITY.md), [propuesta final](docs/phase-ii/SELECTION.md), [horizontes](docs/phase-ii/HORIZONS.md) y [acceso](docs/phase-ii/ACCESS.md). C1/C3 prioritarias, C2 secundaria, C4/C5 reservas; C3 distingue combinación aditiva útil de complejidad incremental. D-026/D-027 conservan la propuesta inicial; D-028–D-030 incorporan preferencias y revisión final.
 
-**Siguiente trabajo:** revisión y aceptación del usuario de la propuesta final de II. USD, España y escenarios de capital ya están recibidos; no volver a pedirlos ni fijar una frecuencia por comodidad. Capital real, riesgo personal, venue y presupuesto final pueden seguir abiertos con dependencias documentadas. Tras aceptar II, cualquier III necesita autorización explícita separada. Laboratorio, datasets de backtesting, implementación, entrenamiento y experimentos siguen sin autorización; no hacen falta claves ni cuenta financiada.
+**Siguiente trabajo:** continuar III desde [matriz de aceptación](docs/phase-iii/acceptance.md). El entorno falló durante el arranque y volvió a estar disponible el 19; se conservaron documentación III.A y autorización, sin implementación previa. Finalizar revisión/trazabilidad tecnológica y ejecutar III.B en orden de dependencias. Solo pruebas sintéticas; IV–VI, gastos, datasets/experimentos financieros, paper de mercado y órdenes reales no autorizados. No hacen falta claves ni cuenta financiada.
 
 **Continuidad:** conservar fichas/logs y versiones negativas; usar el cache auxiliar solo cuando haga falta cotejar una fuente ya consultada. Comprobaciones documentales y publicación normal autorizadas; no validan una ventaja financiera.
 

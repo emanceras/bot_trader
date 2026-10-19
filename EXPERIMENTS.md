@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-18 · **Versión:** 0.8 · **Estado:** sin experimentos; Fase II documental autorizada, ejecución experimental y fases posteriores no autorizadas.
+**Actualizado:** 2026-10-19 · **Versión:** 0.9 · **Estado:** sin experimentos financieros; III.A/III.B autorizadas con pruebas técnicas sintéticas. IV–VI, experimentación financiera y operativa no autorizadas. Las verificaciones de software se registrarán separadamente y no alteran los contadores financieros.
 
 ## Estado real
 

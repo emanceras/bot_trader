@@ -1,5 +1,7 @@
 # Registro inicial de hipótesis
 
+**Estado de plataforma al 2026-10-19:** II aceptada en `f8f4ff8`; III.A/III.B autorizadas, D-031. El futuro registro de software conserva estos IDs y fuentes sin convertir la aceptación en evidencia; las filas científicas y nulas siguen intactas. Las notas posteriores de «aceptación pendiente» describen la entrega anterior de II.
+
 **Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.8 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 
 Este documento conserva las preguntas falsables de Fase I y añade su disposición provisional en la Fase II autorizada. No constituye un preregistro experimental completo. No se han utilizado datasets propios para elegir estrategias o parámetros; la lectura de resultados publicados sí informa las preguntas y deberá declararse en un futuro preregistro. Las notas fechadas que indicaban «no seleccionadas» describen las entregas históricas; el mapa actual del final no modifica sus proposiciones, nulas ni falsadores.
