@@ -1,6 +1,6 @@
 # Phase III implementation checkpoint
 
-Updated: 2026-10-19. Canonical English; resumen español below.
+Updated: 2026-10-20. Canonical English; resumen español below.
 
 ## Authorization and recovered state
 
@@ -11,9 +11,9 @@ The execution environment failed during recovery on 2026-10-19 and subsequently 
 ## Dependency order and evidence
 
 1. Architecture and essential technical-source/licensing verification: reviewed and admitted in D-032; source-log recovery completed (26 fresh stack retrievals, 20 verified tool-cache artifacts; original and recovery dates distinguished). No new scientific literature review.
-2. Versioned contracts, configuration, permissions, module registry and persistence/migrations: implementation in progress; no dependent application features claimed yet.
-3. Synthetic datasets, transformations, hypothesis import, technical job lifecycle and accounting harness: pending.
-4. Authenticated API/worker and integrated web/chart: pending.
+2. Versioned contracts, configuration, permissions, module registry and persistence/migrations: implemented; 20 targeted tests, Ruff and strict Mypy passed. Explicit migrations, append-only records, atomic bounded queue claims and stale-worker completion denial verified.
+3. Synthetic datasets, transformations, hypothesis import, technical job lifecycle and accounting harness: implementation/integration in progress; no financial experiments. Simulation and temporal tests are being reconciled with the laboratory import surface.
+4. Authenticated API: credential/session and HTTP security skeleton implemented, 5 targeted tests passed; domain routes/worker and integrated web/chart remain in progress/pending respectively.
 5. Acceptance A–F, clean installation/startup, quality/security/recovery and bilingual user/developer docs: pending.
 
 Do not mark III complete until essential acceptance evidence exists in `acceptance.md` and the verification report. Keep negative technical outcomes and corrections traceable; financial counters remain zero.
