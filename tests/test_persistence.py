@@ -152,3 +152,14 @@ def test_queue_budget_and_cancellation_are_atomic(tmp_path: Path) -> None:
     with pytest.raises(Conflict):
         repository.complete(run.id, "worker", {})
     assert repository.enqueue({}, {}, created_by="test").state == "queued"
+
+
+def test_content_corruption_is_detected_even_for_valid_json(database: Database) -> None:
+    repository = Repository(database)
+    repository.put("fixture", "corrupted", {"rows": 2})
+    # Simulate external corruption, bypassing the normal append-only SQL protection.
+    with database.transaction() as connection:
+        connection.exec_driver_sql("DROP TRIGGER documents_deny_update")
+        connection.exec_driver_sql("UPDATE documents SET body = '{\"rows\":3}'")
+    with pytest.raises(Conflict, match="content hash"):
+        repository.get("fixture", "corrupted")

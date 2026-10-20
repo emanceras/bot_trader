@@ -12,8 +12,8 @@ The execution environment failed during recovery on 2026-10-19 and subsequently 
 
 1. Architecture and essential technical-source/licensing verification: reviewed and admitted in D-032; source-log recovery completed (26 fresh stack retrievals, 20 verified tool-cache artifacts; original and recovery dates distinguished). No new scientific literature review.
 2. Versioned contracts, configuration, permissions, module registry and persistence/migrations: implemented; 20 targeted tests, Ruff and strict Mypy passed. Explicit migrations, append-only records, atomic bounded queue claims and stale-worker completion denial verified.
-3. Synthetic datasets, transformations, hypothesis import, technical job lifecycle and accounting harness: implementation/integration in progress; no financial experiments. Simulation and temporal tests are being reconciled with the laboratory import surface.
-4. Authenticated API: credential/session and HTTP security skeleton implemented, 5 targeted tests passed; domain routes/worker and integrated web/chart remain in progress/pending respectively.
+3. Synthetic datasets, transformations, preserved hypothesis import, technical jobs/reports/comparison and bounded accounting harness: implemented; complete backend suite passed 109 tests, with one additional causal-prefix regression subsequently passing its targeted suite. Independent review's two material findings corrected and retested.
+4. API/CLI worker implemented; web built and seven unit tests passed after correcting Vitest global configuration. Real browser F, clean reinstall and final notices/status review remain pending. User supplement integrated with optional immutable hypothesis references and no new dependencies; coverage/source EN/ES documents are being finalized.
 5. Acceptance A–F, clean installation/startup, quality/security/recovery and bilingual user/developer docs: pending.
 
 Do not mark III complete until essential acceptance evidence exists in `acceptance.md` and the verification report. Keep negative technical outcomes and corrections traceable; financial counters remain zero.

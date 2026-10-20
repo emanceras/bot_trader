@@ -27,6 +27,15 @@ class FrozenContract(BaseModel):
     schema_version: Literal[1] = 1
 
 
+class VersionedReference(FrozenContract):
+    """Provider-independent reference to one immutable catalog record."""
+
+    kind: Identifier
+    id: Identifier
+    version: int = Field(ge=1)
+    content_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
 class Instrument(FrozenContract):
     id: Identifier
     venue: Identifier = "synthetic"

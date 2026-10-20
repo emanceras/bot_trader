@@ -72,7 +72,10 @@ class RunRecord(FrozenContract):
 
 def _document(row: dict[str, object]) -> DocumentRecord:
     row["body"] = json.loads(str(row["body"]))
-    return DocumentRecord.model_validate(row)
+    record = DocumentRecord.model_validate(row)
+    if content_hash(record.body) != record.content_hash:
+        raise Conflict("Stored document content hash does not match its body.")
+    return record
 
 
 def _run(row: dict[str, object]) -> RunRecord:
