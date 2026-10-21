@@ -1,0 +1,9 @@
+{
+  "version": "2.1.0",
+  "tag": "2.1.0",
+  "tag_peeled_commit": "7ece7601f05b624496f485cee65789ad691427df",
+  "url": "https://raw.githubusercontent.com/tradingview/fancy-canvas/7ece7601f05b624496f485cee65789ad691427df/LICENSE",
+  "sha256": "52d2ba0c8f8f4532bd524358d679693ff3dd9e40c56fe0c0c63061ed0733aa18",
+  "consulted_at": "2026-10-20",
+  "reason": "Installed package omitted MIT text. npm metadata declares MIT; official Git tag 2.1.0 resolves to this source commit."
+}

@@ -46,7 +46,12 @@ def build_registry() -> Registry:
         ("trading-engine", "planned", ("core",), "Inactive; no order transport or exchange keys."),
         ("risk", "prepared", ("core",), "Risk contract and synthetic cash/inventory checks only."),
         ("portfolio", "prepared", ("core",), "Position/portfolio contracts; no return analytics."),
-        ("charting", "prepared", ("market-data",), "Renderer integration under verification."),
+        (
+            "charting",
+            "operational",
+            ("market-data",),
+            "Synthetic series and replaceable chart renderer.",
+        ),
         ("news", "planned", ("core",), "No feed or sentiment execution implemented."),
         (
             "ai-researcher",
@@ -55,7 +60,7 @@ def build_registry() -> Registry:
             "Inert proposals only; no autonomous tools.",
         ),
         ("alerts", "prepared", ("core",), "Local audit; external notifications are future work."),
-        ("web", "prepared", ("core",), "Authenticated same-origin interface integration."),
+        ("web", "operational", ("core",), "Authenticated same-origin technical dashboard."),
     ]
     for identifier, status, dependencies, description in definitions:
         registry.register(
