@@ -1,23 +1,30 @@
 # Phase III implementation checkpoint
 
-Updated: 2026-10-20. Canonical English; resumen español below.
+Updated: 2026-10-21. Canonical English; resumen español below.
 
 ## Authorization and recovered state
 
-The user accepted Phase II at `f8f4ff8` and authorized all III.A/III.B, including dependency installation, code, synthetic fixtures, tests and publication. No new permission is required between the architecture and implementation stages. IV–VI, financial datasets/experiments, spending, prospective market paper trading and live operations remain unauthorized.
+The user accepted Phase II at `f8f4ff8` and authorized all III.A/III.B, including dependency installation, code, synthetic fixtures, tests and publication. No new permission was required between architecture and implementation. IV–VI, financial datasets/experiments, spending, prospective market paper trading and live operations remain unauthorized.
 
-The execution environment failed during recovery on 2026-10-19 and subsequently became available. The original request, four architecture assessments in EN/ES and governance changes survived. No platform code had been implemented before that interruption. Do not infer that a failed agent completed a source log or implementation; inspect actual files.
+The execution environment failed during recovery on 2026-10-19 and subsequently became available. Architecture and the original request survived. Core/persistence were published as `2cf79b4`, followed by the laboratory/API as `eabbd8e`. The later interrupted browser/documentation work also survived and was completed without restarting the project. Process/agent loss does not imply file loss: inspect Git and this checkpoint after interruptions.
 
-## Dependency order and evidence
+## Completed scope and evidence
 
-1. Architecture and essential technical-source/licensing verification: reviewed and admitted in D-032; source-log recovery completed (26 fresh stack retrievals, 20 verified tool-cache artifacts; original and recovery dates distinguished). No new scientific literature review.
-2. Versioned contracts, configuration, permissions, module registry and persistence/migrations: implemented; 20 targeted tests, Ruff and strict Mypy passed. Explicit migrations, append-only records, atomic bounded queue claims and stale-worker completion denial verified.
-3. Synthetic datasets, transformations, preserved hypothesis import, technical jobs/reports/comparison and bounded accounting harness: implemented; complete backend suite passed 109 tests, with one additional causal-prefix regression subsequently passing its targeted suite. Independent review's two material findings corrected and retested.
-4. API/CLI worker implemented; web built and seven unit tests passed after correcting Vitest global configuration. Real browser F, clean reinstall and final notices/status review remain pending. User supplement integrated with optional immutable hypothesis references and no new dependencies; coverage/source EN/ES documents are being finalized.
-5. Acceptance A–F, clean installation/startup, quality/security/recovery and bilingual user/developer docs: pending.
+1. **III.A admitted:** D-032; official comparisons, EN/ES architecture, licenses and dependency-ordered acceptance. Source recovery preserved original and new retrieval dates (26 fresh stack retrievals, 20 verified tool-cache artifacts). The supplement added six directed official pages and reused one prior MLflow source; no scientific review repeated.
+2. **Core/persistence:** frozen contracts, policy, registry/capability extension, explicit SQLite migration, versioned append-only documents/audit, bounded atomic jobs, owner fencing, cancellation and interrupted recovery implemented and tested.
+3. **Data/lab:** content-addressed synthetic Parquet, verified Arrow/DuckDB, causal transforms, original 25 hypotheses, immutable manifests, finite technical worker, reports/comparison, inert proposals and bounded accounting harness implemented and tested. Optional exact hypothesis references preserve historical attribution without scientific evaluation.
+4. **API/web:** local authentication/roles, same-origin controls, six actual views and reusable chart operational. Fifteen domain records truthfully distinguish technical services, prepared contracts and future modules. No market transport or financial engine exists.
+5. **Essential gates:** 110 backend tests, seven frontend unit tests, two real browser tests, lint/strict typing/build passed. Fresh locked installation, default startup/repeated initialization, stopped-writer restore and A–F have evidence in [verification EN](../en/verification.md) / [ES](../es/verification.md). Initial failures and their corrections remain recorded there.
+6. **Documentation/governance:** bilingual installation/development/usage/security/verification and supplemental coverage/source assessment delivered; original 19+20 acceptance criteria mapped. Scientific hypothesis rows, adverse findings and seven zero financial counters preserved. D-034 records technical closure.
 
-Do not mark III complete until essential acceptance evidence exists in `acceptance.md` and the verification report. Keep negative technical outcomes and corrections traceable; financial counters remain zero.
+## Next resumption point
+
+Phase III is technically complete within its declared scope. Read the verification limitations and supplement before extending it. The next decision belongs to the user: review this release and, if desired, explicitly authorize Phase IV protocol work. Do not infer that III completion grants IV, market data acquisition, a financial engine, empirical trials, paper/shadow/testnet, live execution or spending.
+
+For software maintenance, follow the frozen installation and startup guides; restart API and workers after executable/dependency changes. Current cloud setup uses writable caches and private local credentials, without exchange secrets. Saved environment configuration and Git publication are distinct from a restored new cloud task; do not claim untested restoration.
 
 ## Resumen español
 
-Se recuperó el entorno y se conservó III.A; no había código implementado antes de la interrupción. III completa está autorizada. Primero cerrar la trazabilidad/arquitectura, después núcleo y persistencia, laboratorio sintético, API/web y pruebas A–F. No repetir investigaciones científicas ni pedir otra aprobación entre III.A y III.B. IV–VI, gasto y operativa siguen sin autorizar.
+III.A y III.B están completadas técnicamente en el alcance sintético autorizado. Se preservó el trabajo tras las interrupciones. Funcionan núcleo, persistencia, hipótesis, catálogo, transformaciones, tareas/worker, informes, API autenticada, web y gráficos; 110 pruebas Python, siete frontend y dos de navegador, además de instalación y restauración comprobadas. Los fallos iniciales y límites quedan en la verificación EN/ES.
+
+La revisión complementaria conserva el diseño y añade referencias inmutables; documenta y pospone capital compartido, bots operativos, decisiones ejecutoras, IA autónoma y riesgo financiero avanzado. Los 53 trabajos y H-00–H-24 siguen intactos, sin experimentos financieros. El siguiente paso exige revisión y autorización expresa de IV; ninguna operación, compra, dataset financiero ni fase posterior queda habilitada por este cierre.

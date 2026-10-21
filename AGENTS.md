@@ -99,3 +99,9 @@ El usuario aceptó la propuesta final de II en `f8f4ff8` y **autorizó el cierre
 - Freeze referenced research versions/hashes. Preserve adverse/inconclusive records and reconsideration reasons; never restore old permissions automatically. Versioned hypothesis associations in technical runs are traceability, not financial evaluation.
 - General bot/session/account/portfolio ownership, capital reservations/netting and external reconciliation must be settled before their first adapter. Do not add empty operational tables or adopt workflow/vector/graph frameworks merely because a reference platform uses them.
 - Keep the synthetic v1 signal/ledger scope explicit; future strategy/paper/live adapters require distinct semantics and authorization. No new dependencies or costs for the supplement without applicable approval.
+
+## Phase III technical closure — 2026-10-21
+
+- D-034 and `docs/en/verification.md` / `docs/es/verification.md` record completed III.A/III.B within synthetic scope. Preserve the 19+20 acceptance map, A–F evidence and failed-check history. Subsequent work must not silently relabel prepared financial modules operational.
+- No essential III implementation remains pending. Continue only authorized software maintenance until the user explicitly authorizes IV or another concrete scope. No market datasets, financial experiments/training, prospective paper/shadow/testnet, live actions or expenses follow automatically from technical closure.
+- Start from the actual Git/checkpoint state after interruptions; use locked installation, explicit migrations, private local authentication and restart both API/worker after source/dependency changes. The browser helper owns/stops its child processes and uses isolated synthetic state. Never log credential contents.

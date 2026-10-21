@@ -1,8 +1,8 @@
 # Arquitectura de la plataforma
 
-Documento: ARCH-001 · Versión: 1 · Actualizado: 2026-10-18 · Idioma: es
+Documento: ARCH-001 · Versión: 2 · Actualizado: 2026-10-20 · Idioma: es
 
-Fuente canónica: [inglés](../../en/architecture/platform.md), ARCH-001 v1; traducción sincronizada. Alcance: diseño base de III.A; la implementación y sus pruebas se registran en [aceptación](../../phase-iii/acceptance.md). Una descripción de diseño no certifica una capacidad operativa.
+Fuente canónica: [inglés](../../en/architecture/platform.md), ARCH-001 v2; traducción sincronizada. Alcance: diseño base de III.A; la implementación y sus pruebas se registran en [aceptación](../../phase-iii/acceptance.md). Una descripción de diseño no certifica una capacidad operativa.
 
 ## 1. Diagnóstico y restricciones
 
@@ -38,7 +38,8 @@ flowchart LR
   Services --> Meta[(Metadatos y auditoría SQLite)]
   Services --> Storage[Puerto de datasets y artefactos]
   Storage --> Files[(Parquet y archivos por contenido)]
-  Reader[Lector DuckDB] --> Files
+  Files --> Verified[Tabla Arrow con checksum verificado]
+  Verified --> Reader[Lector DuckDB aislado]
   Services --> Reader
   Services --> Harness[Banco de ejecución sintética]
 ```
@@ -77,13 +78,13 @@ Las observaciones separan evento, primera publicación, disponibilidad del prove
 
 Entidades: hipótesis/referencia; instrumento; versión/partición/calidad de dataset; especificación/versión de transformación; modelo/estrategia; especificación congelada de experimento; intento de trabajo; resultado/artefacto; propuesta y evento de auditoría. El descriptor de dataset registra procedencia, clasificación sintética, hash, esquema, partición y cobertura temporal. El artefacto registra checksum, tipo y ejecución productora. Las versiones históricas son inmutables; los cambios de estado se guardan aparte, sin sobrescribir configuraciones/resultados anteriores.
 
-Puertos de almacenamiento/consulta, transformaciones, entrenamiento/inferencia, decisiones de estrategia/señal, ejecución, costes, financiación/margen y riesgo. Órdenes, fills, posiciones y carteras son registros distintos. La estrategia emite una intención; riesgo y ejecución la validan independientemente. El contrato puede servir para histórico, prospectivo y real, pero fills, latencia, rechazos, ejecución parcial, funding y reconciliación dependen del adaptador. Lo no soportado se rechaza; no se inventan coste cero ni fills perfectos.
+Puertos de almacenamiento/consulta, transformaciones, entrenamiento/inferencia, decisiones de estrategia/señal, ejecución, costes, financiación/margen y riesgo. Órdenes, fills, posiciones y carteras son registros distintos. En la arquitectura objetivo, la estrategia emite una señal o intención; riesgo y ejecución validan los objetivos negociables independientemente. Signal v1 implementa solo un objetivo sintético de cantidad; las predicciones, objetivos de cartera e intenciones generales deberán especificarse antes de admitir un adaptador financiero (véase la revisión complementaria). El contrato puede servir para histórico, prospectivo y real, pero fills, latencia, rechazos, ejecución parcial, funding y reconciliación dependen del adaptador. Lo no soportado se rechaza; no se inventan coste cero ni fills perfectos.
 
 Se puede consultar metadatos de particiones; **el contenido final/holdout se deniega a todos los roles en III**, incluido administrador y agente. API, worker y servicios de datos aplican la misma política. No hay subida de CSV de mercado ni endpoint de SQL general. Abrir holdout requerirá autorización independiente, política auditada y registro inmutable de evaluación, no cambiar una casilla de UI.
 
 ## 5. Laboratorio reproducible y trabajos persistentes
 
-Antes de ejecutar se congelan referencias de hipótesis, hashes de datos/transformaciones, parámetros, semilla, revisión de código/identidad de cambios locales, versiones de entorno/dependencias y protocolo. Los informes distinguen éxito técnico, fallo, resultado negativo e inconcluyente de validación financiera. Las comparaciones muestran diferencias sin clasificar configuraciones ajenas como evidencia. La reproducción determinista compara entradas/resultados estables separadamente de tiempos e IDs de ejecución.
+El proceso captura su identidad de software cargado y rechaza cambios de código ejecutable/dependencias hasta reiniciar API y worker. Antes de ejecutar se congelan referencias exactas de hipótesis (tipo, ID, versión, hash), hashes de datos/transformaciones, parámetros, semilla, revisión de código/identidad de cambios locales, versiones de entorno/dependencias y protocolo. Los informes distinguen éxito técnico, fallo, resultado negativo e inconcluyente de validación financiera. Las comparaciones muestran diferencias sin clasificar configuraciones ajenas como evidencia. La reproducción determinista compara entradas/resultados estables separadamente de tiempos e IDs de ejecución.
 
 El runner acepta solo tareas sintéticas acotadas. Persiste estados en cola/en ejecución/completado/fallido/interrumpido, tiempos, resultado/error e historial. La reclamación atómica evita dos propietarios. La finalización condicional evita resultados duplicados. Tras caída, los trabajos abandonados se recuperan explícitamente como interrumpidos/fallidos; un reintento será otro intento enlazado. No se informa éxito ni se repiten silenciosamente efectos externos. La secuencia archivo/transacción evita publicar descriptores de artefactos ausentes; mantenimiento detecta contenido huérfano.
 
@@ -99,7 +100,7 @@ Descriptores de secciones y acceso API tipado compartido; sin lógica científic
 
 Por defecto loopback, propietario local y denegación de permisos no concedidos. Credencial inicial local fuera de Git; nunca se solicitan secretos de exchange. Sesiones de servidor, cookies HttpOnly, caducidad/revocación y defensa CSRF del mismo origen; cookies seguras y TLS antes de despliegue remoto. Admin, researcher, viewer y agent tienen listas explícitas de permisos. Agent queda limitado a propuestas/metadatos, nunca órdenes, holdout ni herramientas arbitrarias. Los endpoints mutadores comprueban permisos sin depender de la UI.
 
-Validar cargas acotadas, IDs/rutas seguros, límites de recursos y campos inesperados. No exponer shell, código, fetch de URLs, filesystem ni SQL arbitrarios. Redactar secretos y respuestas de error; diagnósticos detallados con acceso controlado. Registrar denegaciones y mutaciones sensibles. La auditoría da trazabilidad, no resistencia a manipulación por el administrador del host. Un sistema operativo comprometido queda fuera de esta garantía de aislamiento.
+Validar cargas acotadas, IDs/rutas seguros, límites de recursos y campos inesperados. No exponer shell, código, fetch de URLs, filesystem ni SQL arbitrarios. Redactar secretos y respuestas de error; diagnósticos detallados con acceso controlado. Se persisten denegaciones de autorización de servicio/dominio, fallos CSRF autenticados y mutaciones sensibles. Los controles de entrada de host/origen, tamaño y esquema no registran todos sus rechazos; la monitorización completa de entrada queda como condición de admisión de despliegue. La auditoría da trazabilidad, no resistencia a manipulación por el administrador del host. Un sistema operativo comprometido queda fuera de esta garantía de aislamiento.
 
 Las propuestas conservan URLs/hashes, procedencia, versión de modelo/prompt cuando proceda, fundamento, refutación, duplicados, presupuesto solicitado y revisión. El texto externo no es confiable. Sus instrucciones no se ejecutan; una propuesta no modifica permisos, amplía presupuestos, cambia estrategias/riesgo reales ni se autoriza a sí misma. Agentes futuros necesitarán concesiones acotadas, contabilidad de consumo, revisión y revocación.
 
@@ -107,7 +108,7 @@ Investigación histórica, paper prospectivo y ejecución real requieren identid
 
 ## 8. Instalación, recuperación, costes y orden de desarrollo
 
-Backend, frontend, pruebas, migraciones y documentación EN/ES en el mismo repositorio. Versionar lockfiles y migraciones; excluir datos de ejecución, credenciales, caches y artefactos generados. Instalación desde dependencias fijadas, inicialización de base vacía, importación de IDs históricos, compilación SPA y arranque API/worker opcional mediante comandos documentados. Salud distingue proceso de disponibilidad de almacenamiento/esquema. Ante esquema/configuración incompatibles, abortar sin recrear datos destructivamente.
+Backend, frontend, pruebas, migraciones y documentación EN/ES en el mismo repositorio. Versionar lockfiles y migraciones; excluir datos de ejecución, credenciales, caches y artefactos generados. Instalación desde dependencias fijadas, inicialización de base vacía, importación de IDs históricos, compilación SPA y arranque API/worker opcional mediante comandos documentados. El endpoint público de salud solo indica que el proceso responde. La composición comprueba compatibilidad del esquema antes del arranque; las consultas autenticadas de datos/estado ejercitan almacenamiento. Que el proceso responda no garantiza disponibilidad continua del almacenamiento. Ante esquema/configuración incompatibles, abortar sin recrear datos destructivamente.
 
 Migrar antes del arranque, respaldar antes de actualizar, restauración/rollback controlados y probar migración sobre base vacía. Backups SQLite deben respetar escrituras/WAL; copiar coherentemente base y manifiestos de artefactos. Recuperar trabajos/artefactos sin borrar fallos. Logs estructurados, IDs de correlación, errores persistentes y vista de salud constituyen observabilidad inicial; correo/webhooks y atención continua son necesidades futuras, no un servicio garantizado aquí.
 

@@ -1,8 +1,8 @@
 # Platform architecture
 
-Document ID: ARCH-001 · Version: 1 · Updated: 2026-10-18 · Language: en (canonical)
+Document ID: ARCH-001 · Version: 2 · Updated: 2026-10-20 · Language: en (canonical)
 
-Translation: [Spanish](../../es/architecture/platform.md), synchronized with ARCH-001 v1. Scope: III.A design baseline; implementation and test evidence belong to the [acceptance register](../../phase-iii/acceptance.md). A design statement does not certify an operational capability.
+Translation: [Spanish](../../es/architecture/platform.md), synchronized with ARCH-001 v2. Scope: III.A design baseline; implementation and test evidence belong to the [acceptance register](../../phase-iii/acceptance.md). A design statement does not certify an operational capability.
 
 ## 1. Diagnosis and constraints
 
@@ -38,7 +38,8 @@ flowchart LR
   Services --> Meta[(SQLite metadata and audit)]
   Services --> Storage[Dataset/artifact storage port]
   Storage --> Files[(Parquet and content-addressed files)]
-  Reader[DuckDB reader] --> Files
+  Files --> Verified[Checksum-verified Arrow table]
+  Verified --> Reader[Isolated DuckDB reader]
   Services --> Reader
   Services --> Harness[Synthetic execution harness]
 ```
@@ -77,13 +78,13 @@ Market observations separate event time, first publication, provider availabilit
 
 Core entities: hypothesis/source reference; instrument; dataset version/partition/quality report; transformation specification/version; model/strategy version; frozen experiment specification; job attempt; result/artifact; proposal; audit event. Dataset descriptors include provenance, synthetic classification, content hash, schema, partition role and temporal coverage. Artifacts include checksum, media type and producing run. Historical versions are append-only; lifecycle status changes are separate transactions and do not overwrite old configuration/results.
 
-Ports cover storage/query, transformations, model fit/predict, signal/strategy decisions, execution, costs, financing/margin and risk checks. Orders, fills, positions and portfolios are distinct records. A strategy emits an intention; risk and execution independently validate it. The same intention contract may serve historical, prospective and live modes, but fills, latency, rejection, partial execution, funding and reconciliation remain adapter-specific. Unsupported contracts must reject explicitly rather than silently simulate zero costs or perfect fills.
+Ports cover storage/query, transformations, model fit/predict, signal/strategy decisions, execution, costs, financing/margin and risk checks. Orders, fills, positions and portfolios are distinct records. In the target architecture, a strategy emits a signal or intention; risk and execution independently validate actionable targets. The implemented v1 Signal is only a synthetic quantity target; general prediction, portfolio-target and order-intention semantics must be specified before a financial adapter is admitted (see the supplementary review). The same intention contract may serve historical, prospective and live modes, but fills, latency, rejection, partial execution, funding and reconciliation remain adapter-specific. Unsupported contracts must reject explicitly rather than silently simulate zero costs or perfect fills.
 
 Partition metadata may be browsed; **final/holdout payload access is denied to every role in III**, including administrator and agent. API, worker and storage/query service paths enforce the same rule. There is no market CSV upload or general SQL execution endpoint. Future holdout opening requires a separately authorized, audited policy and immutable evaluation record, not changing a UI flag.
 
 ## 5. Reproducible laboratory and durable work
 
-A run freezes hypothesis references, dataset and transformation hashes, parameters, seed, code revision/dirty-state identity, dependency/environment versions and protocol version before execution. Reports distinguish technical success, failure, negative and inconclusive outcomes from financial validation. Comparable runs expose differences instead of ranking unrelated configurations as scientific evidence. Deterministic reproduction compares stable inputs/results separately from timestamps and run IDs.
+The process captures its loaded software identity and rejects changed executable sources/dependencies until API and worker restart. A run freezes exact hypothesis references (kind, ID, version, hash), dataset and transformation hashes, parameters, seed, code revision/dirty-state identity, dependency/environment versions and protocol version before execution. Reports distinguish technical success, failure, negative and inconclusive outcomes from financial validation. Comparable runs expose differences instead of ranking unrelated configurations as scientific evidence. Deterministic reproduction compares stable inputs/results separately from timestamps and run IDs.
 
 The technical runner accepts bounded synthetic tasks only. Persist queued/running/succeeded/failed/interrupted states with timestamps, result/error and audit history. Claim atomically so two workers cannot own one job. Persist completion conditionally to prevent duplicate outputs. After a worker crash, abandoned work is explicitly recovered as interrupted or failed and may be retried as a new linked attempt; never report success or silently replay an external side effect. Transaction/file ordering must avoid publishing descriptors for missing artifacts; detect orphaned content during maintenance.
 
@@ -99,7 +100,7 @@ Use section descriptors and shared typed API access rather than embedding resear
 
 Default to loopback, one local owner and deny-by-default permissions. Generate a local bootstrap credential stored outside Git; never request exchange secrets. Use server-side sessions, HttpOnly cookies, expiration/revocation and same-origin CSRF protection; secure cookies and TLS are prerequisites for nonlocal deployment. Admin, researcher, viewer and agent roles have explicit allowlists. Agent access is limited to proposal/metadata capabilities, never order, holdout or arbitrary tool execution. State-changing endpoints validate authorization independently of the UI.
 
-Validate bounded payloads, safe artifact IDs/paths, resource limits and unexpected fields. Do not expose arbitrary shell, code, URL fetch, filesystem or SQL inputs. Redact secrets and safe error responses; detailed failures are controlled diagnostic records. Record denied actions and sensitive mutations. Audit records provide traceability, not tamper-proof protection against a host administrator. A compromised local OS is outside this deployment's isolation guarantee.
+Validate bounded payloads, safe artifact IDs/paths, resource limits and unexpected fields. Do not expose arbitrary shell, code, URL fetch, filesystem or SQL inputs. Redact secrets and safe error responses; detailed failures are controlled diagnostic records. Persist service/domain authorization failures, authenticated CSRF denials and sensitive mutations. Current ingress checks for host/origin, body size and schema do not all persist audit events; complete ingress security monitoring remains a deployment admission requirement. Audit records provide traceability, not tamper-proof protection against a host administrator. A compromised local OS is outside this deployment's isolation guarantee.
 
 Research proposals preserve source URLs/hashes, provenance, model/prompt version when applicable, rationale, falsifier, duplicate relationships, requested resource budgets and review status. External text is untrusted data. No tool instruction is executed from it; a proposal cannot amend permissions, expand trial budgets, rewrite live strategy/risk settings or authorize itself. Future autonomous agents need bounded grants, consumption accounting, review and revocation before activation.
 
@@ -107,7 +108,7 @@ Historical research, prospective paper and live execution require distinct autho
 
 ## 8. Installation, recovery, costs and implementation order
 
-Keep backend source, frontend, tests, migrations and EN/ES docs in one repository. Commit dependency lockfiles and schema migrations; ignore runtime data, credentials, caches and generated artifacts. Installation must work from pinned dependencies, initialize a fresh database, import preserved hypothesis identities, build the SPA and start API plus optional worker using documented commands. A health endpoint distinguishes basic process health from readiness of storage/schema. Startup rejects incompatible schema/configuration instead of destructively recreating data.
+Keep backend source, frontend, tests, migrations and EN/ES docs in one repository. Commit dependency lockfiles and schema migrations; ignore runtime data, credentials, caches and generated artifacts. Installation must work from pinned dependencies, initialize a fresh database, import preserved hypothesis identities, build the SPA and start API plus optional worker using documented commands. The public health endpoint reports basic process liveness only. Application composition checks schema compatibility before startup; authenticated data/status requests exercise storage. Liveness does not guarantee ongoing storage readiness. Startup rejects incompatible schema/configuration instead of destructively recreating data.
 
 Use migration-before-start, database backup before upgrades, controlled rollback/restore and a tested fresh-database migration path. Single-host SQLite backups must respect active writes/WAL; copy database and artifact manifests coherently. Failure recovery reconciles interrupted jobs and missing artifacts without deleting failed history. Structured logs, correlation IDs, persisted error states and a health view are the initial observability surface; email/webhooks/24-hour incident coverage are future operational requirements, not provided service guarantees.
 

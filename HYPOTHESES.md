@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Estado de plataforma al 2026-10-19:** II aceptada en `f8f4ff8`; III.A/III.B autorizadas, D-031. El futuro registro de software conserva estos IDs y fuentes sin convertir la aceptación en evidencia; las filas científicas y nulas siguen intactas. Las notas posteriores de «aceptación pendiente» describen la entrega anterior de II.
+**Estado de plataforma al 2026-10-21:** II aceptada en `f8f4ff8`; III.A/III.B completadas técnicamente, D-034 y [verificación](docs/es/verification.md). El registro implementado importa los 25 IDs y preserva sus fuentes/versiones; una asociación a una prueba técnica no evalúa una hipótesis científica. Las filas y nulas siguen intactas y ninguna hipótesis queda validada. Las notas posteriores de «aceptación pendiente» describen la entrega anterior de II.
 
 **Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.8 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 

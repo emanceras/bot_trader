@@ -1,8 +1,14 @@
 # Phase III acceptance and requirements traceability
 
-Document ID: ACCEPT-III-001 · Version: 1 · Updated: 2026-10-18 · Language: en (canonical checklist, Spanish summary below).
+Document ID: ACCEPT-III-001 · Version: 2 · Updated: 2026-10-21 · Language: en (canonical checklist, Spanish summary below).
 
-Baseline: [user request](REQUEST.es.md), sections 18–22, and [architecture ARCH-001](../en/architecture/platform.md). Initial state: **documented targets, not implemented/verified claims**. The integration owner records actual evidence before closing gates. Technical test passes are not financial validation. Preserve failures and link reruns rather than replacing them silently.
+Baseline: [user request](REQUEST.es.md), sections 18–22, and [architecture ARCH-001](../en/architecture/platform.md). These criteria were documented before implementation. **Current disposition: III.A and III.B technically complete within the authorized synthetic scope**, D-034. [Executed verification EN](../en/verification.md) / [ES](../es/verification.md) supplies evidence and limitations; the original criteria below remain intact. Technical test passes are not financial validation. Preserve failures and link reruns rather than replacing them silently.
+
+## Closure evidence — 2026-10-21
+
+III.A admission was recorded in D-032 before dependent implementation. All 19 architecture and 20 implementation deliverables are mapped in the verification report. A–E have behavioral backend evidence; F passed against the real API/worker/built web in Chromium, with the final release rerun passing two tests. The complete backend suite passed 110 tests, frontend unit suite seven, and Python/TypeScript static checks and production build passed. Fresh dependency installation, explicit migration, repeated initialization, startup, durable failure/recovery, and a stopped-writer restore were checked.
+
+The supplemental 21-capability matrix covers every requested section and explicitly classifies its fourteen proposed tests. Deferred instance/capital/operational-decision/global-risk tests are not counted as passes. Six web sections are operational; fifteen module records distinguish working technical services from prepared and future capabilities. No financial engine, market dataset, financial trial, autonomous investigator, prospective paper or live execution is delivered or authorized. No essential technical criterion remains blocked in this declared scope. IV still requires explicit user authorization.
 
 ## State vocabulary and gate order
 
@@ -91,3 +97,5 @@ Final report must distinguish operational software, prepared contracts and futur
 Esta matriz vincula los **19 entregables de III.A**, **20 de III.B** y **pruebas A–F** con evidencia concreta. Su redacción inicial no certifica implementación. La aceptación de arquitectura precede al desarrollo dependiente, sin pedir otra autorización entre III.A y III.B.
 
 Para cerrar III deben funcionar instalación/arranque, persistencia/migraciones, laboratorio sintético, API y web reales; comprobarse sustitución/ampliación/incorporación de módulos, reproducibilidad y denegación de operativa real/holdout. Se registran comandos, entorno, resultados y limitaciones; los fallos y resultados negativos no se borran. Las funcionalidades preparadas y futuras se diferencian de las operativas. Pruebas técnicas no validan rentabilidad y IV sigue requiriendo aprobación explícita.
+
+**Cierre técnico al 2026-10-21:** III.A/III.B satisfacen estos criterios en su alcance sintético, D-034. Se comprobaron 110 pruebas backend, siete frontend, dos de navegador real, instalación/arranque, restauración y A–F. Los 19+20 entregables se trazan en la [verificación española](../es/verification.md). Las pruebas complementarias pospuestas no se cuentan como aprobadas; IV y toda evaluación u operativa financiera requieren autorización independiente.

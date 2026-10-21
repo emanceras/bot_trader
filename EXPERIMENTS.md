@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-19 · **Versión:** 0.9 · **Estado:** sin experimentos financieros; III.A/III.B autorizadas con pruebas técnicas sintéticas. IV–VI, experimentación financiera y operativa no autorizadas. Las verificaciones de software se registrarán separadamente y no alteran los contadores financieros.
+**Actualizado:** 2026-10-21 · **Versión:** 1.0 · **Estado:** sin experimentos financieros; III.A/III.B verificadas con pruebas técnicas sintéticas, D-034. IV–VI, experimentación financiera y operativa no autorizadas. Las [verificaciones de software](docs/es/verification.md) se registran separadamente y no alteran los contadores financieros.
 
 ## Estado real
 
@@ -10,7 +10,7 @@
 | Optimizaciones/búsquedas de parámetros | 0 | No ejecutadas |
 | Entrenamientos ML/DL | 0 | No ejecutados |
 | Pruebas de hipótesis sobre datos de mercado | 0 | No ejecutadas |
-| Aperturas de holdout final | 0 | Aún no existe un dataset ni una partición final |
+| Aperturas de holdout final | 0 | No existe dataset de mercado ni holdout financiero; las fixtures reservadas son pruebas de denegación |
 | Paper trading | 0 | No iniciado |
 | Órdenes reales | 0 | No autorizadas |
 
