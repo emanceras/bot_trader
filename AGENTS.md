@@ -4,7 +4,7 @@
 
 Investigar un sistema cuantitativo de criptomonedas con evidencia reproducible de ventaja neta y robusta fuera de muestra. La complejidad no es un objetivo. La conclusión «evidencia insuficiente para operar» es válida.
 
-El usuario aceptó la propuesta final de II en `f8f4ff8` y **autorizó el cierre de II y la Fase III completa: III.A arquitectura e investigación tecnológica; III.B implementación y pruebas técnicas sintéticas**, sin nueva aprobación entre etapas. D-031 registra la transición. Se permiten código, dependencias y pruebas del núcleo/laboratorio/web. No se autorizan fases IV–VI, datasets de mercado para backtests, ensayos financieros, entrenamiento financiero real, paper trading prospectivo, cuentas financiadas, órdenes reales, agentes de producción ni gastos. Los límites históricos de I/II se conservan como historial; este encabezado y la sección III rigen el trabajo actual.
+El usuario aceptó III y autorizó expresamente la **Fase IV metodológica completa (IV.1–IV.11)** el 2026-10-24; [solicitud conservada](docs/phase-iv/REQUEST.es.md), D-035. Se permite desarrollar/revisar/publicar el protocolo y registrar mejoras UX futuras, sin implementarlas. III conserva su cierre técnico y la aplicación sigue en modo sintético. No se autorizan V–VI, experimentos financieros con mercado, entrenamiento financiero, gastos, paper prospectivo, cuentas financiadas ni órdenes reales. Los estados fechados anteriores son históricos; este encabezado y la sección IV rigen la autorización actual.
 
 ## Método y honestidad científica
 
@@ -105,3 +105,13 @@ El usuario aceptó la propuesta final de II en `f8f4ff8` y **autorizó el cierre
 - D-034 and `docs/en/verification.md` / `docs/es/verification.md` record completed III.A/III.B within synthetic scope. Preserve the 19+20 acceptance map, A–F evidence and failed-check history. Subsequent work must not silently relabel prepared financial modules operational.
 - No essential III implementation remains pending. Continue only authorized software maintenance until the user explicitly authorizes IV or another concrete scope. No market datasets, financial experiments/training, prospective paper/shadow/testnet, live actions or expenses follow automatically from technical closure.
 - Start from the actual Git/checkpoint state after interruptions; use locked installation, explicit migrations, private local authentication and restart both API/worker after source/dependency changes. The browser helper owns/stops its child processes and uses isolated synthetic state. Never log credential contents.
+
+## Phase IV — methodological design authorized
+
+- Reuse `docs/en/phase-iv/protocol.md`, its EN/ES annexes and acceptance record. Preserve original IV.1–IV.11 and C1/C3 primary, C2 secondary, C4/C5 reserves. No broad Phase I reopening, source-code/permissions change or UX implementation is implied.
+- Distinguish developed methodology, approved design, fully bound preregistration, actual holdout seal and financial execution authorization. `freeze-template.json` is documentary with null bindings and `execution_ready=false`; it is not a runner or permission service. Do not claim IV unconditionally closed while required acceptance/bindings remain unresolved.
+- The first-wave proposal has 26 base slots, not 26 total fits or independent tests. Enumerate folds/refits/seeds/ablations/stresses and a complete resource ceiling before launch; no unrecorded model, horizon, source, universe or manual search. Do not filter an input for marginal unprofitability.
+- Use chronological nested selection and training-only exposure/model calibration; one validation admission and one final authorized batch. Primary claims C1/C3-I/C3-X use necessary incremental and absolute-cash gates; method assumptions and multiplicity controls cannot repair leakage, costs or reused final data.
+- Preserve user/source availability, USD/stablecoin distinction, full capital and costs. Never manufacture numerical dates, economic margins, fee schedules, data adequacy or opening permissions to populate a template.
+- UX-01–UX-04 are future work, linked in EN/ES UX plans; no empty controls/tabs. Existing guides remain operational truth. Windows-native/WSL/paid CI verification is separate and still unperformed.
+- Record negative/inconclusive/adverse results and contaminated evaluation sets; phase V, financial source acquisition/implementation and any expense require applicable separately authorized scope. User review/approval of IV and exact bindings precede dependent financial runs.

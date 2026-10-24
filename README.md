@@ -2,7 +2,7 @@
 
 A modular cryptocurrency research platform with a documented scientific history. The current implementation provides a **local, synthetic technical laboratory**: versioned data, preserved hypotheses, durable jobs, reports, an authenticated API and a web interface. It does not establish a profitable strategy.
 
-Phase I closed with documented limitations; Phase II was accepted. Phase III authorizes architecture, implementation and synthetic technical verification. Financial backtests, market datasets, model training, prospective paper trading, live orders and spending remain outside the authorization. See [current progress](docs/phase-iii/PROGRESS.md) and [acceptance criteria](docs/phase-iii/acceptance.md) for the actual verification state.
+Phase I closed with documented limitations; Phases II and III were accepted. Phase IV methodological design is now authorized and delivered for review, with empirical bindings and approval still pending. See the [protocol](docs/en/phase-iv/protocol.md), [Spanish protocol](docs/es/phase-iv/protocol.md) and [acceptance gate](docs/en/phase-iv/acceptance.md). The application remains the verified Phase III synthetic platform. Financial backtests, market datasets, model training, prospective paper trading, live orders and spending remain outside the authorization. See [current progress](docs/phase-iii/PROGRESS.md) and [acceptance criteria](docs/phase-iii/acceptance.md) for the actual verification state.
 
 ## Start locally
 
@@ -40,6 +40,8 @@ The web interface submits bounded technical tasks; the worker executes them sepa
 | Architecture and module boundaries | [Platform](docs/en/architecture/platform.md) | [Plataforma](docs/es/architecture/platform.md) |
 | Executed verification and limits | [Verification](docs/en/verification.md) | [Verificación](docs/es/verification.md) |
 | Complementary architecture review | [Coverage and minimal changes](docs/en/architecture/supplement.md), [targeted evidence](docs/en/architecture/supplement-evidence.md) | [Cobertura y cambios mínimos](docs/es/architecture/supplement.md), [evidencia dirigida](docs/es/architecture/supplement-evidence.md) |
+| Phase IV design | [Protocol and dependencies](docs/en/phase-iv/protocol.md), [acceptance](docs/en/phase-iv/acceptance.md) | [Protocolo y dependencias](docs/es/phase-iv/protocol.md), [aceptación](docs/es/phase-iv/acceptance.md) |
+| Planned UX, glossary and help | [Future plan](docs/en/ux-evolution.md) | [Plan futuro](docs/es/ux-evolution.md) |
 | Technology alternatives | [Stack](docs/en/architecture/stack.md), [engines](docs/en/architecture/engines.md), [research tools](docs/en/architecture/research-tools.md) | [Stack](docs/es/architecture/stack.md), [motores](docs/es/architecture/engines.md), [herramientas](docs/es/architecture/research-tools.md) |
 
 The original scientific record remains in Spanish: [ROADMAP.md](ROADMAP.md), [RESEARCH.md](RESEARCH.md), [HYPOTHESES.md](HYPOTHESES.md), [EXPERIMENTS.md](EXPERIMENTS.md) and [DECISIONS.md](DECISIONS.md). It includes H-00–H-24, adverse evidence and conditional candidate selection. [AGENTS.md](AGENTS.md) governs continued work; [translation policy](docs/TRANSLATIONS.md) prevents an untranslated history from being mistaken for new evidence.

@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Estado de plataforma al 2026-10-21:** II aceptada en `f8f4ff8`; III.A/III.B completadas técnicamente, D-034 y [verificación](docs/es/verification.md). El registro implementado importa los 25 IDs y preserva sus fuentes/versiones; una asociación a una prueba técnica no evalúa una hipótesis científica. Las filas y nulas siguen intactas y ninguna hipótesis queda validada. Las notas posteriores de «aceptación pendiente» describen la entrega anterior de II.
+**Estado de plataforma al 2026-10-24:** III aceptada; IV metodológica autorizada, D-035/D-036. [Protocolo comparativo](docs/es/phase-iv/candidates.md) documentado sin modificar filas, nulas o falsadores. No hay resultados financieros ni autorización de V; la propuesta y su instanciación requieren revisión.
 
 **Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.8 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 

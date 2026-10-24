@@ -1,10 +1,10 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-21 · Versión: 1.0 · Alcance autorizado: **Fase III.A y III.B completas; pruebas técnicas sintéticas**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-24 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
-Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. IV–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
+Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. III aceptada por el usuario; IV metodológica autorizada en D-035. V–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
 
 | Fase | Entregable principal | Dependencias | Estado |
 |---|---|---|---|
@@ -12,7 +12,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Planificada |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Diseño desarrollado para revisión; aprobación/instanciación/sellado pendientes, D-036 |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |
@@ -137,9 +137,9 @@ Cobertura objetivo para futuras fases: el catálogo, calidad, trazabilidad, tran
 
 ## Fase IV — Metodología experimental
 
-**Objetivo:** congelar el diseño antes de ejecutar los ensayos que decidirán candidatos. Está planificada y requiere autorización explícita nueva; no se ha iniciado. Su protocolo debe aprobarse antes de V.
+**Objetivo:** congelar el diseño antes de ejecutar los ensayos que decidirán candidatos. IV metodológica autorizada en D-035; [protocolo EN](docs/en/phase-iv/protocol.md) / [ES](docs/es/phase-iv/protocol.md) desarrollado para revisión. Las tareas originales siguen intactas. La [matriz de aceptación](docs/es/phase-iv/acceptance.md) diferencia método documentado, aprobación y vinculaciones todavía pendientes: no hay holdout financiero sellado ni autorización de V.
 
-Tareas previstas:
+Tareas y criterios originales conservados:
 
 - IV.1: fijar universo point-in-time, fuentes, periodo, moneda de cuenta, elegibilidad por liquidez conocida entonces y tratamiento de desapariciones. Separar exploración autorizada de evaluación final.
 - IV.2: particiones cronológicas y walk-forward; intervalos exactos decididos por longitud de muestra, horizonte de señales y suficiencia de regímenes, sin mirar el rendimiento del holdout.
@@ -156,6 +156,14 @@ Tareas previstas:
 - IV.11: concretar el proceso de horizontes de II: reloj informativo, lookback, target, mantenimiento, rebalanceo, ejecución y riesgo; familia finita motivada y sensibilidades. Registrar todos los horizontes y ajustes descartados en desarrollo; validación del procedimiento completo y test final único. No ralentizar una señal ni elegir intervalos por rendimiento retrospectivo sin contabilizar selección. USD, conversiones y escenarios de capital/riesgo serán comunes en los comparadores pertinentes.
 
 **Aceptación:** diseño reproducible y aprobado; ninguna decisión dependiente de resultados ocultos; presupuesto de pruebas trazable; holdout inaccesible por defecto; costes y rechazo definidos. No se aceptan umbrales elegidos tras ver qué estrategia pasa.
+
+### Entrega metodológica y pendientes — 2026-10-24
+
+IV.1–IV.11 tienen especificación trazable en [protocolo](docs/es/phase-iv/protocol.md), [candidatas](docs/es/phase-iv/candidates.md), [datos/costes](docs/es/phase-iv/data-execution.md) y [métodos/fuentes](docs/es/phase-iv/method-evidence.md). 26 especificaciones base no son 26 ajustes totales: folds, semillas, escenarios y recursos deben enumerarse antes de lanzar. La [plantilla de congelación](docs/phase-iv/freeze-template.json) contiene valores pendientes explícitos y `execution_ready=false`; no es esquema ejecutable ni permiso.
+
+**Aceptación no satisfecha aún de forma incondicional:** falta revisión/aprobación del diseño y vincular fuentes/periodos, márgenes económicos/riesgo, parámetros y costes, presupuesto total, motor/inferencia técnicamente admitidos y custodia/sellado efectivo. No se han rebajado los criterios originales. Las decisiones del usuario se agrupan en diseño, recursos, escenario económico/riesgo y alcance posterior; los detalles técnicos se resolverán con evidencia dentro del alcance autorizado aplicable, no preguntando por cada parámetro.
+
+**UX futura registrada antes del desarrollo metodológico:** UX-01 resúmenes/tabla y auditoría desplegable; UX-02 glosario especializado EN/ES; UX-03 guía completa que siga capacidades reales; UX-04 ayuda contextual/accesibilidad e integración. [Plan EN](docs/en/ux-evolution.md) / [ES](docs/es/ux-evolution.md), con dependencias y aceptación. Sin código, secciones ficticias ni nuevas dependencias; no bloquea IV. Verificación Windows permanece separada y no realizada.
 
 ## Fase V — Experimentación
 
@@ -210,15 +218,13 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-21
+## Punto de reanudación vigente — 2026-10-24
 
-**Estado:** I cerrada con límites; II aceptada; III.A/III.B completadas técnicamente conforme a D-034 y [verificación](docs/es/verification.md). Corpus de 53 trabajos y H-00–H-24 intacto; cero experimentos financieros propios. Las interrupciones no requieren reconstruir el proyecto: comprobar Git y [PROGRESS](docs/phase-iii/PROGRESS.md).
+**Estado:** III aceptada y IV metodológica autorizada. Diseño IV.1–IV.11 desarrollado para revisión, D-035/D-036; no declarar aceptación completa ni lanzamiento financiero. [Criterios/pendientes](docs/es/phase-iv/acceptance.md), [protocolo](docs/es/phase-iv/protocol.md) y plantilla con nulls son el punto de entrada. No repetir I–III ni investigaciones bibliográficas generales.
 
-**Software entregado:** núcleo modular, catálogo Parquet sintético, registros versionados, hipótesis, transformaciones causales, trabajos persistentes/worker, contabilidad sintética, API autenticada, seis secciones web y gráficos. La revisión complementaria conserva alternativas y gates; no habilita multibot operativo, IA autónoma, paper ni live.
+**Siguiente decisión:** revisar propuesta metodológica, fijar escenario económico/recursos y delimitar autorización posterior para aptitud de fuentes/motor y eventual V. Fechas/holdout/costes efectivos se vincularán antes de cualquier evaluación dependiente; no se inventan ni se marca sellado inexistente. Ningún dataset de mercado, entrenamiento, backtest, paper o live iniciado.
 
-**Próxima decisión:** revisión del cierre técnico por el usuario y eventual autorización de IV. IV definiría protocolo finito de C1/C3, comparación C2 y gates de reservas C4/C5; aptitud de fuentes, universo temporal, horizontes por mecanismo, costes, particiones/holdout, multiplicidad, presupuesto y criterios prospectivos. No hace falta decidir capital real/exchange definitivo para revisar el software; serán necesarios antes del trabajo que dependa de ellos. Comprar datos/servicios, admitir un motor financiero o ejecutar V exige el alcance y autorización correspondientes.
-
-**Continuidad:** no iniciar IV, adquirir históricos de mercado, entrenar modelos financieros, backtestear, activar paper/shadow prospectivo ni operar. Mantener pares EN/ES, contratos, negativos e historial. Arranque y credenciales locales en las guías; ningún secreto de exchange es necesario.
+**Continuidad:** conservar 53 trabajos, H-00–H-24 y negativos; siete contadores financieros en cero. UX futura solo planificada; aplicación técnica de III intacta. Fuentes metodológicas nuevas: tres páginas oficiales dirigidas, sin añadir publicaciones al corpus. No realizar CI Windows de pago, compras ni acciones financieras sin autorización aplicable.
 
 ## Punto de reanudación histórico — consolidación del 2026-10-17
 

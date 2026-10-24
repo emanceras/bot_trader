@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-21 · **Versión:** 1.0 · **Estado:** sin experimentos financieros; III.A/III.B verificadas con pruebas técnicas sintéticas, D-034. IV–VI, experimentación financiera y operativa no autorizadas. Las [verificaciones de software](docs/es/verification.md) se registran separadamente y no alteran los contadores financieros.
+**Actualizado:** 2026-10-24 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) para revisión; no son experimentos registrados/ejecutados. V–VI y operativa no autorizadas. La verificación técnica histórica de III permanece separada; no se repitieron sus pruebas como evidencia financiera de IV.
 
 ## Estado real
 

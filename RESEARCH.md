@@ -1,6 +1,6 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-21 · **Versión:** 1.0 · **Estado actual:** I cerrada con límites e II aceptada; III.A/III.B completadas técnicamente, [verificación](docs/es/verification.md) y D-034; sin nueva evidencia financiera. Sin experimentos financieros propios; IV–VI no autorizadas. Los estados anteriores de esta revisión se conservan como historia.
+**Actualizado:** 2026-10-24 · **Versión:** 1.1 · **Estado actual:** I cerrada con límites, II/III aceptadas; IV metodológica autorizada y desarrollada para revisión. [Protocolo](docs/es/phase-iv/protocol.md), D-035/D-036. Tres páginas oficiales de métodos contrastadas sin ampliar el corpus de 53 trabajos. Sin experimentos financieros; V–VI no autorizadas. Las secciones fechadas anteriores conservan su estado histórico.
 
 **Transición aceptada:** el usuario aceptó el dictamen de la [auditoría crítica de cobertura](docs/research/coverage-audit.md) y sus reservas; D-025 registra esa aprobación. No se alcanzó saturación ni se demuestra una ventaja operable. Los 53 trabajos, fuentes parciales y resultados adversos se conservan. On-chain, posicionamiento, liquidaciones y eventos de tokens mantienen sus requisitos de datos/incrementalidad y no originan otra familia ni una búsqueda general.
 

@@ -2,6 +2,8 @@
 
 Updated: 2026-10-21. Canonical English; resumen español below.
 
+Later authorization update (2026-10-24): the user accepted III and authorized methodological IV in D-035. This III checkpoint remains historical; the current handoff is [Phase IV progress](../phase-iv/PROGRESS.md). Actualización posterior: III aceptada; IV metodológica autorizada, sin V.
+
 ## Authorization and recovered state
 
 The user accepted Phase II at `f8f4ff8` and authorized all III.A/III.B, including dependency installation, code, synthetic fixtures, tests and publication. No new permission was required between architecture and implementation. IV–VI, financial datasets/experiments, spending, prospective market paper trading and live operations remain unauthorized.

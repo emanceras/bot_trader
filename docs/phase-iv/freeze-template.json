@@ -1,0 +1,159 @@
+{
+  "document_id": "FREEZE-IV-001",
+  "schema_version": 1,
+  "revision": 1,
+  "date": "2026-10-24",
+  "status": "unbound_template_for_review",
+  "execution_ready": false,
+  "phase_v_authorized": false,
+  "warning": "Documentary template only. Not an executable configuration, approval or sealed dataset. Null required bindings block execution.",
+  "protocol": "docs/en/phase-iv/protocol.md",
+  "candidate_annex": "docs/en/phase-iv/candidates.md",
+  "data_annex": "docs/en/phase-iv/data-execution.md",
+  "account_currency": "USD",
+  "jurisdiction_reference": "Spain",
+  "capital_sensitivity_usd": [
+    1000,
+    5000,
+    10000
+  ],
+  "primary_claims": [
+    "C1",
+    "C3-I",
+    "C3-X"
+  ],
+  "secondary": [
+    "C2"
+  ],
+  "unallocated_reserves": [
+    "C4",
+    "C5"
+  ],
+  "inference": {
+    "primary_estimand": "paired_mean_net_usd_calendar_return_difference",
+    "cash_gate": "required",
+    "claim_p": "max(p_gain,p_cash)",
+    "family_size": 3,
+    "unrun_claim_p_for_adjustment": 1,
+    "correction": "Holm",
+    "family_alpha": 0.05,
+    "bootstrap": "paired_stationary_time_blocks",
+    "replications": 9999,
+    "seed": null,
+    "generator_version": null,
+    "block_length_rule": null,
+    "block_sensitivity": null,
+    "applicability_rule": null,
+    "null_calibration_evidence": null,
+    "confidence_interval_method": null
+  },
+  "required_bindings": {
+    "approvals": {
+      "iv_design_review": null,
+      "v_scope": null,
+      "data_acquisition_permission": null,
+      "financial_execution_permission": null,
+      "budget_approval": null
+    },
+    "sources": {
+      "providers": null,
+      "licenses": null,
+      "source_versions": null,
+      "availability_audit": null,
+      "quality_disposition": null,
+      "historical_prior_knowledge": null
+    },
+    "universe": {
+      "information_rule": null,
+      "tradable_rule": null,
+      "listing_delisting_ledger": null,
+      "quote_to_usd_rule": null,
+      "calendar": null,
+      "snapshot_digest": null
+    },
+    "timing": {
+      "observation_resolution": null,
+      "signal_lookbacks": null,
+      "target_horizon": null,
+      "holding_exit_rule": null,
+      "decision_rebalance_rule": null,
+      "refit_rule": null,
+      "latency_model": null,
+      "warmup": null,
+      "reporting_interval": null
+    },
+    "partitions": {
+      "development": null,
+      "inner_folds": null,
+      "outer_folds": null,
+      "validation": null,
+      "final": null,
+      "purge": null,
+      "embargo": null,
+      "event_groups": null,
+      "coverage_and_precision_requirement": null,
+      "independent_support_assessment": null
+    },
+    "economics": {
+      "reference_capital_usd": null,
+      "cash_benchmark": null,
+      "delta_increment_per_interval": null,
+      "delta_cash_per_interval": null,
+      "risk_feasibility_bounds": null,
+      "c2_risk_objective_and_return_tradeoff": null,
+      "fixed_cost_allocation": null
+    },
+    "execution": {
+      "product_and_venue": null,
+      "engine_and_version": null,
+      "engine_admission_tests": null,
+      "fees_and_cost_components": null,
+      "margin_borrow_funding_if_applicable": null,
+      "size_precision_minimums": null,
+      "capacity_rule": null,
+      "no_fill_exit_failure_policy": null,
+      "stress_scenarios": null
+    },
+    "recipes": {
+      "all_slot_ids_and_parameters": null,
+      "feature_and_transform_versions": null,
+      "selection_rule_tolerance": null,
+      "risk_exposure_calibration": null,
+      "regime_rules": null,
+      "final_frozen_procedures": null
+    },
+    "resources": {
+      "fit_ceiling": null,
+      "sensitivity_evaluation_ceiling": null,
+      "total_manifest_rows": null,
+      "cpu_hours_ceiling": null,
+      "storage_bytes_ceiling": null,
+      "research_cost_usd": null
+    },
+    "custody": {
+      "custodian": null,
+      "reviewer": null,
+      "authorized_opening_actor": null,
+      "access_control_evidence": null,
+      "one_time_opening_record": null
+    },
+    "integrity": {
+      "protocol_digest": null,
+      "dataset_manifest_digest": null,
+      "code_commit": null,
+      "lock_digests": null,
+      "final_batch_digest": null
+    }
+  },
+  "search_envelope": {
+    "admitted_horizons": 1,
+    "universe_rules": 1,
+    "base_execution_scenarios": 1,
+    "base_specification_ceiling": 26,
+    "rule_reference_slots": 8,
+    "c3_estimator_ablation_slots": 18,
+    "additional_models_without_amendment": false
+  },
+  "change_control": "Append a version and reason; never replace examined results. No authorization is inferred from a lifecycle flag.",
+  "binding_validation": "Future independent review must resolve every required field, including explicit justified not_applicable cases; neither this JSON nor execution_ready grants permissions."
+}
