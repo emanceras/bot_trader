@@ -1,10 +1,10 @@
 # Fase IV — cobertura, decisiones pendientes y acceso a Fase V
 
-Documento: ACCEPT-IV-001 · Versión: 2 · Fecha: 2026-10-25 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
+Documento: ACCEPT-IV-001 · Versión: 3 · Fecha: 2026-10-25 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
 
 ## Dictamen
 
-El paquete metodológico está desarrollado y se presenta para revisión según la [solicitud autorizada](../../phase-iv/REQUEST.es.md). **No se representa la Fase IV como cerrada incondicionalmente ni ejecutable financieramente.** La aceptación del roadmap exige diseño reproducible aprobado, presupuesto trazable, protección final y costes/rechazo prospectivos. Existen diseño y reglas; faltan aprobación, vinculaciones dependientes de datos y sellado real de un holdout financiero. No se rebaja ningún criterio para declarar la fase terminada.
+El paquete metodológico está desarrollado según la [solicitud autorizada](../../phase-iv/REQUEST.es.md); el usuario ha [aprobado E1/E2 de ba6c20b de forma condicionada](../../phase-iv/APPROVAL-E1-E2.es.md), D-038. **No se representa la Fase IV como cerrada incondicionalmente ni ejecutable financieramente.** La aceptación del roadmap exige diseño reproducible aprobado, presupuesto trazable, protección final y costes/rechazo prospectivos. Siguen pendientes E3/E4, vinculaciones completas dependientes de datos, aprobación del protocolo concretado y sellado real del holdout. No se rebaja ningún criterio para declarar la fase terminada. El [informe consolidado de viabilidad](feasibility.md), D-039, distingue hechos documentales, admisión de fuentes/motor sin ejecutar y dependencia de secuencia estadística pendiente.
 
 La aplicación conserva el alcance sintético verificado de III. No se adquirieron datasets de mercado, ajustaron modelos financieros, implementaron estrategias, ejecutaron experimentos ni abrieron holdouts financieros. El nuevo método y su ejecutor financiero no están probados. La revisión documental se distingue de las 110/7/2 pruebas históricas de software: no se repitieron ni cuentan como nueva evidencia de IV.
 
@@ -28,7 +28,7 @@ La aplicación conserva el alcance sintético verificado de III. No se adquirier
 
 | Criterio existente | Evidencia / condición |
 |---|---|
-| Diseño reproducible y aprobado | Diseño EN/ES versionado, comparación/selección determinista y vinculaciones explícitas. Aprobación e instanciación exacta pendientes |
+| Diseño reproducible y aprobado | Diseño EN/ES versionado y selección/comparación determinista; E1/E2 aprobadas condicionalmente en D-038. Faltan E3/E4 e instanciación/revisión exacta |
 | Sin decisiones basadas en resultados ocultos | IV no consultó datos/resultados financieros; reglas futuras prohíben retornos reservados. El conocimiento previo de literatura debe declararse |
 | Presupuesto trazable | 26 especificaciones base contadas; registro total folds×reajustes×semillas×estrés y recursos en null, bloqueando ejecución |
 | Holdout inaccesible por defecto | Política III sin cambios, denegación a todos los roles; futura custodia/apertura debe admitirse y probarse. El acceso del propietario del host no queda impedido criptográficamente |
@@ -39,14 +39,16 @@ La distinción es deliberada: se entrega cobertura metodológica; no puede obten
 
 ## Decisiones del usuario — agrupadas y acotadas
 
-La [revisión ejecutiva](executive-decisions.md), D-037, precisa el orden sin cambiar el protocolo ni registrar aceptación del usuario:
+La [revisión ejecutiva](executive-decisions.md), D-037, es la propuesta histórica. D-038 registra la aprobación condicionada del usuario; el orden vigente es:
 
-1. **Aprobar ahora — E1:** aceptar o modificar la construcción inicial condicionada spot largo/efectivo, con un horizonte justificado por mecanismo y una regla de universo point-in-time. Las prioridades C1/C3 y el papel secundario C2 ya aceptados no necesitan nueva aprobación. Los límites de producto/relojes afectan a esta tanda, no a la investigación futura.
-2. **Aprobar ahora — E2:** aceptar o modificar estructura comparativa, techo condicionado de 26 especificaciones y política de evidencia de tres contrastes. Sigue pendiente el registro completo de ajustes/recursos; 26 no es cantidad óptima ni ajustes totales. Sin expansión automática de modelos ni obligación de agotar especificaciones.
+1. **Aprobada condicionalmente — E1:** construcción inicial spot largo/efectivo, con horizonte justificado por mecanismo y regla de universo point-in-time. No necesita repetirse la aprobación. Los límites de producto/relojes afectan a esta tanda, no a la investigación futura; la viabilidad concreta sigue sin comprobarse.
+2. **Aprobada condicionalmente — E2:** estructura comparativa, techo de 26 especificaciones y política de evidencia de tres contrastes, incluidos comparadores/efectivo y Holm. Sigue pendiente el registro completo de ajustes/recursos; 26 no es cantidad óptima ni ajustes totales. Sin expansión automática de modelos ni obligación de agotar especificaciones.
 3. **Decidir tras dimensionar — E3:** aplicar la política existente de gratuito cuando sea apto, conservando alternativas comerciales. Presentar costes concretos de adquisición, desarrollo/validación y operación recurrente antes de solicitar compromisos de recursos o gastos. No inventar presupuesto total ni repetir preferencias ya expresadas.
 4. **Decidir tras conocer viabilidad — E4:** elegir capital primario de investigación, márgenes incrementales/sobre efectivo, objetivo de riesgo C2/sacrificio de rentabilidad y escenarios de exposición/pérdida como paquete coherente antes de evaluaciones dependientes. No fijan capital real ni límites personales de operativa. Conservar sensibilidades predefinidas de capital sin seleccionar ganador retrospectivamente.
 
-El acceso posterior a fuentes, admisión técnica y ejecución financiera requieren su autorización explícita separada. Esta revisión no solicita aprobación anticipada de V. Presentar el siguiente alcance concreto cuando pueda revisarse; aprobar E1/E2 no cierra IV incondicionalmente ni autoriza adquisición, gastos o experimentos. El paquete mínimo siguiente permanece intacto.
+La adquisición posterior de fuentes, admisión técnica y ejecución financiera requieren autorización separada. Los paquetes de viabilidad A (dos archivos trimestrales identificados, QA estructural) y B (motor fijado aislado, pruebas sintéticas) son propuestas concretas, no aprobadas ni ejecutadas. Esta entrega no solicita aprobación anticipada de V. E1/E2 no cierra IV incondicionalmente ni autoriza adquisición, gastos o experimentos. El paquete mínimo siguiente permanece intacto.
+
+**Límite estadístico:** QA estructural/pruebas sintéticas no establecen varianza pareada ni precisión estimadas solo en desarrollo, requeridas antes de validación. Viabilidad §7 identifica la tensión con vincular todo antes de cualquier ejecución financiera. Una aclaración prospectiva de admisión por etapas y cualquier desarrollo financiero necesitan revisión/autorización explícitas separadas; aquí no se adopta excepción ni enmienda.
 
 No necesitas elegir cada proveedor, fecha, parámetro de spline o adaptador: son vinculaciones técnicas guiadas por evidencia que se prepararán en el alcance aplicable y se presentarán en un manifiesto concreto. No hacen falta credenciales, cuenta financiada ni exchange de producción definitivo. Antes de abrir el test deben identificarse custodio/revisor y autoridad; acumular roles en una persona conserva una limitación procedimental explícita.
 
@@ -76,3 +78,7 @@ Un primer conteo amplio de IDs incluyó indebidamente la frase histórica que in
 ### Verificación de la revisión ejecutiva — 2026-10-25
 
 La versión 2 solo aclara el momento de aprobación. Comprobados 83 Markdown del repositorio y 626 destinos locales (existencia de rutas, no enlaces externos ni anclas), sin ausencias. Trece documentos científicos/metodológicos/de fuentes/plantilla conservados son idénticos byte a byte al commit anterior; los once IDs de IV siguen presentes en ambas traducciones y la plantilla conserva aprobaciones nulas y flags de ejecución/Fase V falsos. Las decisiones históricas permanecen como prefijo intacto, con D-037 añadido. Los diez archivos nuevos/modificados son documentales; no se necesitaron ni atribuyeron pruebas runtime a esta revisión. Una revisión interna independiente corrigió solicitudes redundantes de aprobación y una frase que podía confundir spot con horizonte lento. `git diff --check` pasó.
+
+### Verificación de viabilidad y aprobación — 2026-10-25
+
+La versión 3 registra D-038/D-039 sin cambiar el protocolo científico. Comprobados 86 Markdown del repositorio y 661 destinos locales, sin ausencias. Doce documentos científicos/metodológicos/UX son idénticos byte a byte a `ba6c20b`; los cuerpos científicos de ambos protocolos y las revisiones ejecutivas originales permanecen intactos. Se conserva el historial de decisiones. Cuarenta y seis eventos de fuentes parseados; 45 referencias de hash coinciden con 24 artefactos del cache. Las dos consultas HEAD registran cero bytes de cuerpo de archivo y tamaños anunciados que suman 2.172.918.907. Estructura EN/ES, enlaces de fuentes, IDs y valores decisivos coinciden. La plantilla cambia solo estado/registro de aprobación limitada: inferencia, presupuesto de búsqueda y vinculaciones no relativas a aprobación permanecen intactos; todos los permisos adicionales a E1/E2 condicionadas siguen nulos y flags de ejecución falsos. Diecisiete archivos nuevos/modificados son documentales; no se necesitó ni repitió la batería runtime. Una revisión interna independiente comprobó alcance, límites de fuentes y secuencia estadística; no es validación financiera. `git diff --check` pasó.

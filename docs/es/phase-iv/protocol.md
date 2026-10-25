@@ -1,8 +1,10 @@
 # Fase IV — protocolo experimental para revisión
 
-Documento: PROTOCOL-IV-001 · Versión: 1 · Fecha: 2026-10-24 · Traducción española. [Original canónico en inglés](../../en/phase-iv/protocol.md).
+Documento: PROTOCOL-IV-001 · Versión: 2 · Fecha: 2026-10-25 · Traducción española. [Original canónico en inglés](../../en/phase-iv/protocol.md).
 
 ## 1. Autorización, estado y orden de lectura
+
+**Actualización de estado, D-038:** el usuario aprobó E1/E2 de `ba6c20b` de forma condicionada; [aprobación](../../phase-iv/APPROVAL-E1-E2.es.md) e [informe consolidado de viabilidad](feasibility.md). E3/E4 y prerregistro/admisión concretos siguen pendientes. La versión 2 añade solo este estado; el método científico siguiente permanece intacto. La cuestión de secuencia identificada en viabilidad §7 no es una enmienda adoptada ni permiso financiero.
 
 La [solicitud](../../phase-iv/REQUEST.es.md) acepta la entrega de Fase III y autoriza el **trabajo metodológico** IV.1–IV.11, su documentación y publicación. No se autorizan V, experimentos/entrenamiento con mercados, servicios de pago, paper trading prospectivo ni cuentas/órdenes reales. La ejecución permanece exclusivamente técnica; esta entrega no modifica permisos ni código de la aplicación. La compatibilidad con Windows no se ha comprobado y no es requisito de este trabajo metodológico.
 

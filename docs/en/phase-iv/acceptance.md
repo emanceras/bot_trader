@@ -1,10 +1,10 @@
 # Phase IV — coverage, pending decisions and Phase V gate
 
-Document ID: ACCEPT-IV-001 · Version: 2 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
+Document ID: ACCEPT-IV-001 · Version: 3 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
 
 ## Disposition
 
-The methodological package is developed and submitted for review under the [authorized request](../../phase-iv/REQUEST.es.md). **Phase IV is not represented as unconditionally closed or financially executable.** The roadmap's acceptance requires an approved reproducible design, a traceable trial budget, final-data protection and prospective costs/rejection. The design and rules exist; approval, data-dependent bindings and an actual financial holdout seal do not. No criterion has been silently relaxed to call the phase complete.
+The methodological package is developed under the [authorized request](../../phase-iv/REQUEST.es.md); the user has [conditionally approved E1/E2 of ba6c20b](../../phase-iv/APPROVAL-E1-E2.es.md), D-038. **Phase IV is not represented as unconditionally closed or financially executable.** The roadmap's acceptance requires an approved reproducible design, a traceable trial budget, final-data protection and prospective costs/rejection. E3/E4, complete data-dependent bindings, instantiated-protocol approval and an actual financial holdout seal remain pending. No criterion has been silently relaxed to call the phase complete. [Consolidated feasibility](feasibility.md), D-039, distinguishes documentary facts from unperformed source/engine admission and the unresolved statistical sequencing dependency.
 
 The existing application is still the verified synthetic platform of III. No market dataset was acquired, financial model fitted, strategy implemented, experiment executed or financial holdout opened. The new method and its financial runner have not been tested. Documentary review is distinct from the 110/7/2 historical software tests; those were not rerun or counted as new IV evidence.
 
@@ -28,7 +28,7 @@ The existing application is still the verified synthetic platform of III. No mar
 
 | Existing criterion | Evidence / condition |
 |---|---|
-| Reproducible and approved design | Versioned EN/ES design, deterministic comparison/selection rules, explicit required bindings. User approval and exact instantiation remain pending |
+| Reproducible and approved design | Versioned EN/ES design and deterministic comparison/selection rules; E1/E2 conditionally approved in D-038. E3/E4 and exact instantiation/review remain pending |
 | No choice depends on hidden results | No financial results/data consulted in IV; future time/source/access rules forbid using hidden returns. Prior literature knowledge must still be disclosed |
 | Traceable trial budget | 26 base slots explicitly counted; full folds×refits×seeds×stress ledger and resource ceilings remain null and block launch |
 | Holdout inaccessible by default | III policy remains unchanged and denies every application role; future custody/unsealing must be admitted and tested. Host-owner access is not a cryptographic guarantee |
@@ -39,14 +39,16 @@ The distinction is deliberate: methodological coverage is delivered; empirical r
 
 ## Decisions for the user — grouped and limited
 
-The [executive review](executive-decisions.md), D-037, refines the sequence without changing the protocol or recording user acceptance:
+The [executive review](executive-decisions.md), D-037, is the historical proposal. D-038 records the user's conditional approval; the current sequence is:
 
-1. **Approve now — E1:** accept or amend the conditional first-wave spot long/cash construction, with one mechanism-justified horizon and point-in-time universe rule. Previously accepted C1/C3 priorities and C2's secondary role need no reapproval. Product/timing bounds apply to this wave, not future research.
-2. **Approve now — E2:** accept or amend the comparative structure, conditional 26-slot ceiling and three-claim evidence policy. The full fit/resource ledger remains required; 26 is not an optimal number or total fits. No automatic model expansion or obligation to fill unused slots.
+1. **Approved conditionally — E1:** first-wave spot long/cash construction, with one mechanism-justified horizon and point-in-time universe rule. No repeat approval is needed. Product/timing bounds apply to this wave, not future research; actual viability remains unproved.
+2. **Approved conditionally — E2:** comparative structure, 26-slot ceiling and three-claim evidence policy, including comparator/cash gates and Holm. The full fit/resource ledger remains required; 26 is not an optimal number or total fits. No automatic model expansion or obligation to fill unused slots.
 3. **Decide after sizing — E3:** apply the existing free-when-fit policy and keep commercial alternatives eligible. Present concrete acquisition, development/validation and recurring costs before asking for resource commitments or any spending. Do not invent a total budget or ask the user to repeat existing preferences.
 4. **Decide after feasibility evidence — E4:** select primary research capital, incremental/cash materiality margins, C2 risk objective/allowed return sacrifice and research exposure/loss scenarios as a coherent package before dependent evaluations. These do not set real account capital or personal live limits. Retain prespecified capital sensitivities without retrospective winner selection.
 
-Subsequent source access, technical admission and financial execution must remain within separately explicit authorization. This review does not ask for advance Phase V approval. Present the concrete next scope when reviewable; approval of E1/E2 alone neither closes IV unconditionally nor authorizes acquisition, spending or experiments. The minimum package below is unchanged.
+Subsequent source acquisition, technical admission and financial execution remain separately authorized. Feasibility packages A (two named quarterly archives, structural QA) and B (isolated pinned engine, synthetic checks) are concrete proposals, not approved or executed. This delivery does not ask for advance Phase V approval. E1/E2 neither closes IV unconditionally nor authorizes acquisition, spending or experiments. The minimum package below is unchanged.
+
+**Statistical limit:** structural QA/synthetic checks cannot establish development-only paired-return variance and precision required before validation. Feasibility §7 identifies the tension with complete pre-financial-run binding. A prospective staged-admission clarification and any financial development work need separate explicit review/authorization; no exception or amendment is enacted here.
 
 The user need not choose every provider, date, spline parameter or software adapter. These are evidence-driven technical bindings to prepare within the next applicable scope and present as a concrete manifest. No credentials, funded account or final production exchange is needed now. Custodian/reviewer and opening authority must be identified before final access; one person holding several roles leaves an explicitly documented procedural limitation.
 
@@ -76,3 +78,7 @@ A first broad ID-count check incorrectly included the historical sentence saying
 ### Executive review verification — 2026-10-25
 
 Version 2 clarifies approval timing only. Checked 83 repository Markdown files and 626 local destinations (path existence, not external links or anchors), with no missing targets. Thirteen preserved scientific/method/source/template documents are byte-identical to the previous commit; all eleven IV tasks remain mapped in both translations, and the template still has null approvals and false execution/Phase V flags. Historical decisions remain an unchanged prefix with D-037 appended. Ten changed/new files are documentation only; no runtime tests were needed or claimed for this review. Independent internal review corrected redundant approval requests and wording that could confuse spot with a slow horizon. `git diff --check` passed.
+
+### Feasibility and approval verification — 2026-10-25
+
+Version 3 records D-038/D-039 without changing the scientific protocol. Checked 86 repository Markdown files and 661 local path destinations; no missing targets. Twelve scientific/method/UX documents remain byte-identical to `ba6c20b`; both protocol scientific bodies and original executive-review bodies are unchanged. Historical decision entries remain intact. Forty-six source events parse; 45 hash references match 24 cached artifacts. The two HEAD receipts record zero archive-body bytes; their advertised sizes sum to 2,172,918,907. EN/ES report structure, source links, IDs and critical values agree. The template changes only status/limited approval bookkeeping: inference, search envelope and non-approval bindings remain unchanged; all permissions beyond conditional E1/E2 remain null and execution flags false. Seventeen changed/new files are documentary; no runtime suite was needed or rerun. An independent internal review checked scope, source limits and statistical sequencing; this is not financial validation. `git diff --check` passed.

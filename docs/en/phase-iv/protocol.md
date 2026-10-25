@@ -1,8 +1,10 @@
 # Phase IV — experimental protocol for review
 
-Document ID: PROTOCOL-IV-001 · Version: 1 · Date: 2026-10-24 · English canonical. [Spanish](../../es/phase-iv/protocol.md).
+Document ID: PROTOCOL-IV-001 · Version: 2 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/protocol.md).
 
 ## 1. Authority, status and reading order
+
+**Status update, D-038:** the user conditionally approved E1/E2 from `ba6c20b`; [approval](../../phase-iv/APPROVAL-E1-E2.es.md) and [consolidated feasibility](feasibility.md). E3/E4 and exact preregistration/admission remain pending. Version 2 adds this status only; the scientific method below is unchanged. The sequencing issue identified in feasibility §7 is not an enacted amendment or financial permission.
 
 The [request](../../phase-iv/REQUEST.es.md) accepts the Phase III delivery and authorizes IV.1–IV.11 **methodological work**, documentation and publication. V, market experiments/training, paid services, prospective paper trading and real accounts/orders are not authorized. Runtime stays technical-only; no application permissions or code change in this delivery. Windows compatibility has not been tested and is not a prerequisite for this methodological work.
 

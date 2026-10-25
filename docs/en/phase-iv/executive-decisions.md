@@ -1,6 +1,8 @@
 # Phase IV — executive decision review
 
-Document ID: IV-EXEC-001 · Version: 1 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/executive-decisions.md).
+Document ID: IV-EXEC-001 · Version: 2 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/executive-decisions.md).
+
+**Subsequent status:** the user approved E1/E2 of `ba6c20b`, D-038; [approval record](../../phase-iv/APPROVAL-E1-E2.es.md). The original proposal below is retained as the reviewed decision basis, not another approval request. E3/E4 remain pending; the [feasibility report](feasibility.md) defines the current next gate. No acquisition or financial execution follows automatically.
 
 ## Recommendation and status
 

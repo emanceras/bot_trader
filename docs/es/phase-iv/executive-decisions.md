@@ -1,6 +1,8 @@
 # Fase IV — revisión ejecutiva de decisiones
 
-Documento: IV-EXEC-001 · Versión: 1 · Fecha: 2026-10-25 · Traducción sincronizada del [original inglés](../../en/phase-iv/executive-decisions.md).
+Documento: IV-EXEC-001 · Versión: 2 · Fecha: 2026-10-25 · Traducción sincronizada del [original inglés](../../en/phase-iv/executive-decisions.md).
+
+**Estado posterior:** el usuario aprobó E1/E2 de `ba6c20b`, D-038; [registro de aprobación](../../phase-iv/APPROVAL-E1-E2.es.md). La propuesta original siguiente se conserva como fundamento revisado, no como otra solicitud de aprobación. E3/E4 siguen pendientes; el [informe de viabilidad](feasibility.md) define el siguiente paso vigente. No se deriva adquisición ni ejecución financiera automática.
 
 ## Recomendación y estado
 
