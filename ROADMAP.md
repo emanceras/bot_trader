@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-24 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-25 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
@@ -161,7 +161,7 @@ Tareas y criterios originales conservados:
 
 IV.1–IV.11 tienen especificación trazable en [protocolo](docs/es/phase-iv/protocol.md), [candidatas](docs/es/phase-iv/candidates.md), [datos/costes](docs/es/phase-iv/data-execution.md) y [métodos/fuentes](docs/es/phase-iv/method-evidence.md). 26 especificaciones base no son 26 ajustes totales: folds, semillas, escenarios y recursos deben enumerarse antes de lanzar. La [plantilla de congelación](docs/phase-iv/freeze-template.json) contiene valores pendientes explícitos y `execution_ready=false`; no es esquema ejecutable ni permiso.
 
-**Aceptación no satisfecha aún de forma incondicional:** falta revisión/aprobación del diseño y vincular fuentes/periodos, márgenes económicos/riesgo, parámetros y costes, presupuesto total, motor/inferencia técnicamente admitidos y custodia/sellado efectivo. No se han rebajado los criterios originales. Las decisiones del usuario se agrupan en diseño, recursos, escenario económico/riesgo y alcance posterior; los detalles técnicos se resolverán con evidencia dentro del alcance autorizado aplicable, no preguntando por cada parámetro.
+**Aceptación no satisfecha aún de forma incondicional:** falta revisión/aprobación del diseño y vincular fuentes/periodos, márgenes económicos/riesgo, parámetros y costes, presupuesto total, motor/inferencia técnicamente admitidos y custodia/sellado efectivo. No se han rebajado los criterios originales. La [revisión ejecutiva](docs/es/phase-iv/executive-decisions.md), D-037, reduce las aprobaciones actuales a E1 (escenario condicionado) y E2 (comparaciones/26 especificaciones/política de evidencia). E3 aplica preferencias presupuestarias existentes y E4 prepara el escenario económico/riesgo: los importes, márgenes y compromisos concretos requieren evidencia posterior. Los detalles técnicos se resolverán dentro del alcance autorizado aplicable, no preguntando por cada parámetro.
 
 **UX futura registrada antes del desarrollo metodológico:** UX-01 resúmenes/tabla y auditoría desplegable; UX-02 glosario especializado EN/ES; UX-03 guía completa que siga capacidades reales; UX-04 ayuda contextual/accesibilidad e integración. [Plan EN](docs/en/ux-evolution.md) / [ES](docs/es/ux-evolution.md), con dependencias y aceptación. Sin código, secciones ficticias ni nuevas dependencias; no bloquea IV. Verificación Windows permanece separada y no realizada.
 
@@ -218,11 +218,11 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-24
+## Punto de reanudación vigente — 2026-10-25
 
-**Estado:** III aceptada y IV metodológica autorizada. Diseño IV.1–IV.11 desarrollado para revisión, D-035/D-036; no declarar aceptación completa ni lanzamiento financiero. [Criterios/pendientes](docs/es/phase-iv/acceptance.md), [protocolo](docs/es/phase-iv/protocol.md) y plantilla con nulls son el punto de entrada. No repetir I–III ni investigaciones bibliográficas generales.
+**Estado:** III aceptada y IV metodológica autorizada. Diseño IV.1–IV.11 y [revisión ejecutiva](docs/es/phase-iv/executive-decisions.md) desarrollados para revisión, D-035–D-037; no declarar aceptación completa ni lanzamiento financiero. [Criterios/pendientes](docs/es/phase-iv/acceptance.md), [protocolo](docs/es/phase-iv/protocol.md) y plantilla con nulls son el punto de entrada. No repetir I–III ni investigaciones bibliográficas generales.
 
-**Siguiente decisión:** revisar propuesta metodológica, fijar escenario económico/recursos y delimitar autorización posterior para aptitud de fuentes/motor y eventual V. Fechas/holdout/costes efectivos se vincularán antes de cualquier evaluación dependiente; no se inventan ni se marca sellado inexistente. Ningún dataset de mercado, entrenamiento, backtest, paper o live iniciado.
+**Siguiente decisión:** revisar E1/E2 ahora. Mantener las preferencias de recursos ya dadas; presentar después un informe concreto de viabilidad para elegir compromisos de recursos, capital primario y márgenes económicos/riesgo antes de evaluaciones dependientes. No solicitar cifras sin evidencia ni autorización anticipada de V. Acceso a fuentes/admisión técnica/ejecución posterior requieren alcance explícito aplicable. No se inventan fechas, costes ni sellado. Ningún dataset de mercado, entrenamiento, backtest, paper o live iniciado.
 
 **Continuidad:** conservar 53 trabajos, H-00–H-24 y negativos; siete contadores financieros en cero. UX futura solo planificada; aplicación técnica de III intacta. Fuentes metodológicas nuevas: tres páginas oficiales dirigidas, sin añadir publicaciones al corpus. No realizar CI Windows de pago, compras ni acciones financieras sin autorización aplicable.
 

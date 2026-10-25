@@ -1,6 +1,6 @@
 # Phase IV — coverage, pending decisions and Phase V gate
 
-Document ID: ACCEPT-IV-001 · Version: 1 · Date: 2026-10-24 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
+Document ID: ACCEPT-IV-001 · Version: 2 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
 
 ## Disposition
 
@@ -39,10 +39,14 @@ The distinction is deliberate: methodological coverage is delivered; empirical r
 
 ## Decisions for the user — grouped and limited
 
-1. **Review the scientific design:** accept or amend the one-wave spot long/flat proposal, C1/C3 priorities, C2 secondary endpoint approach, 26 base slots and three-claim error budget. Spot and one horizon bound this wave, not future opportunity space. More complex models have no automatic expansion right.
-2. **Set research resources:** acceptable acquisition and compute/development spending, or a strictly free first admission exercise. No purchase or paid CI/cloud action is implied. Time/storage ceilings may be recommended after source/engine sizing but must be approved before incurring cost.
-3. **Choose research economics/risk:** reference capital scenario; minimum economically relevant incremental and cash effects; C2's downside-risk objective/allowed return sacrifice; scenario exposure/loss tolerances. These are experiment design choices and do not set real account capital or authorize leverage. Where unsure, a small prospectively specified sensitivity set is possible, with one primary scenario and no retrospective winner selection.
-4. **Define the next authorized scope:** approve source-quality admission and financial-engine compatibility preparation, and specify whether financial runs require another review after the populated freeze manifest. This request authorizes none of those next-phase actions. A source/engine review can be requested before authorizing experiments if desired.
+The [executive review](executive-decisions.md), D-037, refines the sequence without changing the protocol or recording user acceptance:
+
+1. **Approve now — E1:** accept or amend the conditional first-wave spot long/cash construction, with one mechanism-justified horizon and point-in-time universe rule. Previously accepted C1/C3 priorities and C2's secondary role need no reapproval. Product/timing bounds apply to this wave, not future research.
+2. **Approve now — E2:** accept or amend the comparative structure, conditional 26-slot ceiling and three-claim evidence policy. The full fit/resource ledger remains required; 26 is not an optimal number or total fits. No automatic model expansion or obligation to fill unused slots.
+3. **Decide after sizing — E3:** apply the existing free-when-fit policy and keep commercial alternatives eligible. Present concrete acquisition, development/validation and recurring costs before asking for resource commitments or any spending. Do not invent a total budget or ask the user to repeat existing preferences.
+4. **Decide after feasibility evidence — E4:** select primary research capital, incremental/cash materiality margins, C2 risk objective/allowed return sacrifice and research exposure/loss scenarios as a coherent package before dependent evaluations. These do not set real account capital or personal live limits. Retain prespecified capital sensitivities without retrospective winner selection.
+
+Subsequent source access, technical admission and financial execution must remain within separately explicit authorization. This review does not ask for advance Phase V approval. Present the concrete next scope when reviewable; approval of E1/E2 alone neither closes IV unconditionally nor authorizes acquisition, spending or experiments. The minimum package below is unchanged.
 
 The user need not choose every provider, date, spline parameter or software adapter. These are evidence-driven technical bindings to prepare within the next applicable scope and present as a concrete manifest. No credentials, funded account or final production exchange is needed now. Custodian/reviewer and opening authority must be identified before final access; one person holding several roles leaves an explicitly documented procedural limitation.
 
@@ -68,3 +72,7 @@ The three-page method-source budget is closed. The existing scientific corpus is
 Checked 82 Markdown documents and 604 local link destinations (paths, not a new remote-link/anchor audit); no missing targets. Parsed seven method-source events and checked six cached-hash references to the three retrieved snapshots. The JSON template parses, keeps both execution/Phase V flags false and reconciles 26 base slots/three primary claims. All eleven original task IDs occur in both acceptance translations. HYPOTHESES and RESEARCH scientific bodies after their current-status headers are byte-identical to the prior committed versions; 25 original definitions and seven zero financial counters are preserved. No runtime, dependency, market dataset or financial computation changed.
 
 A first broad ID-count check incorrectly included the historical sentence saying H-25 was not created; a subsequent narrow pattern missed the semicolon format of H-23/H-24. The corrected definition-pattern check matches the existing import convention and passes; no scientific text was changed to satisfy it. Internal methodological review identified ambiguous inner-selection comparators and late-entry/nonoverlap wording; both were clarified in EN/ES. This is documentary/internal design verification, not calibrated statistical performance or external scientific certification. `git diff --check` passed before publication.
+
+### Executive review verification — 2026-10-25
+
+Version 2 clarifies approval timing only. Checked 83 repository Markdown files and 626 local destinations (path existence, not external links or anchors), with no missing targets. Thirteen preserved scientific/method/source/template documents are byte-identical to the previous commit; all eleven IV tasks remain mapped in both translations, and the template still has null approvals and false execution/Phase V flags. Historical decisions remain an unchanged prefix with D-037 appended. Ten changed/new files are documentation only; no runtime tests were needed or claimed for this review. Independent internal review corrected redundant approval requests and wording that could confuse spot with a slow horizon. `git diff --check` passed.

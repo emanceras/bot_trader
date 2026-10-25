@@ -41,6 +41,7 @@ The web interface submits bounded technical tasks; the worker executes them sepa
 | Executed verification and limits | [Verification](docs/en/verification.md) | [Verificación](docs/es/verification.md) |
 | Complementary architecture review | [Coverage and minimal changes](docs/en/architecture/supplement.md), [targeted evidence](docs/en/architecture/supplement-evidence.md) | [Cobertura y cambios mínimos](docs/es/architecture/supplement.md), [evidencia dirigida](docs/es/architecture/supplement-evidence.md) |
 | Phase IV design | [Protocol and dependencies](docs/en/phase-iv/protocol.md), [acceptance](docs/en/phase-iv/acceptance.md) | [Protocolo y dependencias](docs/es/phase-iv/protocol.md), [aceptación](docs/es/phase-iv/acceptance.md) |
+| Phase IV pending choices | [Executive decision review](docs/en/phase-iv/executive-decisions.md) | [Revisión ejecutiva de decisiones](docs/es/phase-iv/executive-decisions.md) |
 | Planned UX, glossary and help | [Future plan](docs/en/ux-evolution.md) | [Plan futuro](docs/es/ux-evolution.md) |
 | Technology alternatives | [Stack](docs/en/architecture/stack.md), [engines](docs/en/architecture/engines.md), [research tools](docs/en/architecture/research-tools.md) | [Stack](docs/es/architecture/stack.md), [motores](docs/es/architecture/engines.md), [herramientas](docs/es/architecture/research-tools.md) |
 

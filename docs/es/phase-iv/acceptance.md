@@ -1,6 +1,6 @@
 # Fase IV — cobertura, decisiones pendientes y acceso a Fase V
 
-Documento: ACCEPT-IV-001 · Versión: 1 · Fecha: 2026-10-24 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
+Documento: ACCEPT-IV-001 · Versión: 2 · Fecha: 2026-10-25 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
 
 ## Dictamen
 
@@ -39,10 +39,14 @@ La distinción es deliberada: se entrega cobertura metodológica; no puede obten
 
 ## Decisiones del usuario — agrupadas y acotadas
 
-1. **Revisar el diseño científico:** aceptar o modificar la propuesta inicial spot largo/efectivo, prioridades C1/C3, enfoque secundario C2, 26 especificaciones base y presupuesto de error de tres contrastes. Spot y un horizonte acotan esta tanda, no las oportunidades futuras. No existe expansión automática a modelos complejos.
-2. **Fijar recursos de investigación:** gasto aceptable en adquisición, cómputo/desarrollo o primera admisión estrictamente gratuita. No se implica compra ni CI/cloud de pago. Los límites de tiempo/almacenamiento pueden recomendarse tras dimensionar fuentes/motor, pero deben aprobarse antes de incurrir en gasto.
-3. **Elegir economía/riesgo de investigación:** capital de referencia; efecto incremental y sobre efectivo mínimamente relevante; objetivo de riesgo de C2/pérdida de retorno tolerada; escenarios de exposición/pérdida. Son decisiones experimentales, no capital real ni apalancamiento autorizado. Si hay incertidumbre, cabe una sensibilidad pequeña predefinida, con escenario primario y sin elegir ganador retrospectivo.
-4. **Precisar el próximo alcance autorizado:** aprobar admisión/calidad de fuentes y preparación de compatibilidad del motor financiero, indicando si los ensayos requieren otra revisión tras el manifiesto completo. La solicitud actual no autoriza esas acciones posteriores. Puede solicitarse revisión de fuentes/motor antes de autorizar experimentos.
+La [revisión ejecutiva](executive-decisions.md), D-037, precisa el orden sin cambiar el protocolo ni registrar aceptación del usuario:
+
+1. **Aprobar ahora — E1:** aceptar o modificar la construcción inicial condicionada spot largo/efectivo, con un horizonte justificado por mecanismo y una regla de universo point-in-time. Las prioridades C1/C3 y el papel secundario C2 ya aceptados no necesitan nueva aprobación. Los límites de producto/relojes afectan a esta tanda, no a la investigación futura.
+2. **Aprobar ahora — E2:** aceptar o modificar estructura comparativa, techo condicionado de 26 especificaciones y política de evidencia de tres contrastes. Sigue pendiente el registro completo de ajustes/recursos; 26 no es cantidad óptima ni ajustes totales. Sin expansión automática de modelos ni obligación de agotar especificaciones.
+3. **Decidir tras dimensionar — E3:** aplicar la política existente de gratuito cuando sea apto, conservando alternativas comerciales. Presentar costes concretos de adquisición, desarrollo/validación y operación recurrente antes de solicitar compromisos de recursos o gastos. No inventar presupuesto total ni repetir preferencias ya expresadas.
+4. **Decidir tras conocer viabilidad — E4:** elegir capital primario de investigación, márgenes incrementales/sobre efectivo, objetivo de riesgo C2/sacrificio de rentabilidad y escenarios de exposición/pérdida como paquete coherente antes de evaluaciones dependientes. No fijan capital real ni límites personales de operativa. Conservar sensibilidades predefinidas de capital sin seleccionar ganador retrospectivamente.
+
+El acceso posterior a fuentes, admisión técnica y ejecución financiera requieren su autorización explícita separada. Esta revisión no solicita aprobación anticipada de V. Presentar el siguiente alcance concreto cuando pueda revisarse; aprobar E1/E2 no cierra IV incondicionalmente ni autoriza adquisición, gastos o experimentos. El paquete mínimo siguiente permanece intacto.
 
 No necesitas elegir cada proveedor, fecha, parámetro de spline o adaptador: son vinculaciones técnicas guiadas por evidencia que se prepararán en el alcance aplicable y se presentarán en un manifiesto concreto. No hacen falta credenciales, cuenta financiada ni exchange de producción definitivo. Antes de abrir el test deben identificarse custodio/revisor y autoridad; acumular roles en una persona conserva una limitación procedimental explícita.
 
@@ -68,3 +72,7 @@ Se cierra el presupuesto de tres páginas metodológicas. Se reutiliza el corpus
 Comprobados 82 Markdown y 604 destinos locales (rutas, no nueva auditoría de enlaces remotos/anclas), sin ausencias. Siete eventos metodológicos parseados y seis referencias de hash cotejadas contra las tres recuperaciones. JSON válido, flags de ejecución/Fase V falsos y 26 especificaciones/tres contrastes conciliados. Las dos traducciones de aceptación cubren los once IDs originales. Los cuerpos científicos de HYPOTHESES y RESEARCH después del encabezado vigente son idénticos byte a byte al commit anterior; se conservan 25 definiciones y siete contadores financieros en cero. Sin cambios runtime, dependencias, datasets de mercado ni cálculo financiero.
 
 Un primer conteo amplio de IDs incluyó indebidamente la frase histórica que indica que no se creó H-25; el patrón siguiente omitió el formato con punto y coma de H-23/H-24. El patrón de definiciones corregido sigue la convención del importador existente y pasa; no se modificó texto científico para satisfacerlo. La revisión metodológica interna detectó ambigüedades en referencia de selección interna y entradas tardías/solapamiento; ambas se aclararon en EN/ES. Es verificación documental/de diseño interna, no rendimiento estadístico calibrado ni certificación científica externa. `git diff --check` pasó antes de publicar.
+
+### Verificación de la revisión ejecutiva — 2026-10-25
+
+La versión 2 solo aclara el momento de aprobación. Comprobados 83 Markdown del repositorio y 626 destinos locales (existencia de rutas, no enlaces externos ni anclas), sin ausencias. Trece documentos científicos/metodológicos/de fuentes/plantilla conservados son idénticos byte a byte al commit anterior; los once IDs de IV siguen presentes en ambas traducciones y la plantilla conserva aprobaciones nulas y flags de ejecución/Fase V falsos. Las decisiones históricas permanecen como prefijo intacto, con D-037 añadido. Los diez archivos nuevos/modificados son documentales; no se necesitaron ni atribuyeron pruebas runtime a esta revisión. Una revisión interna independiente corrigió solicitudes redundantes de aprobación y una frase que podía confundir spot con horizonte lento. `git diff --check` pasó.
