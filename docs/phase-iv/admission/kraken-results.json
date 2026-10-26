@@ -1,0 +1,280 @@
+{
+  "authority": "D-040",
+  "finished_at": "2026-10-26T07:51:16.652573+00:00",
+  "inventories": {
+    "ohlcvt": {
+      "all_member_line_count_rows": 36966491,
+      "archive_bytes": 576348633,
+      "cpu_seconds": 15.480011189,
+      "crc_bytes_read": 2081492576,
+      "crc_verified_members": 10054,
+      "csv_files": 10052,
+      "errors": {},
+      "interval_member_counts_minutes": {
+        "1": 1436,
+        "1440": 1436,
+        "15": 1436,
+        "240": 1436,
+        "5": 1436,
+        "60": 1436,
+        "720": 1436
+      },
+      "inventory_sha256": "90e224b181cb803a3a0287019832c9ad671d3584135a39ff882387daaa47c97e",
+      "manifest": {
+        "columns": [
+          "timestamp",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "trades"
+        ],
+        "coverage": {
+          "end": "2026-09-30",
+          "start": "2026-07-01"
+        },
+        "files": 10052,
+        "generated": "2026-10-01",
+        "has_header": false,
+        "pairs": 1436,
+        "product": "ohlcvt",
+        "release": "r1",
+        "rows": 36966491,
+        "schema_version": 1
+      },
+      "members": 10054,
+      "members_with_errors": {},
+      "metadata_absent_pairs_in_sample": [],
+      "notes": {
+        "referenced_provider_checksum_file_absent": 1,
+        "sparse_or_unsampled_gap": 423914
+      },
+      "object": "Kraken_OHLCVT_2026Q3.zip",
+      "pairs": 1436,
+      "sample_policy": "First and last 64 data rows per CSV, overlap removed",
+      "sampled_rows": 1190284,
+      "sha256": "96daae63c7b3acb522892e1f602f9c564d1a3fb659089d9b0699282f30d41226",
+      "uncompressed_bytes": 2081492576,
+      "wall_seconds": 15.480999359002453
+    },
+    "trades": {
+      "all_member_line_count_rows": 116477432,
+      "archive_bytes": 1596570274,
+      "cpu_seconds": 27.163741116,
+      "crc_bytes_read": 6299041634,
+      "crc_verified_members": 1438,
+      "csv_files": 1436,
+      "errors": {},
+      "interval_member_counts_minutes": {
+        "None": 1436
+      },
+      "inventory_sha256": "b8d0abcb4b1a53975982cb9714de25fb986cf1cb7ca13b20421e85126fff8d61",
+      "manifest": {
+        "columns": [
+          "timestamp",
+          "price",
+          "volume",
+          "type",
+          "order_type",
+          "misc",
+          "trade_id"
+        ],
+        "coverage": {
+          "end": "2026-09-30",
+          "start": "2026-07-01"
+        },
+        "files": 1436,
+        "generated": "2026-10-01",
+        "has_header": true,
+        "pairs": 1436,
+        "product": "trades",
+        "release": "r1",
+        "rows": 116477432,
+        "schema_1_differences": [
+          "Column order: schema 1 was Price,Volume,Timestamp,...; schema 2 is timestamp,price,volume,...",
+          "Header: schema 2 names all 7 fields; schema 1 named 6",
+          "Coverage extends back to each pair's first trade"
+        ],
+        "schema_version": 2
+      },
+      "members": 1438,
+      "members_with_errors": {},
+      "metadata_absent_pairs_in_sample": [],
+      "notes": {
+        "referenced_provider_checksum_file_absent": 1,
+        "repeated_time_price_quantity_candidate": 1241
+      },
+      "object": "Kraken_Trades_2026Q3.zip",
+      "pairs": 1436,
+      "sample_policy": "First and last 64 data rows per CSV, overlap removed",
+      "sampled_rows": 182180,
+      "sha256": "67aa726be17a0f3ed14e4737030c777e1aa522e568090e72aa950415d66bce25",
+      "uncompressed_bytes": 6299041634,
+      "wall_seconds": 27.271802339004353
+    }
+  },
+  "limits": [
+    "Full byte integrity and line counts are not full numerical validation",
+    "Only sampled rows checked for numeric, metadata and ID quality; no global duplicate claim",
+    "Quote labels do not certify currency identity or USD conversion",
+    "Absent intervals may have no trades; no original receipt timestamps, quotes or depth",
+    "Quarter and venue do not constrain future research history; this material is exposed QA",
+    "First/last observations are not listing/delisting records; missing metadata is not proof of delisting",
+    "Manifest/CRC/local hashes do not certify independent source correctness"
+  ],
+  "reconciliation": {
+    "bin_convention": "[start, end), UTC epoch-aligned; exact Decimal comparison; no tolerance fitted",
+    "cpu_seconds": 26.266163977000005,
+    "pairs": [
+      {
+        "by_interval_minutes": {
+          "1": {
+            "bars_compared": 4319,
+            "bars_exactly_matching": 1518,
+            "close_times_volume_differs_from_exact_notional": 4235,
+            "exact_volume_mismatch": 2801,
+            "trade_bins_without_bar": 0
+          },
+          "1440": {
+            "bars_compared": 3,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 3,
+            "exact_volume_mismatch": 3,
+            "trade_bins_without_bar": 0
+          },
+          "15": {
+            "bars_compared": 288,
+            "bars_exactly_matching": 13,
+            "close_times_volume_differs_from_exact_notional": 288,
+            "exact_volume_mismatch": 275,
+            "trade_bins_without_bar": 0
+          },
+          "240": {
+            "bars_compared": 18,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 18,
+            "exact_volume_mismatch": 18,
+            "trade_bins_without_bar": 0
+          },
+          "5": {
+            "bars_compared": 864,
+            "bars_exactly_matching": 112,
+            "close_times_volume_differs_from_exact_notional": 864,
+            "exact_volume_mismatch": 752,
+            "trade_bins_without_bar": 0
+          },
+          "60": {
+            "bars_compared": 72,
+            "bars_exactly_matching": 1,
+            "close_times_volume_differs_from_exact_notional": 72,
+            "exact_volume_mismatch": 71,
+            "trade_bins_without_bar": 0
+          },
+          "720": {
+            "bars_compared": 6,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 6,
+            "exact_volume_mismatch": 6,
+            "trade_bins_without_bar": 0
+          }
+        },
+        "full_selected_member_timestamp_regressions": 0,
+        "pair_label_unverified_identity": "XBTUSD",
+        "totals": {
+          "bars_compared": 5570,
+          "bars_exactly_matching": 1644,
+          "close_times_volume_differs_from_exact_notional": 5486,
+          "exact_volume_mismatch": 3926,
+          "trade_bins_without_bar": 0
+        },
+        "trade_rows_in_windows": 226392,
+        "trade_rows_scanned": 6624909
+      },
+      {
+        "by_interval_minutes": {
+          "1": {
+            "bars_compared": 4284,
+            "bars_exactly_matching": 2168,
+            "close_times_volume_differs_from_exact_notional": 4037,
+            "exact_volume_mismatch": 2116,
+            "trade_bins_without_bar": 0
+          },
+          "1440": {
+            "bars_compared": 3,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 3,
+            "exact_volume_mismatch": 3,
+            "trade_bins_without_bar": 0
+          },
+          "15": {
+            "bars_compared": 288,
+            "bars_exactly_matching": 45,
+            "close_times_volume_differs_from_exact_notional": 288,
+            "exact_volume_mismatch": 243,
+            "trade_bins_without_bar": 0
+          },
+          "240": {
+            "bars_compared": 18,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 18,
+            "exact_volume_mismatch": 18,
+            "trade_bins_without_bar": 0
+          },
+          "5": {
+            "bars_compared": 864,
+            "bars_exactly_matching": 232,
+            "close_times_volume_differs_from_exact_notional": 864,
+            "exact_volume_mismatch": 632,
+            "trade_bins_without_bar": 0
+          },
+          "60": {
+            "bars_compared": 72,
+            "bars_exactly_matching": 5,
+            "close_times_volume_differs_from_exact_notional": 72,
+            "exact_volume_mismatch": 67,
+            "trade_bins_without_bar": 0
+          },
+          "720": {
+            "bars_compared": 6,
+            "bars_exactly_matching": 0,
+            "close_times_volume_differs_from_exact_notional": 6,
+            "exact_volume_mismatch": 6,
+            "trade_bins_without_bar": 0
+          }
+        },
+        "full_selected_member_timestamp_regressions": 0,
+        "pair_label_unverified_identity": "ETHUSD",
+        "totals": {
+          "bars_compared": 5535,
+          "bars_exactly_matching": 2450,
+          "close_times_volume_differs_from_exact_notional": 5288,
+          "exact_volume_mismatch": 3085,
+          "trade_bins_without_bar": 0
+        },
+        "trade_rows_in_windows": 104729,
+        "trade_rows_scanned": 3036838
+      }
+    ],
+    "selection": "XBTUSD and ETHUSD named structural anchors; lexicographically first pair with sampled absent metadata, if any (deduplicated)",
+    "wall_seconds": 26.283165610992,
+    "window_seconds": 86400,
+    "windows_utc": [
+      "2026-07-02T00:00:00+00:00",
+      "2026-08-15T00:00:00+00:00",
+      "2026-09-29T00:00:00+00:00"
+    ]
+  },
+  "resources": {
+    "archive_disk_bytes": 2172918907,
+    "cpu_seconds": 68.91870705500001,
+    "peak_rss_kib_linux": 26128,
+    "private_output_bytes": 5338268,
+    "wall_seconds": 69.04477969500294,
+    "whole_archive_extraction": false
+  },
+  "schema_version": 1,
+  "scope": "Real Q3 data, structural QA only; no strategy, return, P&L or financial experiment",
+  "script_sha256": "039b1ce8ded799cc6b09d246fc0b8c70d0f7612985fec3c247323bee2e4accfd",
+  "started_at": "2026-10-26T07:50:07.608374+00:00"
+}

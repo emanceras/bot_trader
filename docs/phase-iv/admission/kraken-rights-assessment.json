@@ -1,0 +1,31 @@
+{
+  "authority": "D-040",
+  "at": "2026-10-26T00:38:50.213238+00:00",
+  "disposition": "proceed_narrow_private_qa",
+  "basis": "Official archive pages expressly offer downloads, code use and format conversion; EEA own-benefit approved-purpose permission considered together with this specific offered use. No broad website scraping, redistribution or production trading rights inferred.",
+  "limits": [
+    "Only two named Q3 objects",
+    "Private offline structural QA",
+    "No redistribution of raw data",
+    "No financial strategy evaluation",
+    "Future commercial/live and additional-source rights unresolved"
+  ],
+  "sources": [
+    {
+      "path": "/workspace/admission/kraken-rights/KR-RIGHTS-01.html",
+      "sha256": "aa87917a60910dd4a51e0bc31f1284af513ae18c3435c8096f30a132e2a15a8a"
+    },
+    {
+      "path": "/workspace/admission/kraken-rights/KR-RIGHTS-02.html",
+      "sha256": "aa4c08d8dea1c69bae45c6f396096d3ae2a9bfcaa9baae4966351862c98f84e7"
+    },
+    {
+      "path": "/workspace/admission/kraken-rights/KR-RIGHTS-03.html",
+      "sha256": "8002abea88a29765c97edb706c285c5c97a0daf8360c67d57dc24ed7e6da7ab1"
+    },
+    {
+      "path": "/workspace/admission/kraken-rights/KR-RIGHTS-04.html",
+      "sha256": "fa973639087456f529f63bf08826d2c55f47089f29909e4a1f44799d096ee091"
+    }
+  ]
+}
