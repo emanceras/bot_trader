@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Estado de plataforma al 2026-10-24:** III aceptada; IV metodológica autorizada, D-035/D-036. [Protocolo comparativo](docs/es/phase-iv/candidates.md) documentado sin modificar filas, nulas o falsadores. No hay resultados financieros ni autorización de V; la propuesta y su instanciación requieren revisión.
+**Estado de plataforma al 2026-10-26:** III aceptada; E1/E2 de IV aprobadas condicionalmente; A/B técnicos autorizados y documentados en [auditoría](docs/es/phase-iv/admission.md), D-040/D-041. E3/E4 y admisión financiera pendientes. No cambian filas, nulas ni falsadores; no hay resultados financieros ni autorización de V.
 
 **Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.8 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 

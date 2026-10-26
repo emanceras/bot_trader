@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-25 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-26 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
@@ -12,7 +12,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | Diseño desarrollado para revisión; aprobación/instanciación/sellado pendientes, D-036 |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B técnicos autorizados, D-040; E3/E4, instanciación/sellado pendientes |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |
@@ -161,7 +161,7 @@ Tareas y criterios originales conservados:
 
 IV.1–IV.11 tienen especificación trazable en [protocolo](docs/es/phase-iv/protocol.md), [candidatas](docs/es/phase-iv/candidates.md), [datos/costes](docs/es/phase-iv/data-execution.md) y [métodos/fuentes](docs/es/phase-iv/method-evidence.md). 26 especificaciones base no son 26 ajustes totales: folds, semillas, escenarios y recursos deben enumerarse antes de lanzar. La [plantilla de congelación](docs/phase-iv/freeze-template.json) contiene valores pendientes explícitos y `execution_ready=false`; no es esquema ejecutable ni permiso.
 
-**Aceptación no satisfecha aún de forma incondicional:** E1/E2 ya aprobadas; faltan E3/E4, fuentes/periodos, márgenes económicos/riesgo, parámetros/costes, presupuesto total, motor/inferencia técnicamente admitidos, revisión del prerregistro concretado y custodia/sellado efectivo. No se rebajan criterios ni se pide otra vez E1/E2. El [informe de viabilidad](docs/es/phase-iv/feasibility.md), D-039, propone auditoría acotada de dos archivos Q3 Kraken y prueba sintética aislada de Nautilus 1.231.0, ambas pendientes de permiso. Solo se consultaron documentación, cabeceras HEAD y metadatos de paquete; no se adquirieron archivos financieros ni instaló motor. E3/E4 siguen sin cifras inventadas.
+**Aceptación no satisfecha aún de forma incondicional:** E1/E2 ya aprobadas; faltan E3/E4, fuentes/periodos, márgenes económicos/riesgo, parámetros/costes, presupuesto total, motor/inferencia técnicamente admitidos, revisión del prerregistro concretado y custodia/sellado efectivo. No se rebajan criterios ni se pide otra vez E1/E2. El [informe de viabilidad](docs/es/phase-iv/feasibility.md), D-039, precede a la autorización A/B de D-040. La [auditoría técnica](docs/es/phase-iv/admission.md) registra los dos archivos Q3 adquiridos, QA externo y pruebas sintéticas de Nautilus 1.231.0 aislado, con negativos y límites. No equivale a admisión financiera, integración de producción ni cierre de IV. E3/E4 siguen sin cifras inventadas; Q3/Kraken no limita el histórico futuro.
 
 **Dependencia estadística explícita:** la suficiencia basada en retornos netos pareados necesita desarrollo financiero autorizado; auditoría estructural y pruebas sintéticas no la demuestran. El informe identifica la tensión de exigir todas las vinculaciones antes de cualquier ejecución y propone revisar posteriormente una admisión por etapas. No se adopta enmienda ni se ejecuta piloto financiero bajo el nombre de QA.
 
@@ -220,13 +220,13 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-25
+## Punto de reanudación vigente — 2026-10-26
 
-**Estado:** III aceptada; E1/E2 de IV aprobadas condicionalmente, D-038. [Informe consolidado de viabilidad](docs/es/phase-iv/feasibility.md) entregado, D-039, con fuentes y propuestas de admisión no ejecutadas. [Criterios/pendientes](docs/es/phase-iv/acceptance.md), [protocolo](docs/es/phase-iv/protocol.md) y plantilla parcialmente aprobada pero sin vinculaciones son el punto de entrada. No declarar cierre incondicional ni repetir I–III/investigaciones generales.
+**Estado:** III aceptada; E1/E2 de IV aprobadas condicionalmente, D-038. A/B autorizados en D-040 y resultados efectivos en el [informe técnico EN](docs/en/phase-iv/admission.md) / [ES](docs/es/phase-iv/admission.md) y [checkpoint](docs/phase-iv/admission/PROGRESS.md). Se conservan adquisición, fallos y mediciones. Sin cambios de producción, ensayos financieros ni apertura de holdout. IV continúa condicionada; E3/E4 pendientes.
 
-**Siguiente decisión:** permiso de paquete A (dos objetos gratuitos Q3 Kraken, 2.172.918.907 bytes comprimidos anunciados, QA sin rendimiento) y/o B (instalación aislada versionada y pruebas sintéticas del motor). Recomendados, no autorizados. Después, con evidencia concreta, revisar recursos/capital/materialidad/riesgo E3/E4 y el alcance financiero posterior. No pedir cifras sin fundamento ni autorización anticipada de V; ningún dataset, entrenamiento, backtest, paper o live iniciado.
+**Siguiente trabajo/decisión:** resolver las lagunas concretas de fuentes y ejecución mediante una propuesta finita de cobertura histórica comparativa y adaptador versionado; cualquier adquisición adicional o integración fuera de A/B requiere su alcance autorizado. Preparar E3/E4 con costes/cobertura reales y revisar expresamente la posible admisión separada de desarrollo frente a validación/final. QA estructural y simulación sintética no dan precisión de retornos pareados. No pedir otra vez E1/E2/A/B, inventar capital/márgenes ni anticipar autorización de V.
 
-**Continuidad:** conservar 53 trabajos, H-00–H-24 y negativos; siete contadores financieros en cero. UX futura solo planificada; aplicación III intacta. Registro de viabilidad conserva límites documentales y reconstrucción del cache tras reinicio sin inventar timestamps perdidos; no repetir esas lecturas. No realizar compras, instalación de motores, adquisición de archivos financieros o CI Windows sin alcance autorizado aplicable.
+**Continuidad:** conservar 53 trabajos, H-00–H-24 y negativos; siete contadores financieros en cero. UX/glosario/guía futura intactos; aplicación III sintética intacta. Datos voluminosos y entornos desechables fuera de Git. El histórico futuro buscará máxima cobertura útil, fiable y económicamente razonable entre ciclos/proveedores y activos desaparecidos, sin fijar trimestre/venue por esta auditoría. No repetir lecturas, instalar alternativas, adquirir más datos, realizar compras o certificar Windows por implicación.
 
 ## Punto de reanudación histórico — consolidación del 2026-10-17
 

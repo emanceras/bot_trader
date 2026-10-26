@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-26T13:01:50.884362+00:00",
+  "scope": "Internal technical/documentary verification only; not financial validation",
+  "markdown_files": 90,
+  "existing_local_path_links": 706,
+  "missing_local_paths": [],
+  "admission_json_files_parsed": 8,
+  "admission_jsonl_events_parsed": 19,
+  "source_snapshot_hash_references_checked": 10,
+  "executed_source_checks": {
+    "kraken_initial_git_commit": "f548ed0",
+    "kraken_diagnostic_source_matches": true,
+    "nautilus_final_source_matches": true
+  },
+  "preserved_scientific_and_ux_files": [
+    "docs/en/phase-iv/protocol.md",
+    "docs/es/phase-iv/protocol.md",
+    "docs/en/phase-iv/candidates.md",
+    "docs/es/phase-iv/candidates.md",
+    "docs/en/phase-iv/data-execution.md",
+    "docs/es/phase-iv/data-execution.md",
+    "docs/en/ux-evolution.md",
+    "docs/es/ux-evolution.md"
+  ],
+  "hypothesis_research_scientific_bodies_unchanged": true,
+  "production_source_tests_web_locks_unchanged": true,
+  "freeze_financial_bindings_inference_search_unchanged": true,
+  "execution_flags_false": true,
+  "qa_offline_unit_tests_passed": 9,
+  "nautilus_cases_passed": 14,
+  "nautilus_cases_adverse": 1,
+  "limits": [
+    "Local paths only; externalURLs/anchors not retested",
+    "Priorproduction110/7/2tests not rerun or recounted",
+    "No independent source truth, financial hypothesis, Windows or hotrecovery certification"
+  ]
+}

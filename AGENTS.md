@@ -10,6 +10,8 @@ El 2026-10-25 el usuario **aprobó E1/E2 del commit ba6c20b** y encargó el info
 
 El 2026-10-26 autorizó expresamente **A/B de 7e075da**, [mensaje](docs/phase-iv/APPROVAL-A-B.es.md), D-040: descargar solo los dos objetos gratuitos Q3 Kraken tras comprobar derechos/identidad/tamaño y auditar su estructura; instalar/probar NautilusTrader 1.231.0 aislado con datos exclusivamente sintéticos. Sin dependencias de producción, integración financiera completa, gastos o nuevas adquisiciones. Este alcance concreto prevalece sobre las prohibiciones históricas generales. Los tres meses/proveedor no limitan el futuro histórico: buscar posteriormente máxima cobertura científicamente útil, fiable y económicamente razonable mediante comparación de fuentes; toda adquisición adicional necesita autorización separada. E3/E4 y V siguen pendientes.
 
+D-041 y el [informe A/B EN](docs/en/phase-iv/admission.md) / [ES](docs/es/phase-iv/admission.md) registran las pruebas realizadas con reservas: datos Q3 reales fuera de la aplicación, CRC completo pero QA numérico parcial; discrepancias Decimal explicadas en muestra por suma binaria sin borrar negativos. Nautilus aislado ejecuta pruebas, pero PyArrow>=25 entra en conflicto con producción<24 y el supuesto market L1 falla el límite conservador de liquidez visible. No hay recuperación de estado ni integración financiera demostradas. No repetir adquisición/instalación ni ampliar pruebas sin una incertidumbre concreta; consultar receipts/checkpoint. El siguiente alcance no se infiere de A/B; E3/E4 y V pendientes.
+
 ## Método y honestidad científica
 
 - Separar fundamentos teóricos, evidencia empírica publicada, replicaciones independientes y resultados propios.

@@ -2,6 +2,8 @@
 
 Document ID: IV-FEAS-001 · Version: 1 · Date: 2026-10-25 · English canonical. [Spanish](../../es/phase-iv/feasibility.md).
 
+**Status update — 2026-10-26:** D-040 separately authorizes packages A/B. This report preserves the pre-acquisition assessment of 2026-10-25; the [technical audit report](admission.md) records execution, findings and limitations. Its earlier “not authorized/not installed” statements describe that historical assessment. The quarterly sample is not a constraint on future research history or source coverage.
+
 ## 1. Decision and actual status
 
 The user approved E1 and E2 from commit `ba6c20b`: provisional fully funded spot long/cash, the conditional ceiling of 26 base specifications, three primary claims, comparator/cash gates and Holm multiplicity control. [Approval record](../../phase-iv/APPROVAL-E1-E2.es.md), D-038. E3 resources and E4 primary capital/materiality/risk remain open. No financial dataset acquisition, experiment, model training, expenditure, prospective paper or live activity is authorized. UX-01–UX-04 remain future work.

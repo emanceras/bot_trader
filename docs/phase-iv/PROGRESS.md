@@ -2,7 +2,11 @@
 
 Updated: 2026-10-26. Canonical English; resumen español below.
 
-**Current override:** D-040 and APPROVAL-A-B.es.md authorize only the two named quarterly archive QA and isolated synthetic Nautilus packages. Work is in progress; consult admission/PROGRESS.md for actual state. The preceding feasibility delivery below is historical. No other acquisition, production dependency change, financial experiment, expenditure or Phase V is implied. The quarter/venue is an audit sample only, not a limit on future scientifically useful historical coverage. E3/E4 remain pending.
+**Current — D-041:** authorized A/B completed with qualified findings; read [EN report](../en/phase-iv/admission.md), [ES report](../es/phase-iv/admission.md) and [technical checkpoint](admission/PROGRESS.md). Two exact Q3 archives acquired and structurally audited externally; isolated Nautilus1.231.0 tested on synthetic fixtures. Actual resource/failure receipts preserved. No production change, financial experiment, spending or V. E3/E4 remain pending; the quarter/venue does not bound future history. Technical findings do not estimate paired-return power or close IV. Resume from these artifacts, not another acquisition/install.
+
+Resumen vigente: A/B terminados con límites y negativos documentados; corpus y contadores financieros intactos. E1/E2 aprobadas; E3/E4, admisión financiera y cierre de IV pendientes. No repetir permisos ya concedidos ni inferir nuevas adquisiciones o V.
+
+## Historical checkpoint — feasibility delivery 2026-10-25
 
 The user accepted III and authorized methodological IV.1–IV.11 in REQUEST.es.md (D-035). They then expressly approved E1/E2 of ba6c20b, preserved in APPROVAL-E1-E2.es.md (D-038); E3/E4 remain open. The consolidated EN/ES feasibility report is delivered (D-039), reusing prior research and targeted public documentation. UX-01–UX-04 remain future work. Runtime/source/locks are unchanged; no financial dataset, model fit, experiment, engine installation, spending or Windows CI occurred.
 

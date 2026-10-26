@@ -1,8 +1,8 @@
 {
   "document_id": "FREEZE-IV-001",
   "schema_version": 1,
-  "revision": 2,
-  "date": "2026-10-25",
+  "revision": 3,
+  "date": "2026-10-26",
   "status": "conditionally_approved_design_unbound_template",
   "execution_ready": false,
   "phase_v_authorized": false,
@@ -53,7 +53,10 @@
         "status": "conditional_e1_e2_approval",
         "date": "2026-10-25",
         "approved_commit": "ba6c20b51c1f1cac8c007d8b46b10bce8b597e4a",
-        "decisions": ["E1", "E2"],
+        "decisions": [
+          "E1",
+          "E2"
+        ],
         "authority": "docs/phase-iv/APPROVAL-E1-E2.es.md",
         "decision_record": "D-038",
         "limit": "E3/E4, exact instantiation, acquisition, technical admission, spending and financial execution are not approved by this record."
@@ -164,5 +167,24 @@
     "additional_models_without_amendment": false
   },
   "change_control": "Append a version and reason; never replace examined results. No authorization is inferred from a lifecycle flag.",
-  "binding_validation": "Future independent review must resolve every required field, including explicit justified not_applicable cases; neither this JSON nor execution_ready grants permissions."
+  "binding_validation": "Future independent review must resolve every required field, including explicit justified not_applicable cases; neither this JSON nor execution_ready grants permissions.",
+  "bounded_technical_authorizations": {
+    "decision_record": "D-040",
+    "authority": "docs/phase-iv/APPROVAL-A-B.es.md",
+    "date": "2026-10-26",
+    "package_a": {
+      "purpose": "private structural QA only; not the research history",
+      "objects": [
+        "Kraken_OHLCVT_2026Q3.zip",
+        "Kraken_Trades_2026Q3.zip"
+      ],
+      "compressed_byte_ceiling": 2172918907
+    },
+    "package_b": {
+      "engine": "NautilusTrader",
+      "version": "1.231.0",
+      "environment": "isolated disposable; synthetic data only"
+    },
+    "limit": "Does not populate financial source/engine admission, permit extra acquisition, change production dependencies, approve E3/E4 or authorize Phase V."
+  }
 }

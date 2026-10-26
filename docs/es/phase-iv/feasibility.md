@@ -2,6 +2,8 @@
 
 Documento: IV-FEAS-001 · Versión: 1 · Fecha: 2026-10-25 · Traducción sincronizada del [original inglés](../../en/phase-iv/feasibility.md).
 
+**Actualización de estado — 2026-10-26:** D-040 autoriza por separado A/B. Este informe conserva la evaluación previa a la adquisición del 2026-10-25; el [informe técnico](admission.md) registra ejecución, hallazgos y límites. Las afirmaciones anteriores de «no autorizado/no instalado» describen aquella evaluación histórica. La muestra trimestral no limita el histórico ni las fuentes de investigación futuras.
+
 ## 1. Decisión y estado real
 
 El usuario aprobó E1 y E2 del commit `ba6c20b`: spot largo/efectivo provisional y financiado íntegramente, techo condicionado de 26 especificaciones base, tres contrastes primarios, requisitos frente a comparadores/efectivo y control de multiplicidad mediante Holm. [Registro de aprobación](../../phase-iv/APPROVAL-E1-E2.es.md), D-038. E3 recursos y E4 capital primario/materialidad/riesgo siguen abiertos. No están autorizados adquisición de datasets financieros, experimentos, entrenamiento, gastos, paper prospectivo ni operativa real. UX-01–UX-04 siguen siendo trabajo futuro.
