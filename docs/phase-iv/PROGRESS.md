@@ -1,6 +1,8 @@
 # Phase IV checkpoint
 
-Updated: 2026-10-25. Canonical English; resumen español below.
+Updated: 2026-10-26. Canonical English; resumen español below.
+
+**Current override:** D-040 and APPROVAL-A-B.es.md authorize only the two named quarterly archive QA and isolated synthetic Nautilus packages. Work is in progress; consult admission/PROGRESS.md for actual state. The preceding feasibility delivery below is historical. No other acquisition, production dependency change, financial experiment, expenditure or Phase V is implied. The quarter/venue is an audit sample only, not a limit on future scientifically useful historical coverage. E3/E4 remain pending.
 
 The user accepted III and authorized methodological IV.1–IV.11 in REQUEST.es.md (D-035). They then expressly approved E1/E2 of ba6c20b, preserved in APPROVAL-E1-E2.es.md (D-038); E3/E4 remain open. The consolidated EN/ES feasibility report is delivered (D-039), reusing prior research and targeted public documentation. UX-01–UX-04 remain future work. Runtime/source/locks are unchanged; no financial dataset, model fit, experiment, engine installation, spending or Windows CI occurred.
 
