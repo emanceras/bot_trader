@@ -34,6 +34,10 @@ EXPECTED = {
     "trades": ("Kraken_Trades_2026Q3.zip", 1596570274,
                "b802c78e05351b485c4ce2c8619e473a0e8c110883569f55ffe29baf59d7496f"),
 }
+ARCHIVE_SHA256 = {
+    "ohlcvt": "96daae63c7b3acb522892e1f602f9c564d1a3fb659089d9b0699282f30d41226",
+    "trades": "67aa726be17a0f3ed14e4737030c777e1aa522e568090e72aa950415d66bce25",
+}
 TRADE_COLUMNS = ["timestamp", "price", "volume", "type", "order_type", "misc", "trade_id"]
 BAR_COLUMNS = ["timestamp", "open", "high", "low", "close", "volume", "trades"]
 getcontext().prec = 80
@@ -50,6 +54,12 @@ def digest_file(path: Path) -> str:
         while chunk := stream.read(CHUNK):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def verify_inventory_identity(kind: str, result: dict) -> None:
+    """Bind the computed local body identity to the acquisition receipt."""
+    if result["sha256"] != ARCHIVE_SHA256[kind]:
+        raise ValueError("Archive body differs from its acquisition receipt")
 
 
 def stream_member(archive: ZipFile, name: str) -> tuple[dict, bytes, bytes]:
@@ -231,7 +241,7 @@ def inventory(path: Path, kind: str, output: Path) -> dict:
         for field, actual in (("rows", total_rows), ("files", csv_files), ("pairs", len(pairs))):
             if manifest[field] != actual:
                 errors[f"manifest_{field}_mismatch"] += 1
-        return {
+        result = {
             "object": path.name, "sha256": digest_file(path), "archive_bytes": path.stat().st_size,
             "members": len(infos), "csv_files": csv_files, "pairs": len(pairs),
             "uncompressed_bytes": total_unpacked, "crc_verified_members": len(infos),
@@ -243,21 +253,26 @@ def inventory(path: Path, kind: str, output: Path) -> dict:
             "inventory_sha256": digest_file(output / f"{kind}-inventory.jsonl"),
             "wall_seconds": time.monotonic() - start, "cpu_seconds": time.process_time() - cpu,
         }
+        verify_inventory_identity(kind, result)
+        return result
 
 
 def aggregate_trade(bucket: dict, timestamp: Decimal, price: Decimal, volume: Decimal) -> None:
     if not bucket:
         bucket.update(open=price, high=price, low=price, close=price,
-                      volume=Decimal(0), trades=0, exact_quote_notional=Decimal(0))
+                      volume=Decimal(0), trades=0, exact_quote_notional=Decimal(0),
+                      diagnostic_float_volume=0.0)
     bucket["high"] = max(bucket["high"], price)
     bucket["low"] = min(bucket["low"], price)
     bucket["close"] = price
     bucket["volume"] += volume
     bucket["trades"] += 1
     bucket["exact_quote_notional"] += price * volume
+    bucket["diagnostic_float_volume"] += float(volume)
 
 
-def reconcile(trade_path: Path, bar_path: Path, pairs: list[str]) -> dict:
+def reconcile(trade_path: Path, bar_path: Path, pairs: list[str],
+              volume_diagnostics: bool = False) -> dict:
     """Fixed calendar windows, no price-dependent selection or tolerance tuning."""
     # Technical coverage windows are not strategy horizons or research partitions.
     days = [int(datetime(2026, month, day, tzinfo=timezone.utc).timestamp())
@@ -290,6 +305,8 @@ def reconcile(trade_path: Path, bar_path: Path, pairs: list[str]) -> dict:
             per_interval = {}
             for interval in MINUTES:
                 counts: Counter = Counter()
+                max_volume_difference = Decimal(0)
+                volume_places: Counter = Counter()
                 seen = set()
                 with bars.open(f"{pair}_{interval}.csv") as raw:
                     for row in csv.reader(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
@@ -313,8 +330,18 @@ def reconcile(trade_path: Path, bar_path: Path, pairs: list[str]) -> dict:
                         counts["bars_exactly_matching"] += int(not mismatch)
                         if bucket["close"] * bucket["volume"] != bucket["exact_quote_notional"]:
                             counts["close_times_volume_differs_from_exact_notional"] += 1
+                        if volume_diagnostics:
+                            observed_volume = Decimal(row[5])
+                            max_volume_difference = max(max_volume_difference,
+                                                        abs(observed_volume - bucket["volume"]))
+                            volume_places[str(-observed_volume.as_tuple().exponent)] += 1
+                            if observed_volume == Decimal(str(bucket["diagnostic_float_volume"])):
+                                counts["volume_reproduced_by_ordered_float_sum"] += 1
                 counts["trade_bins_without_bar"] = sum(1 for key in buckets if key[0] == interval and key not in seen)
                 per_interval[str(interval)] = dict(counts)
+                if volume_diagnostics:
+                    per_interval[str(interval)]["max_absolute_volume_difference_base_units"] = str(max_volume_difference)
+                    per_interval[str(interval)]["bar_volume_decimal_places_counts"] = dict(volume_places)
                 counters.update(counts)
             findings.append({"pair_label_unverified_identity": pair, "trade_rows_scanned": scanned,
                              "trade_rows_in_windows": selected,
@@ -323,6 +350,7 @@ def reconcile(trade_path: Path, bar_path: Path, pairs: list[str]) -> dict:
     return {"windows_utc": [datetime.fromtimestamp(day, timezone.utc).isoformat() for day in days],
             "window_seconds": 86400, "bin_convention": "[start, end), UTC epoch-aligned; exact Decimal comparison; no tolerance fitted",
             "selection": "XBTUSD and ETHUSD named structural anchors; lexicographically first pair with sampled absent metadata, if any (deduplicated)",
+            "volume_diagnostics": "Sequential Python binary-float volume sum is a diagnostic reconstruction, not an admitted rounding tolerance or source certification" if volume_diagnostics else None,
             "pairs": findings, "wall_seconds": time.monotonic() - start,
             "cpu_seconds": time.process_time() - cpu}
 

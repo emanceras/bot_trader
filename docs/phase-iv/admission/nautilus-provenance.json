@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-26T12:53:09.990072+00:00",
+  "scope": "Existing measured receipts consolidated; no new engine execution or install",
+  "install": {
+    "resource": {
+      "exit_code": 0,
+      "elapsed_seconds": 7.378762136002479,
+      "child_user_cpu_seconds": 2.065573,
+      "child_system_cpu_seconds": 2.144336,
+      "child_max_rss_kib": 52608
+    },
+    "log_sha256": "adfb6a30e75cf5f1b36ad4b3d88ecde8cee4e74e4e04cdffe0533e9a25a22072",
+    "wrapper_failure": "/bin/bash: line 1: /usr/bin/time: No such file or directory",
+    "installer_rounded_download_mib": {
+      "nautilus-trader": 180.3,
+      "uvloop": 4.2,
+      "pandas": 11.5,
+      "numpy": 16.0,
+      "pyarrow": 51.4
+    },
+    "limit": "Rounded reported large packages, not total exact traffic"
+  },
+  "attempts": [
+    {
+      "directory": "/workspace/admission/nautilus-1.231.0/probe-01",
+      "results_sha256": "6e52b57845e8ac855c130e68076f85f0eaa359880bee483618ef2cbd23605031",
+      "harness_sha256_recorded": "c39fe7ae716347397b5833ec52b2ccb79bd9cec4cb40ba1a20d7258998d24c18",
+      "suite_wall_seconds": 7.804010716994526,
+      "processes": 12,
+      "failed_checks": [],
+      "child_cpu_seconds": 10.377562,
+      "peak_child_rss_kib_linux": 421340
+    },
+    {
+      "directory": "/workspace/admission/nautilus-1.231.0/probe-02",
+      "results_sha256": "e6506539130951811b2c1f02f6b886d9ad98ef46542b3c43f2464086fdae74dc",
+      "harness_sha256_recorded": "070e4216bf6e90da233167a0cf63854bff91fd446ad57313f8f1af3d7a6a11a5",
+      "suite_wall_seconds": 9.646840739995241,
+      "processes": 15,
+      "failed_checks": [
+        {
+          "case": "partial_market",
+          "checks": [
+            "finite visible liquidity is not overfilled"
+          ]
+        }
+      ],
+      "child_cpu_seconds": 11.604631,
+      "peak_child_rss_kib_linux": 422440
+    },
+    {
+      "directory": "/workspace/admission/nautilus-1.231.0/probe-03",
+      "results_sha256": "441340a3102116bbefff750d4caf6d85e028cea6d8281d65dba860f0ebaf77a2",
+      "harness_sha256_recorded": "64eb65a682b564294c5a69bc48c6e8205fffd91720e55d0b875433b493e856cd",
+      "suite_wall_seconds": 10.633361643005628,
+      "processes": 15,
+      "failed_checks": [
+        {
+          "case": "partial_market",
+          "checks": [
+            "finite visible liquidity is not overfilled"
+          ]
+        }
+      ],
+      "child_cpu_seconds": 13.670096,
+      "peak_child_rss_kib_linux": 419676
+    },
+    {
+      "directory": "/workspace/admission/nautilus-1.231.0/probe-04",
+      "results_sha256": "0879e8dbbfb169cbf69f18e4e467def4d2b08dd0e2181a71b6ec667e3b0e3b68",
+      "harness_sha256_recorded": "2e403fec1db8e55ffbb2962f17db858f8a25e9965c2f1ddadc1503a3fadcecbe",
+      "suite_wall_seconds": 9.516196629003389,
+      "processes": 15,
+      "failed_checks": [
+        {
+          "case": "partial_market",
+          "checks": [
+            "finite visible liquidity is not overfilled"
+          ]
+        }
+      ],
+      "child_cpu_seconds": 13.842132999999999,
+      "peak_child_rss_kib_linux": 421480
+    }
+  ],
+  "all_recorded_suite_wall_seconds": 37.600409728998784,
+  "all_recorded_child_cpu_seconds": 49.494422,
+  "storage_allocated_bytes_du": 935501824,
+  "installed_metadata": {
+    "Name": [
+      "nautilus_trader"
+    ],
+    "Version": [
+      "1.231.0"
+    ],
+    "Requires-Python": [
+      ">=3.12,<3.15"
+    ],
+    "License": [
+      "LGPL-3.0-or-later"
+    ],
+    "Requires-Dist": [
+      "betfair-parser (==0.19.1) ; extra == \"betfair\"",
+      "click (>=8.4.1,<9.0.0)",
+      "defusedxml (>=0.7.1,<1.0.0) ; extra == \"ib\"",
+      "docker (>=7.2.0,<8.0.0) ; extra == \"docker\"",
+      "fsspec (==2026.2.0)",
+      "kaleido (>=1.3.0,<2.0.0) ; extra == \"visualization\"",
+      "msgspec (>=0.21.1,<1.0.0)",
+      "nautilus-ibapi (==10.45.1) ; extra == \"ib\"",
+      "numpy (>=1.26.4)",
+      "pandas (>=2.3.3,<4.0.0)",
+      "plotly (>=6.9.0,<7.0.0) ; extra == \"visualization\"",
+      "portion (>=2.6.1)",
+      "protobuf (==5.29.6) ; extra == \"ib\"",
+      "py-clob-client-v2 (>=1.0.2,<2.0.0) ; extra == \"polymarket\"",
+      "pyarrow (>=25.0.0)",
+      "pytz (>=2026.2)",
+      "simplejson (==3.20.2) ; extra == \"visualization\"",
+      "tqdm (>=4.68.4,<5.0.0)",
+      "tzdata (>=2026.3)",
+      "uvloop (==0.22.1) ; sys_platform != \"win32\""
+    ]
+  },
+  "compatibility": {
+    "same_environment": "conflict: installed Nautilus requires pyarrow>=25; production requires >=19,<24",
+    "runtime": "Python3.12 actual Linux run; Windows untested",
+    "recommendation": "Keep isolated versioned process candidate; no production lock update"
+  },
+  "review_notes": [
+    "Final14/15 process cases meet their stated checks; L1 finite-visible-liquidity assertion failed and remains adverse. Cases are not independent economic trials.",
+    "Interrupted fixture exits23 after a FILLED buy with OPEN position; no pending-order crash recovery, checkpoint restoration or continuation was demonstrated.",
+    "Separate roundtrip fixture repeats deterministically in a fresh process; it does not reconstruct the interrupted fixture. This narrows the original result wording about recovery by reconstruction.",
+    "Same-fill injection tests native execution-engine idempotency only; native matching generates the partial IOC fills.",
+    "Prior probes remain outsideGit with digests/failures preserved here; earlier harness snapshots were not retained. Final executed harness matches versioned source.",
+    "Stablecoin conversion, stale-feed admission, membership/exit failure handling, L2/deeper-book/queue realism, external reconciliation and production authorization dispatch were not tested; require later adapter-specific scope."
+  ]
+}

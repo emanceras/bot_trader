@@ -1,0 +1,1598 @@
+{
+  "all_implemented_checks_passed": false,
+  "cases": [
+    {
+      "case": "roundtrip",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "scripted buy and sell fully close inventory",
+          "passed": true
+        },
+        {
+          "check": "fixed-price fee/cash oracle",
+          "passed": true
+        },
+        {
+          "check": "queued latency resolves at following tick",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.004728933010483161,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.42 USD",
+          "last_px": "104.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        },
+        {
+          "client_order_id": "O-19700101-000003-001-SYN-2",
+          "commission": "0.42 USD",
+          "last_px": "105.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "SELL",
+          "trade_id": "T-c496233cdbbebf7e-002",
+          "ts_event": 4000000010,
+          "ts_init": 4000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-002"
+        }
+      ],
+      "log_sha256": "e6be16387fd03de57f1c311d06a7b07bb6b67d4d7976ded0b63792567c0cfee3",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1001.1600",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          },
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          }
+        ],
+        "inventory_syn": "0.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled",
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 416076,
+        "system_cpu_seconds": 0.068217,
+        "user_cpu_seconds": 0.8444539999999999
+      },
+      "result_sha256": "4d6b5d4c836854aa18219615b62f53b32e9724d9c3114153ad8ec31c382df672",
+      "semantic_digest": "e1a9b54655dae39771bda4b533706931a80a16d2a9c643aa05c2f2c2d4d22d7e",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1001.16"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1001.16"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          },
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000003-001-SYN-2",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "0.00",
+            "side": "FLAT",
+            "signed_qty": "0.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6191809730080422
+    },
+    {
+      "case": "early_sell",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "sell before bought inventory arrives denied natively",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [
+        "CUM_NOTIONAL_EXCEEDS_FREE_BALANCE: free=0.00000000 SYN, cum_notional=2.00000000 SYN"
+      ],
+      "engine_run_seconds": 0.005319073999999091,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.42 USD",
+          "last_px": "104.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "791.5800",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          }
+        ],
+        "inventory_syn": "2.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderInitialized",
+        "OrderDenied",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 416508,
+        "system_cpu_seconds": 0.086173,
+        "user_cpu_seconds": 0.8638
+      },
+      "result_sha256": "5d7ae4fffc8d69a946641b02c02d8f213592677d753b7ef8b3c7b7f788002403",
+      "semantic_digest": "d0e610778821928d32307e05fd73e9457939fe50084499e295afdd31b2b21041",
+      "state": {
+        "balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "free_balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          },
+          {
+            "filled_qty": "0.00",
+            "id": "O-19700101-000002-001-SYN-2",
+            "leaves_qty": "2.00",
+            "status": "DENIED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "2.00",
+            "side": "LONG",
+            "signed_qty": "2.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6702063730044756
+    },
+    {
+      "case": "partial_market",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native matching emits partial size smaller than requested",
+          "passed": true
+        },
+        {
+          "check": "finite visible liquidity is not overfilled",
+          "passed": false
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.004075898003065959,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.21 USD",
+          "last_px": "104.00",
+          "last_qty": "1.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        },
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.62 USD",
+          "last_px": "104.01",
+          "last_qty": "3.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-002",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "583.1400",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.21",
+            "observed_usd": "0.21"
+          },
+          {
+            "equal": true,
+            "expected_usd": "0.62",
+            "observed_usd": "0.62"
+          }
+        ],
+        "inventory_syn": "4.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 414584,
+        "system_cpu_seconds": 0.066802,
+        "user_cpu_seconds": 0.799882
+      },
+      "result_sha256": "95b83178d47ff4132099f1479f4221b7bc6aec424fa09ff33e91fff5964ced69",
+      "semantic_digest": "af2c5f48f7cc50fba23637002b2d01c60dbb9fc02534a0f42a84047fab04fabb",
+      "state": {
+        "balances": {
+          "SYN": "4",
+          "USD": "583.14"
+        },
+        "free_balances": {
+          "SYN": "4",
+          "USD": "583.14"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "4.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "4.00",
+            "side": "LONG",
+            "signed_qty": "4.0"
+          }
+        ]
+      },
+      "status": "failed",
+      "wall_seconds": 0.6692524690006394
+    },
+    {
+      "case": "partial_ioc",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native IOC partially fills visible size then cancels remainder",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.004025251997518353,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.21 USD",
+          "last_px": "104.00",
+          "last_qty": "1.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "895.7900",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.21",
+            "observed_usd": "0.21"
+          }
+        ],
+        "inventory_syn": "1.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled",
+        "OrderCanceled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 413236,
+        "system_cpu_seconds": 0.08477,
+        "user_cpu_seconds": 0.842602
+      },
+      "result_sha256": "d86eb174fb7dc86bd7fbf5034c22a88ae4266268a0565717d0b75984aeadeb5f",
+      "semantic_digest": "94499534b81ee531ebc457cfc11414c56d38e7c9333c704315e70f52a0bd8ffe",
+      "state": {
+        "balances": {
+          "SYN": "1",
+          "USD": "895.79"
+        },
+        "free_balances": {
+          "SYN": "1",
+          "USD": "895.79"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "1.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "3.00",
+            "status": "CANCELED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "1.00",
+            "side": "LONG",
+            "signed_qty": "1.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6780402940057684
+    },
+    {
+      "case": "unfilled_cancel",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "nonmarketable limit stays unfilled and cancels",
+          "passed": true
+        },
+        {
+          "check": "cancel releases previously locked funds",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.0038366469962056726,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderPendingCancel",
+        "OrderCanceled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 415808,
+        "system_cpu_seconds": 0.079415,
+        "user_cpu_seconds": 0.8705809999999999
+      },
+      "result_sha256": "6ea45deaf4a5e86a84f537308ddece80a04c4600e2e6c70f765784165ddf39d0",
+      "semantic_digest": "e64620f7cffcd4eb4f8a6788d8670b520156bebbf3f9351adc49d7831fb8d57e",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "0.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "2.00",
+            "status": "CANCELED"
+          }
+        ],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.6191918589902343
+    },
+    {
+      "case": "post_only_reject",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native simulated venue rejects marketable post-only order",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [
+        "POST_ONLY LIMIT BUY order limit px of 110.00 would have been a TAKER: bid=102.00, ask=104.00"
+      ],
+      "engine_run_seconds": 0.004721452001831494,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderRejected"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 418548,
+        "system_cpu_seconds": 0.07622899999999999,
+        "user_cpu_seconds": 0.855684
+      },
+      "result_sha256": "a9db2030569f7312aa9163bbd583108105e334cda57a6d84622f7ee3799859ef",
+      "semantic_digest": "e1bf7392a7f6563b1737da2a8ba5a5a346f432bff43d49ea30952345867562bf",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "0.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "2.00",
+            "status": "REJECTED"
+          }
+        ],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.6177089220000198
+    },
+    {
+      "case": "maker_fill",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "resting limit fills with maker fee",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.003933102998416871,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.20 USD",
+          "last_px": "100.00",
+          "last_qty": "2.00",
+          "liquidity_side": "MAKER",
+          "order_side": "BUY",
+          "trade_id": "T-bc4e48fc3d473fa3-001",
+          "ts_event": 3000000010,
+          "ts_init": 3000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "799.8000",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.20",
+            "observed_usd": "0.20"
+          }
+        ],
+        "inventory_syn": "2.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 415416,
+        "system_cpu_seconds": 0.108821,
+        "user_cpu_seconds": 0.817363
+      },
+      "result_sha256": "02ead74d1956a307e6022848bf019690a299834ae71ee04c9e2ae3dbbc66b334",
+      "semantic_digest": "93f4d04609b704e587999bdc05239fc4365cbf6d65b14b847da89eab1c6ecc1d",
+      "state": {
+        "balances": {
+          "SYN": "2",
+          "USD": "799.8"
+        },
+        "free_balances": {
+          "SYN": "2",
+          "USD": "799.8"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "2.00",
+            "side": "LONG",
+            "signed_qty": "2.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6198030809900956
+    },
+    {
+      "case": "insufficient_cash",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native risk validation denies invalid order without a fill",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [
+        "NOTIONAL_EXCEEDS_FREE_BALANCE: free=1000.00 USD, balance_impact=-2020.00 USD"
+      ],
+      "engine_run_seconds": 0.00472601898945868,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderDenied"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 417552,
+        "system_cpu_seconds": 0.066422,
+        "user_cpu_seconds": 0.820376
+      },
+      "result_sha256": "d1c14f8ed876f2fb42e41d3ca1bb27f79d0e340d1cf058503fd349e1e331f4ac",
+      "semantic_digest": "722b7326028e6f89f11d62e88e601b1db9f0826ab8402aa550352082ea80b577",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "0.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "20.00",
+            "status": "DENIED"
+          }
+        ],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.6196720479929354
+    },
+    {
+      "case": "minimum_notional",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native risk validation denies invalid order without a fill",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [
+        "NOTIONAL_LESS_THAN_MIN_FOR_INSTRUMENT: min_notional=10.00 USD , notional=1.01 USD"
+      ],
+      "engine_run_seconds": 0.005100833994220011,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderDenied"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 420484,
+        "system_cpu_seconds": 0.08415299999999999,
+        "user_cpu_seconds": 0.8457169999999999
+      },
+      "result_sha256": "768c2369d1880764c93630da4fa26ffe4bd01711d19470323054f7f698132d94",
+      "semantic_digest": "70ac24fdfd1aac271c77231eab20755695e1cd0a98e077f8a454c38cb94b489b",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "0.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.01",
+            "status": "DENIED"
+          }
+        ],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.6199860619963147
+    },
+    {
+      "case": "quantity_precision",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "native risk validation denies invalid order without a fill",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [
+        "quantity 1.001 invalid (precision 3 > 2)"
+      ],
+      "engine_run_seconds": 0.004656853998312727,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderDenied"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 421480,
+        "system_cpu_seconds": 0.10108199999999999,
+        "user_cpu_seconds": 0.8349749999999999
+      },
+      "result_sha256": "90276a544e238e1a17660b5c020db75f91807e3ccef3057f10d9f23e14a5f191",
+      "semantic_digest": "c5917e4dd8aa007155c23bd8081dc9992dadccb2b719141c3c4d7e98b21aeea1",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "0.000",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "1.001",
+            "status": "DENIED"
+          }
+        ],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.6195130979904206
+    },
+    {
+      "case": "duplicate_submit",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "duplicate submission does not add order or fill",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.003947584991692565,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.42 USD",
+          "last_px": "104.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "791.5800",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          }
+        ],
+        "inventory_syn": "2.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 413964,
+        "system_cpu_seconds": 0.092251,
+        "user_cpu_seconds": 0.83854
+      },
+      "result_sha256": "91fd9e4e496e4c3c893175995a9f7d6f999bb467e729b719eee4bec5d8492989",
+      "semantic_digest": "82be3a57b2a456b2fcfbe0671302d827ced9dec3b4d19cf1fa26ff633d803751",
+      "state": {
+        "balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "free_balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "2.00",
+            "side": "LONG",
+            "signed_qty": "2.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6195018849975895
+    },
+    {
+      "case": "duplicate_fill",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "same fill ID is idempotent in native execution engine",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.004051852010888979,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.42 USD",
+          "last_px": "104.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        }
+      ],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "791.5800",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          }
+        ],
+        "inventory_syn": "2.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 412436,
+        "system_cpu_seconds": 0.10518799999999999,
+        "user_cpu_seconds": 0.810549
+      },
+      "result_sha256": "4d79c4a4e0150dfae48c6f49110442c8b17cfedcdd0f5f82e77b129c92cbbb3f",
+      "semantic_digest": "82be3a57b2a456b2fcfbe0671302d827ced9dec3b4d19cf1fa26ff633d803751",
+      "state": {
+        "balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "free_balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "2.00",
+            "side": "LONG",
+            "signed_qty": "2.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6178516350046266
+    },
+    {
+      "case": "bounded_load",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "bounded load executes all 10000 invented ticks without orders",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.047974257002351806,
+      "fill_events": [],
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1000",
+        "fees": [],
+        "inventory_syn": "0",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 415652,
+        "system_cpu_seconds": 0.074449,
+        "user_cpu_seconds": 0.89421
+      },
+      "result_sha256": "7fba1aa8b3382d1a2d6409997134f33ff44b20a3fb9012672a601ffe4e90a677",
+      "semantic_digest": "06704e2960ba80ba891413ecc6a451b47aa268d5077d9fb934e6dbe339a2cce7",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1000"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [],
+        "positions": []
+      },
+      "status": "passed",
+      "wall_seconds": 0.7199630950053688
+    },
+    {
+      "case": "interrupted",
+      "checks": [
+        {
+          "check": "deliberate in-flight crash preserves external observation trace",
+          "passed": true
+        }
+      ],
+      "limitation": "No native durable checkpoint restored; later full replay is recovery by reconstruction only",
+      "log_sha256": "801ad7fe4bdddfde0563b21ff45e25efb22d38d6768b075c7561421a3d1ed2cd",
+      "process_exit": 23,
+      "resources": {
+        "max_rss_kib": 416216,
+        "system_cpu_seconds": 0.068811,
+        "user_cpu_seconds": 0.873096
+      },
+      "result_sha256": "92207ce365330c6f155aa54a72942c93e140e889fe087b10eec8a79b0ad35cb0",
+      "snapshot": {
+        "balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "free_balances": {
+          "SYN": "2",
+          "USD": "791.58"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "2.00",
+            "side": "LONG",
+            "signed_qty": "2.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.5694019699876662
+    },
+    {
+      "case": "roundtrip_replay",
+      "checks": [
+        {
+          "check": "independent cash and inventory reconciliation",
+          "passed": true
+        },
+        {
+          "check": "independent position reconciliation",
+          "passed": true
+        },
+        {
+          "check": "cash account free plus locked equals total",
+          "passed": true
+        },
+        {
+          "check": "per-fill synthetic fee oracle",
+          "passed": true
+        },
+        {
+          "check": "no fill before its order submission",
+          "passed": true
+        },
+        {
+          "check": "scripted buy and sell fully close inventory",
+          "passed": true
+        },
+        {
+          "check": "fixed-price fee/cash oracle",
+          "passed": true
+        },
+        {
+          "check": "queued latency resolves at following tick",
+          "passed": true
+        }
+      ],
+      "denial_reasons": [],
+      "engine_run_seconds": 0.00489229999948293,
+      "fill_events": [
+        {
+          "client_order_id": "O-19700101-000001-001-SYN-1",
+          "commission": "0.42 USD",
+          "last_px": "104.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "BUY",
+          "trade_id": "T-e8982d486563d6cf-001",
+          "ts_event": 2000000010,
+          "ts_init": 2000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-001"
+        },
+        {
+          "client_order_id": "O-19700101-000003-001-SYN-2",
+          "commission": "0.42 USD",
+          "last_px": "105.00",
+          "last_qty": "2.00",
+          "liquidity_side": "TAKER",
+          "order_side": "SELL",
+          "trade_id": "T-c496233cdbbebf7e-002",
+          "ts_event": 4000000010,
+          "ts_init": 4000000010,
+          "type": "OrderFilled",
+          "venue_order_id": "SIM-1-002"
+        }
+      ],
+      "log_sha256": "e6be16387fd03de57f1c311d06a7b07bb6b67d4d7976ded0b63792567c0cfee3",
+      "oracle": {
+        "balances_equal": true,
+        "cash_usd": "1001.1600",
+        "fees": [
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          },
+          {
+            "equal": true,
+            "expected_usd": "0.42",
+            "observed_usd": "0.42"
+          }
+        ],
+        "inventory_syn": "0.00",
+        "position_equal": true,
+        "scope": "independent Decimal cash/inventory/fees; no external venue statement"
+      },
+      "order_event_types": [
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled",
+        "OrderInitialized",
+        "OrderSubmitted",
+        "OrderAccepted",
+        "OrderFilled"
+      ],
+      "process_exit": 0,
+      "resources": {
+        "max_rss_kib": 416504,
+        "system_cpu_seconds": 0.113692,
+        "user_cpu_seconds": 0.753829
+      },
+      "result_sha256": "a8208be5829fd632e3ed9ac3092cc9e24f81fcb785d1876b729318d6be3053e4",
+      "semantic_digest": "e1a9b54655dae39771bda4b533706931a80a16d2a9c643aa05c2f2c2d4d22d7e",
+      "state": {
+        "balances": {
+          "SYN": "0",
+          "USD": "1001.16"
+        },
+        "free_balances": {
+          "SYN": "0",
+          "USD": "1001.16"
+        },
+        "locked_balances": {
+          "SYN": "0",
+          "USD": "0"
+        },
+        "orders": [
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000001-001-SYN-1",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          },
+          {
+            "filled_qty": "2.00",
+            "id": "O-19700101-000003-001-SYN-2",
+            "leaves_qty": "0.00",
+            "status": "FILLED"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-MechanicalFixture-SYN",
+            "quantity": "0.00",
+            "side": "FLAT",
+            "signed_qty": "0.0"
+          }
+        ]
+      },
+      "status": "passed",
+      "wall_seconds": 0.6178199269925244
+    }
+  ],
+  "distribution_hash_scope": "SHA256 of installed RECORD metadata, not archive/wheel hash or independent supply-chain attestation",
+  "engine": "nautilus-trader",
+  "environment": {
+    "libc": [
+      "glibc",
+      "2.41"
+    ],
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "financial_experiments": 0,
+  "fresh_process_replay": {
+    "passed": true,
+    "scope": "identical fixture in fresh process; not checkpoint or venue recovery"
+  },
+  "harness_sha256": "2e403fec1db8e55ffbb2962f17db858f8a25e9965c2f1ddadc1503a3fadcecbe",
+  "installed_distributions": [
+    {
+      "installed_record_sha256": "924078ec3a47b97192425dbc0c3693085af7a7b863afcf6b4e110cf0bd97dea4",
+      "name": "click",
+      "version": "8.5.0"
+    },
+    {
+      "installed_record_sha256": "57f70591e84df9e6d90a32569027fb7697e2b64c7d2f254d83bff1abf021c13b",
+      "name": "fsspec",
+      "version": "2026.2.0"
+    },
+    {
+      "installed_record_sha256": "7d751a0e95051d24396f1f6e9800f70442f267c150026b0e567826bf110a062c",
+      "name": "msgspec",
+      "version": "0.22.0"
+    },
+    {
+      "installed_record_sha256": "a83450b0bcb1f36712246d27c570580d6b880486aa6d5b706f35ce0b4cfc6e74",
+      "name": "nautilus_trader",
+      "version": "1.231.0"
+    },
+    {
+      "installed_record_sha256": "386cc5f2d322bfe9329b76e134270224adecf965a9e5878d6183f913d92a03c4",
+      "name": "numpy",
+      "version": "2.5.4"
+    },
+    {
+      "installed_record_sha256": "3d878e8c740d3f39874a0ce263da0db381b366f38d8ba80727f4c41428c69042",
+      "name": "pandas",
+      "version": "3.1.0"
+    },
+    {
+      "installed_record_sha256": "ec6c13d66e0ca0d13be1094f02e144dd4b121a320b093a1a3f157b40c051db3f",
+      "name": "portion",
+      "version": "2.6.3"
+    },
+    {
+      "installed_record_sha256": "6fd03b8c2bc0b87701946dbfaa3807b309dd8356a73e701e010ec6a08a1a2f05",
+      "name": "pyarrow",
+      "version": "26.0.0"
+    },
+    {
+      "installed_record_sha256": "a17d86766c46a890c3d8b1c4ccfa5bb1c6014919f3a3a9da4b8c597f47bf5b33",
+      "name": "python-dateutil",
+      "version": "3.0.0"
+    },
+    {
+      "installed_record_sha256": "20599acd6dfd38a2bdb94c261f7388340c37fda705dc9917e0a4bf8ac6e3c156",
+      "name": "pytz",
+      "version": "2026.5"
+    },
+    {
+      "installed_record_sha256": "d16e50f347969b1e1919fb0c88bac4b9c644f5305bcfcfb00f72b646dbd4065d",
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "installed_record_sha256": "2e764b15bb6fc2e19a0a795409c5da3eae994032a5d9173a4dadc7ef238cab52",
+      "name": "sortedcontainers",
+      "version": "2.4.0"
+    },
+    {
+      "installed_record_sha256": "e24c08b6b8611177093863e9ce18dc79f8057e7116a25d8ddeec28a5dc13fdaa",
+      "name": "tqdm",
+      "version": "4.70.1"
+    },
+    {
+      "installed_record_sha256": "bc03ea1afd3394eb010013e6112f91d884785445c8453b7d56ddb7ba0cc4939d",
+      "name": "tzdata",
+      "version": "2026.5"
+    },
+    {
+      "installed_record_sha256": "562769559d99609e53bed0deaf383980bf14b495e0c1e65f8c03a979d80308a2",
+      "name": "uvloop",
+      "version": "0.22.1"
+    }
+  ],
+  "limitations": [
+    "Synthetic constants do not calibrate fees, latency, spread, queues or real liquidity.",
+    "In-flight checkpoint recovery and external reconciliation are not demonstrated.",
+    "Network faults, rate limits, venue rules and authentication are not exercised.",
+    "Spot synthetic pair only; no derivatives, margin, funding or real FX conversion.",
+    "No production integration, synthetic v1 contract widening or Windows execution.",
+    "10000 ticks without orders is a smoke test, not full 26-slot workload sizing."
+  ],
+  "market_data_rows": 0,
+  "package": "B",
+  "schema_version": 1,
+  "suite_wall_seconds": 9.516196629003389,
+  "technical_only": true,
+  "version": "1.231.0"
+}

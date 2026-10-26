@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-26T12:53:32.854717+00:00",
+  "scope": "Post-audit central-directory pair-label equality; no new data acquisition",
+  "bar_pair_labels": 1436,
+  "trade_pair_labels": 1436,
+  "sets_equal": true,
+  "bar_only_count": 0,
+  "trade_only_count": 0,
+  "canonical_sorted_pair_labels_sha256": "8d61282c75706f0cb492ed1001b264f4da7af26604ab934fdcdef60b1795ed4f",
+  "limit": "Equal labels are not historical instrument identity, delisting coverage, USD admission or independent source verification."
+}

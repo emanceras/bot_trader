@@ -1,0 +1,7 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 7.378762136002479,
+  "child_user_cpu_seconds": 2.065573,
+  "child_system_cpu_seconds": 2.144336,
+  "child_max_rss_kib": 52608
+}
