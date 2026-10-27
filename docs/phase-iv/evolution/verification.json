@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-27",
+  "base_commit": "d70e6bc5ea7ca5b4acf5be01840c845c68b4d187",
+  "scope": "Documentary and local artifact verification only; no runtime or financial tests",
+  "markdown_files_checked": 106,
+  "local_path_links_checked": 868,
+  "missing_local_paths": [],
+  "source_events_by_ledger": {
+    "data-sources.jsonl": 16,
+    "dependency-sources.jsonl": 13,
+    "engine-sources.jsonl": 6,
+    "external-sources.jsonl": 10,
+    "temporal-sources.jsonl": 9
+  },
+  "source_event_types": {
+    "retrieval": 19,
+    "directed_cached_read": 23,
+    "prior_assessment_reuse": 2,
+    "directed_read": 9,
+    "local_provenance_review": 1
+  },
+  "source_events_total": 54,
+  "cache_hash_references_verified": 51,
+  "distinct_cached_paths_verified": 27,
+  "local_provenance_hash_references_verified": 4,
+  "en_es_pairs_checked": [
+    "evolution.md",
+    "evolution/sources.md",
+    "evolution/temporal.md",
+    "evolution/external-information.md",
+    "evolution/dependencies.md",
+    "evolution/engines.md",
+    "evolution/staged-admission.md"
+  ],
+  "pair_checks": "Date, heading/table row counts, external URL sets and source IDs; semantic review separately recorded",
+  "byte_identical_preserved_files": [
+    "docs/phase-iv/freeze-template.json",
+    "docs/en/phase-iv/protocol.md",
+    "docs/en/phase-iv/acceptance.md",
+    "docs/en/phase-iv/candidates.md",
+    "docs/en/phase-iv/data-execution.md",
+    "docs/en/phase-iv/method-evidence.md",
+    "docs/en/phase-iv/executive-decisions.md",
+    "docs/en/phase-iv/feasibility.md",
+    "docs/en/phase-iv/admission.md",
+    "docs/en/ux-evolution.md",
+    "docs/es/phase-iv/protocol.md",
+    "docs/es/phase-iv/acceptance.md",
+    "docs/es/phase-iv/candidates.md",
+    "docs/es/phase-iv/data-execution.md",
+    "docs/es/phase-iv/method-evidence.md",
+    "docs/es/phase-iv/executive-decisions.md",
+    "docs/es/phase-iv/feasibility.md",
+    "docs/es/phase-iv/admission.md",
+    "docs/es/ux-evolution.md"
+  ],
+  "hypothesis_research_scientific_bodies_unchanged": true,
+  "historical_decision_prefix_unchanged": true,
+  "eleven_original_iv_tasks_unchanged": true,
+  "prior_admission_artifacts_unchanged": true,
+  "production_runtime_locks_unchanged": true,
+  "financial_execution_flags_false": true,
+  "seven_financial_counters_zero": true,
+  "untracked_documents_under_1MB": true,
+  "git_diff_check_passed": true,
+  "limitations": [
+    "Local destination paths checked; external URLs and anchors not recrawled",
+    "Hash agreement verifies preserved artifacts, not provider truth, completeness or legal rights",
+    "No dependency resolver/install, migration, new engine run, runtime regression, Windows or recovery test",
+    "No market data acquisition, live capture, financial computation or statistical amendment",
+    "No source/engine permanently selected and no unconditional Phase IV closure"
+  ]
+}

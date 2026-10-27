@@ -1,6 +1,6 @@
 # Investigación científica — Fase I
 
-**Actualizado:** 2026-10-26 · **Versión:** 1.1 · **Estado actual:** I cerrada con límites, II/III aceptadas; E1/E2 de IV aprobadas condicionalmente. [Auditoría técnica A/B](docs/es/phase-iv/admission.md), D-040/D-041: fuente Q3 y motor aislado examinados con límites; no amplía el corpus de 53 trabajos ni valida hipótesis. E3/E4 pendientes; sin experimentos financieros ni V–VI. Las secciones fechadas anteriores conservan su estado histórico.
+**Actualizado:** 2026-10-27 · **Versión:** 1.1 · **Estado actual:** I cerrada con límites, II/III aceptadas; E1/E2 de IV aprobadas condicionalmente. Se conservan la [auditoría A/B](docs/es/phase-iv/admission.md) y sus negativos. D-042/D-043 añaden la [revisión documental de fuentes, contratos temporales, motores y admisión](docs/es/phase-iv/evolution.md), sin ampliar el corpus de 53 trabajos ni validar hipótesis. E3/E4 pendientes; sin experimentos financieros ni V–VI. Las secciones fechadas anteriores conservan su estado histórico.
 
 **Transición aceptada:** el usuario aceptó el dictamen de la [auditoría crítica de cobertura](docs/research/coverage-audit.md) y sus reservas; D-025 registra esa aprobación. No se alcanzó saturación ni se demuestra una ventaja operable. Los 53 trabajos, fuentes parciales y resultados adversos se conservan. On-chain, posicionamiento, liquidaciones y eventos de tokens mantienen sus requisitos de datos/incrementalidad y no originan otra familia ni una búsqueda general.
 

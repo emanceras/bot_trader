@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-24 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) para revisión; no son experimentos registrados/ejecutados. V–VI y operativa no autorizadas. La verificación técnica histórica de III permanece separada; no se repitieron sus pruebas como evidencia financiera de IV.
+**Actualizado:** 2026-10-27 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, E1/E2 aprobadas condicionalmente; [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) conservados. La [revisión documental](docs/es/phase-iv/evolution.md) no ejecuta sus pruebas propuestas ni enmienda el protocolo. E3/E4 y V–VI pendientes; operativa no autorizada. Las pruebas técnicas de III y A/B permanecen separadas de los experimentos financieros.
 
 ## Estado real
 
@@ -10,7 +10,7 @@
 | Optimizaciones/búsquedas de parámetros | 0 | No ejecutadas |
 | Entrenamientos ML/DL | 0 | No ejecutados |
 | Pruebas de hipótesis sobre datos de mercado | 0 | No ejecutadas |
-| Aperturas de holdout final | 0 | No existe dataset de mercado ni holdout financiero; las fixtures reservadas son pruebas de denegación |
+| Aperturas de holdout final | 0 | No hay holdout financiero constituido; los dos archivos Q3 de QA están expuestos y fuera de la aplicación. Las fixtures reservadas son pruebas de denegación |
 | Paper trading | 0 | No iniciado |
 | Órdenes reales | 0 | No autorizadas |
 
@@ -81,3 +81,6 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 - **2026-10-18, preferencias y propuesta final de II:** USD y España confirmados; capitales y drawdowns solo sensibilidades documentales. La tabla F/K es aritmética ilustrativa de costes, no un ensayo ni una rentabilidad observada. Proceso de horizontes y contrastes C3-I/C3-X definidos conceptualmente, sin cambiar nulas. Fuentes oficiales de acceso consultadas sin datos de mercado ni cuentas; corpus académico sigue en 53. No laboratorio, backtests, modelos entrenados, compras o gasto. Propuesta final pendiente de aceptación; **todos los contadores experimentales permanecen en cero**.
 
 - **2026-10-26, auditoría técnica A/B (D-040/D-041):** adquisición autorizada de dos archivos KrakenQ3 para QA estructural externo; pruebas de Nautilus1.231.0 aislado con datos sintéticos. [Resultados y negativos](docs/es/phase-iv/admission.md). Ninguna señal, rendimiento de estrategia, ajuste de inversión, selección de activos por resultados ni apertura de holdout. Reconciliar importes de operaciones para QA no es un experimento financiero. **Los siete contadores permanecen en cero.** Q3 queda expuesto, no es histórico de investigación completo ni final intacto. E3/E4 y V siguen pendientes.
+
+
+- **2026-10-27, revisión metodológica de fuentes y motores (D-042/D-043):** comparación documental y lectura dirigida de fuentes oficiales; contratos temporales/multirresolución, información externa, dependencias, motores y admisión por etapas propuestos en [informe EN/ES](docs/es/phase-iv/evolution.md). Verificaciones de documentos, hashes, enlaces y conservación del historial; sin adquisición adicional, instalaciones, migraciones, nuevas pruebas de motores ni experimentos financieros. M/E/R/H son propuestas no ejecutadas. Se corrige la descripción del contador de holdout para reconocer los dos archivos de QA ya adquiridos; su valor sigue en cero y ningún conjunto final está constituido. Protocolo/aceptación/plantilla intactos; E3/E4 y V pendientes. **Los siete contadores financieros permanecen en cero.**

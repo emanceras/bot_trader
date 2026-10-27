@@ -1,6 +1,6 @@
 # Technical documentation translation policy
 
-Canonical policy language: English. Revision: 7. Updated: 2026-10-25. The Spanish policy is included below.
+Canonical policy language: English. Revision: 8. Updated: 2026-10-27. The Spanish policy is included below.
 
 New engineering documentation uses English as its canonical text, with a synchronized Spanish counterpart. Code, comments, symbols and API contract keys remain English. Each paired document records its revision, update date and a link to the other language. A technical change must update both texts in the same reviewed change, or explicitly identify the untranslated portion; a stale translation must not silently claim synchronization.
 
@@ -24,6 +24,14 @@ New engineering documentation uses English as its canonical text, with a synchro
 | [Phase IV acceptance](en/phase-iv/acceptance.md) | [Aceptación IV](es/phase-iv/acceptance.md) | 3 |
 | [Phase IV executive decisions](en/phase-iv/executive-decisions.md) | [Decisiones ejecutivas IV](es/phase-iv/executive-decisions.md) | 2 |
 | [Phase IV feasibility](en/phase-iv/feasibility.md) | [Viabilidad IV](es/phase-iv/feasibility.md) | 1 |
+| [Phase IV A/B audit](en/phase-iv/admission.md) | [Auditoría A/B IV](es/phase-iv/admission.md) | Revision stated in each pair |
+| [Phase IV evolution review](en/phase-iv/evolution.md) | [Revisión de evolución IV](es/phase-iv/evolution.md) | 1 |
+| [Historical/direct sources](en/phase-iv/evolution/sources.md) | [Fuentes históricas/directas](es/phase-iv/evolution/sources.md) | 1 |
+| [Temporal contracts](en/phase-iv/evolution/temporal.md) | [Contratos temporales](es/phase-iv/evolution/temporal.md) | 1 |
+| [External information](en/phase-iv/evolution/external-information.md) | [Información externa](es/phase-iv/evolution/external-information.md) | 1 |
+| [Dependency assessment](en/phase-iv/evolution/dependencies.md) | [Evaluación de dependencias](es/phase-iv/evolution/dependencies.md) | 1 |
+| [Engine comparison](en/phase-iv/evolution/engines.md) | [Comparación de motores](es/phase-iv/evolution/engines.md) | 1 |
+| [Staged admission proposal](en/phase-iv/evolution/staged-admission.md) | [Propuesta de admisión por etapas](es/phase-iv/evolution/staged-admission.md) | 1 |
 | [UX evolution](en/ux-evolution.md) | [Evolución UX](es/ux-evolution.md) | 1 |
 
 `README.md` is an English entry point with direct Spanish guide links. Original user requests, scientific records, historical decisions, bibliography/source logs and progress/acceptance ledgers retain their original language and dates. These are traceability records; translating them must not replace, reinterpret or count the same evidence again. Machine-readable source fields and bibliographic titles retain their source values.

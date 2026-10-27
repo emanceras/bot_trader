@@ -1,8 +1,14 @@
 # Phase IV checkpoint
 
-Updated: 2026-10-26. Canonical English; resumen español below.
+Updated: 2026-10-27. Canonical English; resumen español below.
 
-**Current — D-041:** authorized A/B completed with qualified findings; read [EN report](../en/phase-iv/admission.md), [ES report](../es/phase-iv/admission.md) and [technical checkpoint](admission/PROGRESS.md). Two exact Q3 archives acquired and structurally audited externally; isolated Nautilus1.231.0 tested on synthetic fixtures. Actual resource/failure receipts preserved. No production change, financial experiment, spending or V. E3/E4 remain pending; the quarter/venue does not bound future history. Technical findings do not estimate paired-return power or close IV. Resume from these artifacts, not another acquisition/install.
+**Current — D-042/D-043:** the documentary evolution review requested from `d70e6bc` is delivered in [EN](../en/phase-iv/evolution.md) / [ES](../es/phase-iv/evolution.md), six synchronized annexes and the [review checkpoint](evolution/PROGRESS.md). It compares sources, temporal/multiasset contracts, external information, dependencies and engines, and proposes staged statistical admission. No new datasets, installation, production upgrade, migration/synthetic engine trial or financial computation occurred in this review. Existing A/B findings remain qualified, E3/E4 unbound and IV conditionally open. The protocol, acceptance and freeze template remain unchanged; the staged clarification is not enacted.
+
+Resumen vigente: revisión documental entregada; Nautilus/LEAN siguen candidatos y las pruebas M/E/R y adquisición H son propuestas futuras con alcance separado. Ninguna enmienda estadística ni Fase V autorizada. Mantener el estado real, no repetir investigación ni interpretar los siguientes checkpoints históricos como permisos pendientes ya resueltos.
+
+## Historical checkpoint — A/B delivery 2026-10-26
+
+**D-041:** authorized A/B completed with qualified findings; read [EN report](../en/phase-iv/admission.md), [ES report](../es/phase-iv/admission.md) and [technical checkpoint](admission/PROGRESS.md). Two exact Q3 archives acquired and structurally audited externally; isolated Nautilus1.231.0 tested on synthetic fixtures. Actual resource/failure receipts preserved. No production change, financial experiment, spending or V. E3/E4 remain pending; the quarter/venue does not bound future history. Technical findings do not estimate paired-return power or close IV. Resume from these artifacts, not another acquisition/install.
 
 Resumen vigente: A/B terminados con límites y negativos documentados; corpus y contadores financieros intactos. E1/E2 aprobadas; E3/E4, admisión financiera y cierre de IV pendientes. No repetir permisos ya concedidos ni inferir nuevas adquisiciones o V.
 

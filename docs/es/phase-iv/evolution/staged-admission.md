@@ -1,0 +1,61 @@
+# Propuesta de admisión estadística por etapas
+
+Documento: IV-EVOL-STAT-001 · Versión: 1 · Fecha: 2026-10-27 · Traducción del [original inglés](../../../en/phase-iv/evolution/staged-admission.md).
+
+**Aclaración propuesta, no enmienda aplicada ni permiso de ejecución.** Siguen vigentes el [diseño E1/E2 aceptado](../protocol.md), las [comparaciones](../candidates.md), los [límites metodológicos](../method-evidence.md) y la [aceptación](../acceptance.md). Este documento aborda para revisión la dependencia de secuencia D-039/D-041; no modifica el protocolo ni rellena la [plantilla](../../../phase-iv/freeze-template.json). E3/E4, V y todo cálculo financiero siguen pendientes. Sin nueva afirmación académica ni resultado empírico.
+
+## Por qué una única admisión incondicional no obtiene toda la evidencia
+
+El protocolo exige diferencias netas económicamente materiales y estimación de dependencia/precisión en desarrollo antes de validar. QA estructural y ejecución sintética no aportan la varianza de `d_t = r_candidata,t − r_referencia,t`; volatilidad del activo o Sharpe publicado no la sustituyen. Exigir esa distribución estimada antes del primer cálculo autorizado de desarrollo crea una dependencia circular.
+
+Recomiendo **manifiestos de admisión distintos según la finalidad**, protegiendo un intervalo cronológico posterior de evaluación. No permite dejar campos arbitrariamente vacíos en una ejecución financiera. Todo valor del que dependa el cálculo actual debe fijarse primero. Lo aprendido legítimamente durante desarrollo podrá congelarse después para validación; los umbrales económicos y límites de investigación no se cambiarán para que los resultados pasen.
+
+## Cuatro funciones, más admisión técnica
+
+Son funciones de evidencia/acceso, no cuatro particiones iguales universales ni nuevas fases del proyecto. Incertidumbre utiliza solo desarrollo. Si se revisó el procedimiento usando la evidencia de los supuestos folds externos, hará falta un segmento intacto de calibración **dentro del desarrollo**; no es el holdout final.
+
+| Puerta / función | Entradas permitidas | Vinculaciones antes de acceder | Salida y parada |
+|---|---|---|---|
+| T — admisión técnica, dentro del alcance técnico correspondiente | Fixtures sintéticos; metadatos/QA estructural autorizado | Derechos/alcance y versiones exactas, pruebas de tiempo/contabilidad/identidad, plan técnico finito | Aptitud/límites, sin evidencia de retorno. Semántica o contabilidad sin resolver impide admisión financiera dependiente |
+| D — desarrollo financiero exploratorio acotado, solo tras autorización separada | Datos de desarrollo identificados; folds internos/externos pasados | Enmienda y alcance financiero aprobado; E3 con techo de pruebas/cómputo/adquisición; E4 con capital, materialidad frente a efectivo e incremental, compromiso C2 y riesgo; fuentes/universo/USD/costes/motor; fechas, relojes, recetas, folds, semillas, intentos y custodia posterior | Procedimientos de selección y todos los negativos/fallos. Agotamiento, ejecución inválida o integridad pendiente obliga a parar; sin declarar ganadora |
+| U — dependencia, incertidumbre y suficiencia, todavía desarrollo | Retornos netos temporales emparejados de procedimientos congelados en evaluación externa apta de desarrollo; o segmento intacto de calibración cuando proceda | Estimador auxiliar, regla de bloques/sensibilidades, requisitos de precisión/alternativa relevante, política finita de calibración/extensión, pruebas de implementación/nula | Determinar información disponible para validación/final independientes. Soporte inestable/insuficiente produce inconclusión/posposición, no nuevos objetivos de significación |
+| V — admisión de validación independiente | Un bloque posterior hasta entonces intacto | Procedimientos completos/refits congelados, comparadores y tiempos; manifiestos económicos/inferencia/técnicos/recursos completos y regla objetiva de partición; registro de acceso | Un filtro de admisión. Rechazar/inconcluso/posponer ante incumplimiento, sin reajustar sobre ese bloque. Solo pasan las afirmaciones según regla prevista |
+| F — holdout final | Un lote posterior protegido y referencias correspondientes | Todas las vinculaciones finales originales, sellado/custodia efectivos, hashes/versiones inmutables y autoridad de apertura única | Evidencia confirmatoria solo si se cumplen todas las condiciones. Se conserva el fallo; versión científicamente distinta necesita datos independientes |
+
+La «V» de esta tabla es validación; **D y U son trabajo financiero que necesitaría autorización de Fase V con alcance concreto**. Cambiarles el nombre no los mantiene dentro de IV documental. Recogida prospectiva, paper y live conservan permisos propios. No se modifican permisos de producción.
+
+## Vinculaciones que no pueden esperar a los resultados
+
+Antes de D deben elegirse estimando, referencias de efectivo/comparador, márgenes económicos, capital y convenciones de riesgo/costes mediante decisiones informadas del usuario y evidencia de fuente/venue, no por efectos observados. No se propone cifra universal de materialidad, capital, drawdown o presupuesto. Congelar horizonte/lookbacks justificados por mecanismo, elegibilidad y variantes finitas antes de ajustes dependientes. Separar notas explicativas exploratorias de nuevas decisiones ejecutables; ambas consumen presupuesto cuando se usan para seleccionar.
+
+Registrar ajustes/reajustes/ablaciones/semillas/estrés previstos y máximos, intentos fallidos y reparaciones. El techo de **26 especificaciones base (8 reglas/referencias + 18 C3)** permanece y no cuenta todos los ajustes. No se añaden modelos, mercados, estrategia de apertura, rejillas de intervalos, noticias ni reservas ocultas. C1/C3 primarias, C2 secundaria, C4/C5 reservas. Ampliaciones requieren motivo prospectivo y presupuesto finito aprobado; cómputo barato no amplía permiso.
+
+Antes de cualquier desarrollo financiero, delimitar y proteger el intervalo posterior de evaluación usando **solo metadatos de cobertura**. Ni gráficos/precios de validación/final, retornos, distribuciones de variables o resúmenes de IA pueden informar esa elección. La división exacta validación/final podrá derivarse después mediante una **regla determinista de suficiencia prerregistrada que use D/U y metadatos sellados**, nunca periodos favorables. Fijar primero intervalo máximo de adquisición/evaluación y salida si la división es imposible; si falta información, posponer sin cambiar silenciosamente de ciclo. Fijar todas las fechas desde metadatos antes también es válido, pero puede dejar baja potencia. Ambas vías necesitan revisión expresa porque la aceptación actual exige vinculaciones completas antes de todo ensayo financiero.
+
+Q3 Kraken inspeccionado sigue como QA expuesto. Debe declararse conocimiento de resultados históricos, narrativas publicadas o gráficos discrecionales; posterior cronológicamente no significa independiente o desconocido. Sin intervalo adecuado intacto, documentar y posponer confirmación. No se autoriza aquí recogida futura para resolverlo.
+
+## Cómo evitar que U sea otra búsqueda
+
+1. Conservar el procedimiento causal completo. Folds externos de desarrollo estiman su comportamiento fuera de muestra solo si no se usaron para ajustarlo. Una revisión inspirada en ellos convierte esa trayectoria en exploratoria y consume presupuesto; no presentar su incertidumbre aparente como calibración independiente de la versión revisada.
+2. Preferir un procedimiento congelado en calibración de desarrollo intacta si existe esa contaminación. Debe quedar en el intervalo autorizado, con fechas/cobertura elegidas sin resultados, etiquetas disponibles, purga/embargo y cortes comunes entre activos. Después queda expuesto y no puede volver a ser validación/final.
+3. Estimar dependencia/varianza y soporte de diferencias emparejadas por segmentos contiguos, sin tratar activos/operaciones como independientes ni concatenar folds separados. Refits causales previstos, dependencia entre activos/estrategias conservada. Registrar bloques, sensibilidad corta/base/larga finita y fallos; soporte de colas/regímenes insuficiente o supuestos inestables siguen siendo limitaciones.
+4. Precisión deseada y alternativa económicamente relevante se fijan antes de resultados U, vinculadas a materialidad y consecuencias decisorias. Estimar incertidumbre de parámetros auxiliares y estresar dependencia/no estacionariedad plausibles; tamaño requerido estimado no garantiza potencia. No usar el mejor efecto observado como alternativa ni bajar margen para que encaje. Calibración de desarrollo sin usar reduce retroalimentación de selección, pero no certifica estacionariedad futura.
+5. U no selecciona candidata, semilla, bloque o régimen por su p favorable. Una revisión científica vuelve a D con presupuesto restante/enmendado explícito, exposición registrada y nueva calibración independiente cuando proceda. Nunca repetir sin una regla finita aprobada de parada.
+
+Se mantienen inferencia por bloques estacionarios emparejados, condiciones de aplicabilidad y calibración sintética bajo nula dependiente. Esas pruebas estadísticas son trabajo técnico futuro; ninguna se ejecuta aquí. Para suficiencia de una media diferencial, la varianza de largo plazo incluye covarianzas seriales y la precisión depende de información efectiva, no del número bruto de velas. No se sustituye el método por aproximación normal, fórmula IID o mínimo fijo sin aprobación.
+
+## Validación, inferencia final y resultados conservados
+
+La familia primaria sigue siendo **C1, C3-I, C3-X**, con requisitos incrementales y frente a efectivo. Conservar `p_claim = max(p_gain, p_cash)`, Holm entre tres afirmaciones con no evaluadas/no elegibles en p=1, nivel familiar aprobado 0,05 y 9.999 réplicas bootstrap. Son valores heredados, no umbrales nuevos. Validez condicionada a contrastes marginales adecuados, supuestos temporales y evaluación independiente; los permisos por etapas no reparan inferencia inválida.
+
+La validación única no es una segunda oportunidad para afirmar éxito si falla el final. El final sigue como único lote autorizado con procedimientos congelados y refits causales previstos. Ningún modelo, coste, capital, efectivo, horizonte o regla de bloques puede depender de resultados de validación/final. Reparar con resultados vistos exige revisar contaminación; fallar la ejecución no restablece datos intactos. Repetibilidad técnica no equivale a evidencia independiente.
+
+Mantener categorías originales: técnicamente inválido; no evaluable/pospuesto; inconcluso; evidencia contraria a la afirmación material; o respaldo a esa afirmación acotada. No rechazar la nula no prueba ausencia de ventaja; pasar técnicamente o tener permiso no prueba valor económico. Detenerse sin candidata admitida es un resultado válido.
+
+## Registros y cambio que requeriría aprobación
+
+Usar manifiestos pequeños inmutables enlazados, sin servicios vacíos nuevos: `technical_admission`, `development_admission`, `uncertainty_review`, `validation_freeze`, `final_opening`. Son funciones propuestas, no esquemas implementados. Cada uno cita hashes padre, finalidad/acceso, particiones expuestas, campos pendientes/dependencias, autoridad, versiones fuente/motor/código, presupuesto e incidencias. Una etapa posterior no amplía permisos anteriores cambiando un flag.
+
+Si posteriormente se aprueba, la enmienda cambiaría solo el **momento de completitud** de §§3/4/7/8 del protocolo, la condición «antes de un ensayo financiero de V» y estructura del manifiesto. Debe preservar estimandos, comparaciones, selección, E1/E2, criterios económicos, multiplicidad, fallos y custodia final. Presentar cambios concretos y manifiestos por etapa completos antes de ejecutar. Esta entrega conserva aquellos archivos byte a byte y no solicita autorización genérica de V.
+
+**Recomendación:** aprobar el principio de secuencia solo tras revisar las distinciones de vinculación/acceso; decidir D/U por separado con fuente/motor admitidos y E3/E4 completos. Alternativa: mantener la puerta financiera incondicional actual y seguir en preparación metodológica condicionada. Ninguna opción necesita otra revisión científica general ni cifras arbitrarias ahora.

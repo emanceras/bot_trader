@@ -4,6 +4,8 @@ A modular cryptocurrency research platform with a documented scientific history.
 
 Phase I closed with documented limitations; Phases II and III were accepted. Phase IV E1/E2 design decisions are conditionally approved; E3/E4, empirical bindings and final preregistration remain pending. The authorized **A/B technical audit** acquired only two Kraken Q3 archives for external structural QA and tested NautilusTrader 1.231.0 in a disposable synthetic environment. See the [results and limitations](docs/en/phase-iv/admission.md), [Spanish report](docs/es/phase-iv/admission.md) and [acceptance gate](docs/en/phase-iv/acceptance.md). The quarter and venue do not limit future research coverage. Production remains the verified Phase III synthetic platform: no financial backtests, investment-model training, prospective paper/live activity, spending or additional data acquisition is authorized. See [current IV progress](docs/phase-iv/PROGRESS.md) and [III verification](docs/en/verification.md).
 
+The [data, engine and staged-admission review](docs/en/phase-iv/evolution.md) ([español](docs/es/phase-iv/evolution.md)) compares alternatives without selecting a permanent provider or engine. It proposes versioned temporal/multiasset contracts and bounded future technical checks. These are documented proposals: no dependency upgrade, new acquisition or statistical amendment has been applied.
+
 ## Start locally
 
 Requirements: a source checkout, Python 3.12, `uv`, Node.js 24 and npm. Run from the repository root:
@@ -43,6 +45,7 @@ The web interface submits bounded technical tasks; the worker executes them sepa
 | Phase IV design | [Protocol and dependencies](docs/en/phase-iv/protocol.md), [acceptance](docs/en/phase-iv/acceptance.md) | [Protocolo y dependencias](docs/es/phase-iv/protocol.md), [aceptación](docs/es/phase-iv/acceptance.md) |
 | Phase IV pending choices | [Executive decision review](docs/en/phase-iv/executive-decisions.md) | [Revisión ejecutiva de decisiones](docs/es/phase-iv/executive-decisions.md) |
 | Phase IV feasibility | [Data, engine, costs and admission](docs/en/phase-iv/feasibility.md) | [Datos, motor, costes y admisión](docs/es/phase-iv/feasibility.md) |
+| Phase IV technical evolution | [Sources, temporal contracts, engines and staged admission](docs/en/phase-iv/evolution.md) | [Fuentes, contratos temporales, motores y admisión por etapas](docs/es/phase-iv/evolution.md) |
 | Planned UX, glossary and help | [Future plan](docs/en/ux-evolution.md) | [Plan futuro](docs/es/ux-evolution.md) |
 | Technology alternatives | [Stack](docs/en/architecture/stack.md), [engines](docs/en/architecture/engines.md), [research tools](docs/en/architecture/research-tools.md) | [Stack](docs/es/architecture/stack.md), [motores](docs/es/architecture/engines.md), [herramientas](docs/es/architecture/research-tools.md) |
 
