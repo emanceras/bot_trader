@@ -1,12 +1,12 @@
 {
   "document_id": "FREEZE-IV-001",
   "schema_version": 1,
-  "revision": 3,
-  "date": "2026-10-26",
-  "status": "conditionally_approved_design_unbound_template",
+  "revision": 4,
+  "date": "2026-10-28",
+  "status": "staged_methodology_approved_unbound_template",
   "execution_ready": false,
   "phase_v_authorized": false,
-  "warning": "Documentary template only. Not an executable configuration, approval or sealed dataset. Null required bindings block execution.",
+  "warning": "Documentary template only; no executable configuration, financial permission or sealed dataset. Every stage-dependent binding must be complete before that access; all original final bindings remain mandatory before F.",
   "protocol": "docs/en/phase-iv/protocol.md",
   "candidate_annex": "docs/en/phase-iv/candidates.md",
   "data_annex": "docs/en/phase-iv/data-execution.md",
@@ -167,7 +167,7 @@
     "additional_models_without_amendment": false
   },
   "change_control": "Append a version and reason; never replace examined results. No authorization is inferred from a lifecycle flag.",
-  "binding_validation": "Future independent review must resolve every required field, including explicit justified not_applicable cases; neither this JSON nor execution_ready grants permissions.",
+  "binding_validation": "Review the exact stage manifest and authority before any access. D requires E3/E4, its finite complete scope and protected later envelope. U may use development only. V/F require all dependent inference/economic/technical bindings; F requires every original final binding including justified not_applicable cases. Neither this JSON nor execution_ready grants authority.",
   "bounded_technical_authorizations": {
     "decision_record": "D-040",
     "authority": "docs/phase-iv/APPROVAL-A-B.es.md",
@@ -186,5 +186,93 @@
       "environment": "isolated disposable; synthetic data only"
     },
     "limit": "Does not populate financial source/engine admission, permit extra acquisition, change production dependencies, approve E3/E4 or authorize Phase V."
+  },
+  "staged_admission": {
+    "methodological_approval": {
+      "status": "approved_principle_only",
+      "date": "2026-10-27",
+      "proposal_commit": "9aeae393e31246e1f53aaa54461f509670e7cba6",
+      "authority": "docs/phase-iv/APPROVAL-STAGED.es.md",
+      "decision_record": "D-044",
+      "amendment": "docs/en/phase-iv/staged-amendment.md",
+      "limit": "No Phase V, D/U financial computation, real-data evaluation or new M/E/R package execution authorized."
+    },
+    "status": "documentary_roles_not_implemented",
+    "roles": {
+      "T": {
+        "record_role": "technical_admission",
+        "financial": false,
+        "execution_authority": null,
+        "manifest_digest": null,
+        "parent_manifest_digests": null,
+        "access_scope": null,
+        "remaining_budget": null,
+        "ready": false
+      },
+      "D": {
+        "record_role": "development_admission",
+        "financial": true,
+        "execution_authority": null,
+        "manifest_digest": null,
+        "parent_manifest_digests": null,
+        "access_scope": null,
+        "remaining_budget": null,
+        "ready": false
+      },
+      "U": {
+        "record_role": "uncertainty_review",
+        "financial": true,
+        "execution_authority": null,
+        "manifest_digest": null,
+        "parent_manifest_digests": null,
+        "access_scope": null,
+        "remaining_budget": null,
+        "ready": false
+      },
+      "V": {
+        "record_role": "validation_freeze",
+        "financial": true,
+        "execution_authority": null,
+        "manifest_digest": null,
+        "parent_manifest_digests": null,
+        "access_scope": null,
+        "remaining_budget": null,
+        "ready": false
+      },
+      "F": {
+        "record_role": "final_opening",
+        "financial": true,
+        "execution_authority": null,
+        "manifest_digest": null,
+        "parent_manifest_digests": null,
+        "access_scope": null,
+        "remaining_budget": null,
+        "ready": false
+      }
+    },
+    "before_development": {
+      "protected_evaluation_envelope": null,
+      "maximum_calendar_acquisition_envelope": null,
+      "validation_final_split_rule": null,
+      "impossible_split_stop_rule": null,
+      "custody_and_access_verification": null,
+      "finite_development_uncertainty_revision_budget": null
+    },
+    "uncertainty_review": {
+      "eligible_development_evidence_digest": null,
+      "procedure_revision_and_exposure_log": null,
+      "untouched_calibration_manifest_if_needed": null,
+      "nuisance_estimation_and_sensitivity_rule": null,
+      "adequacy_result": null,
+      "precision_and_relevant_alternative": null
+    },
+    "invariants": [
+      "D and U are financial Phase V work, not technical QA.",
+      "E3/E4 and every field needed by the current computation must precede it.",
+      "Protect the later evaluation envelope before D using metadata only; exact V/F split follows a predeclared deterministic rule without viewing later values.",
+      "U uses eligible frozen-procedure outer development evidence or untouched calibration inside development; no economic hurdle or precision target selected to fit observed effects.",
+      "All final bindings and explicit one-time opening authority remain mandatory before F.",
+      "Stage transition or method approval never grants execution authority."
+    ]
   }
 }

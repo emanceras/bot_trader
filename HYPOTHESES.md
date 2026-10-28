@@ -1,6 +1,6 @@
 # Registro inicial de hipótesis
 
-**Estado de plataforma al 2026-10-27:** III aceptada; E1/E2 de IV aprobadas condicionalmente; A/B documentados con límites. D-042/D-043 añaden la [revisión de fuentes, motores y admisión por etapas](docs/es/phase-iv/evolution.md), exclusivamente documental. E3/E4 y admisión financiera pendientes. No cambian filas, nulas, falsadores, prioridades ni las 26 especificaciones; sesiones/otros mercados son capacidades futuras, sin nueva hipótesis. No hay resultados financieros ni autorización de V.
+**Estado de plataforma al 2026-10-28:** III aceptada; E1/E2 de IV aprobadas condicionalmente. D-044 registra la [admisión metodológica por etapas aprobada](docs/es/phase-iv/staged-amendment.md); D-045 propone [pruebas M/E/R](docs/es/phase-iv/technical-packages.md), todavía sin permiso de ejecución. E3/E4 y admisión financiera pendientes. No cambian filas, nulas, falsadores, prioridades ni las 26 especificaciones. No hay resultados financieros ni autorización de V.
 
 **Creación:** 2026-10-13 · **Actualización:** 2026-10-18 · **Versión:** 0.8 · **Estado de todas las hipótesis:** propuestas, no probadas ni validadas.
 

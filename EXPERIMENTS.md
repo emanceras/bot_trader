@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-27 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, E1/E2 aprobadas condicionalmente; [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) conservados. La [revisión documental](docs/es/phase-iv/evolution.md) no ejecuta sus pruebas propuestas ni enmienda el protocolo. E3/E4 y V–VI pendientes; operativa no autorizada. Las pruebas técnicas de III y A/B permanecen separadas de los experimentos financieros.
+**Actualizado:** 2026-10-28 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, E1/E2 aprobadas condicionalmente; [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) conservados. La [enmienda por etapas](docs/es/phase-iv/staged-amendment.md) registra aprobación metodológica; las [pruebas M/E/R](docs/es/phase-iv/technical-packages.md) siguen propuestas sin ejecución. E3/E4 y V–VI pendientes; operativa no autorizada. Las pruebas técnicas de III y A/B permanecen separadas de los experimentos financieros.
 
 ## Estado real
 
@@ -84,3 +84,6 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 
 
 - **2026-10-27, revisión metodológica de fuentes y motores (D-042/D-043):** comparación documental y lectura dirigida de fuentes oficiales; contratos temporales/multirresolución, información externa, dependencias, motores y admisión por etapas propuestos en [informe EN/ES](docs/es/phase-iv/evolution.md). Verificaciones de documentos, hashes, enlaces y conservación del historial; sin adquisición adicional, instalaciones, migraciones, nuevas pruebas de motores ni experimentos financieros. M/E/R/H son propuestas no ejecutadas. Se corrige la descripción del contador de holdout para reconocer los dos archivos de QA ya adquiridos; su valor sigue en cero y ningún conjunto final está constituido. Protocolo/aceptación/plantilla intactos; E3/E4 y V pendientes. **Los siete contadores financieros permanecen en cero.**
+
+
+- **2026-10-27, aprobación metodológica por etapas y paquetes técnicos (D-044/D-045):** enmienda prospectiva T/D/U/V/F aprobada en principio; cambian únicamente momento de completar vinculaciones y registros de acceso, sin habilitar desarrollo financiero. Consulta acotada de metadatos oficiales para fijar versiones/runtimes y diseño de casos sintéticos M/E/R. No se instalaron motores ni paquetes, no se ejecutaron harnesses ni se adquirieron datasets adicionales. Recurso estimado/techo de prueba no es medición ni presupuesto E3. E1/E2, 26 especificaciones, nulas, inferencia, negativos y **siete contadores financieros en cero** preservados. E3/E4 y V pendientes.

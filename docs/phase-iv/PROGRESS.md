@@ -1,8 +1,14 @@
 # Phase IV checkpoint
 
-Updated: 2026-10-27. Canonical English; resumen español below.
+Updated: 2026-10-28. Canonical English; resumen español below.
 
-**Current — D-042/D-043:** the documentary evolution review requested from `d70e6bc` is delivered in [EN](../en/phase-iv/evolution.md) / [ES](../es/phase-iv/evolution.md), six synchronized annexes and the [review checkpoint](evolution/PROGRESS.md). It compares sources, temporal/multiasset contracts, external information, dependencies and engines, and proposes staged statistical admission. No new datasets, installation, production upgrade, migration/synthetic engine trial or financial computation occurred in this review. Existing A/B findings remain qualified, E3/E4 unbound and IV conditionally open. The protocol, acceptance and freeze template remain unchanged; the staged clarification is not enacted.
+**Current — D-044/D-045:** user-approved T/D/U/V/F methodology is recorded in [EN amendment](../en/phase-iv/staged-amendment.md) / [ES](../es/phase-iv/staged-amendment.md). Protocol v3, acceptance v5 and freeze revision4 preserve scientific/economic/access invariants; all financial flags and role permissions remain blocked. [M/E/R scope EN](../en/phase-iv/technical-packages.md) / [ES](../es/phase-iv/technical-packages.md) and [checkpoint](technical-packages/PROGRESS.md) fix exact versions, synthetic cases, resource bounds and stops. Proposal only: no new installation, source checkout, test execution, production/data change or Phase V. E3/E4 pending. No repeat approval of the methodological principle is needed.
+
+Resumen vigente: enmienda metodológica registrada, pruebas M/E/R concretadas y pendientes de autorización. Se conservaron documentos/metadatos tras interrupciones; la línea activa Nautilus v2 cambia Python y no exige Arrow, por lo que M y E son decisiones independientes. Sin pruebas técnicas nuevas ni permisos financieros.
+
+## Historical checkpoint — evolution review 2026-10-27
+
+**D-042/D-043:** the documentary evolution review requested from `d70e6bc` is delivered in [EN](../en/phase-iv/evolution.md) / [ES](../es/phase-iv/evolution.md), six synchronized annexes and the [review checkpoint](evolution/PROGRESS.md). It compares sources, temporal/multiasset contracts, external information, dependencies and engines, and proposes staged statistical admission. No new datasets, installation, production upgrade, migration/synthetic engine trial or financial computation occurred in this review. Existing A/B findings remain qualified, E3/E4 unbound and IV conditionally open. The protocol, acceptance and freeze template remain unchanged; the staged clarification is not enacted.
 
 Resumen vigente: revisión documental entregada; Nautilus/LEAN siguen candidatos y las pruebas M/E/R y adquisición H son propuestas futuras con alcance separado. Ninguna enmienda estadística ni Fase V autorizada. Mantener el estado real, no repetir investigación ni interpretar los siguientes checkpoints históricos como permisos pendientes ya resueltos.
 

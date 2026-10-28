@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-27 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-10-28 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
@@ -12,7 +12,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; revisión posterior D-042/D-043 entregada; E3/E4, instanciación/sellado pendientes |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; pruebas M/E/R propuestas D-045; E3/E4, instanciación/sellado pendientes |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |
@@ -167,6 +167,8 @@ IV.1–IV.11 tienen especificación trazable en [protocolo](docs/es/phase-iv/pro
 
 **Revisión posterior a d70e6bc, 2026-10-27:** [informe EN](docs/en/phase-iv/evolution.md) / [ES](docs/es/phase-iv/evolution.md), D-042/D-043, con seis anexos de fuentes, contratos temporales, información externa, dependencias, motores y admisión por etapas. Propone trazabilidad multirresolución/multiasset futura, comparación de Nautilus y LEAN, pruebas aisladas M/E/R y adquisición H acotada posterior. No selecciona proveedor/motor definitivo, no instala ni actualiza dependencias y no ejecuta las pruebas propuestas. El protocolo y la aceptación vigentes permanecen intactos; la secuencia estadística requiere revisión explícita antes de aplicarse. No se añaden experimentos, mercados ni intervalos a las 26 especificaciones.
 
+**Aprobación posterior y alcance técnico, 2026-10-28:** D-044 registra la [enmienda T/D/U/V/F](docs/es/phase-iv/staged-amendment.md) aprobada metodológicamente por el usuario. Cambia el momento de completar vinculaciones dependientes; conserva economía prospectiva, E1/E2, 26 especificaciones, independencia y acceso. D/U siguen sin permiso financiero. D-045 entrega [paquetes M/E/R](docs/es/phase-iv/technical-packages.md) con versiones, casos sintéticos, recursos y paradas; aún sin permiso ni ejecución. No se instala, modifica producción ni amplía la tanda.
+
 **UX futura registrada antes del desarrollo metodológico:** UX-01 resúmenes/tabla y auditoría desplegable; UX-02 glosario especializado EN/ES; UX-03 guía completa que siga capacidades reales; UX-04 ayuda contextual/accesibilidad e integración. [Plan EN](docs/en/ux-evolution.md) / [ES](docs/es/ux-evolution.md), con dependencias y aceptación. Sin código, secciones ficticias ni nuevas dependencias; no bloquea IV. Verificación Windows permanece separada y no realizada.
 
 ## Fase V — Experimentación
@@ -222,7 +224,15 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-27
+## Punto de reanudación vigente — 2026-10-28
+
+**Estado:** aprobada y registrada la admisión metodológica T/D/U/V/F, D-044; protocolo v3, aceptación v5 y plantilla documental revisión 4. [Propuesta técnica M/E/R](docs/es/phase-iv/technical-packages.md) y [checkpoint](docs/phase-iv/technical-packages/PROGRESS.md), D-045. No ejecutada. Nautilus rc7 requiere Python 3.13 sin Arrow obligatorio; M es independiente del motor. Se comparará rc7 con LEAN fijado por commit solo si se autoriza el alcance, sin ganador anticipado.
+
+**Siguiente decisión material:** autorización de las pruebas técnicas acotadas propuestas; no volver a pedir el principio T/D/U/V/F. Un alcance conjunto M/R/E permite implementar harnesses aislados y probarlos con los límites publicados, sin otra revisión general. No descargar software de los paquetes ni ejecutar casos antes del permiso. Cambios de versiones/techos/alcance, adquisición financiera, producción o fases posteriores requieren decisión aparte.
+
+**Continuidad:** E3/E4, datos/ejecución financieros y V pendientes; siete contadores cero. Reutilizar archivos/metadatos conservados tras interrupciones. Comprobaciones documentales no son pruebas M/E/R. Mantener 53 trabajos, H-00–H-24, prioridades, 26 especificaciones, negativos A/B, UX y producción. La plantilla conserva flags falsos y manifiestos sin instanciar.
+
+## Punto de reanudación histórico — revisión de evolución del 2026-10-27
 
 **Estado:** revisión documental solicitada desde `d70e6bc` entregada en [evolution.md](docs/es/phase-iv/evolution.md), seis anexos EN/ES y [checkpoint](docs/phase-iv/evolution/PROGRESS.md). Se conservan resultados A/B, 53 trabajos, H-00–H-24 y siete contadores financieros en cero. Producción, protocolo, plantilla, aceptación y UX intactos. IV sigue condicionada; E3/E4 y V pendientes.
 

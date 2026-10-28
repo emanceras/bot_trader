@@ -1,6 +1,6 @@
 # Technical documentation translation policy
 
-Canonical policy language: English. Revision: 8. Updated: 2026-10-27. The Spanish policy is included below.
+Canonical policy language: English. Revision: 9. Updated: 2026-10-28. The Spanish policy is included below.
 
 New engineering documentation uses English as its canonical text, with a synchronized Spanish counterpart. Code, comments, symbols and API contract keys remain English. Each paired document records its revision, update date and a link to the other language. A technical change must update both texts in the same reviewed change, or explicitly identify the untranslated portion; a stale translation must not silently claim synchronization.
 
@@ -17,11 +17,11 @@ New engineering documentation uses English as its canonical text, with a synchro
 | [Verification](en/verification.md) | [Verificación](es/verification.md) | Revision stated in each pair |
 | [Supplementary coverage](en/architecture/supplement.md) | [Cobertura complementaria](es/architecture/supplement.md) | Revision stated in each pair |
 | [Supplementary evidence](en/architecture/supplement-evidence.md) | [Evidencia complementaria](es/architecture/supplement-evidence.md) | Revision stated in each pair |
-| [Phase IV protocol](en/phase-iv/protocol.md) | [Protocolo IV](es/phase-iv/protocol.md) | 2 |
+| [Phase IV protocol](en/phase-iv/protocol.md) | [Protocolo IV](es/phase-iv/protocol.md) | 3 |
 | [Phase IV candidates](en/phase-iv/candidates.md) | [Candidatas IV](es/phase-iv/candidates.md) | 1 |
 | [Data and execution](en/phase-iv/data-execution.md) | [Datos y ejecución](es/phase-iv/data-execution.md) | 1 |
 | [Method evidence](en/phase-iv/method-evidence.md) | [Evidencia metodológica](es/phase-iv/method-evidence.md) | 1 |
-| [Phase IV acceptance](en/phase-iv/acceptance.md) | [Aceptación IV](es/phase-iv/acceptance.md) | 3 |
+| [Phase IV acceptance](en/phase-iv/acceptance.md) | [Aceptación IV](es/phase-iv/acceptance.md) | 5 |
 | [Phase IV executive decisions](en/phase-iv/executive-decisions.md) | [Decisiones ejecutivas IV](es/phase-iv/executive-decisions.md) | 2 |
 | [Phase IV feasibility](en/phase-iv/feasibility.md) | [Viabilidad IV](es/phase-iv/feasibility.md) | 1 |
 | [Phase IV A/B audit](en/phase-iv/admission.md) | [Auditoría A/B IV](es/phase-iv/admission.md) | Revision stated in each pair |
@@ -32,6 +32,10 @@ New engineering documentation uses English as its canonical text, with a synchro
 | [Dependency assessment](en/phase-iv/evolution/dependencies.md) | [Evaluación de dependencias](es/phase-iv/evolution/dependencies.md) | 1 |
 | [Engine comparison](en/phase-iv/evolution/engines.md) | [Comparación de motores](es/phase-iv/evolution/engines.md) | 1 |
 | [Staged admission proposal](en/phase-iv/evolution/staged-admission.md) | [Propuesta de admisión por etapas](es/phase-iv/evolution/staged-admission.md) | 1 |
+| [Approved staged amendment](en/phase-iv/staged-amendment.md) | [Enmienda por etapas aprobada](es/phase-iv/staged-amendment.md) | 1 |
+| [Technical packages](en/phase-iv/technical-packages.md) | [Paquetes técnicos](es/phase-iv/technical-packages.md) | 1 |
+| [M/R checks](en/phase-iv/technical-packages/dependencies-temporal.md) | [Pruebas M/R](es/phase-iv/technical-packages/dependencies-temporal.md) | 1 |
+| [E comparison](en/phase-iv/technical-packages/engines.md) | [Comparación E](es/phase-iv/technical-packages/engines.md) | 1 |
 | [UX evolution](en/ux-evolution.md) | [Evolución UX](es/ux-evolution.md) | 1 |
 
 `README.md` is an English entry point with direct Spanish guide links. Original user requests, scientific records, historical decisions, bibliography/source logs and progress/acceptance ledgers retain their original language and dates. These are traceability records; translating them must not replace, reinterpret or count the same evidence again. Machine-readable source fields and bibliographic titles retain their source values.

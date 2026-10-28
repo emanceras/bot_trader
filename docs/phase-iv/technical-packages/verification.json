@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "9aeae393e31246e1f53aaa54461f509670e7cba6",
+  "scope": "Documentary verification only; not execution of M/E/R, runtime tests or financial work",
+  "markdown_files_checked": 116,
+  "local_path_links_checked": 961,
+  "missing_paths": [],
+  "source_events_by_ledger": {
+    "dependency-version-sources.jsonl": 2,
+    "engine-version-sources.jsonl": 32
+  },
+  "source_event_types": {
+    "metadata_retrieval_and_directed_read": 1,
+    "local_provenance_review": 1,
+    "metadata_retrieval": 17,
+    "directed_cached_read": 15
+  },
+  "source_events_total": 34,
+  "source_hash_references_verified": 37,
+  "distinct_cached_bodies": 16,
+  "retained_source_errors": [
+    {
+      "source_id": "PKG-E-L-GLOBAL",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "source_id": "PKG-E-L-PROPS",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ],
+  "paired_en_es_documents": [
+    "protocol.md",
+    "acceptance.md",
+    "staged-amendment.md",
+    "technical-packages.md",
+    "technical-packages/engines.md",
+    "technical-packages/dependencies-temporal.md"
+  ],
+  "pair_checks": "Date, heading and table counts, external URLs; separate semantic review recorded in checkpoint",
+  "protocol_sections_2_5_6_byte_identical_both_languages": true,
+  "original_freeze_values_unchanged_except_documentary_status_and_timing_wording": true,
+  "new_stage_authorities_and_manifests_null_ready_false": true,
+  "financial_flags_false": true,
+  "scientific_research_hypothesis_bodies_unchanged": true,
+  "historical_decisions_prefix_unchanged": true,
+  "eleven_original_iv_tasks_unchanged": true,
+  "seven_financial_counters_zero": true,
+  "protected_runtime_history_ux_paths_unchanged": [
+    "src",
+    "tests",
+    "web",
+    "tools",
+    "scripts",
+    "migrations",
+    "alembic.ini",
+    "pyproject.toml",
+    "uv.lock",
+    ".github",
+    "docs/phase-iv/admission",
+    "docs/phase-iv/evolution",
+    "docs/en/phase-iv/evolution",
+    "docs/es/phase-iv/evolution",
+    "docs/en/phase-iv/evolution.md",
+    "docs/es/phase-iv/evolution.md",
+    "docs/en/ux-evolution.md",
+    "docs/es/ux-evolution.md"
+  ],
+  "preserved_method_files": [
+    "docs/en/phase-iv/candidates.md",
+    "docs/en/phase-iv/data-execution.md",
+    "docs/en/phase-iv/method-evidence.md",
+    "docs/en/phase-iv/executive-decisions.md",
+    "docs/en/phase-iv/feasibility.md",
+    "docs/en/phase-iv/admission.md",
+    "docs/es/phase-iv/candidates.md",
+    "docs/es/phase-iv/data-execution.md",
+    "docs/es/phase-iv/method-evidence.md",
+    "docs/es/phase-iv/executive-decisions.md",
+    "docs/es/phase-iv/feasibility.md",
+    "docs/es/phase-iv/admission.md"
+  ],
+  "untracked_documents_under_1MB": true,
+  "git_diff_check_passed": true,
+  "limits": [
+    "Local paths checked, not anchors or a new external URL crawl",
+    "Hashes verify retained artifacts, not source truth, legal rights or binary/runtime compatibility",
+    "Exact wheel/SDK identities are metadata; no package body or installer was obtained or executed",
+    "No production regression, M/E/R harness, migration, financial dataset or model computation",
+    "Methodological approval does not authorize technical packages or Phase V"
+  ]
+}
