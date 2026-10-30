@@ -1,0 +1,14 @@
+{
+  "only_version_delta": {
+    "pyarrow": [
+      "23.0.1",
+      "26.0.0"
+    ]
+  },
+  "control_package_count": 37,
+  "candidate_package_count": 37,
+  "control_lock_sha256": "a21342fae000552e099170b7c6f5b75adf550bbd0319d074f94160f8da205fb2",
+  "candidate_lock_sha256": "ed484242fffa20ab65ec4b40e08ec6ca922f420967877190b1c9e772c679a35c",
+  "passed": true,
+  "resolver_attempts": 1
+}

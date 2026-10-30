@@ -1,0 +1,3 @@
+Using CPython 3.12.14 interpreter at: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12
+Resolved 37 packages in 457ms
+Updated pyarrow v23.0.1 -> v26.0.0

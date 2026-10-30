@@ -1,0 +1,15 @@
+{
+  "command": "freeze",
+  "elapsed_seconds": 1.4556242630060297,
+  "expectations_sha256": "85aac8b1d0b8bff55dd0832ccf34d9ff60a274cac20f036bf0462ba26896d800",
+  "financial_experiments": 0,
+  "harness_sha256": "7639c0874273e5da35a05b99d6a5bf439f25b3dbb040b06c236805c983e95137",
+  "packs": [
+    "v1",
+    "boundary",
+    "precision"
+  ],
+  "role": "control",
+  "status": "prepared",
+  "synthetic": true
+}

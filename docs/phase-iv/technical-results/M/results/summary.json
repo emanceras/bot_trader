@@ -1,0 +1,249 @@
+{
+  "package": "M",
+  "status": "passed_scoped_checks",
+  "synthetic": true,
+  "financial_experiments": 0,
+  "custom_initial_attempts": 20,
+  "custom_passed": 20,
+  "custom_failed": 0,
+  "correction_cycles_used": 0,
+  "backend_suite_invocations": 2,
+  "backend_suites": {
+    "control": {
+      "tests": "110",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "6.220"
+    },
+    "candidate": {
+      "tests": "110",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "6.194"
+    }
+  },
+  "optional_old_artifact_reads": 0,
+  "source_export_commit": "fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f",
+  "harness_sha256": "7639c0874273e5da35a05b99d6a5bf439f25b3dbb040b06c236805c983e95137",
+  "source_exports_equal_files": 41,
+  "source_files": [
+    {
+      "path": "src/bot_trader/__init__.py",
+      "sha256": "2948fa513fcb86e82b16b91bc7103df6e09c245bb3958e3e27ba27a6aaab9d04"
+    },
+    {
+      "path": "src/bot_trader/api/__init__.py",
+      "sha256": "6a7c3c66799497fe388baf2e9bbbd95a7a79159dfa6ffbc4d391fd80353aef56"
+    },
+    {
+      "path": "src/bot_trader/api/app.py",
+      "sha256": "c78b759a1fceb7c8ebb7ea6a31f939fc90b15a84270c8976a83312382fd44d5e"
+    },
+    {
+      "path": "src/bot_trader/api/auth.py",
+      "sha256": "11c68a2c46808af7bca96c08e356b49a99afb186dd0843e0d2d4a25a4ebbdf6b"
+    },
+    {
+      "path": "src/bot_trader/api/boundary.py",
+      "sha256": "2cafb077dfb84ec0865759783298f3731602accf497664275a4430f17a213061"
+    },
+    {
+      "path": "src/bot_trader/api/credentials.py",
+      "sha256": "14630eea778dbb6f57f6ff64f1a0ec9cd09ff979e0538fbdc8e28938e45ec1e8"
+    },
+    {
+      "path": "src/bot_trader/application.py",
+      "sha256": "5cf37e6ab41c8fa7cea8ca5a468d4c5b1efe0d0c1095683e1b2933778120b2f0"
+    },
+    {
+      "path": "src/bot_trader/cli.py",
+      "sha256": "1b617bc9834c4cf16e344a6d14790cc1b096d4bc97d52a21812c4587c439a0d0"
+    },
+    {
+      "path": "src/bot_trader/core/__init__.py",
+      "sha256": "a96b4443c7e17d39a63d7a367bc3ba91f943124aa9cea64c60f96b95b7b291a2"
+    },
+    {
+      "path": "src/bot_trader/core/contracts.py",
+      "sha256": "4cb881d9a814c4a9a89c5241873b693f9c73317145e15bd37f8c1f8d22ce5ecd"
+    },
+    {
+      "path": "src/bot_trader/core/errors.py",
+      "sha256": "db58e5df14b37391c3e6e8f9729a0439cde0bef542d2c4938e36527833b78682"
+    },
+    {
+      "path": "src/bot_trader/core/ports.py",
+      "sha256": "3b65b7c27ca2f24192451b38bd63b30036093e86ddeeb4a13eeef9d7971ff1d9"
+    },
+    {
+      "path": "src/bot_trader/core/registry.py",
+      "sha256": "de615844ba8a154f419814296ffdf0f08d795b311653e673af7a0b18a35c7193"
+    },
+    {
+      "path": "src/bot_trader/core/security.py",
+      "sha256": "b4a7184e3a64240456daa17e87191e6414c1fe104c449f21bd58f1877cf7c020"
+    },
+    {
+      "path": "src/bot_trader/core/settings.py",
+      "sha256": "6c6fa9d708794877f22401a0d9e027461f0ec72545560a6b65c3f98c40fbe9a7"
+    },
+    {
+      "path": "src/bot_trader/lab/__init__.py",
+      "sha256": "42cd5881428dab40dbd9986a82d1c3eaa15d7f24c809f467ad9061cc30503edd"
+    },
+    {
+      "path": "src/bot_trader/lab/contracts.py",
+      "sha256": "0c8d743ec9e30fa88b795c5ac3d102f044e71a16edb6e59e4815009d1ad82373"
+    },
+    {
+      "path": "src/bot_trader/lab/hypotheses.py",
+      "sha256": "0c29aad7fc06755b4e810c2e4a0a7e8846e5dcc1e68c5d2b3fd438f14f463ae5"
+    },
+    {
+      "path": "src/bot_trader/lab/provenance.py",
+      "sha256": "76ba21f407e2cfdf44ea454d77029f752e6de8f84fbf48dff7e1cb6fff9e99fb"
+    },
+    {
+      "path": "src/bot_trader/lab/service.py",
+      "sha256": "bd54f30dd86fac34fbfb10a15fd2f483e3a8bf7cece6a6a50e6c82871672b273"
+    },
+    {
+      "path": "src/bot_trader/lab/temporal.py",
+      "sha256": "dda4fe9f905f42e6689808f58bb41e9fc5c5bf80acd7bdbbeab81ff192cfc659"
+    },
+    {
+      "path": "src/bot_trader/market_data/__init__.py",
+      "sha256": "8502964941c217face64233f42eec194e524a062f50db6ccf5632233d140402b"
+    },
+    {
+      "path": "src/bot_trader/market_data/service.py",
+      "sha256": "d0f0c1e289f563b4f7a2302cda79917c08579d6804794107320ce7383f2e1e36"
+    },
+    {
+      "path": "src/bot_trader/market_data/storage.py",
+      "sha256": "a83b457084c61a361bc14a6444fc1736a10ef7215f4ea4314d6e2c75accfd9b2"
+    },
+    {
+      "path": "src/bot_trader/persistence/__init__.py",
+      "sha256": "f3bbfce86119acae03e142a61d8ed47712fd42a959a04405ad156c4d882722f4"
+    },
+    {
+      "path": "src/bot_trader/persistence/database.py",
+      "sha256": "054371b5eb9d8ad812e189129f8ec865cbfe3670d66c0fce92c5dc5dd2a858d2"
+    },
+    {
+      "path": "src/bot_trader/persistence/repository.py",
+      "sha256": "93e155f4480f48e56615fcca32e598a6459ed8f020bb2f223af7d7bcb1962c1d"
+    },
+    {
+      "path": "src/bot_trader/persistence/schema.py",
+      "sha256": "806c6fa65e20324f099f5bcf15a76b6ceb95ea6c74cd517cfaaf640512eef406"
+    },
+    {
+      "path": "src/bot_trader/simulation/__init__.py",
+      "sha256": "e9021ba0bbd33c2de88422a9ec5bb354856c3f2e9461ac3f47cbf26f0801b400"
+    },
+    {
+      "path": "src/bot_trader/simulation/ledger.py",
+      "sha256": "feca775b5b756682795fb98c6872d65a968d5a4cc2dc1c58a97c7a20df4fdd1c"
+    },
+    {
+      "path": "tests/test_api.py",
+      "sha256": "83e3934e02c7091e1a7eeb7080e4040d08db55c41be4a95e61784ac6650be092"
+    },
+    {
+      "path": "tests/test_auth.py",
+      "sha256": "d0a8178a2c9b9daee4b92648a7911b347faa25fb86d5c50bd22bad63342b4dad"
+    },
+    {
+      "path": "tests/test_core.py",
+      "sha256": "db90b2cbbf74f961d5a715c3a6428b9cbf97e2b5202274427fb91d4dd4227343"
+    },
+    {
+      "path": "tests/test_hypotheses.py",
+      "sha256": "ee4222c661510d04d9467ecfcea9b2dc55c46e4c71589b69a24beb2472b6e7fd"
+    },
+    {
+      "path": "tests/test_lab.py",
+      "sha256": "2c2b757c4fcf4ad1ff3159d79e3dad13a399178fbc65d2fc121c581892751df6"
+    },
+    {
+      "path": "tests/test_market_data.py",
+      "sha256": "caedfbc3f26313ef0c72bf681da46372027dfee87c0e2d04961cd525708460c4"
+    },
+    {
+      "path": "tests/test_persistence.py",
+      "sha256": "3eabda058b589de72f2374678a8fdf3ad9adec497e7c0bf3445fa46bbdcc88df"
+    },
+    {
+      "path": "tests/test_simulation.py",
+      "sha256": "8094628d06af6742c8c4a9686f5b2b4d4e90d46fe7337021b44c0ac9816ab4aa"
+    },
+    {
+      "path": "tests/test_temporal.py",
+      "sha256": "0e3352258b6f8a7a9d53c68ba5343d6dab75bb6abdd291227fcc017c5cfd842a"
+    },
+    {
+      "path": "migrations/env.py",
+      "sha256": "d39dff1343ff995224f04ca58319bc59e0b7d717f950d4e01e50752e39b09e22"
+    },
+    {
+      "path": "migrations/versions/0001_metadata.py",
+      "sha256": "5918c8cc4d81cfbf50316292e946b209890832fbd5228f5d3acff5f4c2f24bca"
+    }
+  ],
+  "immutable_generated_objects_after_tests": [
+    {
+      "relative_path": "fixtures/packs/control/v1.parquet",
+      "sha256": "75d001372e2d0c475c87ca2e14cb7270450c4de116b3bec20726cf71f16e6f76"
+    },
+    {
+      "relative_path": "fixtures/packs/control/v1.arrow",
+      "sha256": "ecccc871960fc8ea8dd1a1a26132fa0ff2ce7c5dc9ee0879c251c5a8dbb56317"
+    },
+    {
+      "relative_path": "fixtures/packs/control/boundary.parquet",
+      "sha256": "f0c6edd5ff90b08316842c2e3439f1606513a47e3460317abce526c1155942f8"
+    },
+    {
+      "relative_path": "fixtures/packs/control/boundary.arrow",
+      "sha256": "574aac8fa6553e5b3c711b2bdc3a80daaede0c7eae35ee9da3de4bfe36404d56"
+    },
+    {
+      "relative_path": "fixtures/packs/control/precision.parquet",
+      "sha256": "e4d41ee9c803ff2a2cbafdc2dca5a20cc4af096ffe89d884bad064d48839efbd"
+    },
+    {
+      "relative_path": "fixtures/packs/control/precision.arrow",
+      "sha256": "9c261782cbc2bb92dd9fe84b072a57f784ac2af0373d3e3b18c1c66f85dd524a"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/v1.parquet",
+      "sha256": "b725eb5ce03b4309808c198cb350f45c151174eebe5c5ddab796d89c3ce9d534"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/v1.arrow",
+      "sha256": "ecccc871960fc8ea8dd1a1a26132fa0ff2ce7c5dc9ee0879c251c5a8dbb56317"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/boundary.parquet",
+      "sha256": "cf74e9e11b42b27e7bf3bb82a668c469ae8e2dba65dc59824b96d3477410b509"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/boundary.arrow",
+      "sha256": "574aac8fa6553e5b3c711b2bdc3a80daaede0c7eae35ee9da3de4bfe36404d56"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/precision.parquet",
+      "sha256": "3ae9298c8246510ce0dcfaad942d5d97ca5876a55886e577ad2227f22271a309"
+    },
+    {
+      "relative_path": "fixtures/packs/candidate/precision.arrow",
+      "sha256": "9c261782cbc2bb92dd9fe84b072a57f784ac2af0373d3e3b18c1c66f85dd524a"
+    }
+  ],
+  "known_negative_control": "DuckDB1.5.6 zoned-ns projection loses submicrosecond precision in both versions. Canonical integer ticks preserve it.",
+  "limitation": "No historical application objects available; no production migration, arbitrary future schemas, market inputs or financial compatibility certified."
+}

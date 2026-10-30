@@ -16,6 +16,8 @@ D-042/D-043 registran la revisión documental posterior a `d70e6bc`: [informe EN
 
 D-044 conserva la [aprobación T/D/U/V/F](docs/phase-iv/APPROVAL-STAGED.es.md) del usuario y registra la [enmienda EN](docs/en/phase-iv/staged-amendment.md) / [ES](docs/es/phase-iv/staged-amendment.md). No pedir otra vez el principio aprobado; D/U requieren permiso financiero explícito, E3/E4 y vinculaciones propias antes de acceso. D-045 y los [paquetes M/E/R](docs/es/phase-iv/technical-packages.md) fijan propuestas técnicas aún **no autorizadas ni ejecutadas**. No instalar paquetes, adquirir código de motores, descargar datos, ejecutar harnesses ni alterar producción por una petición genérica de continuar. Consultar el [checkpoint](docs/phase-iv/technical-packages/PROGRESS.md).
 
+**Autorización vigente D-046:** el usuario aprobó expresamente instalar, preparar y ejecutar M/R/E de `fa435a4`; [mensaje](docs/phase-iv/APPROVAL-M-R-E.es.md). Las frases anteriores «no autorizados» son el estado histórico de la propuesta. No solicitar de nuevo esos permisos. Respetar versiones, casos, techos y un ciclo correctivo; continuar pruebas independientes ante bloqueos. Producción, nuevos datasets, gastos, adaptadores completos y Fase V siguen excluidos. Consultar los resultados/checkpoint reales antes de reanudar; no repetir descargas, ejecuciones ni investigación ya realizadas.
+
 ## Método y honestidad científica
 
 - Separar fundamentos teóricos, evidencia empírica publicada, replicaciones independientes y resultados propios.

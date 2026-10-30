@@ -1,0 +1,2856 @@
+{
+  "schema": "bot-trader.synthetic-temporal-journals.v1",
+  "synthetic": true,
+  "oracle_provenance": "Manually specified deltas, Decimal arithmetic and UTC strings; no probe imports or observed outputs used.",
+  "journals": [
+    {
+      "id": "R1",
+      "purpose": "Effective time is not availability; equality and unknown receipt are explicit.",
+      "events": [
+        {
+          "id": "scheduled",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000,
+          "event_tick": 1000,
+          "time_unit": "ns",
+          "available_ns": 5,
+          "receive_ns": 10,
+          "receive_ordinal": 0,
+          "op": "set",
+          "data": {
+            "key": "scheduled",
+            "value": "announced"
+          }
+        },
+        {
+          "id": "delayed",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 2,
+          "event_tick": 2,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 20,
+          "receive_ordinal": 1,
+          "op": "set",
+          "data": {
+            "key": "release",
+            "value": "initial"
+          }
+        },
+        {
+          "id": "unknown",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 3,
+          "event_tick": 3,
+          "time_unit": "ns",
+          "available_ns": null,
+          "receive_ns": 25,
+          "receive_ordinal": 2,
+          "op": "set",
+          "data": {
+            "key": "unknown",
+            "value": "must not enter"
+          }
+        },
+        {
+          "id": "delayed",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 2,
+          "event_tick": 2,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 30,
+          "receive_ordinal": 3,
+          "op": "set",
+          "data": {
+            "key": "release",
+            "value": "initial"
+          }
+        },
+        {
+          "id": "equal",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 30,
+          "receive_ordinal": 4,
+          "op": "set",
+          "data": {
+            "key": "equal_cutoff",
+            "value": "eligible"
+          }
+        },
+        {
+          "id": "earlier_event",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1,
+          "event_tick": 1,
+          "time_unit": "ns",
+          "available_ns": 35,
+          "receive_ns": 40,
+          "receive_ordinal": 5,
+          "op": "set",
+          "data": {
+            "key": "late",
+            "value": "now only"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 1000,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "scheduled"
+            ],
+            "values": {
+              "scheduled": "announced"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 2,
+          "decision": "BLOCK",
+          "reason": "not_yet_available",
+          "state": {
+            "eligible_ids": [
+              "scheduled"
+            ],
+            "values": {
+              "scheduled": "announced"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 3,
+          "decision": "BLOCK",
+          "reason": "unknown_availability",
+          "state": {
+            "eligible_ids": [
+              "scheduled"
+            ],
+            "values": {
+              "scheduled": "announced"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 2,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "scheduled",
+              "delayed"
+            ],
+            "values": {
+              "scheduled": "announced",
+              "release": "initial"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "scheduled",
+              "delayed",
+              "equal"
+            ],
+            "values": {
+              "scheduled": "announced",
+              "release": "initial",
+              "equal_cutoff": "eligible"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "scheduled",
+              "delayed",
+              "equal",
+              "earlier_event"
+            ],
+            "values": {
+              "scheduled": "announced",
+              "release": "initial",
+              "equal_cutoff": "eligible",
+              "late": "now only"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "purpose": "Submicrosecond order, declared units, true duplicates and namespaced identities.",
+      "events": [
+        {
+          "id": "ns1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000000001,
+          "event_tick": 1000000001,
+          "time_unit": "ns",
+          "available_ns": 1000000001,
+          "receive_ns": 2000000000,
+          "receive_ordinal": 0,
+          "op": "clock",
+          "data": {
+            "key": "fine1"
+          }
+        },
+        {
+          "id": "ns2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000000002,
+          "event_tick": 1000000002,
+          "time_unit": "ns",
+          "available_ns": 1000000002,
+          "receive_ns": 2000000001,
+          "receive_ordinal": 1,
+          "op": "clock",
+          "data": {
+            "key": "fine2"
+          }
+        },
+        {
+          "id": "micro",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000001000,
+          "event_tick": 1000001,
+          "time_unit": "us",
+          "available_ns": 1000001000,
+          "receive_ns": 2000000002,
+          "receive_ordinal": 2,
+          "op": "clock",
+          "data": {
+            "key": "us"
+          }
+        },
+        {
+          "id": "milli",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1001000000,
+          "event_tick": 1001,
+          "time_unit": "ms",
+          "available_ns": 1001000000,
+          "receive_ns": 2000000003,
+          "receive_ordinal": 3,
+          "op": "clock",
+          "data": {
+            "key": "ms"
+          }
+        },
+        {
+          "id": "ns1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000000001,
+          "event_tick": 1000000001,
+          "time_unit": "ns",
+          "available_ns": 1000000001,
+          "receive_ns": 2000000004,
+          "receive_ordinal": 4,
+          "op": "clock",
+          "data": {
+            "key": "fine1"
+          }
+        },
+        {
+          "id": "equal-value-new-id",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000000001,
+          "event_tick": 1000000001,
+          "time_unit": "ns",
+          "available_ns": 1000000001,
+          "receive_ns": 2000000005,
+          "receive_ordinal": 5,
+          "op": "clock",
+          "data": {
+            "key": "equal"
+          }
+        },
+        {
+          "id": "ns1",
+          "source_id": "other",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000000001,
+          "event_tick": 1000000001,
+          "time_unit": "ns",
+          "available_ns": 1000000001,
+          "receive_ns": 2000000006,
+          "receive_ordinal": 6,
+          "op": "clock",
+          "data": {
+            "key": "other_source"
+          }
+        },
+        {
+          "id": "mismatch",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1000,
+          "event_tick": 1,
+          "time_unit": "ms",
+          "available_ns": 1000,
+          "receive_ns": 2000000007,
+          "receive_ordinal": 7,
+          "op": "clock",
+          "data": {
+            "key": "wrong"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 1000000001,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1"
+            ],
+            "values": {
+              "fine1": 1000000001
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000000002,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000001000,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1001000000,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro",
+              "milli"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000,
+              "ms": 1001000000
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000000001,
+          "decision": "OBSERVE",
+          "reason": "duplicate",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro",
+              "milli"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000,
+              "ms": 1001000000
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000000001,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro",
+              "milli",
+              "equal-value-new-id"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000,
+              "ms": 1001000000,
+              "equal": 1000000001
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000000001,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro",
+              "milli",
+              "equal-value-new-id",
+              "ns1"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000,
+              "ms": 1001000000,
+              "equal": 1000000001,
+              "other_source": 1000000001
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 1000000,
+          "decision": "BLOCK",
+          "reason": "time_unit_mismatch",
+          "state": {
+            "eligible_ids": [
+              "ns1",
+              "ns2",
+              "micro",
+              "milli",
+              "equal-value-new-id",
+              "ns1"
+            ],
+            "values": {
+              "fine1": 1000000001,
+              "fine2": 1000000002,
+              "us": 1000001000,
+              "ms": 1001000000,
+              "equal": 1000000001,
+              "other_source": 1000000001
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "purpose": "Open bars, half-open boundary, exact notional, compatible coarse aggregation and later correction.",
+      "events": [
+        {
+          "id": "open0",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 0,
+          "event_tick": 0,
+          "time_unit": "ns",
+          "available_ns": 0,
+          "receive_ns": 1,
+          "receive_ordinal": 0,
+          "op": "open_bar",
+          "data": {
+            "bar_id": "b0-open"
+          }
+        },
+        {
+          "id": "t0",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 10,
+          "receive_ordinal": 1,
+          "op": "trade",
+          "data": {
+            "price": "10",
+            "quantity": "1",
+            "width_ns": 100
+          }
+        },
+        {
+          "id": "t1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 60,
+          "event_tick": 60,
+          "time_unit": "ns",
+          "available_ns": 60,
+          "receive_ns": 60,
+          "receive_ordinal": 2,
+          "op": "trade",
+          "data": {
+            "price": "12",
+            "quantity": "2",
+            "width_ns": 100
+          }
+        },
+        {
+          "id": "open1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 70,
+          "event_tick": 70,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 70,
+          "receive_ordinal": 3,
+          "op": "open_bar",
+          "data": {
+            "bar_id": "b0-open-v2"
+          }
+        },
+        {
+          "id": "close0",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 100,
+          "event_tick": 100,
+          "time_unit": "ns",
+          "available_ns": 105,
+          "receive_ns": 105,
+          "receive_ordinal": 4,
+          "op": "close_bar",
+          "data": {
+            "bar_id": "b0",
+            "start_ns": 0,
+            "end_ns": 100
+          }
+        },
+        {
+          "id": "t2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 100,
+          "event_tick": 100,
+          "time_unit": "ns",
+          "available_ns": 110,
+          "receive_ns": 110,
+          "receive_ordinal": 5,
+          "op": "trade",
+          "data": {
+            "price": "9",
+            "quantity": "3",
+            "width_ns": 100
+          }
+        },
+        {
+          "id": "t3",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 160,
+          "event_tick": 160,
+          "time_unit": "ns",
+          "available_ns": 160,
+          "receive_ns": 160,
+          "receive_ordinal": 6,
+          "op": "trade",
+          "data": {
+            "price": "11",
+            "quantity": "1",
+            "width_ns": 100
+          }
+        },
+        {
+          "id": "close1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 200,
+          "event_tick": 200,
+          "time_unit": "ns",
+          "available_ns": 205,
+          "receive_ns": 205,
+          "receive_ordinal": 7,
+          "op": "close_bar",
+          "data": {
+            "bar_id": "b1",
+            "start_ns": 100,
+            "end_ns": 200
+          }
+        },
+        {
+          "id": "coarse",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 210,
+          "event_tick": 210,
+          "time_unit": "ns",
+          "available_ns": 210,
+          "receive_ns": 210,
+          "receive_ordinal": 8,
+          "op": "coarse",
+          "data": {
+            "bar_id": "c0",
+            "parents": [
+              "b0",
+              "b1"
+            ],
+            "start_ns": 0,
+            "end_ns": 200,
+            "anchor_ns": 0
+          }
+        },
+        {
+          "id": "misaligned",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 220,
+          "event_tick": 220,
+          "time_unit": "ns",
+          "available_ns": 220,
+          "receive_ns": 220,
+          "receive_ordinal": 9,
+          "op": "coarse",
+          "data": {
+            "bar_id": "wrong",
+            "parents": [
+              "b0",
+              "b1"
+            ],
+            "start_ns": 0,
+            "end_ns": 200,
+            "anchor_ns": 50
+          }
+        },
+        {
+          "id": "correct0",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 60,
+          "event_tick": 60,
+          "time_unit": "ns",
+          "available_ns": 240,
+          "receive_ns": 240,
+          "receive_ordinal": 10,
+          "op": "correct_bar",
+          "data": {
+            "trade_id": "t1",
+            "price": "8",
+            "bar_id": "b0-r1",
+            "start_ns": 0,
+            "end_ns": 100
+          },
+          "revision_of": "close0"
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 0,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0"
+            ],
+            "values": {
+              "provisional_bar": "b0-open"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0"
+            ],
+            "values": {
+              "provisional_bar": "b0-open",
+              "bin:0": {
+                "open": "10",
+                "high": "10",
+                "low": "10",
+                "close": "10",
+                "quantity": "1",
+                "amount": "10",
+                "count": 1
+              }
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 60,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1"
+            ],
+            "values": {
+              "provisional_bar": "b0-open",
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 70,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1"
+            ],
+            "values": {
+              "provisional_bar": "b0-open-v2",
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 100,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": "b0",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 100,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "9",
+                "low": "9",
+                "close": "9",
+                "quantity": "3",
+                "amount": "27",
+                "count": 1
+              }
+            },
+            "latest_complete_bar": "b0",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 160,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2",
+              "t3"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": "b0",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 200,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2",
+              "t3",
+              "close1"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "bar:b1": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": "b1",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 210,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2",
+              "t3",
+              "close1",
+              "coarse"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "bar:b1": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "coarse:c0": {
+                "direct": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                },
+                "from_fine": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                }
+              }
+            },
+            "latest_complete_bar": "b1",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 220,
+          "decision": "BLOCK",
+          "reason": "misaligned_aggregation",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2",
+              "t3",
+              "close1",
+              "coarse"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "bar:b1": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "coarse:c0": {
+                "direct": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                },
+                "from_fine": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                }
+              }
+            },
+            "latest_complete_bar": "b1",
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 60,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "open0",
+              "t0",
+              "t1",
+              "open1",
+              "close0",
+              "t2",
+              "t3",
+              "close1",
+              "coarse",
+              "correct0"
+            ],
+            "values": {
+              "bin:0": {
+                "open": "10",
+                "high": "10",
+                "low": "8",
+                "close": "8",
+                "quantity": "3",
+                "amount": "26",
+                "count": 2
+              },
+              "bar:b0": {
+                "open": "10",
+                "high": "12",
+                "low": "10",
+                "close": "12",
+                "quantity": "3",
+                "amount": "34",
+                "count": 2
+              },
+              "bin:100": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "bar:b1": {
+                "open": "9",
+                "high": "11",
+                "low": "9",
+                "close": "11",
+                "quantity": "4",
+                "amount": "38",
+                "count": 2
+              },
+              "coarse:c0": {
+                "direct": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                },
+                "from_fine": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "9",
+                  "close": "11",
+                  "quantity": "7",
+                  "amount": "72",
+                  "count": 4
+                }
+              },
+              "bar:b0-r1": {
+                "open": "10",
+                "high": "10",
+                "low": "8",
+                "close": "8",
+                "quantity": "3",
+                "amount": "26",
+                "count": 2
+              }
+            },
+            "latest_complete_bar": "b0-r1",
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R4",
+      "purpose": "A sequence gap blocks decisions until a valid later snapshot; recovery never backdates.",
+      "events": [
+        {
+          "id": "book1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 10,
+          "receive_ordinal": 0,
+          "op": "book",
+          "data": {
+            "sequence": 1,
+            "value": "A"
+          }
+        },
+        {
+          "id": "book2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 20,
+          "event_tick": 20,
+          "time_unit": "ns",
+          "available_ns": 20,
+          "receive_ns": 20,
+          "receive_ordinal": 1,
+          "op": "book",
+          "data": {
+            "sequence": 2,
+            "value": "B"
+          }
+        },
+        {
+          "id": "gap4",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 40,
+          "event_tick": 40,
+          "time_unit": "ns",
+          "available_ns": 40,
+          "receive_ns": 40,
+          "receive_ordinal": 2,
+          "op": "book",
+          "data": {
+            "sequence": 4,
+            "value": "D"
+          }
+        },
+        {
+          "id": "book2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 20,
+          "event_tick": 20,
+          "time_unit": "ns",
+          "available_ns": 20,
+          "receive_ns": 50,
+          "receive_ordinal": 3,
+          "op": "book",
+          "data": {
+            "sequence": 2,
+            "value": "B"
+          }
+        },
+        {
+          "id": "future_snapshot",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 60,
+          "event_tick": 60,
+          "time_unit": "ns",
+          "available_ns": 200,
+          "receive_ns": 60,
+          "receive_ordinal": 4,
+          "op": "snapshot",
+          "data": {
+            "sequence": 10,
+            "value": "future"
+          }
+        },
+        {
+          "id": "while_invalid",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 70,
+          "event_tick": 70,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 70,
+          "receive_ordinal": 5,
+          "op": "book",
+          "data": {
+            "sequence": 3,
+            "value": "C"
+          }
+        },
+        {
+          "id": "snapshot10",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 80,
+          "event_tick": 80,
+          "time_unit": "ns",
+          "available_ns": 80,
+          "receive_ns": 80,
+          "receive_ordinal": 6,
+          "op": "snapshot",
+          "data": {
+            "sequence": 10,
+            "value": "J"
+          }
+        },
+        {
+          "id": "book11",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 90,
+          "event_tick": 90,
+          "time_unit": "ns",
+          "available_ns": 90,
+          "receive_ns": 90,
+          "receive_ordinal": 7,
+          "op": "book",
+          "data": {
+            "sequence": 11,
+            "value": "K"
+          }
+        },
+        {
+          "id": "stale",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 80,
+          "event_tick": 80,
+          "time_unit": "ns",
+          "available_ns": 100,
+          "receive_ns": 100,
+          "receive_ordinal": 8,
+          "op": "book",
+          "data": {
+            "sequence": 10,
+            "value": "old"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "book1"
+            ],
+            "values": {
+              "book": "A"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": 1
+          }
+        },
+        {
+          "event_ns": 20,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2"
+            ],
+            "values": {
+              "book": "B"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": 2
+          }
+        },
+        {
+          "event_ns": 40,
+          "decision": "BLOCK",
+          "reason": "sequence_gap",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2"
+            ],
+            "values": {
+              "book": "B"
+            },
+            "latest_complete_bar": null,
+            "valid": false,
+            "last_sequence": 2
+          }
+        },
+        {
+          "event_ns": 20,
+          "decision": "BLOCK",
+          "reason": "duplicate",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2"
+            ],
+            "values": {
+              "book": "B"
+            },
+            "latest_complete_bar": null,
+            "valid": false,
+            "last_sequence": 2
+          }
+        },
+        {
+          "event_ns": 60,
+          "decision": "BLOCK",
+          "reason": "not_yet_available",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2"
+            ],
+            "values": {
+              "book": "B"
+            },
+            "latest_complete_bar": null,
+            "valid": false,
+            "last_sequence": 2
+          }
+        },
+        {
+          "event_ns": 70,
+          "decision": "BLOCK",
+          "reason": "invalid_book",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2"
+            ],
+            "values": {
+              "book": "B"
+            },
+            "latest_complete_bar": null,
+            "valid": false,
+            "last_sequence": 2
+          }
+        },
+        {
+          "event_ns": 80,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2",
+              "snapshot10"
+            ],
+            "values": {
+              "book": "J"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": 10
+          }
+        },
+        {
+          "event_ns": 90,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2",
+              "snapshot10",
+              "book11"
+            ],
+            "values": {
+              "book": "K"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": 11
+          }
+        },
+        {
+          "event_ns": 80,
+          "decision": "BLOCK",
+          "reason": "stale_sequence",
+          "state": {
+            "eligible_ids": [
+              "book1",
+              "book2",
+              "snapshot10",
+              "book11"
+            ],
+            "values": {
+              "book": "K"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "R5",
+      "purpose": "Pinned zone DST ambiguity/gap; invented early close and overnight trading date.",
+      "events": [
+        {
+          "id": "ambiguous",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1,
+          "event_tick": 1,
+          "time_unit": "ns",
+          "available_ns": 1,
+          "receive_ns": 1,
+          "receive_ordinal": 0,
+          "op": "calendar",
+          "data": {
+            "local": "2024-11-03T01:30:00",
+            "key": "fold"
+          }
+        },
+        {
+          "id": "fold0",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 2,
+          "event_tick": 2,
+          "time_unit": "ns",
+          "available_ns": 2,
+          "receive_ns": 2,
+          "receive_ordinal": 1,
+          "op": "calendar",
+          "data": {
+            "local": "2024-11-03T01:30:00",
+            "fold": 0,
+            "key": "fold0"
+          }
+        },
+        {
+          "id": "fold1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 3,
+          "event_tick": 3,
+          "time_unit": "ns",
+          "available_ns": 3,
+          "receive_ns": 3,
+          "receive_ordinal": 2,
+          "op": "calendar",
+          "data": {
+            "local": "2024-11-03T01:30:00",
+            "fold": 1,
+            "key": "fold1"
+          }
+        },
+        {
+          "id": "spring_gap",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 4,
+          "event_tick": 4,
+          "time_unit": "ns",
+          "available_ns": 4,
+          "receive_ns": 4,
+          "receive_ordinal": 3,
+          "op": "calendar",
+          "data": {
+            "local": "2024-03-10T02:30:00",
+            "key": "gap"
+          }
+        },
+        {
+          "id": "post_gap",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 5,
+          "event_tick": 5,
+          "time_unit": "ns",
+          "available_ns": 5,
+          "receive_ns": 5,
+          "receive_ordinal": 4,
+          "op": "calendar",
+          "data": {
+            "local": "2024-03-10T03:30:00",
+            "key": "post_gap"
+          }
+        },
+        {
+          "id": "before_early_close",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 6,
+          "event_tick": 6,
+          "time_unit": "ns",
+          "available_ns": 6,
+          "receive_ns": 6,
+          "receive_ordinal": 5,
+          "op": "calendar",
+          "data": {
+            "local": "2024-07-03T12:59:00",
+            "open_local": "2024-07-03T09:30:00",
+            "close_local": "2024-07-03T13:00:00",
+            "trading_date": "2024-07-03",
+            "key": "early"
+          }
+        },
+        {
+          "id": "at_early_close",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 7,
+          "event_tick": 7,
+          "time_unit": "ns",
+          "available_ns": 7,
+          "receive_ns": 7,
+          "receive_ordinal": 6,
+          "op": "calendar",
+          "data": {
+            "local": "2024-07-03T13:00:00",
+            "open_local": "2024-07-03T09:30:00",
+            "close_local": "2024-07-03T13:00:00",
+            "trading_date": "2024-07-03",
+            "key": "closed"
+          }
+        },
+        {
+          "id": "overnight_open",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 8,
+          "event_tick": 8,
+          "time_unit": "ns",
+          "available_ns": 8,
+          "receive_ns": 8,
+          "receive_ordinal": 7,
+          "op": "calendar",
+          "data": {
+            "local": "2024-01-02T18:30:00",
+            "open_local": "2024-01-02T18:00:00",
+            "close_local": "2024-01-03T17:00:00",
+            "trading_date": "2024-01-03",
+            "key": "overnight_open"
+          }
+        },
+        {
+          "id": "overnight_after_midnight",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 9,
+          "event_tick": 9,
+          "time_unit": "ns",
+          "available_ns": 9,
+          "receive_ns": 9,
+          "receive_ordinal": 8,
+          "op": "calendar",
+          "data": {
+            "local": "2024-01-03T00:30:00",
+            "open_local": "2024-01-02T18:00:00",
+            "close_local": "2024-01-03T17:00:00",
+            "trading_date": "2024-01-03",
+            "key": "overnight_after_midnight"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 1,
+          "decision": "BLOCK",
+          "reason": "ambiguous_local_time",
+          "state": {
+            "eligible_ids": [],
+            "values": {},
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 2,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 3,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 4,
+          "decision": "BLOCK",
+          "reason": "nonexistent_local_time",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 5,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1",
+              "post_gap"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00",
+              "post_gap": "2024-03-10T07:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 6,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1",
+              "post_gap",
+              "before_early_close"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00",
+              "post_gap": "2024-03-10T07:30:00+00:00",
+              "trading_date": "2024-07-03",
+              "early": "2024-07-03T16:59:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 7,
+          "decision": "BLOCK",
+          "reason": "session_closed",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1",
+              "post_gap",
+              "before_early_close"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00",
+              "post_gap": "2024-03-10T07:30:00+00:00",
+              "trading_date": "2024-07-03",
+              "early": "2024-07-03T16:59:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 8,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1",
+              "post_gap",
+              "before_early_close",
+              "overnight_open"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00",
+              "post_gap": "2024-03-10T07:30:00+00:00",
+              "trading_date": "2024-01-03",
+              "early": "2024-07-03T16:59:00+00:00",
+              "overnight_open": "2024-01-02T23:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 9,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "fold0",
+              "fold1",
+              "post_gap",
+              "before_early_close",
+              "overnight_open",
+              "overnight_after_midnight"
+            ],
+            "values": {
+              "fold0": "2024-11-03T05:30:00+00:00",
+              "fold1": "2024-11-03T06:30:00+00:00",
+              "post_gap": "2024-03-10T07:30:00+00:00",
+              "trading_date": "2024-01-03",
+              "early": "2024-07-03T16:59:00+00:00",
+              "overnight_open": "2024-01-02T23:30:00+00:00",
+              "overnight_after_midnight": "2024-01-03T05:30:00+00:00"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R6",
+      "purpose": "Availability-as-of cross-instrument conversion; missing/stale USDT conversion cannot equal USD.",
+      "events": [
+        {
+          "id": "a",
+          "source_id": "fixture",
+          "instrument_id": "A-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 10,
+          "receive_ordinal": 0,
+          "op": "set",
+          "data": {
+            "key": "A_USD",
+            "value": "100"
+          }
+        },
+        {
+          "id": "b",
+          "source_id": "fixture",
+          "instrument_id": "B-USDT",
+          "event_ns": 20,
+          "event_tick": 20,
+          "time_unit": "ns",
+          "available_ns": 20,
+          "receive_ns": 20,
+          "receive_ordinal": 1,
+          "op": "set",
+          "data": {
+            "key": "B_USDT",
+            "value": "25"
+          }
+        },
+        {
+          "id": "missing",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 30,
+          "receive_ordinal": 2,
+          "op": "join",
+          "data": {
+            "max_age_ns": 20
+          }
+        },
+        {
+          "id": "fx1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 40,
+          "receive_ordinal": 3,
+          "op": "fx",
+          "data": {
+            "rate": "0.98"
+          }
+        },
+        {
+          "id": "fx1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 70,
+          "receive_ordinal": 4,
+          "op": "fx",
+          "data": {
+            "rate": "0.98"
+          }
+        },
+        {
+          "id": "joined",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 75,
+          "event_tick": 75,
+          "time_unit": "ns",
+          "available_ns": 75,
+          "receive_ns": 75,
+          "receive_ordinal": 5,
+          "op": "join",
+          "data": {
+            "max_age_ns": 20
+          }
+        },
+        {
+          "id": "stale",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 95,
+          "event_tick": 95,
+          "time_unit": "ns",
+          "available_ns": 95,
+          "receive_ns": 95,
+          "receive_ordinal": 6,
+          "op": "join",
+          "data": {
+            "max_age_ns": 20
+          }
+        },
+        {
+          "id": "fx2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 80,
+          "event_tick": 80,
+          "time_unit": "ns",
+          "available_ns": 100,
+          "receive_ns": 100,
+          "receive_ordinal": 7,
+          "op": "fx",
+          "data": {
+            "rate": "1.01"
+          },
+          "revision_of": "fx1"
+        },
+        {
+          "id": "joined2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 105,
+          "event_tick": 105,
+          "time_unit": "ns",
+          "available_ns": 105,
+          "receive_ns": 105,
+          "receive_ordinal": 8,
+          "op": "join",
+          "data": {
+            "max_age_ns": 20
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "a"
+            ],
+            "values": {
+              "A_USD": "100"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 20,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "BLOCK",
+          "reason": "conversion_missing",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "BLOCK",
+          "reason": "not_yet_available",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b",
+              "fx1"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25",
+              "USDT_USD": "0.98"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 75,
+          "decision": "OBSERVE",
+          "reason": "joined",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b",
+              "fx1"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25",
+              "USDT_USD": "0.98",
+              "B_USD": "24.5"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 95,
+          "decision": "BLOCK",
+          "reason": "stale_conversion",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b",
+              "fx1"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25",
+              "USDT_USD": "0.98",
+              "B_USD": "24.5"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 80,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b",
+              "fx1",
+              "fx2"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25",
+              "USDT_USD": "1.01",
+              "B_USD": "24.5"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 105,
+          "decision": "OBSERVE",
+          "reason": "joined",
+          "state": {
+            "eligible_ids": [
+              "a",
+              "b",
+              "fx1",
+              "fx2"
+            ],
+            "values": {
+              "A_USD": "100",
+              "B_USDT": "25",
+              "USDT_USD": "1.01",
+              "B_USD": "25.25"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R7",
+      "purpose": "Warm-up, delayed external first release, revisions and explicitly labelled corrected-history view.",
+      "events": [
+        {
+          "id": "cold",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 1,
+          "event_tick": 1,
+          "time_unit": "ns",
+          "available_ns": 1,
+          "receive_ns": 1,
+          "receive_ordinal": 0,
+          "op": "warmup",
+          "data": {
+            "minimum": 2
+          }
+        },
+        {
+          "id": "p1",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 10,
+          "receive_ordinal": 1,
+          "op": "set",
+          "data": {
+            "key": "p:1",
+            "value": "100"
+          }
+        },
+        {
+          "id": "publication",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 5,
+          "event_tick": 5,
+          "time_unit": "ns",
+          "available_ns": 40,
+          "receive_ns": 20,
+          "receive_ordinal": 2,
+          "op": "set",
+          "data": {
+            "key": "news",
+            "value": "first version"
+          }
+        },
+        {
+          "id": "p2",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 30,
+          "receive_ordinal": 3,
+          "op": "set",
+          "data": {
+            "key": "p:2",
+            "value": "110"
+          }
+        },
+        {
+          "id": "warm",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 35,
+          "event_tick": 35,
+          "time_unit": "ns",
+          "available_ns": 35,
+          "receive_ns": 35,
+          "receive_ordinal": 4,
+          "op": "warmup",
+          "data": {
+            "minimum": 2
+          }
+        },
+        {
+          "id": "publication",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 5,
+          "event_tick": 5,
+          "time_unit": "ns",
+          "available_ns": 40,
+          "receive_ns": 40,
+          "receive_ordinal": 5,
+          "op": "set",
+          "data": {
+            "key": "news",
+            "value": "first version"
+          }
+        },
+        {
+          "id": "correction",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 50,
+          "receive_ns": 50,
+          "receive_ordinal": 6,
+          "op": "set",
+          "data": {
+            "key": "p:1",
+            "value": "90"
+          },
+          "revision_of": "p1"
+        },
+        {
+          "id": "backfill",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 2,
+          "event_tick": 2,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 70,
+          "receive_ordinal": 7,
+          "op": "set",
+          "data": {
+            "key": "p:0",
+            "value": "95"
+          }
+        },
+        {
+          "id": "revised_publication",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 5,
+          "event_tick": 5,
+          "time_unit": "ns",
+          "available_ns": 80,
+          "receive_ns": 80,
+          "receive_ordinal": 8,
+          "op": "set",
+          "data": {
+            "key": "news",
+            "value": "revised version"
+          },
+          "revision_of": "publication"
+        },
+        {
+          "id": "label_corrected_view",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 90,
+          "event_tick": 90,
+          "time_unit": "ns",
+          "available_ns": 90,
+          "receive_ns": 90,
+          "receive_ordinal": 9,
+          "op": "set",
+          "data": {
+            "key": "history_view",
+            "value": "corrected after receipt, not original decision history"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 1,
+          "decision": "BLOCK",
+          "reason": "insufficient_warmup",
+          "state": {
+            "eligible_ids": [],
+            "values": {},
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1"
+            ],
+            "values": {
+              "p:1": "100"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 5,
+          "decision": "BLOCK",
+          "reason": "not_yet_available",
+          "state": {
+            "eligible_ids": [
+              "p1"
+            ],
+            "values": {
+              "p:1": "100"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2"
+            ],
+            "values": {
+              "p:1": "100",
+              "p:2": "110"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 35,
+          "decision": "OBSERVE",
+          "reason": "warm",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2"
+            ],
+            "values": {
+              "p:1": "100",
+              "p:2": "110"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 5,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2",
+              "publication"
+            ],
+            "values": {
+              "p:1": "100",
+              "p:2": "110",
+              "news": "first version"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2",
+              "publication",
+              "correction"
+            ],
+            "values": {
+              "p:1": "90",
+              "p:2": "110",
+              "news": "first version"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 2,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2",
+              "publication",
+              "correction",
+              "backfill"
+            ],
+            "values": {
+              "p:1": "90",
+              "p:2": "110",
+              "news": "first version",
+              "p:0": "95"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 5,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2",
+              "publication",
+              "correction",
+              "backfill",
+              "revised_publication"
+            ],
+            "values": {
+              "p:1": "90",
+              "p:2": "110",
+              "news": "revised version",
+              "p:0": "95"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 90,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "p1",
+              "p2",
+              "publication",
+              "correction",
+              "backfill",
+              "revised_publication",
+              "label_corrected_view"
+            ],
+            "values": {
+              "p:1": "90",
+              "p:2": "110",
+              "news": "revised version",
+              "p:0": "95",
+              "history_view": "corrected after receipt, not original decision history"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R8",
+      "purpose": "Transformation snapshot continuity, duplicate delivery and maker/taker native mapping.",
+      "events": [
+        {
+          "id": "kraken1",
+          "source_id": "invented_kraken_semantics",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 10,
+          "receive_ordinal": 0,
+          "op": "native_side",
+          "data": {
+            "side": "buy",
+            "role": "taker",
+            "key": "aggressor_K"
+          }
+        },
+        {
+          "id": "coinbase1",
+          "source_id": "invented_coinbase_semantics",
+          "instrument_id": "SYN-USD",
+          "event_ns": 20,
+          "event_tick": 20,
+          "time_unit": "ns",
+          "available_ns": 20,
+          "receive_ns": 20,
+          "receive_ordinal": 1,
+          "op": "native_side",
+          "data": {
+            "side": "buy",
+            "role": "maker",
+            "key": "aggressor_C"
+          }
+        },
+        {
+          "id": "checkpoint",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 30,
+          "event_tick": 30,
+          "time_unit": "ns",
+          "available_ns": 30,
+          "receive_ns": 30,
+          "receive_ordinal": 2,
+          "op": "checkpoint",
+          "data": {}
+        },
+        {
+          "id": "kraken1",
+          "source_id": "invented_kraken_semantics",
+          "instrument_id": "SYN-USD",
+          "event_ns": 10,
+          "event_tick": 10,
+          "time_unit": "ns",
+          "available_ns": 10,
+          "receive_ns": 40,
+          "receive_ordinal": 3,
+          "op": "native_side",
+          "data": {
+            "side": "buy",
+            "role": "taker",
+            "key": "aggressor_K"
+          }
+        },
+        {
+          "id": "kraken2",
+          "source_id": "invented_kraken_semantics",
+          "instrument_id": "SYN-USD",
+          "event_ns": 50,
+          "event_tick": 50,
+          "time_unit": "ns",
+          "available_ns": 50,
+          "receive_ns": 50,
+          "receive_ordinal": 4,
+          "op": "native_side",
+          "data": {
+            "side": "buy",
+            "role": "taker",
+            "key": "aggressor_K2"
+          }
+        },
+        {
+          "id": "continued",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 60,
+          "event_tick": 60,
+          "time_unit": "ns",
+          "available_ns": 60,
+          "receive_ns": 60,
+          "receive_ordinal": 5,
+          "op": "set",
+          "data": {
+            "key": "continuation",
+            "value": "same state"
+          }
+        },
+        {
+          "id": "unsupported",
+          "source_id": "fixture",
+          "instrument_id": "SYN-USD",
+          "event_ns": 70,
+          "event_tick": 70,
+          "time_unit": "ns",
+          "available_ns": 70,
+          "receive_ns": 70,
+          "receive_ordinal": 6,
+          "op": "native_side",
+          "data": {
+            "side": "unknown",
+            "role": "maker",
+            "key": "wrong"
+          }
+        }
+      ],
+      "expected": [
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "kraken1"
+            ],
+            "values": {
+              "aggressor_K": "buy"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 20,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 30,
+          "decision": "OBSERVE",
+          "reason": "checkpoint",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 10,
+          "decision": "OBSERVE",
+          "reason": "duplicate",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 50,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1",
+              "kraken2"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell",
+              "aggressor_K2": "buy"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 60,
+          "decision": "OBSERVE",
+          "reason": "accepted",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1",
+              "kraken2",
+              "continued"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell",
+              "aggressor_K2": "buy",
+              "continuation": "same state"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        },
+        {
+          "event_ns": 70,
+          "decision": "BLOCK",
+          "reason": "unsupported_side",
+          "state": {
+            "eligible_ids": [
+              "kraken1",
+              "coinbase1",
+              "kraken2",
+              "continued"
+            ],
+            "values": {
+              "aggressor_K": "buy",
+              "aggressor_C": "sell",
+              "aggressor_K2": "buy",
+              "continuation": "same state"
+            },
+            "latest_complete_bar": null,
+            "valid": true,
+            "last_sequence": null
+          }
+        }
+      ]
+    }
+  ]
+}

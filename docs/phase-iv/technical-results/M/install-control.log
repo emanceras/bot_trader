@@ -1,0 +1,42 @@
+Using CPython 3.12.14 interpreter at: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12
+Creating virtual environment at: .venv
+   Building bot-trader @ file:///workspace/technical-admission/M/control
+      Built bot-trader @ file:///workspace/technical-admission/M/control
+Prepared 1 package in 335ms
+Installed 36 packages in 576ms
+ + alembic==1.20.0
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + bot-trader==0.1.0 (from file:///workspace/technical-admission/M/control)
+ + certifi==2026.10.18
+ + click==8.5.0
+ + duckdb==1.5.6
+ + fastapi==0.148.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + iniconfig==2.3.1
+ + librt==0.16.0
+ + mako==1.4.3
+ + markupsafe==3.0.4
+ + mypy==1.20.2
+ + mypy-extensions==1.1.0
+ + opentelemetry-api==1.45.1
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.7.0
+ + pyarrow==23.0.1
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pydantic-settings==2.16.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + python-dotenv==1.2.4
+ + ruff==0.17.1
+ + sqlalchemy==2.1.5
+ + starlette==1.9.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + uvicorn==0.54.0

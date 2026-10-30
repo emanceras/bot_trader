@@ -1,0 +1,19 @@
+{
+  "package": "R",
+  "synthetic_only": true,
+  "runs": 160,
+  "passed": 160,
+  "failed": 0,
+  "blocked": 0,
+  "elapsed_seconds": 0.049896087002707645,
+  "cpu_seconds": 0.047559719,
+  "peak_rss_bytes": 15204352,
+  "artifact_bytes": 209837,
+  "software_download_bytes": 0,
+  "runtime_network_calls": 0,
+  "limits": [
+    "standalone synthetic prototype; no production implementation",
+    "no real feed, strategy or fill equivalence demonstrated",
+    "checkpoint reconstruction is in-memory for transformation state, not engine crash recovery"
+  ]
+}

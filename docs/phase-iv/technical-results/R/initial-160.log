@@ -1,0 +1,3 @@
+usage: temporal_probe.py [-h] --fixtures FIXTURES --output OUTPUT
+                         [--zone-source ZONE_SOURCE]
+temporal_probe.py: error: the following arguments are required: --fixtures

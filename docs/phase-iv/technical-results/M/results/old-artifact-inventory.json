@@ -1,0 +1,7 @@
+{
+  "inspected_directory": ".state/artifacts",
+  "inspected_utc_date": "2026-10-29",
+  "object_names": [],
+  "optional_reads_executed": 0,
+  "limitation": "Directory is empty; generated control-writer fixtures verify old format, not historical application objects. No admin token or database content read."
+}

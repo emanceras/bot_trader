@@ -1,0 +1,28 @@
+{
+  "all_passed": true,
+  "cases": [
+    {
+      "case": "M3-corrupt-control",
+      "status": "passed"
+    },
+    {
+      "case": "M3-reserved-control",
+      "status": "passed"
+    },
+    {
+      "case": "M3-real-label-control",
+      "status": "passed"
+    }
+  ],
+  "command": "guards",
+  "elapsed_seconds": 1.4087928059743717,
+  "financial_experiments": 0,
+  "harness_sha256": "7639c0874273e5da35a05b99d6a5bf439f25b3dbb040b06c236805c983e95137",
+  "role": "control",
+  "synthetic": true,
+  "versions": {
+    "duckdb": "1.5.6",
+    "pyarrow": "23.0.1",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  }
+}

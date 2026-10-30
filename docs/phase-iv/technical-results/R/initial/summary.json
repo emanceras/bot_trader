@@ -1,0 +1,40 @@
+{
+  "package": "R",
+  "synthetic_only": true,
+  "manifest": {
+    "scope_commit": "fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f",
+    "source_sha256": "e64d064d6cfca96d18aae885e9b96c731d33386f042b7cd19923119ebe755496",
+    "fixture_sha256": "78bffe299a2e75c3fd49fcb7fa600de5a2f2d54710858ad03447515d6d7cb235",
+    "expected_oracle": "hand-authored per-event states in fixture file; no transition-generated expectations",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "timezone_expected": "e9ed07d7bee0c76a9d442d091ef1f01668fee7c4f26014c0a868b19fe6c18a95",
+    "timezone_actual": "e9ed07d7bee0c76a9d442d091ef1f01668fee7c4f26014c0a868b19fe6c18a95",
+    "paths": [
+      "batch_1",
+      "batch_7",
+      "batch_64",
+      "replay",
+      "injector"
+    ],
+    "planned_initial_runs": 160,
+    "random_seed": null,
+    "financial_experiments": 0,
+    "market_data_rows": 0,
+    "network_required": false
+  },
+  "runs": 160,
+  "passed": 160,
+  "failed": 0,
+  "blocked": 0,
+  "elapsed_seconds": 0.049896087002707645,
+  "cpu_seconds": 0.047559719,
+  "peak_rss_bytes": 15204352,
+  "artifact_bytes": 209837,
+  "software_download_bytes": 0,
+  "runtime_network_calls": 0,
+  "limits": [
+    "standalone synthetic prototype; no production implementation",
+    "no real feed, strategy or fill equivalence demonstrated",
+    "checkpoint reconstruction is in-memory for transformation state, not engine crash recovery"
+  ]
+}
