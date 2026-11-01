@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AdmissionRoot Condition="'$(AdmissionRoot)' == ''">/workspace/technical-admission/E</AdmissionRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="lean_probe.cs" />
+    <Reference Include="$(AdmissionRoot)/build/QuantConnect.*.dll" />
+    <PackageReference Include="Accord" Version="3.6.0" />
+    <PackageReference Include="Accord.Fuzzy" Version="3.6.0" />
+    <PackageReference Include="Accord.MachineLearning" Version="3.6.0" />
+    <PackageReference Include="Accord.Math" Version="3.6.0" />
+    <PackageReference Include="Accord.Statistics" Version="3.6.0" />
+    <PackageReference Include="CloneExtensions" Version="1.3.0" />
+    <PackageReference Include="CsvHelper" Version="19.0.0" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="DynamicInterop" Version="0.9.1" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.6.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NodaTime" Version="3.0.5" />
+    <PackageReference Include="QLNet" Version="1.13.1" />
+    <PackageReference Include="QuantConnect.pythonnet" Version="2.0.66" />
+    <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="SharpZipLib" Version="1.3.3" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
+    <PackageReference Include="fasterflect" Version="3.0.0" />
+    <PackageReference Include="protobuf-net" Version="3.1.33" />
+  </ItemGroup>
+</Project>

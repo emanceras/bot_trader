@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-10-28 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-01 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
@@ -12,7 +12,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; pruebas M/E/R propuestas D-045; E3/E4, instanciación/sellado pendientes |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; M/R ejecutados; E parcial con bloqueos/adversos D-047; E3/E4, instanciación/sellado pendientes |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |
@@ -224,7 +224,15 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — 2026-10-28
+## Punto de reanudación vigente — ejecución M/R/E, 2026-11-01
+
+**Autoridad:** D-046 conserva aprobación expresa de ejecutar los tres paquetes de `fa435a4`, sin otra solicitud de permiso. [Resultados EN/ES](docs/es/phase-iv/technical-results.md) y [checkpoint reproducible](docs/phase-iv/technical-results/PROGRESS.md). No repetir adquisiciones ni pruebas ya ejecutadas tras interrupciones.
+
+**Ejecutado:** M, 20 casos específicos y 110 pruebas backend en cada entorno; R, 160 comprobaciones. Pasan dentro de su alcance sintético, con pérdida zoned-ns detectada en DuckDB y ausencia de objetos históricos locales delimitadas. Producción no se migra. E no puede declararse completado mientras no se ejecuten sus casos: Python3.13.18 no disponible por la ruta uv fijada; LEAN compiló y ejecutó tres casos de componentes: uno parcial y dos con comparación obligatoria fallida. Veintitrés slots E sin ejecutar, cero casos plenamente admitidos. No hay motor seleccionado. Auditoría final sin cambios de producción; recursos dentro de límites. Consultar recibos y bloqueos en el checkpoint, D-047.
+
+**Continuidad:** E3/E4, adquisiciones financieras, migración de producción y Fase V requieren decisiones independientes. E1/E2, 26 especificaciones, T/D/U/V/F, corpus53, H-00–H-24, negativos A/B y UX futura se conservan. Siete contadores financieros en cero. Las pruebas no seleccionan una estrategia rentable ni cierran IV incondicionalmente.
+
+## Punto de reanudación histórico — 2026-10-28
 
 **Estado:** aprobada y registrada la admisión metodológica T/D/U/V/F, D-044; protocolo v3, aceptación v5 y plantilla documental revisión 4. [Propuesta técnica M/E/R](docs/es/phase-iv/technical-packages.md) y [checkpoint](docs/phase-iv/technical-packages/PROGRESS.md), D-045. No ejecutada. Nautilus rc7 requiere Python 3.13 sin Arrow obligatorio; M es independiente del motor. Se comparará rc7 con LEAN fijado por commit solo si se autoriza el alcance, sin ganador anticipado.
 

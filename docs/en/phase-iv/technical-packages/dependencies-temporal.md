@@ -2,6 +2,8 @@
 
 Document ID: IV-PKG-MR-001 · Version: 1 · Date: 2026-10-28 · English canonical. [Spanish](../../../es/phase-iv/technical-packages/dependencies-temporal.md).
 
+> **Execution update, 2026-10-29:** D-046 subsequently authorized this exact scope. See [actual results](../technical-results.md). The proposal below is retained as the pre-execution specification; its earlier pending-approval statements are historical.
+
 **Execution proposal, not approval or a test result.** These two packages answer separate technical questions. M checks one Arrow upgrade against the existing application; R checks causal information/decision equivalence through a small standalone prototype. They neither implement a production financial adapter nor execute a trading hypothesis. E3/E4, Phase V and market-data acquisition remain pending. Existing [dependency](../evolution/dependencies.md) and [temporal](../evolution/temporal.md) reviews supply the rationale; no additional general survey is needed.
 
 ## Decisions enabled and dependencies

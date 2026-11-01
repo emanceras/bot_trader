@@ -1,0 +1,4 @@
+warning: This repository uses promisor remotes. Some objects may not be loaded.
+HEAD is now at 22404ea Allow enabling permessage-deflate compression in WebSocketClientWrapper (#9946)
+
+{"commit": "22404ea28b8d3f3c9eb74d6ed9f0444426f8e417", "source_files": 3632, "blobs_total": 3636, "financial_data_files": 0}

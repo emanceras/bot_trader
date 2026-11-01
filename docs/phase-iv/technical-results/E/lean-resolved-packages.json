@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/workspace/technical-admission/E/dotnet/dotnet",
+    "restore",
+    "/workspace/technical-admission/E/lean-source/Engine/QuantConnect.Lean.Engine.csproj",
+    "--source",
+    "https://api.nuget.org/v3/index.json",
+    "--use-lock-file",
+    "--disable-parallel",
+    "--no-http-cache",
+    "-p:NuGetAudit=false"
+  ],
+  "exit_code": 1,
+  "locks_sha256": {},
+  "nuget_audit": "disabled for bounded setup; no vulnerability clearance claimed",
+  "packages_sha256": {}
+}

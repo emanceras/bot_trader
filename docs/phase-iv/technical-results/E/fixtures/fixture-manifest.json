@@ -1,0 +1,11 @@
+{
+  "scope_commit": "fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f",
+  "fixture_schema": "bot-trader.synthetic-engine-probe.v1",
+  "functional_cases": 9,
+  "resource_attempts_per_engine": 4,
+  "source_sha256": "8cc5da60e751b089a319f8ade7da7d7c996b32113d5c6ebb37d918bc61c82686",
+  "bundle_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "temporal_sha256": "78bffe299a2e75c3fd49fcb7fa600de5a2f2d54710858ad03447515d6d7cb235",
+  "state": "frozen_before_engine_execution",
+  "note": "Independent expected outcomes are comparison inputs, never worker fill instructions."
+}

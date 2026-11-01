@@ -1,0 +1,55 @@
+{
+  "recorded_utc": "2026-11-01T18:26:20.985425+00:00",
+  "packages": {
+    "M": {
+      "guarded_invocations": 18,
+      "guard_wall_seconds": 41.61272792695672,
+      "standalone_download_wall_seconds": 1.887184506005724,
+      "active_wall_seconds": 43.49991243296245,
+      "guard_cpu_seconds": 35.152105999999996,
+      "peak_sampled_process_group_rss_bytes": 262672384,
+      "maximum_recorded_scratch_after_command_bytes": 1244985455,
+      "current_scratch_regular_file_bytes": 1244986246,
+      "software_transfer_allowance_bytes_charged": 53931932,
+      "resource_stop_reasons": []
+    },
+    "R": {
+      "guarded_invocations": 5,
+      "guard_wall_seconds": 0.6545499609783292,
+      "standalone_download_wall_seconds": 0,
+      "active_wall_seconds": 0.6545499609783292,
+      "guard_cpu_seconds": 0.432927,
+      "peak_sampled_process_group_rss_bytes": 13238272,
+      "maximum_recorded_scratch_after_command_bytes": 216586,
+      "current_scratch_regular_file_bytes": 217526,
+      "software_transfer_allowance_bytes_charged": 0,
+      "resource_stop_reasons": []
+    },
+    "E": {
+      "guarded_invocations": 23,
+      "guard_wall_seconds": 149.47451281605754,
+      "standalone_download_wall_seconds": 4.835942328005331,
+      "active_wall_seconds": 154.31045514406287,
+      "guard_cpu_seconds": 323.20074999999997,
+      "peak_sampled_process_group_rss_bytes": 1674530816,
+      "maximum_recorded_scratch_after_command_bytes": 1244899715,
+      "current_scratch_regular_file_bytes": 1244900512,
+      "software_transfer_allowance_bytes_charged": 277706245,
+      "resource_stop_reasons": []
+    }
+  },
+  "aggregate": {
+    "active_wall_seconds": 198.46491753800365,
+    "guard_cpu_seconds": 358.785783,
+    "peak_sampled_process_group_rss_bytes": 1674530816,
+    "current_scratch_regular_file_bytes": 2490763713,
+    "software_transfer_allowance_bytes_charged": 331638177
+  },
+  "measurement_limits": [
+    "Recorded machine setup/test time, including failed invocations; excludes interruption time and unmeasured engineering/review effort.",
+    "Active time includes standalone wheel/SDK downloads once; nested Git/NuGet transfer time is already included in guarded invocations.",
+    "Wheel/SDK counts are response body bytes; Git/NuGet counts conservatively include TLS traffic in both directions, excluding unknown lower-level overhead.",
+    "RSS is sampled every100ms; recorded scratch after commands/current bytes are not a continuous peak certificate.",
+    "Packages ran sequentially under one lock. No services were contracted; personal time/electricity costs were not estimated."
+  ]
+}

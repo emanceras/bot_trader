@@ -1,6 +1,6 @@
 # Fase IV — cobertura, decisiones pendientes y acceso a Fase V
 
-Documento: ACCEPT-IV-001 · Versión: 5 · Fecha: 2026-10-28 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
+Documento: ACCEPT-IV-001 · Versión: 6 · Fecha: 2026-11-01 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
 
 ## Dictamen
 
@@ -48,7 +48,7 @@ La [revisión ejecutiva](executive-decisions.md), D-037, es la propuesta histór
 
 La adquisición posterior de fuentes, admisión técnica y ejecución financiera requieren autorización separada. Los paquetes de viabilidad A (dos archivos trimestrales identificados, QA estructural) y B (motor fijado aislado, pruebas sintéticas) fueron autorizados por separado en D-040 y se documentan con cobertura y límites efectivos en la auditoría técnica. No autorizan otras adquisiciones, un adaptador de producción ni ensayos financieros. Esta entrega no solicita aprobación anticipada de V. E1/E2 no cierra IV incondicionalmente ni autoriza adquisición, gastos o experimentos. El paquete mínimo por función siguiente aplica solo la enmienda metodológica de secuencia; conserva requisitos económicos y probatorios.
 
-**Secuencia aprobada, no ejecución:** QA estructural/pruebas sintéticas no establecen varianza pareada ni precisión exigidas antes de validación. D-044 aprueba T/D/U/V/F e IV-AMEND-001 registra la enmienda prospectiva. D/U siguen siendo trabajo financiero que requiere autorización de Fase V con alcance concreto separado, E3/E4 y sus propios manifiestos completos. No volver a pedir aprobación del principio ni interpretarlo como permiso de ejecutar. Los paquetes técnicos M/E/R siguen propuestos, no autorizados ni ejecutados.
+**Secuencia aprobada, no ejecución:** QA estructural/pruebas sintéticas no establecen varianza pareada ni precisión exigidas antes de validación. D-044 aprueba T/D/U/V/F e IV-AMEND-001 registra la enmienda prospectiva. D/U siguen siendo trabajo financiero que requiere autorización de Fase V con alcance concreto separado, E3/E4 y sus propios manifiestos completos. No volver a pedir aprobación del principio ni interpretarlo como permiso de ejecutar. D-046 autorizó posteriormente los paquetes técnicos M/E/R; sus [resultados reales y límites](technical-results.md) se registran por separado. Esta actualización de estado no modifica criterios de aceptación ni concede acceso financiero.
 
 No necesitas elegir cada proveedor, fecha, parámetro de spline o adaptador: son vinculaciones técnicas guiadas por evidencia que se prepararán en el alcance aplicable y se presentarán en un manifiesto concreto. No hacen falta credenciales, cuenta financiada ni exchange de producción definitivo. Antes de abrir el test deben identificarse custodio/revisor y autoridad; acumular roles en una persona conserva una limitación procedimental explícita.
 

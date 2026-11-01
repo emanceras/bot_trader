@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  Restored /workspace/technical-admission/E/lean-source/AlgorithmFactory/QuantConnect.AlgorithmFactory.csproj (in 198 ms).
+  Restored /workspace/technical-admission/E/lean-source/Engine/QuantConnect.Lean.Engine.csproj (in 19 ms).
+  Restored /workspace/technical-admission/E/lean-source/Configuration/QuantConnect.Configuration.csproj (in 3 ms).
+  Restored /workspace/technical-admission/E/lean-source/Compression/QuantConnect.Compression.csproj (in 4 ms).
+  Restored /workspace/technical-admission/E/lean-source/Common/QuantConnect.csproj (in 5 ms).
+  Restored /workspace/technical-admission/E/lean-source/Logging/QuantConnect.Logging.csproj (in 2 ms).
+  Restored /workspace/technical-admission/E/lean-source/Indicators/QuantConnect.Indicators.csproj (in 5 ms).
+  Restored /workspace/technical-admission/E/lean-source/Brokerages/QuantConnect.Brokerages.csproj (in 4 ms).
+  Restored /workspace/technical-admission/E/lean-source/Api/QuantConnect.Api.csproj (in 45 ms).
+  Restored /workspace/technical-admission/E/lean-source/Algorithm/QuantConnect.Algorithm.csproj (in 5 ms).
+  Restored /workspace/technical-admission/E/lean-source/Algorithm.Framework/QuantConnect.Algorithm.Framework.csproj (in 12 ms).
+  Restored /workspace/technical-admission/E/lean-source/Algorithm.CSharp/QuantConnect.Algorithm.CSharp.csproj (in 5 ms).

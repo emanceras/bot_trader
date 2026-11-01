@@ -1,0 +1,249 @@
+{
+  "scope_commit": "fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f",
+  "execution_dates_utc": [
+    "2026-10-29",
+    "2026-10-30"
+  ],
+  "package": "E",
+  "status": "partial_not_completed_not_admitted",
+  "case_slots": 26,
+  "executed_component_cases": 3,
+  "full_cases_admitted": 0,
+  "mandatory_comparison_failures": 2,
+  "partial_guard_evidence": 1,
+  "not_run": 23,
+  "case_correction_cycles": 0,
+  "setup_configuration_correction": "Isolated XDG_RUNTIME_DIR/XDG_DATA_HOME fixed NuGet named mutex failure; no versions or upstream sources changed.",
+  "source_sha256": {
+    "tools/technical_admission/lean_case.py": "119de82ecb1d1d24afd6342ce8655a8492cb539faa183eba3c24d336cf7ba637",
+    "tools/technical_admission/lean_probe.cs": "21c95918ef502b3f418376fcd46a7d81e7cd932b93bb18335a90b76217063432",
+    "tools/technical_admission/lean_probe.csproj": "ed4c9246f831ea9af30f0b506575de7bb10c7ea7e29b0de6aea61708661f3a64",
+    "tools/technical_admission/lean_restore.py": "5b83c2825b97733c8b7e839febb1ce461094ee3e1bd9c0b098fb798b8b521e7e",
+    "tools/technical_admission/lean_source_acquisition.py": "e176cd9057ddaf3cbe6915927b961d77a09a2541e0ecc1749ae05a44624b476c"
+  },
+  "cases": [
+    {
+      "engine": "Nautilus",
+      "case_id": "E1-causality",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E2-accounting",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E3-L1",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E3-L2",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E4-idempotency",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E5-reference",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E5-after-submit-before-ack",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E5-after-fill-before-checkpoint",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E5-during-cancel",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E6-cold",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E6-warm-1",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E6-warm-2",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "Nautilus",
+      "case_id": "E6-warm-3",
+      "executed": false,
+      "status": "not_run_blocked_setup",
+      "full_case_admitted": false,
+      "reason": "Pinned managed Python3.13.18 is unavailable via uv0.12.23; stop rule forbids version substitution."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E1-causality",
+      "executed": true,
+      "status": "partial_harness_guard_evidence",
+      "full_case_admitted": false,
+      "problems": [],
+      "evidence": "cases/E1-causality/result.json"
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E2-accounting",
+      "executed": true,
+      "status": "failed_mandatory_comparison",
+      "full_case_admitted": false,
+      "problems": [
+        "required_fill_quantity:sell-1",
+        "required_liquidity_role:sell-1"
+      ],
+      "evidence": "cases/E2-accounting/result.json"
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E3-L1",
+      "executed": true,
+      "status": "failed_mandatory_comparison",
+      "full_case_admitted": false,
+      "problems": [
+        "fill_exceeds_visible_L1_quantity"
+      ],
+      "evidence": "cases/E3-L1/result.json"
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E3-L2",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Current native boundary has no admitted finite L2/IOC consumption model; new fill model is outside E. No universal LEAN incapability claim."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E4-idempotency",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Depends on finite L2 fills and authoritative order/fill identity/virtual attribution; absent from this component bridge. Not tested."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E5-reference",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "No admitted brokerage lifecycle or same-durable-journal reconciliation bridge. Native/component process execution does not prove recovery. Not tested."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E5-after-submit-before-ack",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "No admitted brokerage lifecycle or same-durable-journal reconciliation bridge. Native/component process execution does not prove recovery. Not tested."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E5-after-fill-before-checkpoint",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "No admitted brokerage lifecycle or same-durable-journal reconciliation bridge. Native/component process execution does not prove recovery. Not tested."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E5-during-cancel",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "No admitted brokerage lifecycle or same-durable-journal reconciliation bridge. Native/component process execution does not prove recovery. Not tested."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E6-cold",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Resource test is conditional on functional admission, which failed; throughput cannot compensate for semantics."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E6-warm-1",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Resource test is conditional on functional admission, which failed; throughput cannot compensate for semantics."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E6-warm-2",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Resource test is conditional on functional admission, which failed; throughput cannot compensate for semantics."
+    },
+    {
+      "engine": "LEAN",
+      "case_id": "E6-warm-3",
+      "executed": false,
+      "status": "not_run_unadmitted_boundary",
+      "full_case_admitted": false,
+      "reason": "Resource test is conditional on functional admission, which failed; throughput cannot compensate for semantics."
+    }
+  ],
+  "interpretation": [
+    "E1 incomplete canary/prefix/precision coverage is a harness gap, not observed native causality failure.",
+    "E2 sale expected on touch is an oracle assumption; configured native strict-cross model does not fill. Observed purchase/cash reconcile.",
+    "E3-L1 actual native default model fills4 despite visible1; fails scoped finite-liquidity requirement.",
+    "No winner, general engine incapability, production admission or financial evidence established.",
+    "Supervisor process exit0 means observation collection succeeded, not that the mandatory comparison passed. Read status, problems and full_case_admitted."
+  ]
+}

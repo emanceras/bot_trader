@@ -2,6 +2,8 @@
 
 Documento: IV-PKG-E-001 · Versión: 1 · Fecha: 2026-10-28 · Traducción del [original inglés](../../../en/phase-iv/technical-packages/engines.md).
 
+> **Actualización de ejecución, 2026-10-29:** D-046 autorizó posteriormente este alcance exacto. Consultar [resultados reales](../technical-results.md). La propuesta inferior conserva la especificación previa; sus menciones anteriores a permiso pendiente son históricas.
+
 **Propuesta de ejecución, no instalación ni prueba terminada.** Comparar ambos motores con un contrato común de eventos/órdenes inventados, oráculo contable independiente y recursos limitados. Conservar los [resultados A/B](../admission.md), incluidos liquidez L1 adversa y recuperación de estado interrumpido no demostrada. La [admisión metodológica aprobada](../staged-amendment.md) no autoriza E, desarrollo financiero, V ni actividad prospectiva. No incluye producción ni datasets de mercado.
 
 ## Candidatos exactos y límites del mantenimiento

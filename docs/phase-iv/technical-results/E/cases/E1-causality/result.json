@@ -1,0 +1,194 @@
+{
+  "engine": "LEAN",
+  "case_id": "E1-causality",
+  "synthetic_only": true,
+  "command": [
+    "/workspace/technical-admission/E/dotnet/dotnet",
+    "/workspace/technical-admission/E/harness-bin/lean_probe.dll",
+    "/workspace/technical-admission/E/fixtures/engine-cases.json",
+    "E1-causality"
+  ],
+  "native_process_exit_code": 0,
+  "wall_seconds": 1.8615951029933058,
+  "status": "partial_harness_guard_evidence",
+  "full_case_admitted": false,
+  "problems": [],
+  "stdout_sha256": "e4e779e4756a974e7bc358f3a949ce3fe533282b6c5a931062f21afd6ef10b88",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fixture_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "observation_sha256": "14d631df65fd584560ac7a3e6f5172f9286f54b4926ad495f4bc9c06008e1630",
+  "observed": {
+    "schema": "bot-trader.synthetic-engine-observation.v1",
+    "synthetic": true,
+    "engine": "LEAN",
+    "source_commit": "22404ea28b8d3f3c9eb74d6ed9f0444426f8e417",
+    "case_id": "E1-causality",
+    "execution_status": "component_observations_emitted",
+    "route": "native Common FillModel, configured CoinbaseFeeModel and SecurityPortfolioManager; harness schedule/admission/reservations",
+    "native_brokerage_executed": false,
+    "decisions": [
+      {
+        "at": 1700000000000010000,
+        "decision": "BLOCK",
+        "bar_id": null
+      },
+      {
+        "at": 1700000000000020000,
+        "decision": "OBSERVE",
+        "bar_id": "b0",
+        "close": "101"
+      },
+      {
+        "at": 1700000000000030000,
+        "decision": "OBSERVE",
+        "bar_id": "b0",
+        "close": "99"
+      }
+    ],
+    "fills": [],
+    "native_events": [],
+    "observed_quotes": [],
+    "guard_events": [
+      {
+        "at": 1700000000000010000,
+        "kind": "provisional_bar_excluded_by_harness"
+      },
+      {
+        "at": 1700000000000020000,
+        "kind": "closed_bar_admitted_by_harness",
+        "native_cache_price": "101"
+      },
+      {
+        "at": 1700000000000030000,
+        "kind": "closed_bar_admitted_by_harness",
+        "native_cache_price": "99"
+      },
+      {
+        "at": 1700000000000050000,
+        "kind": "external_available_without_market_effect",
+        "event_ns": 1700000000000010000
+      }
+    ],
+    "snapshots": [
+      {
+        "at": 1700000000000010000,
+        "source": "source-100-bar_open",
+        "balances": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "native_position": "0",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000020000,
+        "source": "source-200-bar_close",
+        "balances": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "native_position": "0",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000030000,
+        "source": "source-300-bar_revision",
+        "balances": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "native_position": "0",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000050000,
+        "source": "source-400-external",
+        "balances": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "native_position": "0",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      }
+    ],
+    "rejected_command_ids": [],
+    "balances": {
+      "USD": "1000",
+      "SYN": "0",
+      "USDT": "40"
+    },
+    "free": {
+      "USD": "1000",
+      "SYN": "0",
+      "USDT": "40"
+    },
+    "reserved": {
+      "USD": "0",
+      "SYN": "0",
+      "USDT": "0"
+    },
+    "native_position": "0",
+    "open_command_ids": [],
+    "conversion": {
+      "before": null,
+      "after": null
+    },
+    "limitations": [
+      "component route, not default Launcher or complete brokerage lifecycle",
+      "admission, availability and free/reserved fields are harness guards",
+      "native event IDs remain native defaults; bridge IDs are observation identities only",
+      "no L2 consumption, IOC, duplicate transport or recovery implementation",
+      "native fees preserved without result-fitted rounding"
+    ]
+  },
+  "limits": [
+    "Native component invocation, not a complete brokerage lifecycle.",
+    "E1 lacks R-canary/prefix/unsupported-time execution and is partial regardless of its small comparison.",
+    "Admission, reservation, availability and observation IDs are harness supplied.",
+    "Dependent L2, duplicate/recovery and resource cases cannot pass without their actual implementation and execution."
+  ]
+}

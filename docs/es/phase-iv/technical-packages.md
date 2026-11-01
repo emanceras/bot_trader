@@ -2,6 +2,8 @@
 
 Documento: IV-TECH-001 · Versión: 1 · Fecha: 2026-10-28 · Traducción del [original inglés](../../en/phase-iv/technical-packages.md).
 
+> **Actualización de ejecución, 2026-10-29:** D-046 autorizó posteriormente este alcance exacto. Consultar [resultados reales](technical-results.md). La propuesta inferior conserva la especificación previa; sus menciones anteriores a permiso pendiente son históricas.
+
 ## Decisión preparada para autorización
 
 **Recomiendo una autorización acotada para las pruebas aisladas M/R y la comparación E de los dos motores, con condiciones de parada y sin migrar producción.** No se ha concedido ni se ha instalado o ejecutado ningún paquete. La [aprobación metodológica](../../phase-iv/APPROVAL-STAGED.es.md) queda registrada por separado en [IV-AMEND-001](staged-amendment.md); T/D/U/V/F no autoriza acceso financiero, Fase V ni estos nuevos trabajos técnicos. E3/E4 siguen pendientes.

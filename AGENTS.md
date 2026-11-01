@@ -18,6 +18,8 @@ D-044 conserva la [aprobación T/D/U/V/F](docs/phase-iv/APPROVAL-STAGED.es.md) d
 
 **Autorización vigente D-046:** el usuario aprobó expresamente instalar, preparar y ejecutar M/R/E de `fa435a4`; [mensaje](docs/phase-iv/APPROVAL-M-R-E.es.md). Las frases anteriores «no autorizados» son el estado histórico de la propuesta. No solicitar de nuevo esos permisos. Respetar versiones, casos, techos y un ciclo correctivo; continuar pruebas independientes ante bloqueos. Producción, nuevos datasets, gastos, adaptadores completos y Fase V siguen excluidos. Consultar los resultados/checkpoint reales antes de reanudar; no repetir descargas, ejecuciones ni investigación ya realizadas.
 
+**Resultados vigentes D-047:** [informe EN](docs/en/phase-iv/technical-results.md) / [ES](docs/es/phase-iv/technical-results.md), [checkpoint](docs/phase-iv/technical-results/PROGRESS.md). M ejecutado20/20 y110pruebas backend por entorno; R160/160, sin repetir casos. E sigue parcial: runtime Nautilus fijado no disponible; LEAN compilado, tres casos de componentes (uno parcial/dos adversos),23slots sin ejecutar y cero casos plenamente admitidos. No confundir exit0 con pase: consultar status/problems. E1 conserva carencias del harness; E2touchfill es supuesto de fixture; E3-L1 incumple liquidez visible. Ningún ganador, nueva autorización financiera ni migración. No repetir adquisiciones/pruebas realizadas ni omitir negativos; cambios de runtime/modelo de fills fuera del alcance requieren decisión concreta. Producción y ciencia verificadas sin cambios; E3/E4/V pendientes.
+
 ## Método y honestidad científica
 
 - Separar fundamentos teóricos, evidencia empírica publicada, replicaciones independientes y resultados propios.

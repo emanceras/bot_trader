@@ -1,8 +1,12 @@
 # Phase IV checkpoint
 
-Updated: 2026-10-28. Canonical English; resumen español below.
+Updated: 2026-11-01. Canonical English; resumen español below.
 
-**Current — D-044/D-045:** user-approved T/D/U/V/F methodology is recorded in [EN amendment](../en/phase-iv/staged-amendment.md) / [ES](../es/phase-iv/staged-amendment.md). Protocol v3, acceptance v5 and freeze revision4 preserve scientific/economic/access invariants; all financial flags and role permissions remain blocked. [M/E/R scope EN](../en/phase-iv/technical-packages.md) / [ES](../es/phase-iv/technical-packages.md) and [checkpoint](technical-packages/PROGRESS.md) fix exact versions, synthetic cases, resource bounds and stops. Proposal only: no new installation, source checkout, test execution, production/data change or Phase V. E3/E4 pending. No repeat approval of the methodological principle is needed.
+**Current — D-046/D-047 execution:** M/R/E of `fa435a4` are expressly authorized. M and R have actual synthetic results, with independent internal output review; E has three actual LEAN component cases (one partial, two adverse),23unexecuted slots and no full admission; Nautilus is blocked before installation by its pinned runtime. Final source/runtime preservation passes and resources remain within limits. Read the [executed report EN](../en/phase-iv/technical-results.md) / [ES](../es/phase-iv/technical-results.md) and [checkpoint](technical-results/PROGRESS.md). No general research restart or repeated authorization is needed. Production, E3/E4 and financial access remain unchanged; acceptance v6 updates only this execution status, not its criteria.
+
+Resumen vigente: M y R ejecutados; E se informa con sus bloqueos y casos realmente realizados. No confundir instalación, prueba y validación financiera. Conservar resultados y recibos tras interrupciones; V no autorizada.
+
+**Historical — D-044/D-045:** user-approved T/D/U/V/F methodology is recorded in [EN amendment](../en/phase-iv/staged-amendment.md) / [ES](../es/phase-iv/staged-amendment.md). Protocol v3, acceptance v5 and freeze revision4 preserve scientific/economic/access invariants; all financial flags and role permissions remain blocked. [M/E/R scope EN](../en/phase-iv/technical-packages.md) / [ES](../es/phase-iv/technical-packages.md) and [checkpoint](technical-packages/PROGRESS.md) fix exact versions, synthetic cases, resource bounds and stops. Proposal only: no new installation, source checkout, test execution, production/data change or Phase V. E3/E4 pending. No repeat approval of the methodological principle is needed.
 
 Resumen vigente: enmienda metodológica registrada, pruebas M/E/R concretadas y pendientes de autorización. Se conservaron documentos/metadatos tras interrupciones; la línea activa Nautilus v2 cambia Python y no exige Arrow, por lo que M y E son decisiones independientes. Sin pruebas técnicas nuevas ni permisos financieros.
 

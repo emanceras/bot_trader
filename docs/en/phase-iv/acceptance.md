@@ -1,6 +1,6 @@
 # Phase IV — coverage, pending decisions and Phase V gate
 
-Document ID: ACCEPT-IV-001 · Version: 5 · Date: 2026-10-28 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
+Document ID: ACCEPT-IV-001 · Version: 6 · Date: 2026-11-01 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
 
 ## Disposition
 
@@ -48,7 +48,7 @@ The [executive review](executive-decisions.md), D-037, is the historical proposa
 
 Subsequent source acquisition, technical admission and financial execution remain separately authorized. Feasibility packages A (two named quarterly archives, structural QA) and B (isolated pinned engine, synthetic checks) were separately authorized in D-040 and are reported with actual coverage and limitations in the technical audit. They do not authorize other acquisitions, a production adapter or financial runs. This delivery does not ask for advance Phase V approval. E1/E2 neither closes IV unconditionally nor authorizes acquisition, spending or experiments. The stage-specific minimum package below implements only the methodological timing amendment; economic and evidentiary requirements are preserved.
 
-**Approved sequencing, not execution:** structural QA/synthetic checks cannot establish paired-return variance and precision required before validation. D-044 approves the T/D/U/V/F principle and IV-AMEND-001 records the prospective amendment. D/U remain financial work requiring separate, precisely scoped Phase V authorization, E3/E4 and their own complete manifests. Do not request approval of the principle again or treat it as permission to run. Technical packages M/E/R remain proposed, not authorized or executed.
+**Approved sequencing, not execution:** structural QA/synthetic checks cannot establish paired-return variance and precision required before validation. D-044 approves the T/D/U/V/F principle and IV-AMEND-001 records the prospective amendment. D/U remain financial work requiring separate, precisely scoped Phase V authorization, E3/E4 and their own complete manifests. Do not request approval of the principle again or treat it as permission to run. D-046 subsequently authorized technical packages M/E/R; their [actual results and limits](technical-results.md) are recorded separately. This status update changes no acceptance criterion and grants no financial access.
 
 The user need not choose every provider, date, spline parameter or software adapter. These are evidence-driven technical bindings to prepare within the next applicable scope and present as a concrete manifest. No credentials, funded account or final production exchange is needed now. Custodian/reviewer and opening authority must be identified before final access; one person holding several roles leaves an explicitly documented procedural limitation.
 

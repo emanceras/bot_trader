@@ -1,6 +1,6 @@
 # Registro de experimentos
 
-**Actualizado:** 2026-10-28 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, E1/E2 aprobadas condicionalmente; [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) conservados. La [enmienda por etapas](docs/es/phase-iv/staged-amendment.md) registra aprobación metodológica; las [pruebas M/E/R](docs/es/phase-iv/technical-packages.md) siguen propuestas sin ejecución. E3/E4 y V–VI pendientes; operativa no autorizada. Las pruebas técnicas de III y A/B permanecen separadas de los experimentos financieros.
+**Actualizado:** 2026-11-01 · **Versión:** 1.1 · **Estado:** cero experimentos financieros. IV metodológica autorizada, E1/E2 aprobadas condicionalmente; [diseño](docs/es/phase-iv/protocol.md) y [plantilla sin ejecutar](docs/phase-iv/freeze-template.json) conservados. La [enmienda por etapas](docs/es/phase-iv/staged-amendment.md) registra aprobación metodológica; las [pruebas M/E/R](docs/es/phase-iv/technical-results.md) fueron autorizadas por D-046 y sus ejecuciones técnicas, limitaciones y bloqueos se registran por separado. E3/E4 y V–VI pendientes; operativa no autorizada. Las pruebas técnicas de III y A/B permanecen separadas de los experimentos financieros.
 
 ## Estado real
 
@@ -87,3 +87,8 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 
 
 - **2026-10-27, aprobación metodológica por etapas y paquetes técnicos (D-044/D-045):** enmienda prospectiva T/D/U/V/F aprobada en principio; cambian únicamente momento de completar vinculaciones y registros de acceso, sin habilitar desarrollo financiero. Consulta acotada de metadatos oficiales para fijar versiones/runtimes y diseño de casos sintéticos M/E/R. No se instalaron motores ni paquetes, no se ejecutaron harnesses ni se adquirieron datasets adicionales. Recurso estimado/techo de prueba no es medición ni presupuesto E3. E1/E2, 26 especificaciones, nulas, inferencia, negativos y **siete contadores financieros en cero** preservados. E3/E4 y V pendientes.
+
+
+- **2026-10-29–30, ejecución técnica M/R/E (D-046):** M ejecutó 20 casos específicos y dos suites de 110 pruebas cada una; R ejecutó 160 casos de coherencia con diarios inventados. Pasan sin corregir casos. Se conserva el control adverso de precisión DuckDB, inventario vacío de objetos sintéticos antiguos y fallos de preparación. E requiere consultar el estado real de instalación/casos en el [informe](docs/es/phase-iv/technical-results.md); una instalación o bloqueo no se cuenta como prueba del motor. Sin nuevos datos financieros ni retornos de estrategias, entrenamiento, selección o apertura de holdout. **Los siete contadores financieros permanecen en cero.**
+
+- **2026-11-01, consolidación D-047:** E conserva tres casos LEAN realmente ejecutados (uno parcial y dos comparaciones obligatorias fallidas), 23 slots sin ejecutar y ninguna admisión completa. Runtime Nautilus bloqueado; no ganador. Auditoría final de conservación satisfactoria, recursos instrumentados dentro de límites, resultados negativos publicados junto con M/R. Ningún experimento financiero añadido.

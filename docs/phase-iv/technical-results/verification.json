@@ -1,0 +1,34 @@
+{
+  "recorded_utc": "2026-11-01T18:29:54.202982+00:00",
+  "type": "read_only_publication_review_not_new_package_cases",
+  "counts": {
+    "python_syntax": 14,
+    "json": 92,
+    "jsonl": 6,
+    "local_links": 327
+  },
+  "checks": {
+    "E_published_originals": 67,
+    "E_frozen_files": 44,
+    "E_case_disposition": {
+      "slots": 26,
+      "executed": 3,
+      "unexecuted": 23,
+      "fully_admitted": 0
+    },
+    "M_R_results_match": true,
+    "M_R_executed_sources_unchanged": true,
+    "production_preservation": {
+      "files": 73,
+      "venv_files": 4630
+    },
+    "recorded_resources_below_limits": true
+  },
+  "issues": [],
+  "passed": true,
+  "review_limits": "Internal source/output review, not external certification. Uses recorded sampled resources, not unobserved continuous peaks.",
+  "whitespace_review": {
+    "authored_source_docs_checked": "passed",
+    "original_upstream_receipts": "Original E logs/license contain upstream trailing whitespace/blank final lines. Preserved byte-for-byte with verified hashes; excluded from authored-file whitespace gate."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "commit": "22404ea28b8d3f3c9eb74d6ed9f0444426f8e417",
+  "paths": [
+    ".nuget/NuGet.config",
+    "Algorithm.Framework/QuantConnect.Algorithm.Framework.csproj",
+    "Algorithm/QuantConnect.Algorithm.csproj",
+    "AlgorithmFactory/QuantConnect.AlgorithmFactory.csproj",
+    "Api/QuantConnect.Api.csproj",
+    "Brokerages/QuantConnect.Brokerages.csproj",
+    "Common/QuantConnect.csproj",
+    "Compression/QuantConnect.Compression.csproj",
+    "Configuration/QuantConnect.Configuration.csproj",
+    "Engine/QuantConnect.Lean.Engine.csproj",
+    "Indicators/QuantConnect.Indicators.csproj",
+    "LICENSE",
+    "Logging/QuantConnect.Logging.csproj",
+    "Messaging/QuantConnect.Messaging.csproj",
+    "Queues/QuantConnect.Queues.csproj"
+  ]
+}

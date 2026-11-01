@@ -2,6 +2,8 @@
 
 Document ID: IV-PKG-E-001 · Version: 1 · Date: 2026-10-28 · English canonical. [Spanish](../../../es/phase-iv/technical-packages/engines.md).
 
+> **Execution update, 2026-10-29:** D-046 subsequently authorized this exact scope. See [actual results](../technical-results.md). The proposal below is retained as the pre-execution specification; its earlier pending-approval statements are historical.
+
 **Execution proposal, not an installation or completed test.** Compare the two engines under one invented event/command contract, independent accounting oracle and fixed resource envelope. Preserve the [A/B findings](../admission.md), including adverse L1 liquidity and unproved interrupted-state recovery. The [approved methodological staging](../staged-amendment.md) does not authorize E, financial development, Phase V or prospective activity. No production change or market dataset is included.
 
 ## Exact candidates and maintenance qualification

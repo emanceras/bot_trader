@@ -2,6 +2,8 @@
 
 Documento: IV-PKG-MR-001 · Versión: 1 · Fecha: 2026-10-28 · Traducción del [original inglés](../../../en/phase-iv/technical-packages/dependencies-temporal.md).
 
+> **Actualización de ejecución, 2026-10-29:** D-046 autorizó posteriormente este alcance exacto. Consultar [resultados reales](../technical-results.md). La propuesta inferior conserva la especificación previa; sus menciones anteriores a permiso pendiente son históricas.
+
 **Propuesta de ejecución, no autorización ni resultado de pruebas.** Los paquetes responden preguntas técnicas distintas. M contrasta una actualización de Arrow con la aplicación existente; R verifica equivalencia causal de información y decisiones mediante un prototipo pequeño y aislado. No implementan un adaptador financiero de producción ni ejecutan hipótesis de trading. E3/E4, Fase V y adquisición de datos de mercado siguen pendientes. Las revisiones de [dependencias](../evolution/dependencies.md) y [tiempo](../evolution/temporal.md) aportan el fundamento; no hace falta otra investigación general.
 
 ## Decisiones que permiten tomar y dependencias

@@ -1,0 +1,20 @@
+{
+  "commit": "22404ea28b8d3f3c9eb74d6ed9f0444426f8e417",
+  "sha256": {
+    ".nuget/NuGet.config": "97c723c793df8ba58302adc2a2f929bf949240499e4ee1ec39737eef507c4892",
+    "Algorithm.Framework/QuantConnect.Algorithm.Framework.csproj": "53971480069a6fcff655cd0afa332e082f47f907fa8c77d1642ec1a6f9b19ed1",
+    "Algorithm/QuantConnect.Algorithm.csproj": "2be2982dd42bf3a1d43ba20c17a95fd841b8389e4560e7807b4e43bac44f384b",
+    "AlgorithmFactory/QuantConnect.AlgorithmFactory.csproj": "c859a8c4a514442975ae9cce5fb3ea97da05822fdf218bb6e66480228b28cb35",
+    "Api/QuantConnect.Api.csproj": "0e8044d5e3ecc5c0b5a16eef6a2845885ba79a1a490a7d7d20f28e09a5fff1e9",
+    "Brokerages/QuantConnect.Brokerages.csproj": "84afb8099f7d2b5f21e77a92681777e22da9686fe02105674a5f6b4b9579c494",
+    "Common/QuantConnect.csproj": "eb9dedee7bc48ff6a835905d9f9da23d7a1b7a4dd95875df690258f335844e37",
+    "Compression/QuantConnect.Compression.csproj": "594ce847872da5e82b7915a3692022059f80cfb4ccab1a3f1ac870b298e39f8d",
+    "Configuration/QuantConnect.Configuration.csproj": "53fd9ba7fff1bfab32461f28c4f00eaef8c4449a6fa60c3c5aaaea567d7d0b28",
+    "Engine/QuantConnect.Lean.Engine.csproj": "21eab24be8c7cd9a7eb62d2a4ebf47d45412be5874311c2da1b00a99e52b6e07",
+    "Indicators/QuantConnect.Indicators.csproj": "a37bdeeaedda72ff7a8ab8b441bf372bce056e38f7b89e6d13dfb48ceafc74c4",
+    "LICENSE": "522cf0a716ce03f67d46f8fceb5bf78c5b84400ec5cd8d14bf9f02cddc1cb6ba",
+    "Logging/QuantConnect.Logging.csproj": "32bf7701db7a831dea21b60510c017a7bdeb188198fe20ca1c459894a68d522c",
+    "Messaging/QuantConnect.Messaging.csproj": "87e2f325f3a55eda4de8b2a305101ac53182adfadb500b266d30cc73df6db39f",
+    "Queues/QuantConnect.Queues.csproj": "8dbe0cba7429c332dd89b73266619f359ba4f610da685c6ef1e59a766294dbb6"
+  }
+}

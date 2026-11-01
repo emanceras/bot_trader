@@ -1,0 +1,413 @@
+{
+  "engine": "LEAN",
+  "case_id": "E2-accounting",
+  "synthetic_only": true,
+  "command": [
+    "/workspace/technical-admission/E/dotnet/dotnet",
+    "/workspace/technical-admission/E/harness-bin/lean_probe.dll",
+    "/workspace/technical-admission/E/fixtures/engine-cases.json",
+    "E2-accounting"
+  ],
+  "native_process_exit_code": 0,
+  "wall_seconds": 1.8552654950181022,
+  "status": "failed_mandatory_comparison",
+  "full_case_admitted": false,
+  "problems": [
+    "required_fill_quantity:sell-1",
+    "required_liquidity_role:sell-1"
+  ],
+  "stdout_sha256": "e98ab3538f4c252cbf1a5288605a2b68cfee09fbb1fd9ba1f73b208ffc1e440d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fixture_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "observation_sha256": "3635d62f290c2eb56387e8f96246ce65ba814f51e17a77d31bb7a762a427f557",
+  "observed": {
+    "schema": "bot-trader.synthetic-engine-observation.v1",
+    "synthetic": true,
+    "engine": "LEAN",
+    "source_commit": "22404ea28b8d3f3c9eb74d6ed9f0444426f8e417",
+    "case_id": "E2-accounting",
+    "execution_status": "component_observations_emitted",
+    "route": "native Common FillModel, configured CoinbaseFeeModel and SecurityPortfolioManager; harness schedule/admission/reservations",
+    "native_brokerage_executed": false,
+    "decisions": [],
+    "fills": [
+      {
+        "venue": "LEAN-COMPONENT-SYNTHETIC",
+        "fill_id": "bridge-observation-1",
+        "command_id": "buy-2",
+        "instrument_id": "SYN-USD.SIM",
+        "side": "BUY",
+        "quantity": "2",
+        "price": "100",
+        "fee": "0.4",
+        "fee_currency": "USD",
+        "liquidity_role": "taker",
+        "native_order_id": 0,
+        "native_event_id": 0,
+        "liquidity_role_origin": "submitted order properties; native event has no maker/taker field",
+        "effect_identity_origin": "bridge observation ordinal; not a broker fill ID",
+        "native_model": "QuantConnect.Orders.Fills.ImmediateFillModel",
+        "native_fee_model": "QuantConnect.Orders.Fees.CoinbaseFeeModel"
+      }
+    ],
+    "native_events": [
+      {
+        "command_id": "buy-2",
+        "at": 1700000000000012000,
+        "native_order_id": 0,
+        "native_event_id": 0,
+        "status": "Filled",
+        "signed_fill_quantity": "2",
+        "price": "100",
+        "message": ""
+      },
+      {
+        "command_id": "sell-1",
+        "at": 1700000000000032000,
+        "native_order_id": 0,
+        "native_event_id": 0,
+        "status": "Submitted",
+        "signed_fill_quantity": "0",
+        "price": "0",
+        "message": ""
+      },
+      {
+        "command_id": "sell-1",
+        "at": 1700000000000050000,
+        "native_order_id": 0,
+        "native_event_id": 0,
+        "status": "Submitted",
+        "signed_fill_quantity": "0",
+        "price": "0",
+        "message": ""
+      },
+      {
+        "command_id": "sell-1",
+        "at": 1700000000000090000,
+        "native_order_id": 0,
+        "native_event_id": 0,
+        "status": "Submitted",
+        "signed_fill_quantity": "0",
+        "price": "0",
+        "message": ""
+      }
+    ],
+    "observed_quotes": [
+      {
+        "at": 1700000000000010000,
+        "bid": "99",
+        "ask": "100",
+        "bid_size": "10",
+        "ask_size": "10",
+        "event_id": "source-100-quote"
+      },
+      {
+        "at": 1700000000000030000,
+        "bid": "100",
+        "ask": "101",
+        "bid_size": "10",
+        "ask_size": "10",
+        "event_id": "source-300-quote"
+      },
+      {
+        "at": 1700000000000050000,
+        "bid": "102",
+        "ask": "103",
+        "bid_size": "10",
+        "ask_size": "10",
+        "event_id": "source-500-quote"
+      },
+      {
+        "at": 1700000000000090000,
+        "bid": "102",
+        "ask": "103",
+        "bid_size": "10",
+        "ask_size": "10",
+        "event_id": "source-900-quote"
+      }
+    ],
+    "guard_events": [
+      {
+        "at": 1700000000000052000,
+        "kind": "rejected",
+        "command_id": "bad-step",
+        "reason": "invalid_quantity_step",
+        "origin": "harness boundary guard, not native brokerage rejection"
+      },
+      {
+        "at": 1700000000000053000,
+        "kind": "rejected",
+        "command_id": "below-minimum",
+        "reason": "below_minimum_notional",
+        "origin": "harness boundary guard, not native brokerage rejection"
+      },
+      {
+        "at": 1700000000000054000,
+        "kind": "rejected",
+        "command_id": "insufficient",
+        "reason": "insufficient_free_cash",
+        "origin": "harness boundary guard, not native brokerage rejection"
+      },
+      {
+        "at": 1700000000000070000,
+        "kind": "conversion_available",
+        "value": "39.6",
+        "availability_origin": "harness envelope guard",
+        "arithmetic_origin": "native CashBook conversion"
+      }
+    ],
+    "snapshots": [
+      {
+        "at": 1700000000000010000,
+        "source": "source-100-quote",
+        "balances": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "1000",
+          "SYN": "0",
+          "USDT": "40"
+        },
+        "native_position": "0",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000012000,
+        "source": "buy-2",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000030000,
+        "source": "source-300-quote",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "0",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000032000,
+        "source": "sell-1",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000050000,
+        "source": "source-500-quote",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000052000,
+        "source": "bad-step",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000053000,
+        "source": "below-minimum",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000054000,
+        "source": "insufficient",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000070000,
+        "source": "source-700-conversion",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      },
+      {
+        "at": 1700000000000090000,
+        "source": "source-900-quote",
+        "balances": {
+          "USD": "799.6",
+          "SYN": "2",
+          "USDT": "40"
+        },
+        "reserved": {
+          "USD": "0",
+          "SYN": "1",
+          "USDT": "0"
+        },
+        "free": {
+          "USD": "799.6",
+          "SYN": "1",
+          "USDT": "40"
+        },
+        "native_position": "2",
+        "reservation_origin": "harness pending-command policy; no native brokerage reservation claim"
+      }
+    ],
+    "rejected_command_ids": [
+      "bad-step",
+      "below-minimum",
+      "insufficient"
+    ],
+    "balances": {
+      "USD": "799.6",
+      "SYN": "2",
+      "USDT": "40"
+    },
+    "free": {
+      "USD": "799.6",
+      "SYN": "1",
+      "USDT": "40"
+    },
+    "reserved": {
+      "USD": "0",
+      "SYN": "1",
+      "USDT": "0"
+    },
+    "native_position": "2",
+    "open_command_ids": [
+      "sell-1"
+    ],
+    "conversion": {
+      "before": null,
+      "after": "39.6"
+    },
+    "limitations": [
+      "component route, not default Launcher or complete brokerage lifecycle",
+      "admission, availability and free/reserved fields are harness guards",
+      "native event IDs remain native defaults; bridge IDs are observation identities only",
+      "no L2 consumption, IOC, duplicate transport or recovery implementation",
+      "native fees preserved without result-fitted rounding"
+    ]
+  },
+  "limits": [
+    "Native component invocation, not a complete brokerage lifecycle.",
+    "E1 lacks R-canary/prefix/unsupported-time execution and is partial regardless of its small comparison.",
+    "Admission, reservation, availability and observation IDs are harness supplied.",
+    "Dependent L2, duplicate/recovery and resource cases cannot pass without their actual implementation and execution."
+  ]
+}

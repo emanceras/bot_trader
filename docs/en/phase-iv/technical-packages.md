@@ -2,6 +2,8 @@
 
 Document ID: IV-TECH-001 · Version: 1 · Date: 2026-10-28 · English canonical. [Spanish](../../es/phase-iv/technical-packages.md).
 
+> **Execution update, 2026-10-29:** D-046 subsequently authorized this exact scope. See [actual results](technical-results.md). The proposal below is retained as the pre-execution specification; its earlier pending-approval statements are historical.
+
 ## Decision ready for authorization
 
 **Recommend one bounded authorization for the isolated M/R checks and the two-engine E comparison below, with stop rules and no production migration.** Approval has not been given and no package has been installed or executed. The user's [methodological approval](../../phase-iv/APPROVAL-STAGED.es.md) is now recorded separately in [IV-AMEND-001](staged-amendment.md); T/D/U/V/F does not authorize financial access, Phase V or these new technical jobs. E3/E4 remain pending.

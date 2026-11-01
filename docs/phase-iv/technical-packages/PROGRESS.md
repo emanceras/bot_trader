@@ -1,5 +1,7 @@
 # Staged amendment and M/E/R proposal checkpoint
 
+**Subsequent execution status, 2026-10-30:** the user expressly authorized these exact packages in D-046; consult the [actual execution checkpoint](../technical-results/PROGRESS.md) and [results](../../en/phase-iv/technical-results.md). Earlier statements below describe the delivered pre-approval proposal, not current pending permission. Do not repeat authorization, acquisitions or completed cases. / El usuario ya autorizó la ejecución; las frases inferiores conservan el estado histórico.
+
 Updated: 2026-10-28. Canonical English record; resumen español below. Base: `9aeae393e31246e1f53aaa54461f509670e7cba6`. Authority: [user message](../APPROVAL-STAGED.es.md), D-044/D-045.
 
 ## Completed documentary work
