@@ -1,0 +1,14 @@
+{
+  "case_id": "E3-L1",
+  "problems": [
+    "fill_exceeds_visible_L1_quantity"
+  ],
+  "component_checks_pass": false,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {
+    "l1-market-4": "4.00"
+  },
+  "specifics": {},
+  "observation_file": "E3-L1-initial.json"
+}

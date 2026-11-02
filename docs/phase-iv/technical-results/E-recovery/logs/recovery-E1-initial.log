@@ -1,0 +1,151 @@
+[1m2026-11-02T10:39:07.569672572Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569758252Z[0m [36m[INFO] TRADER-001.BacktestEngine:  NAUTILUS TRADER - Automated Algorithmic Trading Platform[0m
+[1m2026-11-02T10:39:07.569758723Z[0m [36m[INFO] TRADER-001.BacktestEngine:  by Nautech Systems Pty Ltd.[0m
+[1m2026-11-02T10:39:07.569758973Z[0m [36m[INFO] TRADER-001.BacktestEngine:  Copyright (C) 2015-2026. All rights reserved.[0m
+[1m2026-11-02T10:39:07.569759254Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569759484Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡤⠤⠤⠤⠤⠤⠤⠤⢤⡀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569783499Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠚⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569783649Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⢀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠚⠁⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569783870Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569794991Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⣠⠏⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠒⠒⠒⠒⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569795191Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⢀⡖⠋⣠⢴⢪⠞⣩⢟⡭⠵⢤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569795592Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⣦⡙⠦⣄⡀⠀⢀⣠⠴⠋⢠⡐⣇⢸⡘⢦⡇⣏⡴⣋⡭⠖⠮⢥⡀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569795712Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⢸⡉⠓⠦⠭⠭⠭⠴⣺⠃⠸⣷⢬⣓⣛⠒⠩⣌⢡⡷⢒⣫⠭⣝⡛⠆⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569795912Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠙⠦⢤⣀⣠⠤⠞⣡⠞⡆⠺⣭⣭⡷⢇⣷⡻⠡⠾⣛⣒⠦⢤⡙⡆⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569796032Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠈⠳⣖⠒⠒⠒⠋⠁⣠⠇⡼⢦⠀⣌⡉⢥⣄⣛⡻⢥⡈⠉⢳⡙⠇⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569796173Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠈⠙⣒⣒⣒⣋⡥⠞⠁⣸⠃⡇⠙⢦⢹⠀⠙⡆⢳⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569796363Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠈⠙⠒⠦⠤⠴⣚⣡⠞⠁⣠⠏⡼⢀⣠⠇⠞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569796563Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠑⠚⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T10:39:07.569796764Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569797004Z[0m [36m[INFO] TRADER-001.BacktestEngine:  SYSTEM SPECIFICATION[0m
+[1m2026-11-02T10:39:07.569806802Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569808215Z[0m [INFO] TRADER-001.BacktestEngine: CPU architecture: AMD EPYC 7763 64-Core Processor[0m
+[1m2026-11-02T10:39:07.569808876Z[0m [INFO] TRADER-001.BacktestEngine: CPU(s): 5 @ 2445 MHz[0m
+[1m2026-11-02T10:39:07.569809467Z[0m [INFO] TRADER-001.BacktestEngine: OS: kernel-6.18.57 Linux (Debian GNU/Linux 13)[0m
+[1m2026-11-02T10:39:07.569849783Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569850194Z[0m [36m[INFO] TRADER-001.BacktestEngine:  MEMORY USAGE[0m
+[1m2026-11-02T10:39:07.569850414Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569989113Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Total: 33.29 GiB[0m
+[1m2026-11-02T10:39:07.569992359Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Used: 0.90 GiB (2.71%)[0m
+[1m2026-11-02T10:39:07.569992820Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Avail: 32.39 GiB (97.29%)[0m
+[1m2026-11-02T10:39:07.569993080Z[0m [INFO] TRADER-001.BacktestEngine: Swap: disabled[0m
+[1m2026-11-02T10:39:07.569993831Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.569994052Z[0m [36m[INFO] TRADER-001.BacktestEngine:  IDENTIFIERS[0m
+[1m2026-11-02T10:39:07.569994252Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.570065615Z[0m [INFO] TRADER-001.BacktestEngine: trader_id: TRADER-001[0m
+[1m2026-11-02T10:39:07.570077498Z[0m [INFO] TRADER-001.BacktestEngine: machine_id: 07435de6ff42[0m
+[1m2026-11-02T10:39:07.570097344Z[0m [INFO] TRADER-001.BacktestEngine: instance_id: a1442a78-c7cb-483b-8c54-3adcdcc474df[0m
+[1m2026-11-02T10:39:07.570097805Z[0m [INFO] TRADER-001.BacktestEngine: PID: 1869[0m
+[1m2026-11-02T10:39:07.570097956Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.570098186Z[0m [36m[INFO] TRADER-001.BacktestEngine:  VERSIONING[0m
+[1m2026-11-02T10:39:07.570098316Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.570115679Z[0m [INFO] TRADER-001.BacktestEngine: nautilus_trader: 2.0.0rc7[0m
+[1m2026-11-02T10:39:07.570116260Z[0m [INFO] TRADER-001.BacktestEngine: nautilus_core: 0.66.0[0m
+[1m2026-11-02T10:39:07.570119716Z[0m [INFO] TRADER-001.BacktestEngine: python: 3.13.16[0m
+[1m2026-11-02T10:39:07.570179858Z[0m [INFO] TRADER-001.BacktestEngine: git_commit: 55c0e8205314[0m
+[1m2026-11-02T10:39:07.570180249Z[0m [INFO] TRADER-001.BacktestEngine: rustc: 1.99.0 (b940084d7 2026-09-28)[0m
+[1m2026-11-02T10:39:07.570192672Z[0m [INFO] TRADER-001.BacktestEngine: target: x86_64-unknown-linux-gnu[0m
+[1m2026-11-02T10:39:07.570192983Z[0m [INFO] TRADER-001.BacktestEngine: profile: release[0m
+[1m2026-11-02T10:39:07.570193203Z[0m [INFO] TRADER-001.BacktestEngine: panic: abort[0m
+[1m2026-11-02T10:39:07.570193474Z[0m [INFO] TRADER-001.BacktestEngine: precision: high (128-bit, 16 dp)[0m
+[1m2026-11-02T10:39:07.570193965Z[0m [INFO] TRADER-001.BacktestEngine: allocator: mimalloc 0.1.52[0m
+[1m2026-11-02T10:39:07.570194275Z[0m [INFO] TRADER-001.BacktestEngine: libc_runtime: glibc 2.41[0m
+[1m2026-11-02T10:39:07.570194506Z[0m [INFO] TRADER-001.BacktestEngine: cargo_lock: 61b7e4fe[0m
+[1m2026-11-02T10:39:07.570194746Z[0m [INFO] TRADER-001.BacktestEngine: libc_crate: 0.2.190[0m
+[1m2026-11-02T10:39:07.570194977Z[0m [INFO] TRADER-001.BacktestEngine: rust_decimal: 1.43.0[0m
+[1m2026-11-02T10:39:07.570195267Z[0m [INFO] TRADER-001.BacktestEngine: rustls: 0.23.46[0m
+[1m2026-11-02T10:39:07.570195508Z[0m [INFO] TRADER-001.BacktestEngine: aws_lc_rs: 1.18.1[0m
+[1m2026-11-02T10:39:07.570195768Z[0m [INFO] TRADER-001.BacktestEngine: tokio: 1.53.2[0m
+[1m2026-11-02T10:39:07.570196129Z[0m [INFO] TRADER-001.BacktestEngine: pyo3: 0.29.3[0m
+[1m2026-11-02T10:39:07.570196459Z[0m [INFO] TRADER-001.BacktestEngine: pyo3_async_runtimes: 0.29.0[0m
+[1m2026-11-02T10:39:07.570546122Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T10:39:07.570560819Z[0m [INFO] TRADER-001.nautilus_system::kernel: Building system kernel[0m
+[1m2026-11-02T10:39:07.573948867Z[0m [INFO] TRADER-001.nautilus_execution::engine: Set client SIM routing for SIM[0m
+[1m2026-11-02T10:39:07.573995734Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Adding exchange SIM to engine[0m
+[1m2026-11-02T10:39:07.574305081Z[0m [INFO] TRADER-001.nautilus_backtest::exchange: Added instrument SYN-USD.SIM and created matching engine[0m
+[1m2026-11-02T10:39:07.574855618Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Added instrument SYN-USD.SIM to exchange SIM[0m
+[1m2026-11-02T10:39:07.575354148Z[0m [INFO] TRADER-001.fixture-A: Ready[0m
+[1m2026-11-02T10:39:07.575573868Z[0m [INFO] TRADER-001.nautilus_system::python::registration: Registered Python strategy fixture-A with trader TRADER-001[0m
+[1m2026-11-02T10:39:07.575622178Z[0m [INFO] TRADER-001.fixture-B: Ready[0m
+[1m2026-11-02T10:39:07.575636896Z[0m [INFO] TRADER-001.nautilus_system::python::registration: Registered Python strategy fixture-B with trader TRADER-001[0m
+[1m2026-11-02T10:39:07.575933098Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Added 2 data elements to BacktestEngine (2 total)[0m
+[1m2026-11-02T10:39:07.576361127Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: Updated AccountState(account_id=SIM-001, account_type=CASH, base_currency=None, is_reported=true, balances=[AccountBalance(total=0.00000000 SYN, locked=0.00000000 SYN, free=0.00000000 SYN), AccountBalance(total=1000.00 USD, locked=0.00 USD, free=1000.00 USD), AccountBalance(total=40.00000000 USDT, locked=0.00000000 USDT, free=40.00000000 USDT)], margins=[], event_id=09a601ff-aa0f-483b-9eb1-5984a03d65ab)[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::kernel: Starting[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_execution::engine: Started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_risk::engine: Started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::kernel: Initializing trader[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::kernel: Started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::kernel: Starting trader...[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::trader: Starting[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.fixture-A: Starting[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Starting fixture-A[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.fixture-A: Running[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.fixture-B: Starting[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Starting fixture-B[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.fixture-B: Running[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::trader: Running[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_system::kernel: Trader started[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [94m[INFO] TRADER-001.nautilus_data::client: Subscribed SYN-USD.SIM quotes[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST PRE-RUN[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine:  SimulatedVenue SIM (CASH)[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Balances starting:[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine:   0.00000000 SYN[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine:   1000.00 USD[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine:   40.00000000 USDT[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST RUN[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run config ID:  None[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run ID:         ef1a514b-aa0a-492c-9154-9b21bb35581e[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest start: 2023-11-14T22:13:20.000009999Z[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Data elements:  2[0m
+[1m2023-11-14T22:13:20.000009999Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_system::kernel: Stopping trader...[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_system::trader: Stopping[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.fixture-A: Stopping[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.fixture-A: Stopped[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.fixture-B: Stopping[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.fixture-B: Stopped[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_system::trader: Stopped[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_risk::engine: Stopped[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client stopped[0m
+[1m2023-11-14T22:13:20.000050100Z[0m [INFO] TRADER-001.nautilus_execution::engine: Stopped[0m
+[1m2026-11-02T10:39:07.580073082Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T10:39:07.580079384Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST POST-RUN[0m
+[1m2026-11-02T10:39:07.580079594Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T10:39:07.580089843Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run config ID:  None[0m
+[1m2026-11-02T10:39:07.580095374Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run ID:         ef1a514b-aa0a-492c-9154-9b21bb35581e[0m
+[1m2026-11-02T10:39:07.580096075Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run started:    2026-11-02T10:39:07.576185790Z[0m
+[1m2026-11-02T10:39:07.580096496Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run finished:   2026-11-02T10:39:07.580021065Z[0m
+[1m2026-11-02T10:39:07.580096726Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Elapsed time:   0 days 00:00:00.003835[0m
+[1m2026-11-02T10:39:07.580096917Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest start: 2023-11-14T22:13:20.000009999Z[0m
+[1m2026-11-02T10:39:07.580097057Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest end:   2023-11-14T22:13:20.000050100Z[0m
+[1m2026-11-02T10:39:07.580097337Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest range: 0 days 00:00:00.000040[0m
+[1m2026-11-02T10:39:07.580097598Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Iterations: 2[0m
+[1m2026-11-02T10:39:07.580097988Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total events: 0[0m
+[1m2026-11-02T10:39:07.580098149Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total orders: 0[0m
+[1m2026-11-02T10:39:07.580098610Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total positions: 0[0m
+[1m2026-11-02T10:39:07.580404240Z[0m [INFO] TRADER-001.nautilus_system::kernel: Disposing[0m
+[1m2026-11-02T10:39:07.580450807Z[0m [INFO] TRADER-001.nautilus_system::trader: Disposing[0m
+[1m2026-11-02T10:39:07.580458391Z[0m [INFO] TRADER-001.fixture-A: Disposing[0m
+[1m2026-11-02T10:39:07.580561413Z[0m [INFO] TRADER-001.fixture-A: Disposed[0m
+[1m2026-11-02T10:39:07.580702596Z[0m [INFO] TRADER-001.fixture-B: Disposing[0m
+[1m2026-11-02T10:39:07.580716112Z[0m [INFO] TRADER-001.fixture-B: Disposed[0m
+[1m2026-11-02T10:39:07.580719358Z[0m [INFO] TRADER-001.nautilus_system::trader: Disposed[0m
+[1m2026-11-02T10:39:07.580732983Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client stopped[0m
+[1m2026-11-02T10:39:07.580741309Z[0m [INFO] TRADER-001.nautilus_execution::engine: Stopped[0m
+[1m2026-11-02T10:39:07.580741579Z[0m [INFO] TRADER-001.nautilus_risk::engine: Stopped[0m
+[1m2026-11-02T10:39:07.580741729Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Stopped[0m
+[1m2026-11-02T10:39:07.580744926Z[0m [INFO] TRADER-001.nautilus_execution::engine: Disposed[0m
+[1m2026-11-02T10:39:07.580745186Z[0m [INFO] TRADER-001.nautilus_risk::engine: Disposed[0m
+[1m2026-11-02T10:39:07.580766977Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Disposed[0m
+[1m2026-11-02T10:39:07.580814415Z[0m [INFO] TRADER-001.nautilus_common::cache: Reset cache[0m
+[1m2026-11-02T10:39:07.580871632Z[0m [INFO] TRADER-001.nautilus_system::kernel: Disposed[0m
+{"case_id": "E1-causality", "native_worker_completed": true, "fills": 0, "callback_errors": 0}

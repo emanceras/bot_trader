@@ -1,0 +1,21 @@
+{
+  "case_id": "E2-accounting",
+  "problems": [
+    "required_fill_quantity:buy-2",
+    "required_fill_quantity:sell-1",
+    "required_liquidity_role:buy-2",
+    "required_liquidity_role:sell-1",
+    "required_rejection:bad-step",
+    "required_rejection:below-minimum",
+    "required_rejection:insufficient",
+    "worker_callback_errors"
+  ],
+  "component_checks_pass": false,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {},
+  "specifics": {
+    "conversion_origin": "harness causal Decimal conversion; native USD/USDT cash remains distinct"
+  },
+  "observation_file": "E2-initial.json"
+}

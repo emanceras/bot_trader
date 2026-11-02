@@ -1,0 +1,19 @@
+{
+  "case_id": "E5-reference",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/recovery/corrected/nautilus_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/recovery/research-restoration/same-source-engine-cases.json",
+    "--case",
+    "E5-reference",
+    "--output",
+    "/workspace/technical-admission/E/recovery/research-restoration/reference/observations.json",
+    "--journal",
+    "/workspace/technical-admission/E/recovery/research-restoration/reference/journal"
+  ],
+  "cut": null,
+  "exit_code": 0,
+  "timed_out": false,
+  "wall_seconds": 0.515336638000008
+}

@@ -1,0 +1,16 @@
+{
+  "recorded_utc": "2026-11-02T10:39:40.214114+00:00",
+  "sources": {
+    "nautilus_worker.py": "f28e39871b1e39b93e913db21c11a1c982f735c7de22caf5e80e8714f31c0fee",
+    "evaluate_nautilus.py": "071ac469728036f5cde23e2ffc0c870a7721648623057bf6bbbf41407cdbde81",
+    "engine_fixtures.py": "8cc5da60e751b089a319f8ade7da7d7c996b32113d5c6ebb37d918bc61c82686"
+  },
+  "revision": 1,
+  "reason": "E2 initial clock callbacks attempted engine.cache during mutable engine.run borrow; capture existing shared cache before run instead",
+  "affected_executed_cases": [
+    "E2-accounting"
+  ],
+  "E1_not_rerun": true,
+  "fixtures_or_expectations_changed": false,
+  "corrective_allowance_exhausted_after_this_revision": true
+}

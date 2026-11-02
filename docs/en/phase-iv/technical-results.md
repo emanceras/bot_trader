@@ -1,5 +1,7 @@
 # M, R and E — executed technical admission
 
+**Recovery update, 2026-11-02:** D-048/D-049 records actual Nautilus execution with standard Python 3.13.16, adverse/partial cases and the finite consumption diagnostic. Read the [new report](engine-recovery.md). This dated report below remains the original `00131bc` record; M/R and LEAN were not repeated.
+
 Document ID: IV-TECH-RESULT-001 · Version: 1 · Date: 2026-11-01 · English canonical. [Spanish](../../es/phase-iv/technical-results.md).
 
 Authority is the user's [express execution approval](../../phase-iv/APPROVAL-M-R-E.es.md) of the exact scopes at `fa435a4`, recorded in D-046. The proposal documents retain their historical wording; this report records actual execution. No production migration, financial experiment, additional market data, Phase V or prospective trading is implied. E3/E4 remain pending.

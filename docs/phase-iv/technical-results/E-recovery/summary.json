@@ -1,0 +1,94 @@
+{
+  "authority": "D-048",
+  "recorded_date": "2026-11-02",
+  "engine": "NautilusTrader 2.0.0rc7",
+  "runtime": "CPython 3.13.16 standard",
+  "cases": [
+    {
+      "case_id": "E1-causality",
+      "status": "partial_harness_causal_guard",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E2-accounting",
+      "status": "native_accounting_rejections_pass_harness_conversion_partial_admission",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E3-L1",
+      "status": "failed_visible_quantity_requirement",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E3-L2",
+      "status": "market_route_blocked_price_reference_limit_cancel_components_observed",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E4-idempotency",
+      "status": "failed_order_fill_state_and_required_fill_count",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E5-reference",
+      "status": "reference_accounting_component_pass",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E5-after-submit-before-ack",
+      "status": "posthoc_reconstruction_only",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E5-after-fill-before-checkpoint",
+      "status": "posthoc_reconstruction_only",
+      "executed": true,
+      "full_original_case_admitted": false
+    },
+    {
+      "case_id": "E5-during-cancel",
+      "status": "posthoc_reconstruction_only",
+      "executed": true,
+      "full_original_case_admitted": false
+    }
+  ],
+  "not_executed": [
+    "E6-cold",
+    "E6-warm-1",
+    "E6-warm-2",
+    "E6-warm-3"
+  ],
+  "reason_E6": "Functional admission not achieved; fixed gate retained",
+  "additional_diagnostic_configurations_executed": 4,
+  "native_process_invocations_recovery": 17,
+  "case_correction_cycles": 1,
+  "rerun_cases": [
+    "E2-accounting"
+  ],
+  "cumulative_original_26_slots": {
+    "component_cases_executed": 12,
+    "slots_unexecuted": 14,
+    "full_cases_admitted": 0
+  },
+  "M_R_LEAN_repeated": false,
+  "production_changed": false,
+  "financial_phase_V_authorized": false,
+  "resource_delta_from_00131bc": {
+    "active_wall_seconds": 21.244047905994194,
+    "guard_cpu_seconds": 10.281704999999988,
+    "software_transfer_allowance_bytes_charged": 107247021,
+    "current_scratch_regular_file_bytes": 594733238
+  },
+  "limits": [
+    "Executed component slot does not mean full original acceptance coverage",
+    "E5 same-source recomputation and post-hoc journal consolidation are harness research evidence, not a before-action recovery gate",
+    "No new financial data, spending or full financial adapter"
+  ]
+}

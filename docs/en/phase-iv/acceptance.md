@@ -1,6 +1,8 @@
 # Phase IV — coverage, pending decisions and Phase V gate
 
-Document ID: ACCEPT-IV-001 · Version: 6 · Date: 2026-11-01 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
+**Execution status only — D-049:** [E recovery](engine-recovery.md) unblocked Nautilus and exercised nine functional component slots plus four diagnostics. No full E admission: L1 quantity, duplicate-order state, L2 risk-price integration, native causal coverage and pre-action recovery remain unresolved. M/R and prior LEAN evidence preserved. This update changes no scientific acceptance criterion or financial permission.
+
+Document ID: ACCEPT-IV-001 · Version: 7 · Date: 2026-11-02 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
 
 ## Disposition
 

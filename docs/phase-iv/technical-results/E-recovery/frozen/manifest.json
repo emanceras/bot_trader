@@ -1,0 +1,13 @@
+{
+  "recorded_utc": "2026-11-02T10:39:00.861804+00:00",
+  "sources": {
+    "nautilus_worker.py": "6bc7a6f5eb96b2e49ebb4acd7c1112f0680e7deb6e4736b6bcfe0809d94b180c",
+    "evaluate_nautilus.py": "071ac469728036f5cde23e2ffc0c870a7721648623057bf6bbbf41407cdbde81"
+  },
+  "fixture_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "state": "frozen before first native case",
+  "default_consumption": true,
+  "clock_only_drain": true,
+  "one_corrective_cycle_max": true,
+  "E5_status": "cuts available; reconciliation not yet implemented; no admission claim"
+}

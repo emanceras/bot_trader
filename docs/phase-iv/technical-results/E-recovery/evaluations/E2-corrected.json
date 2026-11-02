@@ -1,0 +1,15 @@
+{
+  "case_id": "E2-accounting",
+  "problems": [],
+  "component_checks_pass": true,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {
+    "buy-2": "2.00",
+    "sell-1": "1.00"
+  },
+  "specifics": {
+    "conversion_origin": "harness causal Decimal conversion; native USD/USDT cash remains distinct"
+  },
+  "observation_file": "E2-corrected.json"
+}

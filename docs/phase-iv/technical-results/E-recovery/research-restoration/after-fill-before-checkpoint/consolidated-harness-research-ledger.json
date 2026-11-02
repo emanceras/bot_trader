@@ -1,0 +1,23 @@
+{
+  "duplicate_rows_suppressed": 1,
+  "fills": [
+    {
+      "at": 1700000000000012000,
+      "command_id": "recovery-buy",
+      "fee": "0.40",
+      "fee_currency": "USD",
+      "fill_id": "T-240c8a3697f571ab-001",
+      "instrument_id": "SYN-USD.SIM",
+      "liquidity_role": "taker",
+      "origin": "native OrderFilled; no expected-fill injection",
+      "price": "100.00",
+      "quantity": "2.00",
+      "side": "BUY",
+      "strategy_label": "strategy-A",
+      "venue": "SIM"
+    }
+  ],
+  "identity_conflicts": [],
+  "native_execution_or_resume_gate": false,
+  "origin": "post-hoc harness identity consolidation; no native ledger modification"
+}

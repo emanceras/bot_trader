@@ -1,0 +1,1 @@
+{"balances": {"SYN": "2.00000000", "USD": "799.60", "USDT": "40.00000000"}, "case_id": "E5-after-fill-before-checkpoint", "orders": [{"filled": "2.00", "id": "recovery-buy", "remaining": "0.00", "status": "FILLED", "strategy_id": "fixture-A"}, {"filled": "0.00", "id": "recovery-resting", "remaining": "1.00", "status": "CANCELED", "strategy_id": "fixture-A"}]}

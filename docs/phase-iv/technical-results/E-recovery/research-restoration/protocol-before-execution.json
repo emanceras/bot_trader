@@ -1,0 +1,32 @@
+{
+  "acceptance_component": [
+    "Reference completes with no callback or independent accounting error.",
+    "Each cut exits at its expected code, without completed checkpoint.",
+    "Original durable files retain their hashes after reconstruction.",
+    "Reconstruction uses the exact same persisted source bytes and fixture run_id.",
+    "Persisted command/event/fill streams equal prefixes of reconstruction streams.",
+    "Exact final native financial state equals the uninterrupted reference.",
+    "Identity-based consolidation never doubles an existing fill and never merges unequal identities."
+  ],
+  "case_attempts": 4,
+  "cut_exit_codes": {
+    "after-fill-before-checkpoint": 72,
+    "after-submit-before-ack": 71,
+    "during-cancel": 73
+  },
+  "full_original_E5_admission": false,
+  "initial_conditions": "Frozen fixture unchanged; consumption=true, L1, standard pinned runtime",
+  "limitations": [
+    "Reconstruction starts a fresh isolated simulator using the same durable source, not a native checkpoint.",
+    "The venue-fills file is a native callback journal, not an independent venue authority.",
+    "Prefix reconciliation is post-hoc; no before-new-command recovery gate exists in the worker.",
+    "Idempotency belongs to the consolidated harness research ledger, not native duplicate-event handling.",
+    "No exchange, unknown external fill, broker restart or prospective safe resumption is tested."
+  ],
+  "maximum_native_processes": 7,
+  "oracle_sha256": "8cc5da60e751b089a319f8ade7da7d7c996b32113d5c6ebb37d918bc61c82686",
+  "recorded_utc": "2026-11-02T19:08:55.792490+00:00",
+  "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "supervisor_sha256": "34153916666facf9f3ab264ae541d89243ff692880be677feda1d197c61a13cb",
+  "worker_sha256": "f28e39871b1e39b93e913db21c11a1c982f735c7de22caf5e80e8714f31c0fee"
+}

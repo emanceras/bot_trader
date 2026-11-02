@@ -1,0 +1,5 @@
+Using Python 3.13.16 environment at: recovery/venv
+Resolved 1 package in 4ms
+Prepared 1 package in 452ms
+Installed 1 package in 3ms
+ + nautilus-trader==2.0.0rc7 (from file:///workspace/technical-admission/E/recovery/nautilus_trader-2.0.0rc7-cp313-cp313-manylinux_2_34_x86_64.whl)

@@ -1,0 +1,56 @@
+{
+  "full_original_E5_admission": false,
+  "interpretation": "Actual cuts and same-source deterministic research recomputation only. Post-hoc comparison cannot demonstrate reconciliation before new commands.",
+  "native_process_invocations": 7,
+  "prospective_recovery_proved": false,
+  "reference_problems": [],
+  "results": [
+    {
+      "case_id": "E5-after-submit-before-ack",
+      "cut_exit_code": 71,
+      "duplicate_rows_suppressed": 0,
+      "full_original_E5_admission": false,
+      "new_command_reconciliation_gate": "absent; post-hoc audit only",
+      "original_journal_hashes": {
+        "commands.jsonl": "f9c9c8755fb7decdd6577c31e4a86c15f56ddc126f0d467bedc194ddbcfb6aa8",
+        "native-events.jsonl": "c62d76ce476c89d0f4ff21e9505ae9ed1f2dba13a0f1c9c2ee0a0e9456177885"
+      },
+      "problems": [],
+      "run_id": "fixed-E5-interrupted-state",
+      "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+      "status": "posthoc_reconstruction_component_checks_pass"
+    },
+    {
+      "case_id": "E5-after-fill-before-checkpoint",
+      "cut_exit_code": 72,
+      "duplicate_rows_suppressed": 1,
+      "full_original_E5_admission": false,
+      "new_command_reconciliation_gate": "absent; post-hoc audit only",
+      "original_journal_hashes": {
+        "commands.jsonl": "f9c9c8755fb7decdd6577c31e4a86c15f56ddc126f0d467bedc194ddbcfb6aa8",
+        "native-events.jsonl": "1b5d9550124a7e908320e3d61eaf491348ee84108af2d4b6cc779fc30fddf3d7",
+        "venue-fills.jsonl": "6f2f28c7d7fac567b987b1c41c984552af3c1ae6b496de887ac7887f953742e4"
+      },
+      "problems": [],
+      "run_id": "fixed-E5-interrupted-state",
+      "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+      "status": "posthoc_reconstruction_component_checks_pass"
+    },
+    {
+      "case_id": "E5-during-cancel",
+      "cut_exit_code": 73,
+      "duplicate_rows_suppressed": 1,
+      "full_original_E5_admission": false,
+      "new_command_reconciliation_gate": "absent; post-hoc audit only",
+      "original_journal_hashes": {
+        "commands.jsonl": "f6e8f386cbf1ba9393ba959a89e91a2f3c8923bad58543312c9bc9dcc12bd788",
+        "native-events.jsonl": "ec8fae10c97aaaa39d669138f9ab525ae68969288fee40cb19849795221d20a5",
+        "venue-fills.jsonl": "6f2f28c7d7fac567b987b1c41c984552af3c1ae6b496de887ac7887f953742e4"
+      },
+      "problems": [],
+      "run_id": "fixed-E5-interrupted-state",
+      "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+      "status": "posthoc_reconstruction_component_checks_pass"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+Using CPython 3.13.16 interpreter at: recovery/python/cpython-3.13.16-linux-x86_64-gnu/bin/python3.13
+Creating virtual environment at: recovery/venv
+Activate with: source recovery/venv/bin/activate

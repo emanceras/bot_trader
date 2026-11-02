@@ -1,5 +1,7 @@
 # M/R/E execution checkpoint
 
+**Current checkpoint — 2026-11-02, D-048/D-049:** [E recovery receipts and resumption boundary](E-recovery/README.md), [report EN](../../en/phase-iv/engine-recovery.md) / [ES](../../es/phase-iv/engine-recovery.md). Standard CPython3.13.16 installed with exact rc7 wheel; nine Nautilus functional slots exercised partially, four diagnostics, one affected E2 correction. Actual E5 cuts/recomputation are post-hoc research evidence only. E remains unadmitted; no E6, M/R or LEAN repetition. One correction cycle spent; do not repair/rerun again by implication. Production preserved, E3/E4/V pending. **The sections below are the historical 00131bc checkpoint**, not the current runtime blocker.
+
 Updated: 2026-11-01. Canonical English; resumen español below. Scope commit: `fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f`. Authority: [express execution approval](../APPROVAL-M-R-E.es.md), D-046.
 
 ## Actual state and resumption

@@ -1,0 +1,21 @@
+{
+  "case_id": "E5-after-submit-before-ack",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/recovery/corrected/nautilus_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/recovery/research-restoration/same-source-engine-cases.json",
+    "--case",
+    "E5-after-submit-before-ack",
+    "--output",
+    "/workspace/technical-admission/E/recovery/research-restoration/after-submit-before-ack/interrupted/observations.json",
+    "--journal",
+    "/workspace/technical-admission/E/recovery/research-restoration/after-submit-before-ack/interrupted/journal",
+    "--cut",
+    "after-submit-before-ack"
+  ],
+  "cut": "after-submit-before-ack",
+  "exit_code": 71,
+  "timed_out": false,
+  "wall_seconds": 0.36491431400281726
+}

@@ -1,0 +1,16 @@
+{
+  "case_id": "E5-after-fill-before-checkpoint",
+  "cut_exit_code": 72,
+  "duplicate_rows_suppressed": 1,
+  "full_original_E5_admission": false,
+  "new_command_reconciliation_gate": "absent; post-hoc audit only",
+  "original_journal_hashes": {
+    "commands.jsonl": "f9c9c8755fb7decdd6577c31e4a86c15f56ddc126f0d467bedc194ddbcfb6aa8",
+    "native-events.jsonl": "1b5d9550124a7e908320e3d61eaf491348ee84108af2d4b6cc779fc30fddf3d7",
+    "venue-fills.jsonl": "6f2f28c7d7fac567b987b1c41c984552af3c1ae6b496de887ac7887f953742e4"
+  },
+  "problems": [],
+  "run_id": "fixed-E5-interrupted-state",
+  "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "status": "posthoc_reconstruction_component_checks_pass"
+}

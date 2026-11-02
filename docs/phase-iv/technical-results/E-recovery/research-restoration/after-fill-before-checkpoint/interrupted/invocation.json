@@ -1,0 +1,21 @@
+{
+  "case_id": "E5-after-fill-before-checkpoint",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/recovery/corrected/nautilus_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/recovery/research-restoration/same-source-engine-cases.json",
+    "--case",
+    "E5-after-fill-before-checkpoint",
+    "--output",
+    "/workspace/technical-admission/E/recovery/research-restoration/after-fill-before-checkpoint/interrupted/observations.json",
+    "--journal",
+    "/workspace/technical-admission/E/recovery/research-restoration/after-fill-before-checkpoint/interrupted/journal",
+    "--cut",
+    "after-fill-before-checkpoint"
+  ],
+  "cut": "after-fill-before-checkpoint",
+  "exit_code": 72,
+  "timed_out": false,
+  "wall_seconds": 0.3647482039996248
+}

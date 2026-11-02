@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-11-01T19:00:25.890644+00:00",
+  "state": "fixed_before_runtime_or_wheel_installation",
+  "uv_version": "0.12.23",
+  "selected_runtime": {
+    "key": "cpython-3.13.16-linux-x86_64-gnu",
+    "version": "3.13.16",
+    "version_parts": {
+      "major": 3,
+      "minor": 13,
+      "patch": 16
+    },
+    "path": null,
+    "symlink": null,
+    "url": "https://releases.astral.sh/github/python-build-standalone/releases/download/20261003/cpython-3.13.16%2B20261003-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz",
+    "os": "linux",
+    "variant": "default",
+    "implementation": "cpython",
+    "arch": "x86_64",
+    "libc": "gnu"
+  },
+  "selection_rule": "highest available standard CPython3.13 patch for Linuxx86_64GNU in existing uv, not a newer installer/free-threaded/3.14",
+  "runtime_sha256": "4595c5589fff7bf0cb158d9a88a797e0d791fa33830770fcb7bf3f4b104feeae",
+  "runtime_digest_source": "https://github.com/astral-sh/python-build-standalone/releases/download/20261003/SHA256SUMS",
+  "runtime_checksum_manifest_sha256": "d629718db5cfecb28494e6ba83386ee9a1205975493f904392dac2e3fe5f8813",
+  "runtime_size": "not yet transferred; bounded at128MiB",
+  "wheel": {
+    "filename": "nautilus_trader-2.0.0rc7-cp313-cp313-manylinux_2_34_x86_64.whl",
+    "url": "https://files.pythonhosted.org/packages/6e/02/d4afa1eeb2579f0f1b13859eef7eddf9b2af3bc775af219643b92592da28/nautilus_trader-2.0.0rc7-cp313-cp313-manylinux_2_34_x86_64.whl",
+    "size": 72042580,
+    "sha256": "b3928f37d75d57508030a421dc762186ad1f9ffc5d5420d7daf1d2c6badb8044",
+    "requires_python": "<3.15,>=3.13",
+    "requires_dist": [
+      "pandas<4.0.0,>=2.3.3; extra == \"visualization\"",
+      "plotly<8.0.0,>=7.0.0; extra == \"visualization\"",
+      "kaleido<2.0.0,>=1.4.0; extra == \"visualization\"",
+      "simplejson<5.0.0,>=4.2.0; extra == \"visualization\""
+    ]
+  },
+  "mandatory_python_dependencies": [],
+  "extras_selected": [],
+  "production_change": false
+}

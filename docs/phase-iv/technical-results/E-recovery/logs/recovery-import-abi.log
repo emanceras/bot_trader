@@ -1,0 +1,1 @@
+{"python": "3.13.16 (main, Oct  3 2026, 01:06:22) [Clang 22.1.3 ]", "implementation": "cpython", "abi": "cpython-313-x86_64-linux-gnu", "free_threaded": false, "package_version": "2.0.0rc7", "module": "/workspace/technical-admission/E/recovery/venv/lib/python3.13/site-packages/nautilus_trader/__init__.py", "USD": "USD"}

@@ -1,0 +1,16 @@
+{
+  "case_id": "E5-during-cancel",
+  "cut_exit_code": 73,
+  "duplicate_rows_suppressed": 1,
+  "full_original_E5_admission": false,
+  "new_command_reconciliation_gate": "absent; post-hoc audit only",
+  "original_journal_hashes": {
+    "commands.jsonl": "f6e8f386cbf1ba9393ba959a89e91a2f3c8923bad58543312c9bc9dcc12bd788",
+    "native-events.jsonl": "ec8fae10c97aaaa39d669138f9ab525ae68969288fee40cb19849795221d20a5",
+    "venue-fills.jsonl": "6f2f28c7d7fac567b987b1c41c984552af3c1ae6b496de887ac7887f953742e4"
+  },
+  "problems": [],
+  "run_id": "fixed-E5-interrupted-state",
+  "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "status": "posthoc_reconstruction_component_checks_pass"
+}

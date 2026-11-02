@@ -1,0 +1,15 @@
+{
+  "case_id": "E5-after-submit-before-ack",
+  "cut_exit_code": 71,
+  "duplicate_rows_suppressed": 0,
+  "full_original_E5_admission": false,
+  "new_command_reconciliation_gate": "absent; post-hoc audit only",
+  "original_journal_hashes": {
+    "commands.jsonl": "f9c9c8755fb7decdd6577c31e4a86c15f56ddc126f0d467bedc194ddbcfb6aa8",
+    "native-events.jsonl": "c62d76ce476c89d0f4ff21e9505ae9ed1f2dba13a0f1c9c2ee0a0e9456177885"
+  },
+  "problems": [],
+  "run_id": "fixed-E5-interrupted-state",
+  "source_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "status": "posthoc_reconstruction_component_checks_pass"
+}

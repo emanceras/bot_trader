@@ -1,0 +1,21 @@
+{
+  "case_id": "E5-during-cancel",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/recovery/corrected/nautilus_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/recovery/research-restoration/same-source-engine-cases.json",
+    "--case",
+    "E5-during-cancel",
+    "--output",
+    "/workspace/technical-admission/E/recovery/research-restoration/during-cancel/interrupted/observations.json",
+    "--journal",
+    "/workspace/technical-admission/E/recovery/research-restoration/during-cancel/interrupted/journal",
+    "--cut",
+    "during-cancel"
+  ],
+  "cut": "during-cancel",
+  "exit_code": 73,
+  "timed_out": false,
+  "wall_seconds": 0.36488988300334313
+}

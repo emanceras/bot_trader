@@ -1,0 +1,12 @@
+{
+  "case_id": "E1-causality",
+  "problems": [],
+  "component_checks_pass": true,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {},
+  "specifics": {
+    "full_R_native_parity": "not established; small canary and harness decision rule only"
+  },
+  "observation_file": "E1-initial.json"
+}

@@ -1,0 +1,20 @@
+{
+  "case_id": "D-L1_MBP-consumption-false",
+  "problems": [],
+  "component_checks_pass": true,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {
+    "competing-first": "1.00",
+    "competing-second": "1.00"
+  },
+  "specifics": {
+    "initial_visible_ask_quantity": "1.00",
+    "filled_total": "2.00",
+    "derived_initial_budget_minus_fills": "-1.00",
+    "derived_budget_is_native_counter": false,
+    "category": "filled_total_exceeds_initial_visible",
+    "no_intervening_market_updates": true
+  },
+  "observation_file": "D-L1_MBP-consumption-false.json"
+}

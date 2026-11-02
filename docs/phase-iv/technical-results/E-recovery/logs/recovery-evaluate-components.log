@@ -1,0 +1,172 @@
+[
+  {
+    "case_id": "D-L1_MBP-consumption-false",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "competing-first": "1.00",
+      "competing-second": "1.00"
+    },
+    "specifics": {
+      "initial_visible_ask_quantity": "1.00",
+      "filled_total": "2.00",
+      "derived_initial_budget_minus_fills": "-1.00",
+      "derived_budget_is_native_counter": false,
+      "category": "filled_total_exceeds_initial_visible",
+      "no_intervening_market_updates": true
+    },
+    "observation_file": "D-L1_MBP-consumption-false.json"
+  },
+  {
+    "case_id": "D-L1_MBP-consumption-true",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "competing-first": "1.00"
+    },
+    "specifics": {
+      "initial_visible_ask_quantity": "1.00",
+      "filled_total": "1.00",
+      "derived_initial_budget_minus_fills": "0.00",
+      "derived_budget_is_native_counter": false,
+      "category": "filled_total_at_most_initial_visible",
+      "no_intervening_market_updates": true
+    },
+    "observation_file": "D-L1_MBP-consumption-true.json"
+  },
+  {
+    "case_id": "D-L2_MBP-consumption-false",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {},
+    "specifics": {
+      "initial_visible_ask_quantity": "1.00",
+      "filled_total": "0",
+      "derived_initial_budget_minus_fills": "1.00",
+      "derived_budget_is_native_counter": false,
+      "category": "no_native_effect",
+      "no_intervening_market_updates": true
+    },
+    "observation_file": "D-L2_MBP-consumption-false.json"
+  },
+  {
+    "case_id": "D-L2_MBP-consumption-true",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {},
+    "specifics": {
+      "initial_visible_ask_quantity": "1.00",
+      "filled_total": "0",
+      "derived_initial_budget_minus_fills": "1.00",
+      "derived_budget_is_native_counter": false,
+      "category": "no_native_effect",
+      "no_intervening_market_updates": true
+    },
+    "observation_file": "D-L2_MBP-consumption-true.json"
+  },
+  {
+    "case_id": "E1-causality",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {},
+    "specifics": {
+      "full_R_native_parity": "not established; small canary and harness decision rule only"
+    },
+    "observation_file": "E1-initial.json"
+  },
+  {
+    "case_id": "E2-accounting",
+    "problems": [],
+    "component_checks_pass": true,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "buy-2": "2.00",
+      "sell-1": "1.00"
+    },
+    "specifics": {
+      "conversion_origin": "harness causal Decimal conversion; native USD/USDT cash remains distinct"
+    },
+    "observation_file": "E2-corrected.json"
+  },
+  {
+    "case_id": "E2-accounting",
+    "problems": [
+      "required_fill_quantity:buy-2",
+      "required_fill_quantity:sell-1",
+      "required_liquidity_role:buy-2",
+      "required_liquidity_role:sell-1",
+      "required_rejection:bad-step",
+      "required_rejection:below-minimum",
+      "required_rejection:insufficient",
+      "worker_callback_errors"
+    ],
+    "component_checks_pass": false,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {},
+    "specifics": {
+      "conversion_origin": "harness causal Decimal conversion; native USD/USDT cash remains distinct"
+    },
+    "observation_file": "E2-initial.json"
+  },
+  {
+    "case_id": "E3-L1",
+    "problems": [
+      "fill_exceeds_visible_L1_quantity"
+    ],
+    "component_checks_pass": false,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "l1-market-4": "4.00"
+    },
+    "specifics": {},
+    "observation_file": "E3-L1-initial.json"
+  },
+  {
+    "case_id": "E3-L2",
+    "problems": [
+      "depth_market_levels_differ"
+    ],
+    "component_checks_pass": false,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "resting-partial": "1.00"
+    },
+    "specifics": {
+      "IOC_quantity": "0",
+      "IOC_arrival_before_next_snapshot": true
+    },
+    "observation_file": "E3-L2-initial.json"
+  },
+  {
+    "case_id": "E4-idempotency",
+    "problems": [
+      "distinct_equal_fills_not_preserved",
+      "required_fill_quantity:shared-first"
+    ],
+    "component_checks_pass": false,
+    "full_E_admission": false,
+    "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+    "filled_by_command": {
+      "shared-first": "3.00"
+    },
+    "specifics": {
+      "duplicate_fill_redelivery": "not exercised by this worker; native fill-id replay remains unproved",
+      "shared_capital_policy": "native risk/account behavior; no harness reservation shim"
+    },
+    "observation_file": "E4-idempotency-initial.json"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "scope": "Post-execution inspection of existing evidence, not changed oracle or new engine runs",
+  "E4": {
+    "fill_quantity_sum": "3.00",
+    "final_order": {
+      "id": "shared-first",
+      "status": "DENIED",
+      "filled": "0.00",
+      "remaining": "6.00",
+      "strategy_id": "fixture-A"
+    },
+    "native_balances": {
+      "SYN": "3.00000000",
+      "USD": "699.40",
+      "USDT": "40.00000000"
+    },
+    "native_free": {
+      "SYN": "3.00000000",
+      "USD": "399.40",
+      "USDT": "40.00000000"
+    },
+    "native_reserved": {
+      "SYN": "0E-8",
+      "USD": "300.00",
+      "USDT": "0E-8"
+    },
+    "finding": "Duplicate submission of same client identity leaves cached order DENIED/filled0 despite native fill3 and position3, plus USD300 reserved although cached orders are terminal. Scalar conservation alone is insufficient. This direct-resubmission path is unadmitted; no claim about all integrations."
+  },
+  "diagnostic_marker": {
+    "finding": "One market callback per configuration; no fills at/after terminal marker. Final two module-book snapshots have identical prices/depth. This observes no book change from NONE marker; does not certify hidden consumption counters."
+  },
+  "L2": {
+    "finding": "MARKET_PRICE_UNAVAILABLE denial precedes OrderSubmitted; cache has depth but no QuoteTick. Neither L2 diagnostic configuration reaches market matching. Requires a separately approved causal reference-price bridge review, not disabled risk or injected fills."
+  }
+}

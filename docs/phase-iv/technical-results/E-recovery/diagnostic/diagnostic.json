@@ -1,0 +1,346 @@
+{
+  "admission_effect": "complementary observation; does not replace or amend frozen E acceptance",
+  "authority": "D-048 user supplement; four initial applicable configurations only",
+  "cases": [
+    {
+      "account_id": "shared-synthetic-account",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "case_id": "D-L1_MBP-consumption-false",
+      "commands": [
+        {
+          "available_ns": 1700000000000011000,
+          "command_id": "competing-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        {
+          "available_ns": 1700000000000012000,
+          "command_id": "competing-second",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        }
+      ],
+      "diagnostic_configuration": {
+        "book_type": "L1_MBP",
+        "clock_only_drain_after_last_command_allowed": true,
+        "initial_visible_ask_price": "100.00",
+        "initial_visible_ask_quantity": "1.00",
+        "liquidity_consumption": false,
+        "no_market_update_after_initial_event": true
+      },
+      "events": [
+        {
+          "ask": "100.00",
+          "ask_size": "1.00",
+          "available_ns": 1700000000000010000,
+          "bid": "99.00",
+          "bid_size": "1.00",
+          "event_id": "source-100-quote",
+          "event_ns": 1700000000000010000,
+          "kind": "quote",
+          "receive_ordinal": 100
+        }
+      ],
+      "initial_cash": {
+        "SYN": "0.00",
+        "USD": "1000.00",
+        "USDT": "40.00"
+      },
+      "instrument": {
+        "base": "SYN",
+        "id": "SYN-USD.SIM",
+        "maker_fee": "0.001",
+        "minimum_notional": "10.00",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "quote": "USD",
+        "taker_fee": "0.002"
+      },
+      "latency_ns": 1000,
+      "run_id": "fixed-D-L1_MBP-consumption-false",
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "synthetic": true,
+      "time_unit": "nanoseconds"
+    },
+    {
+      "account_id": "shared-synthetic-account",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "case_id": "D-L1_MBP-consumption-true",
+      "commands": [
+        {
+          "available_ns": 1700000000000011000,
+          "command_id": "competing-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        {
+          "available_ns": 1700000000000012000,
+          "command_id": "competing-second",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        }
+      ],
+      "diagnostic_configuration": {
+        "book_type": "L1_MBP",
+        "clock_only_drain_after_last_command_allowed": true,
+        "initial_visible_ask_price": "100.00",
+        "initial_visible_ask_quantity": "1.00",
+        "liquidity_consumption": true,
+        "no_market_update_after_initial_event": true
+      },
+      "events": [
+        {
+          "ask": "100.00",
+          "ask_size": "1.00",
+          "available_ns": 1700000000000010000,
+          "bid": "99.00",
+          "bid_size": "1.00",
+          "event_id": "source-100-quote",
+          "event_ns": 1700000000000010000,
+          "kind": "quote",
+          "receive_ordinal": 100
+        }
+      ],
+      "initial_cash": {
+        "SYN": "0.00",
+        "USD": "1000.00",
+        "USDT": "40.00"
+      },
+      "instrument": {
+        "base": "SYN",
+        "id": "SYN-USD.SIM",
+        "maker_fee": "0.001",
+        "minimum_notional": "10.00",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "quote": "USD",
+        "taker_fee": "0.002"
+      },
+      "latency_ns": 1000,
+      "run_id": "fixed-D-L1_MBP-consumption-true",
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "synthetic": true,
+      "time_unit": "nanoseconds"
+    },
+    {
+      "account_id": "shared-synthetic-account",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "case_id": "D-L2_MBP-consumption-false",
+      "commands": [
+        {
+          "available_ns": 1700000000000011000,
+          "command_id": "competing-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        {
+          "available_ns": 1700000000000012000,
+          "command_id": "competing-second",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        }
+      ],
+      "diagnostic_configuration": {
+        "book_type": "L2_MBP",
+        "clock_only_drain_after_last_command_allowed": true,
+        "initial_visible_ask_price": "100.00",
+        "initial_visible_ask_quantity": "1.00",
+        "liquidity_consumption": false,
+        "no_market_update_after_initial_event": true
+      },
+      "events": [
+        {
+          "asks": [
+            [
+              "100.00",
+              "1.00"
+            ]
+          ],
+          "available_ns": 1700000000000010000,
+          "bids": [
+            [
+              "99.00",
+              "1.00"
+            ]
+          ],
+          "event_id": "source-100-book_snapshot",
+          "event_ns": 1700000000000010000,
+          "kind": "book_snapshot",
+          "receive_ordinal": 100
+        }
+      ],
+      "initial_cash": {
+        "SYN": "0.00",
+        "USD": "1000.00",
+        "USDT": "40.00"
+      },
+      "instrument": {
+        "base": "SYN",
+        "id": "SYN-USD.SIM",
+        "maker_fee": "0.001",
+        "minimum_notional": "10.00",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "quote": "USD",
+        "taker_fee": "0.002"
+      },
+      "latency_ns": 1000,
+      "run_id": "fixed-D-L2_MBP-consumption-false",
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "synthetic": true,
+      "time_unit": "nanoseconds"
+    },
+    {
+      "account_id": "shared-synthetic-account",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "case_id": "D-L2_MBP-consumption-true",
+      "commands": [
+        {
+          "available_ns": 1700000000000011000,
+          "command_id": "competing-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        {
+          "available_ns": 1700000000000012000,
+          "command_id": "competing-second",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "quantity": "1.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        }
+      ],
+      "diagnostic_configuration": {
+        "book_type": "L2_MBP",
+        "clock_only_drain_after_last_command_allowed": true,
+        "initial_visible_ask_price": "100.00",
+        "initial_visible_ask_quantity": "1.00",
+        "liquidity_consumption": true,
+        "no_market_update_after_initial_event": true
+      },
+      "events": [
+        {
+          "asks": [
+            [
+              "100.00",
+              "1.00"
+            ]
+          ],
+          "available_ns": 1700000000000010000,
+          "bids": [
+            [
+              "99.00",
+              "1.00"
+            ]
+          ],
+          "event_id": "source-100-book_snapshot",
+          "event_ns": 1700000000000010000,
+          "kind": "book_snapshot",
+          "receive_ordinal": 100
+        }
+      ],
+      "initial_cash": {
+        "SYN": "0.00",
+        "USD": "1000.00",
+        "USDT": "40.00"
+      },
+      "instrument": {
+        "base": "SYN",
+        "id": "SYN-USD.SIM",
+        "maker_fee": "0.001",
+        "minimum_notional": "10.00",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "quote": "USD",
+        "taker_fee": "0.002"
+      },
+      "latency_ns": 1000,
+      "run_id": "fixed-D-L2_MBP-consumption-true",
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "synthetic": true,
+      "time_unit": "nanoseconds"
+    }
+  ],
+  "limitations": [
+    "One invented level and two orders do not establish general market impact, queue priority or real liquidity.",
+    "An engine may retain raw displayed depth while separately tracking consumption; do not conflate the states.",
+    "External reported observations are not outcomes of this diagnostic."
+  ],
+  "no_expected_configuration_winner": true,
+  "predeclared_observation_categories": {
+    "configuration_unsupported": "not executed for that route; record native configuration error without a custom model",
+    "filled_total_at_most_initial_visible": "observed executions respect the single visible quantity budget",
+    "filled_total_exceeds_initial_visible": "observed executions reuse or exceed the single visible quantity budget",
+    "no_native_effect": "no fill observed; determine native rejection/cancellation/availability rather than calling a liquidity pass"
+  },
+  "prospective_checks": [
+    "Use exact fixture identity and command times; latency is applied once.",
+    "Exactly one initial market/book observation, no intervening or later liquidity refresh.",
+    "Two separate persistent command identities; native fill identities must remain distinct.",
+    "Each command quantity is1; no fill exceeds its requested quantity.",
+    "Retain native fills, prices, fees, order statuses and balances; no expected-fill injection.",
+    "Report book quantities before/after each order when exposed; otherwise mark native remaining state unknown.",
+    "Derived initial-visible-budget minus fills is an arithmetic diagnostic, not native remaining liquidity.",
+    "Compare observed quantities, statuses and native book reports for enabled/disabled settings within each book type."
+  ],
+  "schema": "bot-trader.consumption-diagnostic.v1",
+  "synthetic_only": true
+}

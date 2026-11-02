@@ -1,0 +1,18 @@
+{
+  "case_id": "E4-idempotency",
+  "problems": [
+    "distinct_equal_fills_not_preserved",
+    "required_fill_quantity:shared-first"
+  ],
+  "component_checks_pass": false,
+  "full_E_admission": false,
+  "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+  "filled_by_command": {
+    "shared-first": "3.00"
+  },
+  "specifics": {
+    "duplicate_fill_redelivery": "not exercised by this worker; native fill-id replay remains unproved",
+    "shared_capital_policy": "native risk/account behavior; no harness reservation shim"
+  },
+  "observation_file": "E4-idempotency-initial.json"
+}
