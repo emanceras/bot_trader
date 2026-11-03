@@ -1,0 +1,235 @@
+{
+  "schema": "D050-depth-diagnostics-v1",
+  "cases": [
+    {
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "synthetic": true,
+      "case_id": "D6-cancel",
+      "run_id": "fixed-D6-cancel",
+      "initial_cash": {
+        "USD": "1000.00",
+        "USDT": "40.00",
+        "SYN": "0.00"
+      },
+      "instrument": {
+        "id": "SYN-USD.SIM",
+        "base": "SYN",
+        "quote": "USD",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "minimum_notional": "10.00",
+        "maker_fee": "0.001",
+        "taker_fee": "0.002"
+      },
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "account_id": "shared-synthetic-account",
+      "latency_ns": 1000,
+      "time_unit": "nanoseconds",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "events": [
+        {
+          "event_id": "source-100-book_snapshot",
+          "event_ns": 1700000000000010000,
+          "available_ns": 1700000000000010000,
+          "receive_ordinal": 100,
+          "kind": "book_snapshot",
+          "bids": [
+            [
+              "99.00",
+              "5.00"
+            ]
+          ],
+          "asks": [
+            [
+              "100.00",
+              "1.00"
+            ],
+            [
+              "101.00",
+              "2.00"
+            ],
+            [
+              "102.00",
+              "1.00"
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "command_id": "D6-cancel-buy",
+          "available_ns": 1700000000000011000,
+          "strategy_id": "strategy-A",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "side": "BUY",
+          "quantity": "6.00",
+          "tif": "GTC"
+        },
+        {
+          "command_id": "D6-cancel-cancel",
+          "available_ns": 1700000000000035000,
+          "strategy_id": "strategy-A",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "cancel",
+          "target": "D6-cancel-buy"
+        }
+      ],
+      "diagnostic_expectations": {
+        "native_fills_only": true,
+        "initial_depth_quantity": "4.00",
+        "initial_levels": [
+          [
+            "100.00",
+            "1.00"
+          ],
+          [
+            "101.00",
+            "2.00"
+          ],
+          [
+            "102.00",
+            "1.00"
+          ]
+        ],
+        "no_execution_above_available_depth_before_refresh": true,
+        "remainder_states_are_observations_not_automatic_defects": [
+          "PARTIALLY_FILLED",
+          "CANCELED",
+          "REJECTED",
+          "FILLED"
+        ],
+        "accounting": "original independent per-fill Decimal equations; no injected fills",
+        "final_reservations_on_terminal_orders": "must be zero to admit reservation lifecycle",
+        "later_fill": "no additional book observation; inspect native state before/after explicit cancel"
+      }
+    },
+    {
+      "schema": "bot-trader.synthetic-engine-probe.v1",
+      "synthetic": true,
+      "case_id": "D6-replenish",
+      "run_id": "fixed-D6-replenish",
+      "initial_cash": {
+        "USD": "1000.00",
+        "USDT": "40.00",
+        "SYN": "0.00"
+      },
+      "instrument": {
+        "id": "SYN-USD.SIM",
+        "base": "SYN",
+        "quote": "USD",
+        "price_tick": "0.01",
+        "quantity_step": "0.01",
+        "minimum_notional": "10.00",
+        "maker_fee": "0.001",
+        "taker_fee": "0.002"
+      },
+      "strategy_ids": [
+        "strategy-A",
+        "strategy-B"
+      ],
+      "account_id": "shared-synthetic-account",
+      "latency_ns": 1000,
+      "time_unit": "nanoseconds",
+      "accounting": {
+        "USD_quantum": "0.01",
+        "fee_rounding": "ROUND_HALF_EVEN"
+      },
+      "events": [
+        {
+          "event_id": "source-100-book_snapshot",
+          "event_ns": 1700000000000010000,
+          "available_ns": 1700000000000010000,
+          "receive_ordinal": 100,
+          "kind": "book_snapshot",
+          "bids": [
+            [
+              "99.00",
+              "5.00"
+            ]
+          ],
+          "asks": [
+            [
+              "100.00",
+              "1.00"
+            ],
+            [
+              "101.00",
+              "2.00"
+            ],
+            [
+              "102.00",
+              "1.00"
+            ]
+          ]
+        },
+        {
+          "event_id": "source-300-book_snapshot",
+          "event_ns": 1700000000000030000,
+          "available_ns": 1700000000000030000,
+          "receive_ordinal": 300,
+          "kind": "book_snapshot",
+          "bids": [
+            [
+              "102.00",
+              "5.00"
+            ]
+          ],
+          "asks": [
+            [
+              "103.00",
+              "2.00"
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "command_id": "D6-replenish-buy",
+          "available_ns": 1700000000000011000,
+          "strategy_id": "strategy-A",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "market",
+          "side": "BUY",
+          "quantity": "6.00",
+          "tif": "GTC"
+        }
+      ],
+      "diagnostic_expectations": {
+        "native_fills_only": true,
+        "initial_depth_quantity": "4.00",
+        "initial_levels": [
+          [
+            "100.00",
+            "1.00"
+          ],
+          [
+            "101.00",
+            "2.00"
+          ],
+          [
+            "102.00",
+            "1.00"
+          ]
+        ],
+        "no_execution_above_available_depth_before_refresh": true,
+        "remainder_states_are_observations_not_automatic_defects": [
+          "PARTIALLY_FILLED",
+          "CANCELED",
+          "REJECTED",
+          "FILLED"
+        ],
+        "accounting": "original independent per-fill Decimal equations; no injected fills",
+        "final_reservations_on_terminal_orders": "must be zero to admit reservation lifecycle",
+        "later_fill": "only possible at/after offset300 with new depth103@2"
+      }
+    }
+  ],
+  "original_order4_diagnostic": "Original E3-L2 depth-market is the4-versus4 case; do not duplicate it"
+}

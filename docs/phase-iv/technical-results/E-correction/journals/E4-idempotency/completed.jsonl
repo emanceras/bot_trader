@@ -1,0 +1,1 @@
+{"balances": {"SYN": "3.00000000", "USD": "699.40", "USDT": "40.00000000"}, "case_id": "E4-idempotency", "orders": [{"filled": "3.00", "id": "shared-first", "remaining": "3.00", "status": "PARTIALLY_FILLED", "strategy_id": "fixture-A"}, {"filled": "0.00", "id": "shared-second", "remaining": "6.00", "status": "DENIED", "strategy_id": "fixture-B"}]}

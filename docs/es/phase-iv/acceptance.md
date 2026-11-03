@@ -1,8 +1,10 @@
 # Fase IV — cobertura, decisiones pendientes y acceso a Fase V
 
+**Estado vigente — D-051:** [corrección acotada](engine-correction.md): comprobaciones E3-L2 correctas; idempotencia E4 del supervisor conserva estado nativo, pero falta el segundo fill original exigido. Sin admisión incondicional del motor. E1/ejecución con velas, E3/E4 económicos y permisos financieros pendientes; criterios originales intactos.
+
 **Solo estado de ejecución — D-049:** la [recuperación E](engine-recovery.md) desbloqueó Nautilus y ejercitó nueve casos funcionales de componentes y cuatro diagnósticos. Sin admisión E completa: quedan cantidad L1, estado de órdenes duplicadas, precio de riesgo L2, cobertura causal nativa y recuperación antes de actuar. M/R y LEAN anteriores conservados. Sin cambio de criterios científicos ni permisos financieros.
 
-Documento: ACCEPT-IV-001 · Versión: 7 · Fecha: 2026-11-02 · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
+Documento: ACCEPT-IV-001 · Versión: 8 · Actualización de evidencia: 2026-11-03 UTC · Traducción del [original inglés](../../en/phase-iv/acceptance.md).
 
 ## Dictamen
 

@@ -1,8 +1,10 @@
 # Phase IV — coverage, pending decisions and Phase V gate
 
+**Current execution status — D-051:** [bounded correction](engine-correction.md): E3-L2 component checks pass; supervisor E4 idempotency preserves native state, but the original second-fill requirement remains adverse. No unconditional engine admission. Focused E1/bar execution, economic E3/E4 and financial permissions remain pending; original acceptance criteria unchanged.
+
 **Execution status only — D-049:** [E recovery](engine-recovery.md) unblocked Nautilus and exercised nine functional component slots plus four diagnostics. No full E admission: L1 quantity, duplicate-order state, L2 risk-price integration, native causal coverage and pre-action recovery remain unresolved. M/R and prior LEAN evidence preserved. This update changes no scientific acceptance criterion or financial permission.
 
-Document ID: ACCEPT-IV-001 · Version: 7 · Date: 2026-11-02 · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
+Document ID: ACCEPT-IV-001 · Version: 8 · Evidence update: 2026-11-03 UTC · English canonical. [Spanish](../../es/phase-iv/acceptance.md).
 
 ## Disposition
 

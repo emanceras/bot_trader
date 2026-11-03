@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-11-03T08:33:23.328129+00:00",
+  "source_sha256": "c1925058dbf6838dd830584dae900d68feaaaff6ee312612498c59d7ac0816ca",
+  "boundary_sha256": "1d6b44cc1d9c857246aa7c2b9a9b0acefe8acfcea2d50a7cbc6a257de0be1ac4",
+  "native_observation_sha256": "7936dc4452bee45fd3bb4f868693a77b4c9fa5186b931583cbeb601248b0ac22",
+  "synthetic_inputs": [
+    {
+      "venue": "SUPERVISOR-ONLY",
+      "fill_id": "synthetic-1",
+      "command_id": "synthetic-order",
+      "side": "BUY",
+      "quantity": "3.00",
+      "price": "100.00",
+      "fee": "0.60",
+      "fee_currency": "USD",
+      "origin": "hand-authored supervisor-only synthetic record"
+    },
+    {
+      "venue": "SUPERVISOR-ONLY",
+      "fill_id": "synthetic-2",
+      "command_id": "synthetic-order",
+      "side": "BUY",
+      "quantity": "3.00",
+      "price": "100.00",
+      "fee": "0.60",
+      "fee_currency": "USD",
+      "origin": "hand-authored supervisor-only synthetic record"
+    }
+  ],
+  "synthetic_expected": {
+    "USD": "398.80",
+    "SYN": "6.00",
+    "fees_USD": "1.20"
+  },
+  "criteria": [
+    "Known fill identity redelivery produces no second ledger effect",
+    "Equal-value different identities remain distinct",
+    "Conflicting same identity is rejected atomically",
+    "Actual native effects reconcile to observed cash/inventory/order/position/reserve",
+    "No native engine execution, no amendment of original E4 expected6"
+  ],
+  "freeze": "written before supervisor probe outcomes"
+}

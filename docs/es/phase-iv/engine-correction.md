@@ -1,0 +1,69 @@
+# Corrección acotada E3-L2 / E4 — resultados ejecutados
+
+Documento: IV-E-CORRECTION-001 · Versión: 1 · Evidencia: 2026-11-02–03 UTC. Traducción del [original canónico inglés](../../en/phase-iv/engine-correction.md).
+
+**E3-L2 supera las comprobaciones de componentes ejecutadas. El supervisor evita la corrupción por comando duplicado de E4, pero el fixture E4 original sigue sin cumplir su segundo fill nativo esperado. Nautilus conserva una candidatura condicionada, sin admisión financiera.** La [autorización D-050](../../phase-iv/APPROVAL-E3-E4-CORRECTION.es.md) permitió esta intervención tras `a3ec18f`. Se usaron seis de las doce ejecuciones permitidas: cuatro procesos nativos y dos pruebas del supervisor, más dos preparaciones contabilizadas aparte. Sin descargas, cambios de producción, repetición M/R/LEAN, E6 ni actividad financiera.
+
+La [evidencia](../../phase-iv/technical-results/E-correction/README.md) conserva código congelado, versiones anteriores, diffs exactos, manifiestos, observaciones nativas y comprobaciones fallidas. Una corrección por bloqueo; fixtures, hashes, expectativas y negativos originales intactos. No hubo segunda reparación ni repetición para favorecer resultados.
+
+## Precio de referencia, profundidad y remanente
+
+La ruta anterior, alimentada solo con profundidad, recibía `MARKET_PRICE_UNAVAILABLE` del riesgo nativo pese a tener libro y carecer de cotización en caché. El puente nuevo deriva únicamente **mejores bid/ask y sus tamaños existentes del mismo snapshot**; entrega deltas y cotización con los timestamps originales de evento/disponibilidad. Registra identidad, orden de recepción, hash de entrada y de transformación. Los callbacks observados muestran libro y después cotización antes de los comandos. Riesgo activo; sin modelo de fills nuevo, precios/cantidades adicionales ni información futura. Queda demostrado este requisito de referencia de precio en la ruta probada, no auditada cada consulta interna del riesgo a nivel de código fuente.
+
+| Caso ejecutado | Comportamiento nativo | Contabilidad y reservas |
+|---|---|---|
+| E3-L2 original, compra4 contra profundidad4 | 1@100, 2@101, 1@102; comisiones taker0,20+0,40+0,20. La limitada posterior ejecuta1@99, comisión maker0,10; IOC ejecuta0 y cancela2 antes del siguiente snapshot; la cancelada antes del fill ejecuta0 | Final496,10 USD,5 SYN,40 USDT. El remanente limitado2@99 reserva198 USD; tras cancelar queda0. Otra limitada reserva98 y su cancelación los libera. Reservas terminales0 |
+| D6-cancel independiente, compra de mercado GTC6 contra4 | Mismos tres fills iniciales, total4; permanece `PARTIALLY_FILLED`, pendiente2. Cancelación explícita deja `CANCELED`, ejecutado4 y sin ejecutar2 | 595,20 USD,4 SYN, comisiones0,80. La reserva nativa de efectivo del remanente de **mercado** es0 antes y después de cancelar; no se afirma liberar dinero nunca reservado |
+| D6-replenish independiente | Después de ejecutar4, un snapshot/cotización posterior ofrece103@2; la orden termina todavía `PARTIALLY_FILLED`, pendiente2 | Mismos595,20 USD/4 SYN/comisiones0,80; reserva0. **No se demuestra continuación automática**; la etiqueta de estado no promete una ejecución futura |
+
+La compra4 original cubre también el diagnóstico cuatro contra cuatro; no se duplicó. Los casos de seis unidades se congelaron antes de ejecutar. Ninguna orden original se convirtió en IOC/FOK. Las observaciones existentes de IOC y cancelación explícita responden a la cuestión inmediata; se omitieron más variantes IOC/FOK y TradeTick por falta de necesidad discriminante. Existir en una enumeración de la API no prueba semántica de ejecución.
+
+Un remanente abierto no constituye automáticamente un defecto. Debe conservarse, excluirse del volumen supuesto completado y tener una política explícita. En esta ruta no debe suponerse que reserva financiación ni que se ejecuta con el siguiente snapshot. Un contrato offline acotado podría cancelar y confirmar explícitamente, usando la cancelación observada, o admitir por separado otra política temporal. Esta entrega no implementa un gestor general de órdenes/asignación. El resultado adverso L1 anterior permanece.
+
+## E4: corrección efectiva y negativo pendiente
+
+El worker anterior reutilizaba el objeto Python de la orden y su identidad. La ruta duplicada acababa denegada por riesgo y dejaba la orden en caché DENIED/ejecutado0 pese al fill3/posición3 previo y a300 USD reservados. Esto demuestra un reenvío directo inseguro; no un defecto universal ni una garantía de idempotencia nativa. No se estableció mediante inspección del código interno el mecanismo exacto de sobrescritura. El supervisor debe imponer unicidad, sin depender de comportamientos de duplicados no garantizados.
+
+La frontera nueva persiste **PENDING antes del envío**, calcula la huella del comando inmutable, suprime peticiones iguales pendientes/procesadas sin otra llamada nativa, rechaza contenido contradictorio y conserva eventos y estado final nativos. Reconstruir su diario mantiene identidades y bloquea reenvíos: es una propiedad del supervisor. No restaura posiciones nativas ni autoriza reanudación operativa. La huella incluye el sobre original del comando; no es un adaptador genérico de reintentos de transporte.
+
+**E4 original corregido observado:** un envío nativo de `shared-first`, fill3@100/comisión0,60, orden coherente `PARTIALLY_FILLED`/ejecutado3/pendiente3, posición3, total699,40 USD, libre399,40 y reservado300. Segunda estrategia denegada por saldo libre insuficiente. Suprimir el duplicado no cambia el snapshot de efectivo/orden/posición. Los300 USD corresponden ahora al remanente limitado abierto; no a la anterior orden terminal incoherente.
+
+Pero el segundo snapshot idéntico no genera otra ejecución. **Siguen incumplidos** el total6 y los dos fills nativos distintos de igual valor exigidos por el fixture. No se modifica esa expectativa ni se presume reposición nueva ni se declara resuelto E4 completo. Se observa la conducta de matching/consumo de esta secuencia; no una regla general certificada sobre reposición mediante snapshots.
+
+La primera verificación del supervisor registra **27/32 comprobaciones correctas y cinco fallidas**, conservadas literalmente. Los fallos dependen en gran parte del segundo fill esperado: las etiquetas «historial preservado» y «reservas terminales cero» exigen también FILLED6, y la de «ecuaciones contables» llama al oráculo original, que incluye cantidades exigidas. No son cinco defectos contables/históricos independientes nuevos. Asimismo, «duplicado completado» designa una petición procesada cuya orden continúa parcial, no un fill terminal demostrado. No se reescribió el verificador para hacerlo pasar.
+
+Después, un diagnóstico independiente y expresamente limitado al supervisor supera **17/17** comprobaciones. Reentrega el fill real sin segundo efecto y concilia efectivo, inventario, orden, posición y reserva de la limitada abierta. En otra entrada congelada, dos fills **inventados** A/B tienen3@100/comisión0,60 e IDs distintos: ambos se conservan, repetir A no suma y los totales son398,80 USD/6 SYN/comisiones1,20. Un ID conocido con contenido contradictorio se rechaza sin efecto. Ninguna fila artificial entra en Nautilus ni sustituye el segundo fill nativo que falta en E4. La identidad del fill está acotada a un contexto de investigación/cuenta; no certifica un ledger multicuenta.
+
+## Qué aporta cada capa
+
+| Componente nativo demostrado | Componente del supervisor demostrado | Sin demostrar |
+|---|---|---|
+| Precios/cantidades L2, fills, comisiones, estado parcial, cancelaciones seleccionadas, efectivo/posiciones y reservas de limitadas | Referencia causal del mismo libro y procedencia; supresión por ID de comando; reconstrucción del registro inmutable; consolidación de fills y rechazo de conflictos | E4 completo; semántica general de snapshots/colas; fills/reservas futuros arbitrarios; ejecución financiera con velas; integración E1 completa; recuperación segura de exchange |
+
+## E1 y las tres modalidades
+
+Se realizó una revisión dirigida de fuentes/evidencia, **no otra ejecución R o E1**. R demuestra tiempos enteros, disponibilidad, cierre y revisiones en su prototipo aislado. E1 Nautilus anterior comprueba reloj nativo y una regla BLOCK/OBSERVE del harness. Ninguno demuestra toda la ruta de producción al motor. `MarketBar` actual usa `datetime` de resolución microsegundo y carece de campos explícitos de cierre/revisión; el camino de nanosegundos de R no está integrado por ello.
+
+Fuentes examinadas en lectura: [contratos](../../../src/bot_trader/core/contracts.py), [ledger técnico](../../../src/bot_trader/simulation/ledger.py), [sus pruebas existentes](../../../tests/test_simulation.py), [prototipo R](../../../tools/technical_admission/temporal_probe.py), [diarios congelados](../../../tools/technical_admission/fixtures/temporal_journals.json), [revisión R](../../phase-iv/technical-results/R/REVIEW.md) y harness/resultados preservados. Sin nueva revisión externa de frameworks ni afirmaciones de proveedores.
+
+bot_trader debe controlar identidad de fuente, unidades/rangos, disponibilidad/cierre, transformaciones causales, desempate por recepción y digests de entrada/decisión. Puede imponerlo en la frontera, pero documentarlo no prueba su ejecución. La frontera con el motor aún debe verificar transferencia exacta o rechazo explícito, orden nativo de callbacks, decisiones/órdenes posteriores a la información y decisiones previas invariantes al añadir futuro.
+
+| Modalidad | Recomendación actual y admisión mínima pendiente |
+|---|---|
+| **A — primera investigación offline largo/efectivo con velas cerradas** | Nautilus es **candidato viable para probar bajo contrato acotado**, sin admisión financiera. No exigir universalmente L2 ni recuperación live. Quedan un pequeño canario de integración R1/R2/R3/R7, ejecución causal después de conocer el cierre, comisiones/spread/slippage/retraso/capacidad declarados y política de remanentes/reconstrucción. Rechazar representaciones temporales incompatibles sin redondear. No implica restringir permanentemente horizontes |
+| **B — profundidad/microestructura** | El consumo causal L2 está demostrado en este fixture y refuerza la candidatura. Quedan snapshots repetidos/órdenes competidoras, cola/latencia/impacto, huecos/resincronización y financiación/gestión del remanente. Sin prueba de datos históricos sincronizados ni calibración. Consumir niveles sintéticos no demuestra fills históricos realistas |
+| **C — paper/live futuro** | No admitido ni autorizado. Pendientes conciliación real, órdenes/fills desconocidos, reintentos persistentes, bloqueo de riesgo antes de exposición, conectividad y atribución de capital compartido. La reconstrucción posterior de E5 no demuestra esas garantías |
+
+El control E1 mínimo reutilizaría canarios existentes seleccionados: cierre retrasado/revisión posterior con comparación de prefijos o perturbación futura; mismo tiempo de evento con disponibilidad distinta y desempate de recepción; ticks exactos o rechazo de unidades/rango incompatibles; y correspondencia de digests de entrada/decisión/comando. No requiere repetir160R ni acceder a datos de mercado. Una señal basada en cierre no puede asumir ejecución en ese cierre ya terminado solo por conocerlo. Estos controles y el contrato de ejecución con velas son pendientes propuestos, no pruebas ocultas de esta intervención.
+
+## Alternativas y decisión
+
+`SyntheticSpotLedger` sirve como referencia contable, **no como alternativa financiera admitida**: solo SYNTH-USD técnico, un instrumento, fills completos, límite de100fills, sin identidad independiente de fill ni ciclo parcial/reservado. Su `ClosePriceExecution` usa un cierre recibido como supuesto técnico. Antes de un uso financiero acotado necesitaría instrumentos/precisión soportados, entrada ejecutable causal, costes/capacidad, rechazo atómico e identidades, conciliación independiente de efectivo/posiciones con varias órdenes y política de repetir/descartar o reconstruir. Añadir ciclo parcial/pendiente solo si el contrato lo exige. LEAN también conserva carencias E1/ciclo de vida; su cruce estricto no decide superioridad ni invalidez.
+
+**Mantener una ruta candidata modular:** bot_trader controla causalidad e identidad/consolidación, el motor aporta semántica de órdenes expresamente admitida y un pequeño oráculo Decimal independiente contrasta contabilidad. No seleccionar Nautilus por inercia ni certificar el ledger por comodidad. Resolver el contrato estrecho de velas y E1 antes de comprometer el primer runner financiero; no seguir reparando E4 para obtener un resultado favorable. Ambas correcciones autorizadas están consumidas y la ruta E4 dependiente se detiene con su negativo. Los resultados no justifican otra revisión general de frameworks.
+
+## Recursos y permisos
+
+Seis ejecuciones de prueba de12 y dos preparaciones aparte. **5,632805 s** adicionales de máquina vigilada sobre1800 s, **408.266 bytes** temporales adicionales de1 GiB, ninguna descarga ni servicio. Hasta4CPU; sin parada del guard. RSS máximo muestreado3.670.016 bytes, pero estos procesos breves pueden quedar entre muestras de100 ms: **no sirve para dimensionar la RAM del motor** ni certifica el pico real. Los acumulados originales M/R/E siguen dentro de sus límites. Tiempo de ingeniería/revisión e interrupciones excluidos.
+
+[Preservación](../../phase-iv/technical-results/E-correction/preservation.json):73 archivos runtime/config y4.630 archivos regulares del entorno estable intactos; fuentes científicas protegidas sin cambios. E1/E2 científicos,26especificaciones,C1/C3,C2,C4/C5,T/D/U/V/F y UX futura conservados. Decisiones económicas E3/E4 pendientes; IV abierta en sus condiciones, V/paper/live sin autorización. Sin nuevos datos financieros, instrumentos, estrategias ni modelos.

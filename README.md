@@ -1,5 +1,7 @@
 # bot_trader
 
+Latest bounded correction: [E3-L2 / E4 findings](docs/en/phase-iv/engine-correction.md) ([español](docs/es/phase-iv/engine-correction.md)). Causal L2 execution works in the tested fixture; supervisor duplicate protection preserves state, while original E4 still lacks its required second native fill. E1/bar execution and financial admission remain pending.
+
 Latest technical evidence: [bounded E recovery](docs/en/phase-iv/engine-recovery.md) ([español](docs/es/phase-iv/engine-recovery.md)), 2026-11-02. Nautilus now executes in isolation; accounting components pass, while liquidity, duplicate-order state and integration/recovery gaps prevent full engine admission. Production and financial permissions are unchanged.
 
 A modular cryptocurrency research platform with a documented scientific history. The current implementation provides a **local, synthetic technical laboratory**: versioned data, preserved hypotheses, durable jobs, reports, an authenticated API and a web interface. It does not establish a profitable strategy.

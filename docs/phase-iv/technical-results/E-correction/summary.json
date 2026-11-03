@@ -1,0 +1,51 @@
+{
+  "authority": "D-050",
+  "source_commit": "a3ec18f",
+  "execution_dates_utc": [
+    "2026-11-02",
+    "2026-11-03"
+  ],
+  "test_invocations": 6,
+  "preparation_invocations": 2,
+  "native_processes": 4,
+  "cases": {
+    "E3-L2": "corrected_component_checks_pass; L1 adverse history remains",
+    "D6-cancel": "partial4_remaining2_then_cancel; no_cash_reserved_for_market_remainder",
+    "E4-idempotency": "duplicate_command_corruption_prevented; original_required6_and_two_native_fills_still_fail",
+    "D6-replenish": "partial4_remaining2_even_after103@2_new_snapshot; continuation_not_demonstrated",
+    "supervisor-regressions": {
+      "passed": false,
+      "checks": 32,
+      "failed": 5
+    },
+    "fill-consolidation": {
+      "passed": true,
+      "checks": 17,
+      "synthetic_second_distinct_fill_is_not_native": true
+    }
+  },
+  "native_E4_duplicate_fill_redelivery_proved": false,
+  "supervisor_command_and_fill_idempotency_component_proved": true,
+  "engine_selected": false,
+  "offline_financial_admission": false,
+  "E1_integrated_boundary_pending": true,
+  "E6_executed": false,
+  "resource_delta": {
+    "active_guard_wall_seconds": 5.632804697976098,
+    "cpu_seconds": 2.250692,
+    "additional_E_scratch_bytes": 408266,
+    "software_download_bytes": 0,
+    "peak_sampled_RSS_bytes": 3670016
+  },
+  "stops": {
+    "L2_correction_used": 1,
+    "E4_correction_used": 1,
+    "second_repair_or_favorable_rerun": false,
+    "unused_test_slots": 6
+  },
+  "limits": [
+    "Short native processes can evade100ms RSS sampling; this maximum is not a memory sizing measurement",
+    "Active guard time excludes engineering/review and interruptions",
+    "No real historical execution realism or safe operational recovery proved"
+  ]
+}

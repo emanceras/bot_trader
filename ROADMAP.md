@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-02 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-03 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Objetivo y estado general
 
@@ -12,7 +12,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; M/R ejecutados; E con recuperación ejecutada parcial y adversos D-049; E3/E4, instanciación/sellado pendientes |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; M/R ejecutados; E con correcciones ejecutadas acotadas y adversos D-051; E3/E4, instanciación/sellado pendientes |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |
@@ -224,7 +224,11 @@ Tareas previstas: arquitectura de bot; adaptadores de exchange; gestión de capi
 - **2026-10-16:** revisión independiente de afirmaciones decisivas de REV-02/03, FUND-01/02 y CTR-01 contra PDF confirmó cifras, versiones y distinción entre costes parciales y completos. Se añadieron eventos finales de lectura donde los logs solo indicaban descarga. Opciones/carteras se consolidaron desde el cache sin repetir búsquedas, con hashes y alcance explícitos. Ningún experimento propio.
 - **2026-10-16:** integración final comprobada: 22 Markdown, 79 destinos locales de enlaces, 267 registros JSONL y 55 hashes de artefactos citados; sin errores documentales detectados. Las verificaciones no equivalen a réplica o validación financiera. Preparada la actualización del informe v0.3 y del repositorio autorizado para revisión.
 
-## Punto de reanudación vigente — recuperación E, 2026-11-02
+## Punto de reanudación vigente — corrección E3-L2/E4, evidencia 2026-11-02–03 UTC
+
+**D-050/D-051:** [informe EN](docs/en/phase-iv/engine-correction.md) / [ES](docs/es/phase-iv/engine-correction.md), [evidencia](docs/phase-iv/technical-results/E-correction/README.md).6pruebas de12;4nativas/2supervisor,2preparaciones, sin descargas. E3-L2 correcto en componente; remanente mercado2 no reservado ni completado con el nuevo snapshot, cancelación explícita verificada. E4 evita duplicado y conserva historial/contabilidad con reserva legítima de limitada abierta, pero total6/dosfills original incumplido. Consolidación artificial solo supervisor17/17;32checks originales27correctos/5negativos conservados. Correcciones porbloqueo consumidas; detener rutaE4 dependiente sin rescatar su expectativa. Próximo requisito mínimo: E1 y contrato de ejecución causal para velas, independiente de exigir L2 o recuperación live. Ningún motor ni ledger financiero admitido; producción/E3/E4económicos/V intactos.
+
+## Punto de reanudación histórico — recuperación E, 2026-11-02
 
 **D-048/D-049:** [informe EN](docs/en/phase-iv/engine-recovery.md) / [ES](docs/es/phase-iv/engine-recovery.md), [evidencia y continuación](docs/phase-iv/technical-results/E-recovery/README.md). Nautilus rc7 instalado con CPython3.13.16 estándar; nueve casos funcionales ejercitados parcialmente y cuatro diagnósticos. Contabilidad E2 correcta en alcance; L1 excede cantidad visible, L2 mercado bloqueado por precio de referencia, E4 diverge orden/fills y deja reserva. Tres cortes y reconstrucción determinista comprobados a posteriori, sin conciliación antes de actuar. Un ciclo correctivo usado solo para E2; no repetir ni ampliar por inercia. E6 no ejecutado, ningún motor plenamente admitido; E3/E4 y V pendientes. Producción intacta. M/R y LEAN anteriores no repetidos. Nueva corrección del puente requiere un alcance separado; no una revisión general.
 

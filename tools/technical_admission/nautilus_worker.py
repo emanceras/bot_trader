@@ -38,7 +38,7 @@ def book_view(book):
     }
 
 
-def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None):
+def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None, l2_reference=False, idempotent=False):
     assert sys.version_info[:3] == (3, 13, 16)
     assert not sysconfig.get_config_var("Py_GIL_DISABLED")
     assert importlib.metadata.version("nautilus-trader") == "2.0.0rc7"
@@ -70,6 +70,11 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                 stream.write(json.dumps(row, sort_keys=True) + "\n")
                 stream.flush()
                 os.fsync(stream.fileno())
+
+    boundary = None
+    if idempotent:
+        from command_boundary import CommandBoundary
+        boundary = CommandBoundary(fixture["account_id"], lambda row: durable("requests.jsonl", row))
 
     class BookObserver(SimulationModule):
         def process(self, ts_now, context):
@@ -163,6 +168,15 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                           "command": item, "owner": self.owner})
             durable("commands.jsonl", {"at": at, "command": item})
             snapshot(at, "before:" + cid)
+            if boundary:
+                admitted, original = boundary.begin(item)
+                if not admitted:
+                    trace.append({"kind": "supervisor_duplicate_suppressed", "at": at,
+                                  "command_id": cid, "preserved_request": original,
+                                  "origin": "supervisor boundary; no second native submit"})
+                    snapshot(at, "after-suppressed:" + cid)
+                    return
+            dispatch_error = None
             if item["kind"] == "cancel":
                 self.cancel_order(ClientOrderId(item["target"]))
             elif cid in self.known_orders:
@@ -170,6 +184,7 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                     self.submit_order(self.known_orders[cid])
                     trace.append({"kind": "duplicate_submission_returned", "command_id": cid, "at": at})
                 except Exception as exc:
+                    dispatch_error = type(exc).__name__ + ": " + str(exc)
                     trace.append({"kind": "native_duplicate_submission_exception", "command_id": cid, "at": at,
                                   "exception": type(exc).__name__, "message": str(exc)})
             else:
@@ -184,10 +199,14 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                     self.known_orders[cid] = order
                     self.submit_order(order)
                 except Exception as exc:
+                    dispatch_error = type(exc).__name__ + ": " + str(exc)
                     rejected.append(cid)
                     trace.append({"kind": "native_constructor_or_submit_exception", "command_id": cid,
                                   "at": at, "exception": type(exc).__name__, "message": str(exc)})
-            snapshot(at, "after:" + cid)
+            after = snapshot(at, "after:" + cid)
+            if boundary:
+                boundary.dispatched(cid, dispatch_error)
+                boundary.observe(after["orders"])
 
         def record(self, event):
             row = {"type": type(event).__name__, "at": event.ts_event,
@@ -197,6 +216,8 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                     row[name] = str(getattr(event, name))
             native_events.append(row)
             durable("native-events.jsonl", row)
+            if boundary:
+                boundary.native_event(row)
             return row
 
         def on_order_submitted(self, event):
@@ -244,6 +265,7 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
     for owner in fixture["strategy_ids"]:
         engine.add_strategy(MechanicalFixture(owner))
     data = []
+    reference_quotes = []
     for index, item in enumerate(fixture["events"]):
         t, available = item["event_ns"], item["available_ns"]
         if item["kind"] == "quote":
@@ -258,6 +280,12 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
                     BookOrder(getattr(OrderSide, side), Price.from_str(price), Quantity.from_str(qty), level+1),
                     flags, index+1, t, available))
             data.append(OrderBookDeltas(instrument_id, deltas))
+            if l2_reference:
+                from l2_reference import derive
+                reference = derive(item)
+                reference_quotes.append(reference)
+                data.append(QuoteTick(instrument_id, Price.from_str(reference["bid"]), Price.from_str(reference["ask"]),
+                                      Quantity.from_str(reference["bid_size"]), Quantity.from_str(reference["ask_size"]), t, available))
     first = min(item["available_ns"] for item in fixture["events"])
     last = max([e["available_ns"] for e in fixture["events"]] + [c["available_ns"] + latency for c in fixture["commands"]])
     marker = InstrumentStatus(instrument_id, MarketStatusAction.NONE, last + 100, last + 100,
@@ -268,18 +296,24 @@ def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=Non
     engine.add_data(data, sort=True)
     engine.run(start=first-1, end=last+101)
     final = snapshot(last+101, "final")
+    if boundary:
+        boundary.observe(final["orders"])
     result = {
         "engine": "Nautilus", "version": "2.0.0rc7", "case_id": fixture["case_id"], "run_id": fixture["run_id"], "synthetic_only": True,
         "native_configuration": {"book_type": book_type, "liquidity_consumption": consumption,
             "use_message_queue": False, "native_latency": 0, "harness_delay_ns": latency,
             "fee_model": "native MakerTakerFeeModel", "new_fill_model": False},
         "fills": fills, "native_events": native_events, "trace": trace, "snapshots": snapshots,
+        "derived_reference_quotes": reference_quotes,
+        "reference_transform_sha256": __import__('hashlib').sha256(Path(__file__).with_name("l2_reference.py").read_bytes()).hexdigest() if l2_reference else None,
         "module_book_observations": module_books, "rejected_command_ids": sorted(set(rejected)),
         "decisions": decisions, "conversion": conversion, "callback_errors": errors,
         "balances": final["balances"], "free": final["free"], "reserved": final["reserved"],
         "orders": final["orders"], "positions": final["positions"],
         "terminal_marker": {"at": last+100, "type": "InstrumentStatus.NONE", "quote_or_depth_change_requested": False},
         "native_consumption_budget": None,
+        "command_boundary": {"origin": "supervisor only", "entries": boundary.entries,
+                             "journal_events": boundary.events} if boundary else None,
         "native_consumption_budget_limit": "public module exposes book state, not a separately certified internal consumption counter",
     }
     durable("completed.jsonl", {"case_id": fixture["case_id"], "balances": result["balances"], "orders": result["orders"]})
@@ -295,13 +329,15 @@ def main():
     parser.add_argument("--book", choices=["L1_MBP", "L2_MBP"])
     parser.add_argument("--consumption", choices=["true", "false"], default="true")
     parser.add_argument("--journal", type=Path)
+    parser.add_argument("--l2-reference", action="store_true")
+    parser.add_argument("--idempotent", action="store_true")
     parser.add_argument("--cut", choices=["after-submit-before-ack", "after-fill-before-checkpoint", "during-cancel"])
     args = parser.parse_args()
     bundle = json.loads(args.bundle.read_text())
     fixtures = bundle.get("functional", bundle.get("cases"))
     fixture = next(f for f in fixtures if f["case_id"] == args.case)
     book = args.book or ("L2_MBP" if any(e["kind"] == "book_snapshot" for e in fixture["events"]) else "L1_MBP")
-    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut)
+    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut, args.l2_reference, args.idempotent)
     with args.output.open("x") as stream:
         json.dump(result, stream, indent=2); stream.write("\n")
     print(json.dumps({"case_id": args.case, "native_worker_completed": True,

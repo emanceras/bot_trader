@@ -1,0 +1,1 @@
+{"balances": {"SYN": "4.00000000", "USD": "595.20", "USDT": "40.00000000"}, "case_id": "D6-replenish", "orders": [{"filled": "4.00", "id": "D6-replenish-buy", "remaining": "2.00", "status": "PARTIALLY_FILLED", "strategy_id": "fixture-A"}]}

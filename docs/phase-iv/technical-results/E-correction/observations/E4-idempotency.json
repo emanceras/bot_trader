@@ -1,0 +1,1312 @@
+{
+  "engine": "Nautilus",
+  "version": "2.0.0rc7",
+  "case_id": "E4-idempotency",
+  "run_id": "fixed-E4-idempotency",
+  "synthetic_only": true,
+  "native_configuration": {
+    "book_type": "L2_MBP",
+    "liquidity_consumption": true,
+    "use_message_queue": false,
+    "native_latency": 0,
+    "harness_delay_ns": 1000,
+    "fee_model": "native MakerTakerFeeModel",
+    "new_fill_model": false
+  },
+  "fills": [
+    {
+      "venue": "SIM",
+      "fill_id": "T-240c8a3697f571ab-001",
+      "command_id": "shared-first",
+      "instrument_id": "SYN-USD.SIM",
+      "strategy_label": "strategy-A",
+      "side": "BUY",
+      "quantity": "3.00",
+      "price": "100.00",
+      "fee": "0.60",
+      "fee_currency": "USD",
+      "liquidity_role": "taker",
+      "at": 1700000000000012000,
+      "origin": "native OrderFilled; no expected-fill injection"
+    }
+  ],
+  "native_events": [
+    {
+      "type": "OrderSubmitted",
+      "at": 1700000000000012000,
+      "ts_init": 1700000000000012000,
+      "owner": "strategy-A",
+      "client_order_id": "shared-first"
+    },
+    {
+      "type": "OrderAccepted",
+      "at": 1700000000000012000,
+      "ts_init": 1700000000000012000,
+      "owner": "strategy-A",
+      "client_order_id": "shared-first",
+      "venue_order_id": "SIM-1-1"
+    },
+    {
+      "type": "OrderFilled",
+      "at": 1700000000000012000,
+      "ts_init": 1700000000000012000,
+      "owner": "strategy-A",
+      "client_order_id": "shared-first",
+      "venue_order_id": "SIM-1-1",
+      "trade_id": "T-240c8a3697f571ab-001"
+    },
+    {
+      "type": "OrderDenied",
+      "at": 1700000000000013000,
+      "ts_init": 1700000000000013000,
+      "owner": "strategy-B",
+      "client_order_id": "shared-second",
+      "reason": "NOTIONAL_EXCEEDS_FREE_BALANCE: free=399.40 USD, notional=600.00 USD"
+    }
+  ],
+  "trace": [
+    {
+      "kind": "native_book_callback",
+      "at": 1700000000000010000,
+      "source_ts_init": 1700000000000010000
+    },
+    {
+      "kind": "command_arrival",
+      "at": 1700000000000012000,
+      "native_clock": 1700000000000012000,
+      "command": {
+        "available_ns": 1700000000000011000,
+        "command_id": "shared-first",
+        "instrument_id": "SYN-USD.SIM",
+        "kind": "limit",
+        "price": "100.00",
+        "quantity": "6.00",
+        "side": "BUY",
+        "strategy_id": "strategy-A",
+        "tif": "GTC"
+      },
+      "owner": "strategy-A"
+    },
+    {
+      "kind": "command_arrival",
+      "at": 1700000000000012000,
+      "native_clock": 1700000000000012000,
+      "command": {
+        "available_ns": 1700000000000011000,
+        "command_id": "shared-first",
+        "instrument_id": "SYN-USD.SIM",
+        "kind": "limit",
+        "price": "100.00",
+        "quantity": "6.00",
+        "side": "BUY",
+        "strategy_id": "strategy-A",
+        "tif": "GTC"
+      },
+      "owner": "strategy-A"
+    },
+    {
+      "kind": "supervisor_duplicate_suppressed",
+      "at": 1700000000000012000,
+      "command_id": "shared-first",
+      "preserved_request": {
+        "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+        "command": {
+          "available_ns": 1700000000000011000,
+          "command_id": "shared-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "limit",
+          "price": "100.00",
+          "quantity": "6.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        "dispatch_state": "DISPATCHED",
+        "native_order": {
+          "id": "shared-first",
+          "status": "INITIALIZED",
+          "filled": "0.00",
+          "remaining": "6.00",
+          "strategy_id": "fixture-A"
+        },
+        "native_events": [
+          {
+            "type": "OrderSubmitted",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first"
+          },
+          {
+            "type": "OrderAccepted",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first",
+            "venue_order_id": "SIM-1-1"
+          },
+          {
+            "type": "OrderFilled",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first",
+            "venue_order_id": "SIM-1-1",
+            "trade_id": "T-240c8a3697f571ab-001"
+          }
+        ]
+      },
+      "origin": "supervisor boundary; no second native submit"
+    },
+    {
+      "kind": "command_arrival",
+      "at": 1700000000000013000,
+      "native_clock": 1700000000000013000,
+      "command": {
+        "available_ns": 1700000000000012000,
+        "command_id": "shared-second",
+        "instrument_id": "SYN-USD.SIM",
+        "kind": "limit",
+        "price": "100.00",
+        "quantity": "6.00",
+        "side": "BUY",
+        "strategy_id": "strategy-B",
+        "tif": "GTC"
+      },
+      "owner": "strategy-B"
+    },
+    {
+      "kind": "native_book_callback",
+      "at": 1700000000000030000,
+      "source_ts_init": 1700000000000030000
+    }
+  ],
+  "snapshots": [
+    {
+      "at": 1700000000000012000,
+      "source": "before:shared-first",
+      "balances": {
+        "SYN": "0E-8",
+        "USD": "1000.00",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "0E-8",
+        "USD": "1000.00",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "0.00",
+        "USDT": "0E-8"
+      },
+      "orders": [],
+      "positions": [],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000012000,
+      "source": "after:shared-first",
+      "balances": {
+        "SYN": "0E-8",
+        "USD": "1000.00",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "0E-8",
+        "USD": "1000.00",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "0.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "INITIALIZED",
+          "filled": "0.00",
+          "remaining": "6.00",
+          "strategy_id": "fixture-A"
+        }
+      ],
+      "positions": [],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000012000,
+      "source": "before:shared-first",
+      "balances": {
+        "SYN": "3.00000000",
+        "USD": "699.40",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "3.00000000",
+        "USD": "399.40",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "300.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-fixture-A",
+          "signed_quantity": "3.0",
+          "quantity": "3.00",
+          "side": "LONG",
+          "instrument_id": "SYN-USD.SIM"
+        }
+      ],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000012000,
+      "source": "after-suppressed:shared-first",
+      "balances": {
+        "SYN": "3.00000000",
+        "USD": "699.40",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "3.00000000",
+        "USD": "399.40",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "300.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-fixture-A",
+          "signed_quantity": "3.0",
+          "quantity": "3.00",
+          "side": "LONG",
+          "instrument_id": "SYN-USD.SIM"
+        }
+      ],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000013000,
+      "source": "before:shared-second",
+      "balances": {
+        "SYN": "3.00000000",
+        "USD": "699.40",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "3.00000000",
+        "USD": "399.40",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "300.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-fixture-A",
+          "signed_quantity": "3.0",
+          "quantity": "3.00",
+          "side": "LONG",
+          "instrument_id": "SYN-USD.SIM"
+        }
+      ],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000013000,
+      "source": "after:shared-second",
+      "balances": {
+        "SYN": "3.00000000",
+        "USD": "699.40",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "3.00000000",
+        "USD": "399.40",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "300.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        },
+        {
+          "id": "shared-second",
+          "status": "INITIALIZED",
+          "filled": "0.00",
+          "remaining": "6.00",
+          "strategy_id": "fixture-B"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-fixture-A",
+          "signed_quantity": "3.0",
+          "quantity": "3.00",
+          "side": "LONG",
+          "instrument_id": "SYN-USD.SIM"
+        }
+      ],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    },
+    {
+      "at": 1700000000000030101,
+      "source": "final",
+      "balances": {
+        "SYN": "3.00000000",
+        "USD": "699.40",
+        "USDT": "40.00000000"
+      },
+      "free": {
+        "SYN": "3.00000000",
+        "USD": "399.40",
+        "USDT": "40.00000000"
+      },
+      "reserved": {
+        "SYN": "0E-8",
+        "USD": "300.00",
+        "USDT": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        },
+        {
+          "id": "shared-second",
+          "status": "DENIED",
+          "filled": "0.00",
+          "remaining": "6.00",
+          "strategy_id": "fixture-B"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-fixture-A",
+          "signed_quantity": "3.0",
+          "quantity": "3.00",
+          "side": "LONG",
+          "instrument_id": "SYN-USD.SIM"
+        }
+      ],
+      "origin": "native cache/account snapshot; callbacks may precede later native account updates",
+      "cached_quote": null,
+      "cached_book": {
+        "instrument_id": "SYN-USD.SIM",
+        "bid": "99.00",
+        "ask": "100.00",
+        "bid_size": "5.00",
+        "ask_size": "3.00",
+        "bids": {
+          "99.00": "5.00"
+        },
+        "asks": {
+          "100.00": "3.00"
+        }
+      }
+    }
+  ],
+  "derived_reference_quotes": [],
+  "reference_transform_sha256": null,
+  "module_book_observations": [
+    {
+      "at": 1700000000000010000,
+      "origin": "native SimulationModuleContext.order_books",
+      "phase": "native module process callback",
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "99.00",
+          "ask": "100.00",
+          "bid_size": "5.00",
+          "ask_size": "3.00",
+          "bids": {
+            "99.00": "5.00"
+          },
+          "asks": {
+            "100.00": "3.00"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1700000000000012000,
+      "origin": "native SimulationModuleContext.order_books",
+      "phase": "native module process callback",
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "99.00",
+          "ask": "100.00",
+          "bid_size": "5.00",
+          "ask_size": "3.00",
+          "bids": {
+            "99.00": "5.00"
+          },
+          "asks": {
+            "100.00": "3.00"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1700000000000013000,
+      "origin": "native SimulationModuleContext.order_books",
+      "phase": "native module process callback",
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "99.00",
+          "ask": "100.00",
+          "bid_size": "5.00",
+          "ask_size": "3.00",
+          "bids": {
+            "99.00": "5.00"
+          },
+          "asks": {
+            "100.00": "3.00"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1700000000000030000,
+      "origin": "native SimulationModuleContext.order_books",
+      "phase": "native module process callback",
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "99.00",
+          "ask": "100.00",
+          "bid_size": "5.00",
+          "ask_size": "3.00",
+          "bids": {
+            "99.00": "5.00"
+          },
+          "asks": {
+            "100.00": "3.00"
+          }
+        }
+      ]
+    },
+    {
+      "at": 1700000000000030100,
+      "origin": "native SimulationModuleContext.order_books",
+      "phase": "native module process callback",
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "99.00",
+          "ask": "100.00",
+          "bid_size": "5.00",
+          "ask_size": "3.00",
+          "bids": {
+            "99.00": "5.00"
+          },
+          "asks": {
+            "100.00": "3.00"
+          }
+        }
+      ]
+    }
+  ],
+  "rejected_command_ids": [
+    "shared-second"
+  ],
+  "decisions": [],
+  "conversion": {
+    "before": null,
+    "after": null,
+    "origin": "harness causal Decimal conversion; native USD/USDT cash remains distinct"
+  },
+  "callback_errors": [],
+  "balances": {
+    "SYN": "3.00000000",
+    "USD": "699.40",
+    "USDT": "40.00000000"
+  },
+  "free": {
+    "SYN": "3.00000000",
+    "USD": "399.40",
+    "USDT": "40.00000000"
+  },
+  "reserved": {
+    "SYN": "0E-8",
+    "USD": "300.00",
+    "USDT": "0E-8"
+  },
+  "orders": [
+    {
+      "id": "shared-first",
+      "status": "PARTIALLY_FILLED",
+      "filled": "3.00",
+      "remaining": "3.00",
+      "strategy_id": "fixture-A"
+    },
+    {
+      "id": "shared-second",
+      "status": "DENIED",
+      "filled": "0.00",
+      "remaining": "6.00",
+      "strategy_id": "fixture-B"
+    }
+  ],
+  "positions": [
+    {
+      "id": "SYN-USD.SIM-fixture-A",
+      "signed_quantity": "3.0",
+      "quantity": "3.00",
+      "side": "LONG",
+      "instrument_id": "SYN-USD.SIM"
+    }
+  ],
+  "terminal_marker": {
+    "at": 1700000000000030100,
+    "type": "InstrumentStatus.NONE",
+    "quote_or_depth_change_requested": false
+  },
+  "native_consumption_budget": null,
+  "command_boundary": {
+    "origin": "supervisor only",
+    "entries": {
+      "shared-first": {
+        "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+        "command": {
+          "available_ns": 1700000000000011000,
+          "command_id": "shared-first",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "limit",
+          "price": "100.00",
+          "quantity": "6.00",
+          "side": "BUY",
+          "strategy_id": "strategy-A",
+          "tif": "GTC"
+        },
+        "dispatch_state": "DISPATCHED",
+        "native_order": {
+          "id": "shared-first",
+          "status": "PARTIALLY_FILLED",
+          "filled": "3.00",
+          "remaining": "3.00",
+          "strategy_id": "fixture-A"
+        },
+        "native_events": [
+          {
+            "type": "OrderSubmitted",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first"
+          },
+          {
+            "type": "OrderAccepted",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first",
+            "venue_order_id": "SIM-1-1"
+          },
+          {
+            "type": "OrderFilled",
+            "at": 1700000000000012000,
+            "ts_init": 1700000000000012000,
+            "owner": "strategy-A",
+            "client_order_id": "shared-first",
+            "venue_order_id": "SIM-1-1",
+            "trade_id": "T-240c8a3697f571ab-001"
+          }
+        ]
+      },
+      "shared-second": {
+        "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+        "command": {
+          "available_ns": 1700000000000012000,
+          "command_id": "shared-second",
+          "instrument_id": "SYN-USD.SIM",
+          "kind": "limit",
+          "price": "100.00",
+          "quantity": "6.00",
+          "side": "BUY",
+          "strategy_id": "strategy-B",
+          "tif": "GTC"
+        },
+        "dispatch_state": "DISPATCHED",
+        "native_order": {
+          "id": "shared-second",
+          "status": "DENIED",
+          "filled": "0.00",
+          "remaining": "6.00",
+          "strategy_id": "fixture-B"
+        },
+        "native_events": [
+          {
+            "type": "OrderDenied",
+            "at": 1700000000000013000,
+            "ts_init": 1700000000000013000,
+            "owner": "strategy-B",
+            "client_order_id": "shared-second",
+            "reason": "NOTIONAL_EXCEEDS_FREE_BALANCE: free=399.40 USD, notional=600.00 USD"
+          }
+        ]
+      }
+    },
+    "journal_events": [
+      {
+        "sequence": 1,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "admitted_pending",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "PENDING",
+          "native_order": null,
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 2,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "dispatched",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": null,
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 3,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_cache_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 4,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_event_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 5,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_event_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            },
+            {
+              "type": "OrderAccepted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 6,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_event_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            },
+            {
+              "type": "OrderAccepted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1"
+            },
+            {
+              "type": "OrderFilled",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1",
+              "trade_id": "T-240c8a3697f571ab-001"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 7,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "duplicate_suppressed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            },
+            {
+              "type": "OrderAccepted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1"
+            },
+            {
+              "type": "OrderFilled",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1",
+              "trade_id": "T-240c8a3697f571ab-001"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 8,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-second",
+        "action": "admitted_pending",
+        "entry": {
+          "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+          "command": {
+            "available_ns": 1700000000000012000,
+            "command_id": "shared-second",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-B",
+            "tif": "GTC"
+          },
+          "dispatch_state": "PENDING",
+          "native_order": null,
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 9,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-second",
+        "action": "dispatched",
+        "entry": {
+          "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+          "command": {
+            "available_ns": 1700000000000012000,
+            "command_id": "shared-second",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-B",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": null,
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 10,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_cache_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "PARTIALLY_FILLED",
+            "filled": "3.00",
+            "remaining": "3.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            },
+            {
+              "type": "OrderAccepted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1"
+            },
+            {
+              "type": "OrderFilled",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1",
+              "trade_id": "T-240c8a3697f571ab-001"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 11,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-second",
+        "action": "native_cache_observed",
+        "entry": {
+          "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+          "command": {
+            "available_ns": 1700000000000012000,
+            "command_id": "shared-second",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-B",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-second",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-B"
+          },
+          "native_events": []
+        }
+      },
+      {
+        "sequence": 12,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-second",
+        "action": "native_event_observed",
+        "entry": {
+          "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+          "command": {
+            "available_ns": 1700000000000012000,
+            "command_id": "shared-second",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-B",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-second",
+            "status": "INITIALIZED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-B"
+          },
+          "native_events": [
+            {
+              "type": "OrderDenied",
+              "at": 1700000000000013000,
+              "ts_init": 1700000000000013000,
+              "owner": "strategy-B",
+              "client_order_id": "shared-second",
+              "reason": "NOTIONAL_EXCEEDS_FREE_BALANCE: free=399.40 USD, notional=600.00 USD"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 13,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-first",
+        "action": "native_cache_observed",
+        "entry": {
+          "signature": "35a9db8ac99370fbe032ae8404de38a36a79ec49791e2e08299b1133942e2264",
+          "command": {
+            "available_ns": 1700000000000011000,
+            "command_id": "shared-first",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-A",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-first",
+            "status": "PARTIALLY_FILLED",
+            "filled": "3.00",
+            "remaining": "3.00",
+            "strategy_id": "fixture-A"
+          },
+          "native_events": [
+            {
+              "type": "OrderSubmitted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first"
+            },
+            {
+              "type": "OrderAccepted",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1"
+            },
+            {
+              "type": "OrderFilled",
+              "at": 1700000000000012000,
+              "ts_init": 1700000000000012000,
+              "owner": "strategy-A",
+              "client_order_id": "shared-first",
+              "venue_order_id": "SIM-1-1",
+              "trade_id": "T-240c8a3697f571ab-001"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 14,
+        "account_id": "shared-synthetic-account",
+        "command_id": "shared-second",
+        "action": "native_cache_observed",
+        "entry": {
+          "signature": "aa7daf5d3878b13646f7f505f260e28c64c8ca0a3e4d24e8a8a2952f5d9130d9",
+          "command": {
+            "available_ns": 1700000000000012000,
+            "command_id": "shared-second",
+            "instrument_id": "SYN-USD.SIM",
+            "kind": "limit",
+            "price": "100.00",
+            "quantity": "6.00",
+            "side": "BUY",
+            "strategy_id": "strategy-B",
+            "tif": "GTC"
+          },
+          "dispatch_state": "DISPATCHED",
+          "native_order": {
+            "id": "shared-second",
+            "status": "DENIED",
+            "filled": "0.00",
+            "remaining": "6.00",
+            "strategy_id": "fixture-B"
+          },
+          "native_events": [
+            {
+              "type": "OrderDenied",
+              "at": 1700000000000013000,
+              "ts_init": 1700000000000013000,
+              "owner": "strategy-B",
+              "client_order_id": "shared-second",
+              "reason": "NOTIONAL_EXCEEDS_FREE_BALANCE: free=399.40 USD, notional=600.00 USD"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "native_consumption_budget_limit": "public module exposes book state, not a separately certified internal consumption counter"
+}

@@ -1,0 +1,106 @@
+--- D050-l2/nautilus_worker.py
++++ D050-e4/nautilus_worker.py
+@@ -38,7 +38,7 @@
+     }
+ 
+ 
+-def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None, l2_reference=False):
++def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None, l2_reference=False, idempotent=False):
+     assert sys.version_info[:3] == (3, 13, 16)
+     assert not sysconfig.get_config_var("Py_GIL_DISABLED")
+     assert importlib.metadata.version("nautilus-trader") == "2.0.0rc7"
+@@ -71,6 +71,11 @@
+                 stream.flush()
+                 os.fsync(stream.fileno())
+ 
++    boundary = None
++    if idempotent:
++        from command_boundary import CommandBoundary
++        boundary = CommandBoundary(fixture["account_id"], lambda row: durable("requests.jsonl", row))
++
+     class BookObserver(SimulationModule):
+         def process(self, ts_now, context):
+             module_books.append({"at": ts_now, "origin": "native SimulationModuleContext.order_books",
+@@ -163,6 +168,15 @@
+                           "command": item, "owner": self.owner})
+             durable("commands.jsonl", {"at": at, "command": item})
+             snapshot(at, "before:" + cid)
++            if boundary:
++                admitted, original = boundary.begin(item)
++                if not admitted:
++                    trace.append({"kind": "supervisor_duplicate_suppressed", "at": at,
++                                  "command_id": cid, "preserved_request": original,
++                                  "origin": "supervisor boundary; no second native submit"})
++                    snapshot(at, "after-suppressed:" + cid)
++                    return
++            dispatch_error = None
+             if item["kind"] == "cancel":
+                 self.cancel_order(ClientOrderId(item["target"]))
+             elif cid in self.known_orders:
+@@ -170,6 +184,7 @@
+                     self.submit_order(self.known_orders[cid])
+                     trace.append({"kind": "duplicate_submission_returned", "command_id": cid, "at": at})
+                 except Exception as exc:
++                    dispatch_error = type(exc).__name__ + ": " + str(exc)
+                     trace.append({"kind": "native_duplicate_submission_exception", "command_id": cid, "at": at,
+                                   "exception": type(exc).__name__, "message": str(exc)})
+             else:
+@@ -184,10 +199,14 @@
+                     self.known_orders[cid] = order
+                     self.submit_order(order)
+                 except Exception as exc:
++                    dispatch_error = type(exc).__name__ + ": " + str(exc)
+                     rejected.append(cid)
+                     trace.append({"kind": "native_constructor_or_submit_exception", "command_id": cid,
+                                   "at": at, "exception": type(exc).__name__, "message": str(exc)})
+-            snapshot(at, "after:" + cid)
++            after = snapshot(at, "after:" + cid)
++            if boundary:
++                boundary.dispatched(cid, dispatch_error)
++                boundary.observe(after["orders"])
+ 
+         def record(self, event):
+             row = {"type": type(event).__name__, "at": event.ts_event,
+@@ -197,6 +216,8 @@
+                     row[name] = str(getattr(event, name))
+             native_events.append(row)
+             durable("native-events.jsonl", row)
++            if boundary:
++                boundary.native_event(row)
+             return row
+ 
+         def on_order_submitted(self, event):
+@@ -275,6 +296,8 @@
+     engine.add_data(data, sort=True)
+     engine.run(start=first-1, end=last+101)
+     final = snapshot(last+101, "final")
++    if boundary:
++        boundary.observe(final["orders"])
+     result = {
+         "engine": "Nautilus", "version": "2.0.0rc7", "case_id": fixture["case_id"], "run_id": fixture["run_id"], "synthetic_only": True,
+         "native_configuration": {"book_type": book_type, "liquidity_consumption": consumption,
+@@ -289,6 +312,8 @@
+         "orders": final["orders"], "positions": final["positions"],
+         "terminal_marker": {"at": last+100, "type": "InstrumentStatus.NONE", "quote_or_depth_change_requested": False},
+         "native_consumption_budget": None,
++        "command_boundary": {"origin": "supervisor only", "entries": boundary.entries,
++                             "journal_events": boundary.events} if boundary else None,
+         "native_consumption_budget_limit": "public module exposes book state, not a separately certified internal consumption counter",
+     }
+     durable("completed.jsonl", {"case_id": fixture["case_id"], "balances": result["balances"], "orders": result["orders"]})
+@@ -305,13 +330,14 @@
+     parser.add_argument("--consumption", choices=["true", "false"], default="true")
+     parser.add_argument("--journal", type=Path)
+     parser.add_argument("--l2-reference", action="store_true")
++    parser.add_argument("--idempotent", action="store_true")
+     parser.add_argument("--cut", choices=["after-submit-before-ack", "after-fill-before-checkpoint", "during-cancel"])
+     args = parser.parse_args()
+     bundle = json.loads(args.bundle.read_text())
+     fixtures = bundle.get("functional", bundle.get("cases"))
+     fixture = next(f for f in fixtures if f["case_id"] == args.case)
+     book = args.book or ("L2_MBP" if any(e["kind"] == "book_snapshot" for e in fixture["events"]) else "L1_MBP")
+-    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut, args.l2_reference)
++    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut, args.l2_reference, args.idempotent)
+     with args.output.open("x") as stream:
+         json.dump(result, stream, indent=2); stream.write("\n")
+     print(json.dumps({"case_id": args.case, "native_worker_completed": True,

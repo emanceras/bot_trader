@@ -1,0 +1,2 @@
+{"at": 1700000000000012000, "command": {"available_ns": 1700000000000011000, "command_id": "D6-cancel-buy", "instrument_id": "SYN-USD.SIM", "kind": "market", "quantity": "6.00", "side": "BUY", "strategy_id": "strategy-A", "tif": "GTC"}}
+{"at": 1700000000000036000, "command": {"available_ns": 1700000000000035000, "command_id": "D6-cancel-cancel", "instrument_id": "SYN-USD.SIM", "kind": "cancel", "strategy_id": "strategy-A", "target": "D6-cancel-buy"}}

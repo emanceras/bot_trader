@@ -1,5 +1,7 @@
 # Recuperación E — resultados ejecutados y requisitos pendientes
 
+**Corrección posterior D-050/D-051:** los [nuevos resultados ejecutados](engine-correction.md) conservan este registro. La referencia causal L2 permite ejecutar los niveles originales; el supervisor evita la corrupción por duplicados E4, pero falta su segundo fill nativo exigido. Sin admisión de motor ni financiera.
+
 Documento: IV-E-RECOVERY-001 · Versión: 1 · Fecha: 2026-11-02. Traducción del [original canónico inglés](../../en/phase-iv/engine-recovery.md).
 
 **Nautilus ya se ejecuta, pero ninguno de los motores queda admitido para investigación financiera o producción.** La recuperación acotada aporta evidencia contable, de ejecución y de interrupciones, incluidos resultados adversos. No completa todos los requisitos E originales. La [autorización D-048](../../phase-iv/APPROVAL-E-RECOVERY.es.md) complementa el alcance anterior; los [resultados de 00131bc](technical-results.md) se conservan. No se repitieron M/R ni pruebas concluyentes de LEAN.

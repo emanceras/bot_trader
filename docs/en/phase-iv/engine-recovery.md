@@ -1,5 +1,7 @@
 # E recovery — executed results and remaining gates
 
+**Subsequent D-050/D-051 correction:** [new executed findings](engine-correction.md) preserve this recovery record. L2 reference-price bridge now executes the original sweep; E4 duplicate corruption is prevented by the supervisor, but its second required native fill is still absent. No engine/financial admission.
+
 Document ID: IV-E-RECOVERY-001 · Version: 1 · Date: 2026-11-02 · English canonical. [Spanish](../../es/phase-iv/engine-recovery.md).
 
 **Nautilus now runs, but neither engine is admitted for financial research or production.** The bounded recovery produced useful accounting, execution and interruption evidence, including adverse results. It did not complete every original E requirement. [D-048 authorization](../../phase-iv/APPROVAL-E-RECOVERY.es.md) supplements the original scope; [00131bc results](technical-results.md) remain preserved. M/R and conclusive LEAN tests were not repeated.

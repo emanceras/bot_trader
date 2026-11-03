@@ -1,0 +1,57 @@
+--- a3ec18f/nautilus_worker.py
++++ D050-l2/nautilus_worker.py
+@@ -38,7 +38,7 @@
+     }
+ 
+ 
+-def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None):
++def run_fixture(fixture, book_type, consumption, journal_dir=None, cut_point=None, l2_reference=False):
+     assert sys.version_info[:3] == (3, 13, 16)
+     assert not sysconfig.get_config_var("Py_GIL_DISABLED")
+     assert importlib.metadata.version("nautilus-trader") == "2.0.0rc7"
+@@ -244,6 +244,7 @@
+     for owner in fixture["strategy_ids"]:
+         engine.add_strategy(MechanicalFixture(owner))
+     data = []
++    reference_quotes = []
+     for index, item in enumerate(fixture["events"]):
+         t, available = item["event_ns"], item["available_ns"]
+         if item["kind"] == "quote":
+@@ -258,6 +259,12 @@
+                     BookOrder(getattr(OrderSide, side), Price.from_str(price), Quantity.from_str(qty), level+1),
+                     flags, index+1, t, available))
+             data.append(OrderBookDeltas(instrument_id, deltas))
++            if l2_reference:
++                from l2_reference import derive
++                reference = derive(item)
++                reference_quotes.append(reference)
++                data.append(QuoteTick(instrument_id, Price.from_str(reference["bid"]), Price.from_str(reference["ask"]),
++                                      Quantity.from_str(reference["bid_size"]), Quantity.from_str(reference["ask_size"]), t, available))
+     first = min(item["available_ns"] for item in fixture["events"])
+     last = max([e["available_ns"] for e in fixture["events"]] + [c["available_ns"] + latency for c in fixture["commands"]])
+     marker = InstrumentStatus(instrument_id, MarketStatusAction.NONE, last + 100, last + 100,
+@@ -274,6 +281,8 @@
+             "use_message_queue": False, "native_latency": 0, "harness_delay_ns": latency,
+             "fee_model": "native MakerTakerFeeModel", "new_fill_model": False},
+         "fills": fills, "native_events": native_events, "trace": trace, "snapshots": snapshots,
++        "derived_reference_quotes": reference_quotes,
++        "reference_transform_sha256": __import__('hashlib').sha256(Path(__file__).with_name("l2_reference.py").read_bytes()).hexdigest() if l2_reference else None,
+         "module_book_observations": module_books, "rejected_command_ids": sorted(set(rejected)),
+         "decisions": decisions, "conversion": conversion, "callback_errors": errors,
+         "balances": final["balances"], "free": final["free"], "reserved": final["reserved"],
+@@ -295,13 +304,14 @@
+     parser.add_argument("--book", choices=["L1_MBP", "L2_MBP"])
+     parser.add_argument("--consumption", choices=["true", "false"], default="true")
+     parser.add_argument("--journal", type=Path)
++    parser.add_argument("--l2-reference", action="store_true")
+     parser.add_argument("--cut", choices=["after-submit-before-ack", "after-fill-before-checkpoint", "during-cancel"])
+     args = parser.parse_args()
+     bundle = json.loads(args.bundle.read_text())
+     fixtures = bundle.get("functional", bundle.get("cases"))
+     fixture = next(f for f in fixtures if f["case_id"] == args.case)
+     book = args.book or ("L2_MBP" if any(e["kind"] == "book_snapshot" for e in fixture["events"]) else "L1_MBP")
+-    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut)
++    result = run_fixture(fixture, book, args.consumption == "true", args.journal, args.cut, args.l2_reference)
+     with args.output.open("x") as stream:
+         json.dump(result, stream, indent=2); stream.write("\n")
+     print(json.dumps({"case_id": args.case, "native_worker_completed": True,

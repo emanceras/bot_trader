@@ -1,5 +1,7 @@
 # Phase IV checkpoint
 
+**Current — D-051, evidence2026-11-02–03UTC:** [E3-L2/E4 correction EN](../en/phase-iv/engine-correction.md) / [ES](../es/phase-iv/engine-correction.md), [receipts/resumption](technical-results/E-correction/README.md).6tests+2preparations, one correction per blocker, no downloads. E3-L2sweep/limited cancel reserves demonstrated; market remainder2 stays unreserved and does not fill on the tested later snapshot. E4 command idempotency works but required second native fill remains missing. Supervisor fill consolidation17/17; original regression batch27/32 retained. E1/bar contract remains pending; no engine selected, production/financial permissions unchanged. Los checkpoints siguientes conservan estados históricos.
+
 **Current — D-049, 2026-11-02:** [E recovery EN](../en/phase-iv/engine-recovery.md) / [ES](../es/phase-iv/engine-recovery.md), [receipts](technical-results/E-recovery/README.md). Nautilus installed/run with approved standard CPython3.13.16. Nine partial functional slots, four diagnostics, one correction; L1/order-state failures and L2 reference-price blocker retained. Three abrupt cuts reproduce state post-hoc, not safe pre-action recovery. Neither engine selected. No M/R or old LEAN rerun, production change or financial access. Previous dated checkpoints below are historical. Resumen: ejecución técnica efectiva con límites; no declarar E completo ni IV cerrada.
 
 Updated: 2026-11-01. Canonical English; resumen español below.

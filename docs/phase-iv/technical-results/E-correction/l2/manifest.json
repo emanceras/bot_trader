@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-11-02T20:06:17.194806+00:00",
+  "authority": "D-050",
+  "prior_worker_sha256": "f28e39871b1e39b93e913db21c11a1c982f735c7de22caf5e80e8714f31c0fee",
+  "sources": {
+    "nautilus_worker.py": "48c5ba5e61ef166271f161e3f6fec4b7cc0d31999a75fe9fb29ba5e92c50560e",
+    "l2_reference.py": "85e078d7cd19aa1f451262dea7c43a08f27b8708f38d88e57491420956cd2aac",
+    "evaluate_nautilus.py": "071ac469728036f5cde23e2ffc0c870a7721648623057bf6bbbf41407cdbde81",
+    "engine_fixtures.py": "8cc5da60e751b089a319f8ade7da7d7c996b32113d5c6ebb37d918bc61c82686",
+    "correction_guard.py": "60270ed249dd5ba9d5b3ff61105f129890ce3a34d2fdbbac8e88659944846198",
+    "freeze_correction.py": "6ef05cf21e9316b2900177c47bbc12758265179de948730bb837b620ae6f4b60"
+  },
+  "diagnostics_sha256": "b21394752b540bd772d05f1017054cc455680d7ab812d0e86c7ac56a03b8fbe6",
+  "original_bundle_sha256": "5aabcb23eb3d29273b299d3731031db511553da4ded5f24066278bb09a27af83",
+  "correction": "QuoteTick reference from top levels of same snapshot after its deltas at identical event/availability timestamps; risk remains enabled",
+  "reason": "Prior depth-only cache caused MARKET_PRICE_UNAVAILABLE in native pre-trade risk before market submission",
+  "order": "original E3-L2, D6-cancel, E4 boundary+fill consolidation; D6-replenish only if resources and evidence justify",
+  "regressions": "independent accounting, unchanged source ordering, quantities/fees/cancel, trace quote provenance and risk enabled",
+  "no_custom_fill_model": true,
+  "one_L2_correction_only": true
+}

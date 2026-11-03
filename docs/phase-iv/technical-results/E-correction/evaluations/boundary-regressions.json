@@ -1,0 +1,232 @@
+{
+  "checks": [
+    {
+      "name": "E3-L2:frozen_component_oracle",
+      "passed": true,
+      "detail": {
+        "case_id": "E3-L2",
+        "problems": [],
+        "component_checks_pass": true,
+        "full_E_admission": false,
+        "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+        "filled_by_command": {
+          "depth-market": "4.00",
+          "resting-partial": "1.00"
+        },
+        "specifics": {
+          "IOC_quantity": "0",
+          "IOC_arrival_before_next_snapshot": true
+        }
+      }
+    },
+    {
+      "name": "E4-idempotency:frozen_component_oracle",
+      "passed": false,
+      "detail": {
+        "case_id": "E4-idempotency",
+        "problems": [
+          "distinct_equal_fills_not_preserved",
+          "required_fill_quantity:shared-first"
+        ],
+        "component_checks_pass": false,
+        "full_E_admission": false,
+        "admission_note": "Component checks alone do not certify all original E requirements, native R parity, independent venue recovery or real-market execution.",
+        "filled_by_command": {
+          "shared-first": "3.00"
+        },
+        "specifics": {
+          "duplicate_fill_redelivery": "not exercised by this worker; native fill-id replay remains unproved",
+          "shared_capital_policy": "native risk/account behavior; no harness reservation shim"
+        }
+      }
+    },
+    {
+      "name": "L2:reference_provenance_and_values",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L2:one_reference_per_original_snapshot",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L2:terminal_reserves_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L2:empty_side_rejected_without_fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L2:inexact_timestamp_rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D6:independent_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D6:partial_quantity_preserved_before_cancel",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D6:explicit_cancel_preserves_fills",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D6:terminal_reserves_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "D6:remaining_cash_reservation_recorded_not_assumed",
+      "passed": true,
+      "detail": {
+        "before_cancel": {
+          "USD": "0.00",
+          "USDT": "0E-8",
+          "SYN": "0E-8"
+        },
+        "after_cancel": {
+          "USD": "0.00",
+          "USDT": "0E-8",
+          "SYN": "0E-8"
+        },
+        "note": "Zero before and after means no native release occurred; no guarantee of funding reserved for open market remainder"
+      }
+    },
+    {
+      "name": "E4:first_native_order_history_preserved",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "E4:first_native_submit_once",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "E4:duplicate_suppression_is_supervisor",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "E4:duplicate_no_snapshot_effect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "E4:terminal_reserves_zero",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "E4:equal_values_distinct_fill_ids_retained",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "fill:first_delivery:T-240c8a3697f571ab-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fill:repeated_delivery_suppressed:T-240c8a3697f571ab-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fill:consolidated_fee_cash_inventory_equations",
+      "passed": false,
+      "detail": null
+    },
+    {
+      "name": "fill:conflicting_same_identity_rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fill:conflict_has_no_effect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:new_identity_admitted",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:pending_duplicate_blocked",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:reconstructed_pending_is_blocked",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:dispatch_exception_not_labeled_success",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:actual_durable_journal_reconstructs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:completed_duplicate_preserves_actual_native_result",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:conflicting_payload_rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:conflict_has_no_state_effect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "command:missing_journal_sequence_rejected",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed": false,
+  "native_engine_executed_in_this_invocation": false,
+  "artificial_fill_injection_into_engine": false,
+  "origin": "supervisor-only redelivery/consolidation and readonly native observations",
+  "limits": [
+    "No exchange recovery or E1 full parity",
+    "Reconstruction protects stored request identity; does not restore native positions or authorize resumption",
+    "Checks do not establish general historical market realism"
+  ],
+  "consolidated_actual_fills": [
+    {
+      "venue": "SIM",
+      "fill_id": "T-240c8a3697f571ab-001",
+      "command_id": "shared-first",
+      "instrument_id": "SYN-USD.SIM",
+      "strategy_label": "strategy-A",
+      "side": "BUY",
+      "quantity": "3.00",
+      "price": "100.00",
+      "fee": "0.60",
+      "fee_currency": "USD",
+      "liquidity_role": "taker",
+      "at": 1700000000000012000,
+      "origin": "native OrderFilled; no expected-fill injection"
+    }
+  ]
+}

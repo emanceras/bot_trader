@@ -1,0 +1,7 @@
+{"at": 1700000000000012000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "ts_init": 1700000000000012000, "type": "OrderSubmitted"}
+{"at": 1700000000000012000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "ts_init": 1700000000000012000, "type": "OrderAccepted", "venue_order_id": "SIM-1-1"}
+{"at": 1700000000000012000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "trade_id": "T-240c8a3697f571ab-001", "ts_init": 1700000000000012000, "type": "OrderFilled", "venue_order_id": "SIM-1-1"}
+{"at": 1700000000000012000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "trade_id": "T-240c8a3697f571ab-002", "ts_init": 1700000000000012000, "type": "OrderFilled", "venue_order_id": "SIM-1-1"}
+{"at": 1700000000000012000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "trade_id": "T-240c8a3697f571ab-003", "ts_init": 1700000000000012000, "type": "OrderFilled", "venue_order_id": "SIM-1-1"}
+{"at": 1700000000000036000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "ts_init": 1700000000000036000, "type": "OrderPendingCancel", "venue_order_id": "SIM-1-1"}
+{"at": 1700000000000036000, "client_order_id": "D6-cancel-buy", "owner": "strategy-A", "reason": "None", "ts_init": 1700000000000036000, "type": "OrderCanceled", "venue_order_id": "SIM-1-1"}
