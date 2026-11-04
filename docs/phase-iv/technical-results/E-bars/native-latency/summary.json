@@ -1,0 +1,138 @@
+{
+  "group": "native-latency",
+  "native_child_invocations": 2,
+  "records": [
+    {
+      "case_id": "native-latency-adaptive-false",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "native-latency-adaptive-false",
+        "--output",
+        "/workspace/technical-admission/E/bars/native-latency/native-latency-adaptive-false/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.36477027199725853,
+      "observed_fills": [
+        {
+          "at": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "fill_id": "T-c6ac4e645304ef98-009",
+          "order_id": "bar-probe-buy",
+          "side": "BUY",
+          "quantity": "1.00",
+          "price": "112.00",
+          "fee": "0.22",
+          "fee_currency": "USD",
+          "liquidity_role": "taker",
+          "origin": "native OrderFilled; no injected fill"
+        }
+      ],
+      "same_N_close_price_observed": false,
+      "native_outcome_observational_not_causal_admission": true
+    },
+    {
+      "case_id": "native-latency-adaptive-true",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "native-latency-adaptive-true",
+        "--output",
+        "/workspace/technical-admission/E/bars/native-latency/native-latency-adaptive-true/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.36476037399552297,
+      "observed_fills": [
+        {
+          "at": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "fill_id": "T-c6ac4e645304ef98-009",
+          "order_id": "bar-probe-buy",
+          "side": "BUY",
+          "quantity": "1.00",
+          "price": "112.00",
+          "fee": "0.22",
+          "fee_currency": "USD",
+          "liquidity_role": "taker",
+          "origin": "native OrderFilled; no injected fill"
+        }
+      ],
+      "same_N_close_price_observed": false,
+      "native_outcome_observational_not_causal_admission": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "native-latency-adaptive-false:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "native-latency-adaptive-false:native_fee:T-c6ac4e645304ef98-009",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-false:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-false:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-false:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-false:decision_only_after_confirmed_available",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-true:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "native-latency-adaptive-true:native_fee:T-c6ac4e645304ef98-009",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-true:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-true:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-true:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native-latency-adaptive-true:decision_only_after_confirmed_available",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed_component_checks": true,
+  "native_adverse_outcomes_are_not_suppressed": true,
+  "financial_admission": false,
+  "scope": "One grouped technical invocation; every native child above is explicit. R selected predicates only, not R suite repeated."
+}

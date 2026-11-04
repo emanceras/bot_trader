@@ -1,0 +1,15 @@
+{
+  "case_id": "invariance-high",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/bars/frozen/cases.json",
+    "--case",
+    "invariance-high",
+    "--output",
+    "/workspace/technical-admission/E/bars/invariance/invariance-high/observations.json"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.4152025679941289
+}

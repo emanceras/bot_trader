@@ -1,0 +1,187 @@
+{
+  "recorded_utc": "2026-11-03T21:51:50.491803+00:00",
+  "scope": "Read-only publication/source audit; no native engine or financial case rerun",
+  "passed": true,
+  "checks": [
+    {
+      "name": "published_copies_match_original_hashes",
+      "passed": true,
+      "detail": 74
+    },
+    {
+      "name": "original_frozen_sources_equal_repository",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "frozen_bundle_hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "original_R_source_unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R1:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R1:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R1:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R1:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R2:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R2:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R2:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R2:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R3:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R3:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R3:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R3:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R7:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R7:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_event:R7:6",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_original_expected:R7:6",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "JSON_records_parse",
+      "passed": true,
+      "detail": 60
+    },
+    {
+      "name": "new_and_frozen_Python_AST_parses",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all_reserved_runs_have_receipts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "resource_limits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:native-zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:native-latency",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:timestamps",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:causal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:invariance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "executed_component_summary:late-decision",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "protected_and_prior_evidence_unchanged_since_c1d4029",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "production_preservation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "changed_markdown_local_links_exist",
+      "passed": true,
+      "detail": {
+        "links": 297,
+        "broken": []
+      }
+    },
+    {
+      "name": "publication_files_under_1MiB",
+      "passed": true,
+      "detail": 590834
+    }
+  ],
+  "publication_bytes_before_this_receipt": 590834,
+  "independent_internal_review": "Separate agent read source and actual traces; no harness defect identified; no additional execution. Not external certification."
+}

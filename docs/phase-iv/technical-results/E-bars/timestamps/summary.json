@@ -1,0 +1,400 @@
+{
+  "group": "timestamps",
+  "native_child_invocations": 4,
+  "records": [
+    {
+      "case_id": "timestamp-open-False-0",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "timestamp-open-False-0",
+        "--output",
+        "/workspace/technical-admission/E/bars/timestamps/timestamp-open-False-0/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.4149660210023285,
+      "receipt_before_true_close": true
+    },
+    {
+      "case_id": "timestamp-open-True-0",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "timestamp-open-True-0",
+        "--output",
+        "/workspace/technical-admission/E/bars/timestamps/timestamp-open-True-0/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.4151243410015013,
+      "receipt_before_true_close": false
+    },
+    {
+      "case_id": "timestamp-close-True-0",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "timestamp-close-True-0",
+        "--output",
+        "/workspace/technical-admission/E/bars/timestamps/timestamp-close-True-0/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.364837842003908,
+      "receipt_before_true_close": false
+    },
+    {
+      "case_id": "timestamp-open-True-123",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "timestamp-open-True-123",
+        "--output",
+        "/workspace/technical-admission/E/bars/timestamps/timestamp-open-True-123/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.36457593699742574,
+      "receipt_before_true_close": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "timestamp-open-False-0:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "timestamp-open-False-0:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-False-0:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-False-0:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-False-0:native_receipt_equals_supplied_init",
+      "passed": true,
+      "detail": [
+        {
+          "sequence": 2,
+          "kind": "bar_callback",
+          "at": 1700000000000000000,
+          "bar": {
+            "type": "Bar",
+            "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+            "open": "100.00",
+            "high": "101.00",
+            "low": "99.00",
+            "close": "100.50",
+            "volume": "100.00",
+            "ts_event": 1700000000000000000,
+            "ts_init": 1700000000000000000
+          },
+          "source_id": "N",
+          "modeled_available_ns": 1700000060000000000,
+          "source_label": "open",
+          "source_close_ns": 1700000060000000000
+        }
+      ]
+    },
+    {
+      "name": "timestamp-open-False-0:negative_or_corrected_control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-False-0:event_and_init_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-0:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "timestamp-open-True-0:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-0:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-0:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-0:native_receipt_equals_supplied_init",
+      "passed": true,
+      "detail": [
+        {
+          "sequence": 2,
+          "kind": "bar_callback",
+          "at": 1700000060000000000,
+          "bar": {
+            "type": "Bar",
+            "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+            "open": "100.00",
+            "high": "101.00",
+            "low": "99.00",
+            "close": "100.50",
+            "volume": "100.00",
+            "ts_event": 1700000000000000000,
+            "ts_init": 1700000060000000000
+          },
+          "source_id": "N",
+          "modeled_available_ns": 1700000060000000000,
+          "source_label": "open",
+          "source_close_ns": 1700000060000000000
+        }
+      ]
+    },
+    {
+      "name": "timestamp-open-True-0:negative_or_corrected_control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-0:event_and_init_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-close-True-0:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "timestamp-close-True-0:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-close-True-0:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-close-True-0:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-close-True-0:native_receipt_equals_supplied_init",
+      "passed": true,
+      "detail": [
+        {
+          "sequence": 2,
+          "kind": "bar_callback",
+          "at": 1700000060000000000,
+          "bar": {
+            "type": "Bar",
+            "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+            "open": "100.00",
+            "high": "101.00",
+            "low": "99.00",
+            "close": "100.50",
+            "volume": "100.00",
+            "ts_event": 1700000060000000000,
+            "ts_init": 1700000060000000000
+          },
+          "source_id": "N",
+          "modeled_available_ns": 1700000060000000000,
+          "source_label": "close",
+          "source_close_ns": 1700000060000000000
+        }
+      ]
+    },
+    {
+      "name": "timestamp-close-True-0:negative_or_corrected_control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-close-True-0:event_and_init_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-123:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "timestamp-open-True-123:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-123:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-123:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-123:native_receipt_equals_supplied_init",
+      "passed": true,
+      "detail": [
+        {
+          "sequence": 2,
+          "kind": "bar_callback",
+          "at": 1700000060000000123,
+          "bar": {
+            "type": "Bar",
+            "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+            "open": "100.00",
+            "high": "101.00",
+            "low": "99.00",
+            "close": "100.50",
+            "volume": "100.00",
+            "ts_event": 1700000000000000123,
+            "ts_init": 1700000060000000123
+          },
+          "source_id": "N",
+          "modeled_available_ns": 1700000060000000123,
+          "source_label": "open",
+          "source_close_ns": 1700000060000000123
+        }
+      ]
+    },
+    {
+      "name": "timestamp-open-True-123:negative_or_corrected_control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "timestamp-open-True-123:event_and_init_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "units:s",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "units:ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "units:us",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "units:ns",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:float",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:bool",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:unknown",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:overflow",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:negative",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject:ns_to_us_loss",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact_narrowing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "opening_and_closing_labels_same_availability",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R1:delayed:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R1:delayed:3",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R2:ns1:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R2:ns2:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R3:open0:0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R3:close0:4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R7:p1:1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R7:correction:6",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed_component_checks": true,
+  "native_adverse_outcomes_are_not_suppressed": true,
+  "financial_admission": false,
+  "scope": "One grouped technical invocation; every native child above is explicit. R selected predicates only, not R suite repeated."
+}

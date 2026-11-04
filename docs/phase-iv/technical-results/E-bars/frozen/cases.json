@@ -1,0 +1,961 @@
+{
+  "schema": "D052-bars-v1",
+  "engine": "2.0.0rc7",
+  "python": "3.13.16-standard",
+  "groups": {
+    "native-zero": [
+      "native-zero-adaptive-false",
+      "native-zero-adaptive-true"
+    ],
+    "native-latency": [
+      "native-latency-adaptive-false",
+      "native-latency-adaptive-true"
+    ],
+    "timestamps": [
+      "timestamp-open-False-0",
+      "timestamp-open-True-0",
+      "timestamp-close-True-0",
+      "timestamp-open-True-123"
+    ],
+    "causal": [
+      "causal-base"
+    ],
+    "invariance": [
+      "invariance-high",
+      "invariance-low",
+      "invariance-close",
+      "invariance-revision"
+    ],
+    "late-decision": [
+      "late-decision-true",
+      "late-decision-false"
+    ]
+  },
+  "cases": [
+    {
+      "id": "native-zero-adaptive-false",
+      "mode": "native",
+      "bar_execution": true,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "native-zero-adaptive-true",
+      "mode": "native",
+      "bar_execution": true,
+      "adaptive": true,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "native-latency-adaptive-false",
+      "mode": "native",
+      "bar_execution": true,
+      "adaptive": false,
+      "latency_ns": 1000000,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "native-latency-adaptive-true",
+      "mode": "native",
+      "bar_execution": true,
+      "adaptive": true,
+      "latency_ns": 1000000,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "timestamp-open-False-0",
+      "mode": "timestamp",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000000000000000,
+          "ts_init": 1700000000000000000,
+          "available_ns": 1700000060000000000,
+          "label": "open"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      },
+      "negative_control": true
+    },
+    {
+      "id": "timestamp-open-True-0",
+      "mode": "timestamp",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000000000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "open"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      },
+      "negative_control": false
+    },
+    {
+      "id": "timestamp-close-True-0",
+      "mode": "timestamp",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      },
+      "negative_control": false
+    },
+    {
+      "id": "timestamp-open-True-123",
+      "mode": "timestamp",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000123,
+          "close_ns": 1700000060000000123,
+          "ts_event": 1700000000000000123,
+          "ts_init": 1700000060000000123,
+          "available_ns": 1700000060000000123,
+          "label": "open"
+        }
+      ],
+      "quotes": [],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      },
+      "negative_control": false
+    },
+    {
+      "id": "causal-base",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "invariance-high",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "135.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "invariance-low",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "106.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "invariance-close",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "113.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "invariance-revision",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060000000000,
+          "available_ns": 1700000060000000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        },
+        {
+          "id": "N-revision",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "99.75",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060030000000,
+          "available_ns": 1700000060030000000,
+          "label": "close",
+          "revision_of": "N"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "late-decision-true",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060010000000,
+          "available_ns": 1700000060010000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        },
+        {
+          "id": "later-independent-event",
+          "mid": "111.00",
+          "event_ns": 1700000060020000000,
+          "available_ns": 1700000060021000000,
+          "origin": "independently declared synthetic later market event; not future OHLC"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    },
+    {
+      "id": "late-decision-false",
+      "mode": "causal",
+      "bar_execution": false,
+      "adaptive": false,
+      "latency_ns": 0,
+      "decision_processing_ns": 0,
+      "quantity": "1.00",
+      "maker_fee": "0.001",
+      "taker_fee": "0.002",
+      "initial_cash": {
+        "USD": "1000.00",
+        "SYN": "0.00"
+      },
+      "bars": [
+        {
+          "id": "N",
+          "open": "100.00",
+          "high": "101.00",
+          "low": "99.00",
+          "close": "100.50",
+          "volume": "100.00",
+          "open_ns": 1700000000000000000,
+          "close_ns": 1700000060000000000,
+          "ts_event": 1700000060000000000,
+          "ts_init": 1700000060010000000,
+          "available_ns": 1700000060010000000,
+          "label": "close"
+        },
+        {
+          "id": "N+1",
+          "open": "110.00",
+          "high": "125.00",
+          "low": "108.00",
+          "close": "112.00",
+          "volume": "100.00",
+          "open_ns": 1700000060000000000,
+          "close_ns": 1700000120000000000,
+          "ts_event": 1700000120000000000,
+          "ts_init": 1700000120000000000,
+          "available_ns": 1700000120000000000,
+          "label": "close"
+        }
+      ],
+      "quotes": [
+        {
+          "id": "opening-N+1",
+          "mid": "110.00",
+          "event_ns": 1700000060000000000,
+          "available_ns": 1700000060001000000,
+          "origin": "synthetic quote derived solely from N+1 opening110.00; no high/low/close information"
+        }
+      ],
+      "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+      "execution_policy": {
+        "version": "D052-OHLC-synthetic-v1",
+        "spread_usd": "0.10",
+        "additional_slippage_usd": "0.00",
+        "visible_quantity_assumption": "2.00",
+        "max_order_quantity": "1.00",
+        "max_quote_age_ns": 1000000,
+        "synthetic_quote_not_observed": true,
+        "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+        "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+        "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+      }
+    }
+  ],
+  "invariance_cutoff_ns": 1700000060025000000,
+  "native_outcomes": "observational; do not predict which OHLC level latency/adaptive selects",
+  "timestamp_oracle": "negative delivered at opening is adverse configuration; corrected delivered at close, +123ns retained exactly; close label not shifted twice",
+  "causal_oracle": {
+    "base_price": "110.05",
+    "base_fill_at": 1700000060001000000,
+    "late_price": "111.05",
+    "late_fill_at": 1700000060021000000,
+    "late_without_new_event_fills": 0,
+    "quantity": "1.00",
+    "invariance": "early decision/order/fill prefix identical to base"
+  },
+  "native_contexts_initial": 15,
+  "no_new_financial_hypothesis": true
+}

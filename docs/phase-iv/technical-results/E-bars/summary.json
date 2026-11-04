@@ -1,0 +1,60 @@
+{
+  "authority": "D-052",
+  "base_commit": "c1d4029ac48e515d0e3292e4eceaa3bf7714f0b1",
+  "recorded_utc": "2026-11-03T21:48:46.840264+00:00",
+  "status": "authorized bounded cases executed; not full engine or financial admission",
+  "test_groups": 6,
+  "native_contexts": 15,
+  "preparations": 1,
+  "corrective_cycles_used": 0,
+  "checks": 135,
+  "failed_component_checks": [],
+  "groups": [
+    {
+      "group": "native-zero",
+      "native_child_invocations": 2,
+      "passed_component_checks": true
+    },
+    {
+      "group": "timestamps",
+      "native_child_invocations": 4,
+      "passed_component_checks": true
+    },
+    {
+      "group": "native-latency",
+      "native_child_invocations": 2,
+      "passed_component_checks": true
+    },
+    {
+      "group": "causal",
+      "native_child_invocations": 1,
+      "passed_component_checks": true
+    },
+    {
+      "group": "invariance",
+      "native_child_invocations": 4,
+      "passed_component_checks": true
+    },
+    {
+      "group": "late-decision",
+      "native_child_invocations": 2,
+      "passed_component_checks": true
+    }
+  ],
+  "native_same_close": "1@100.50 at T1 both orderings; incompatible with project post-close execution contract",
+  "native_latency_1ms": "1@112.00 at T2 both orderings; not next-open",
+  "causal_model": "synthetic bid/ask only; not observed execution evidence",
+  "financial_admission": false,
+  "E3_E4_economic": "pending",
+  "phase_V": "not_authorized",
+  "resources": {
+    "additional_guard_wall_seconds": 9.712750677994336,
+    "additional_cpu_seconds": 6.404959,
+    "peak_sampled_process_group_rss_bytes": 82489344,
+    "additional_E_scratch_bytes_at_audit": 556529,
+    "scratch_measurement_scope": "E disposable directory only; publication copies in Git measured separately",
+    "software_downloads": 0,
+    "software_ledger_unchanged": true,
+    "resource_stops": []
+  }
+}

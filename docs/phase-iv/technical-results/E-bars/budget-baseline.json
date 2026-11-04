@@ -1,0 +1,9 @@
+{
+  "recorded_utc": "2026-11-03T21:41:48.225816+00:00",
+  "E_scratch_start_bytes": 1840042016,
+  "E_receipts_start": 53,
+  "software_downloads_start_sha256": "852951f11c6ebfdf7282fe2878be161db2ec8bea5ba8bd93bd828858248774ad",
+  "max_test_invocations": 8,
+  "max_additional_wall_seconds": 1800,
+  "max_additional_scratch_bytes": 536870912
+}

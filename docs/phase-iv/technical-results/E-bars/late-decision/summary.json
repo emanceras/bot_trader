@@ -1,0 +1,114 @@
+{
+  "group": "late-decision",
+  "native_child_invocations": 2,
+  "records": [
+    {
+      "case_id": "late-decision-true",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "late-decision-true",
+        "--output",
+        "/workspace/technical-admission/E/bars/late-decision/late-decision-true/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.36494139999558683,
+      "early_prefix_digest": "2abac69772118fe07393d2225dfa626fa416afcacf12c7c155de6adb6c7dbea8"
+    },
+    {
+      "case_id": "late-decision-false",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "late-decision-false",
+        "--output",
+        "/workspace/technical-admission/E/bars/late-decision/late-decision-false/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.3650707679989864,
+      "early_prefix_digest": "1d9f3f9aa216c3825c787061fd3eac2572ca0d9747bc9cd3d0c18bc269a70288"
+    }
+  ],
+  "checks": [
+    {
+      "name": "late-decision-true:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "late-decision-true:native_fee:T-ac9429abbf24b13d-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-true:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-false:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "late-decision-false:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-false:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-false:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "late-decision-false:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed_component_checks": true,
+  "native_adverse_outcomes_are_not_suppressed": true,
+  "financial_admission": false,
+  "scope": "One grouped technical invocation; every native child above is explicit. R selected predicates only, not R suite repeated."
+}

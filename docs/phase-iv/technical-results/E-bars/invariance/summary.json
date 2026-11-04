@@ -1,0 +1,288 @@
+{
+  "group": "invariance",
+  "native_child_invocations": 4,
+  "records": [
+    {
+      "case_id": "invariance-high",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "invariance-high",
+        "--output",
+        "/workspace/technical-admission/E/bars/invariance/invariance-high/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.4152025679941289,
+      "early_prefix_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+    },
+    {
+      "case_id": "invariance-low",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "invariance-low",
+        "--output",
+        "/workspace/technical-admission/E/bars/invariance/invariance-low/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.36491051399934804,
+      "early_prefix_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+    },
+    {
+      "case_id": "invariance-close",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "invariance-close",
+        "--output",
+        "/workspace/technical-admission/E/bars/invariance/invariance-close/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.3649413680032012,
+      "early_prefix_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+    },
+    {
+      "case_id": "invariance-revision",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "invariance-revision",
+        "--output",
+        "/workspace/technical-admission/E/bars/invariance/invariance-revision/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.3648208859958686,
+      "early_prefix_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+    }
+  ],
+  "checks": [
+    {
+      "name": "invariance-high:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "invariance-high:native_fee:T-9778334ab2af14e4-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-high:prefix_decision_execution_invariance",
+      "passed": true,
+      "detail": {
+        "actual_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af",
+        "baseline_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+      }
+    },
+    {
+      "name": "invariance-low:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "invariance-low:native_fee:T-9778334ab2af14e4-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-low:prefix_decision_execution_invariance",
+      "passed": true,
+      "detail": {
+        "actual_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af",
+        "baseline_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+      }
+    },
+    {
+      "name": "invariance-close:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "invariance-close:native_fee:T-9778334ab2af14e4-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-close:prefix_decision_execution_invariance",
+      "passed": true,
+      "detail": {
+        "actual_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af",
+        "baseline_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+      }
+    },
+    {
+      "name": "invariance-revision:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "invariance-revision:native_fee:T-9778334ab2af14e4-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invariance-revision:prefix_decision_execution_invariance",
+      "passed": true,
+      "detail": {
+        "actual_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af",
+        "baseline_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+      }
+    }
+  ],
+  "passed_component_checks": true,
+  "native_adverse_outcomes_are_not_suppressed": true,
+  "financial_admission": false,
+  "scope": "One grouped technical invocation; every native child above is explicit. R selected predicates only, not R suite repeated."
+}

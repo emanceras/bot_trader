@@ -1,0 +1,73 @@
+{
+  "group": "causal",
+  "native_child_invocations": 1,
+  "records": [
+    {
+      "case_id": "causal-base",
+      "command": [
+        "/workspace/technical-admission/E/recovery/venv/bin/python",
+        "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+        "--bundle",
+        "/workspace/technical-admission/E/bars/frozen/cases.json",
+        "--case",
+        "causal-base",
+        "--output",
+        "/workspace/technical-admission/E/bars/causal/causal-base/observations.json"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.41521996799565386,
+      "early_prefix_digest": "75e99b709ab166f43518fc9177f6d3937e605e86db64310f780bfa1c322538af"
+    }
+  ],
+  "checks": [
+    {
+      "name": "causal-base:callbacks_no_errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "causal-base:native_fee:T-9778334ab2af14e4-001",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:native_accounting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:free_plus_reserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:position",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:expected_native_fill_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:declared_synthetic_price",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:eligible_fill_time",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "causal-base:no_retroactive_market_event",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed_component_checks": true,
+  "native_adverse_outcomes_are_not_suppressed": true,
+  "financial_admission": false,
+  "scope": "One grouped technical invocation; every native child above is explicit. R selected predicates only, not R suite repeated."
+}

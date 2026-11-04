@@ -1,0 +1,15 @@
+{
+  "case_id": "native-latency-adaptive-true",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/bars/frozen/cases.json",
+    "--case",
+    "native-latency-adaptive-true",
+    "--output",
+    "/workspace/technical-admission/E/bars/native-latency/native-latency-adaptive-true/observations.json"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.36476037399552297
+}

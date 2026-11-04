@@ -1,0 +1,11 @@
+{
+  "source": "/workspace/bot_trader/tools/technical_admission/fixtures/temporal_journals.json",
+  "sha256": "78bffe299a2e75c3fd49fcb7fa600de5a2f2d54710858ad03447515d6d7cb235",
+  "selected_ids": [
+    "R1",
+    "R2",
+    "R3",
+    "R7"
+  ],
+  "reuse": "availability, exact unit/precision, closed-bar revision and future-prefix constraints; source snippets separately preserved"
+}

@@ -1,0 +1,7 @@
+{"label": "bars-freeze", "preparation": true, "recorded_utc": "2026-11-03T21:41:49.756818+00:00", "state": "reserved_before_process"}
+{"label": "bars-native-zero", "preparation": false, "recorded_utc": "2026-11-03T21:43:50.390610+00:00", "state": "reserved_before_process"}
+{"label": "bars-timestamps", "preparation": false, "recorded_utc": "2026-11-03T21:44:09.979405+00:00", "state": "reserved_before_process"}
+{"label": "bars-native-latency", "preparation": false, "recorded_utc": "2026-11-03T21:44:21.502530+00:00", "state": "reserved_before_process"}
+{"label": "bars-causal", "preparation": false, "recorded_utc": "2026-11-03T21:44:33.189143+00:00", "state": "reserved_before_process"}
+{"label": "bars-invariance", "preparation": false, "recorded_utc": "2026-11-03T21:44:43.048631+00:00", "state": "reserved_before_process"}
+{"label": "bars-late-decision", "preparation": false, "recorded_utc": "2026-11-03T21:44:55.488415+00:00", "state": "reserved_before_process"}

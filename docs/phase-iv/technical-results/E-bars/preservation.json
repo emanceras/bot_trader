@@ -1,0 +1,18 @@
+{
+  "recorded_utc": "2026-11-03T21:45:13.970640+00:00",
+  "base_commit": "fa435a4f3ff2c15360b5fa0b5da4e2cf2259d14f",
+  "baseline_sha256": "97d950bb9fa9dadf90b67d1ed8474e98f04bddf621ad27c75fcbd9c83e6e9034",
+  "checked": {
+    "files": 73,
+    "venv_files": 4630
+  },
+  "mismatches": [],
+  "new_regular_venv_files": [],
+  "protected_paths_changed": [],
+  "passed": true,
+  "limits": [
+    "Verifies the recorded regular files; original baseline excludes symlink targets and runtime state.",
+    "No credentials or financial archives read; no claim of hostile-code write confinement.",
+    "A source/hash match is integrity evidence, not proof of financial or upstream correctness."
+  ]
+}

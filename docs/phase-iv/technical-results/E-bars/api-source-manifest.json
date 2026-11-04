@@ -1,0 +1,11 @@
+{
+  "scope": "local installed type-stub signatures consulted; no new documentation fetch or complete native source audit",
+  "engine": "2.0.0rc7",
+  "runtime": "standard CPython3.13.16",
+  "files": {
+    "nautilus_trader/model/__init__.pyi": "bc788f56a0f16c49206f09522579b65d9282052de452d8fa14c1bd18467564f4",
+    "nautilus_trader/execution/__init__.pyi": "178b3ed63894c3e9afda76940ace016e0bc91f0f8edc1e09570ce663757fbb73",
+    "nautilus_trader/trading/__init__.pyi": "15ba8b670cd3b9d9e0369f6b9737bd0da33b5a8876ce6948d6a501bd6712c986",
+    "nautilus_trader/backtest/__init__.pyi": "63dcd6f5272cf64a7f3cb95c6542654ac4b7219b2fe4bed33192b4608560033f"
+  }
+}

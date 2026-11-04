@@ -1,0 +1,332 @@
+{
+  "case_id": "native-latency-adaptive-true",
+  "engine": "NautilusTrader2.0.0rc7",
+  "python": "3.13.16 (main, Oct  3 2026, 01:06:22) [Clang 22.1.3 ]",
+  "configuration": {
+    "id": "native-latency-adaptive-true",
+    "mode": "native",
+    "bar_execution": true,
+    "adaptive": true,
+    "latency_ns": 1000000,
+    "decision_processing_ns": 0,
+    "quantity": "1.00",
+    "maker_fee": "0.001",
+    "taker_fee": "0.002",
+    "initial_cash": {
+      "USD": "1000.00",
+      "SYN": "0.00"
+    },
+    "bars": [
+      {
+        "id": "N",
+        "open": "100.00",
+        "high": "101.00",
+        "low": "99.00",
+        "close": "100.50",
+        "volume": "100.00",
+        "open_ns": 1700000000000000000,
+        "close_ns": 1700000060000000000,
+        "ts_event": 1700000060000000000,
+        "ts_init": 1700000060000000000,
+        "available_ns": 1700000060000000000,
+        "label": "close"
+      },
+      {
+        "id": "N+1",
+        "open": "110.00",
+        "high": "125.00",
+        "low": "108.00",
+        "close": "112.00",
+        "volume": "100.00",
+        "open_ns": 1700000060000000000,
+        "close_ns": 1700000120000000000,
+        "ts_event": 1700000120000000000,
+        "ts_init": 1700000120000000000,
+        "available_ns": 1700000120000000000,
+        "label": "close"
+      }
+    ],
+    "quotes": [],
+    "signal_rule": "after confirmed eligible N close, hold one BUY intention; no strategy fitting",
+    "execution_policy": {
+      "version": "D052-OHLC-synthetic-v1",
+      "spread_usd": "0.10",
+      "additional_slippage_usd": "0.00",
+      "visible_quantity_assumption": "2.00",
+      "max_order_quantity": "1.00",
+      "max_quote_age_ns": 1000000,
+      "synthetic_quote_not_observed": true,
+      "eligible_rule": "decision exists; quote event>=decision time; quote availability>=decision time; no retroactive cached quote",
+      "unfilled_rule": "cancel any remaining market quantity on next available supervisor turn; confirmation required; no automatic retry",
+      "scope": "technical values only, not empirical spread/latency/capacity or financial policy approval"
+    }
+  },
+  "native_config": {
+    "bar_execution": true,
+    "bar_adaptive_high_low_ordering": true,
+    "StaticLatencyModel.base_latency_nanos": 1000000,
+    "use_message_queue": true,
+    "risk_enabled": true,
+    "custom_fill_model": false
+  },
+  "decision": {
+    "at": 1700000060000000000,
+    "ready_at": 1700000060000000000,
+    "bar_id": "N",
+    "known_close": "100.50",
+    "side": "BUY",
+    "quantity": "1.00"
+  },
+  "trace": [
+    {
+      "sequence": 1,
+      "kind": "module_pre_process",
+      "at": 1700000060000000000,
+      "data_type": "Bar",
+      "ts_event": 1700000060000000000,
+      "ts_init": 1700000060000000000
+    },
+    {
+      "sequence": 2,
+      "kind": "bar_callback",
+      "at": 1700000060000000000,
+      "bar": {
+        "type": "Bar",
+        "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+        "open": "100.00",
+        "high": "101.00",
+        "low": "99.00",
+        "close": "100.50",
+        "volume": "100.00",
+        "ts_event": 1700000060000000000,
+        "ts_init": 1700000060000000000
+      },
+      "source_id": "N",
+      "modeled_available_ns": 1700000060000000000,
+      "source_label": "close",
+      "source_close_ns": 1700000060000000000
+    },
+    {
+      "sequence": 3,
+      "kind": "decision",
+      "at": 1700000060000000000,
+      "decision": {
+        "at": 1700000060000000000,
+        "ready_at": 1700000060000000000,
+        "bar_id": "N",
+        "known_close": "100.50",
+        "side": "BUY",
+        "quantity": "1.00"
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "submit_intent",
+      "at": 1700000060000000000,
+      "decision_at": 1700000060000000000,
+      "price_source": "native_bar_close",
+      "source_event_ns": 1700000060000000000,
+      "source_available_ns": 1700000060000000000,
+      "nominal_arrival_ns": 1700000060001000000,
+      "nominal_arrival_is_observed": false
+    },
+    {
+      "sequence": 5,
+      "kind": "native_order_event",
+      "at": 1700000060000000000,
+      "event_type": "OrderSubmitted",
+      "ts_event": 1700000060000000000,
+      "ts_init": 1700000060000000000,
+      "client_order_id": "bar-probe-buy"
+    },
+    {
+      "sequence": 6,
+      "kind": "module_book_snapshot",
+      "at": 1700000060000000000,
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "100.50",
+          "ask": "100.50",
+          "bid_size": "25.00",
+          "ask_size": "25.00",
+          "bids": {
+            "100.50": "25.00"
+          },
+          "asks": {
+            "100.50": "25.00"
+          }
+        }
+      ],
+      "origin": "native exposed venue book; no guarantee of every internal OHLC substep"
+    },
+    {
+      "sequence": 7,
+      "kind": "module_pre_process",
+      "at": 1700000120000000000,
+      "data_type": "Bar",
+      "ts_event": 1700000120000000000,
+      "ts_init": 1700000120000000000
+    },
+    {
+      "sequence": 8,
+      "kind": "bar_callback",
+      "at": 1700000120000000000,
+      "bar": {
+        "type": "Bar",
+        "bar_type": "SYN-USD.SIM-1-MINUTE-LAST-EXTERNAL",
+        "open": "110.00",
+        "high": "125.00",
+        "low": "108.00",
+        "close": "112.00",
+        "volume": "100.00",
+        "ts_event": 1700000120000000000,
+        "ts_init": 1700000120000000000
+      },
+      "source_id": "N+1",
+      "modeled_available_ns": 1700000120000000000,
+      "source_label": "close",
+      "source_close_ns": 1700000120000000000
+    },
+    {
+      "sequence": 9,
+      "kind": "native_order_event",
+      "at": 1700000120000000000,
+      "event_type": "OrderAccepted",
+      "ts_event": 1700000120000000000,
+      "ts_init": 1700000120000000000,
+      "client_order_id": "bar-probe-buy",
+      "venue_order_id": "SIM-1-1"
+    },
+    {
+      "sequence": 10,
+      "kind": "native_order_event",
+      "at": 1700000120000000000,
+      "event_type": "OrderFilled",
+      "ts_event": 1700000120000000000,
+      "ts_init": 1700000120000000000,
+      "client_order_id": "bar-probe-buy",
+      "venue_order_id": "SIM-1-1",
+      "trade_id": "T-c6ac4e645304ef98-009"
+    },
+    {
+      "sequence": 11,
+      "kind": "fill",
+      "at": 1700000120000000000,
+      "fill": {
+        "at": 1700000120000000000,
+        "ts_event": 1700000120000000000,
+        "ts_init": 1700000120000000000,
+        "fill_id": "T-c6ac4e645304ef98-009",
+        "order_id": "bar-probe-buy",
+        "side": "BUY",
+        "quantity": "1.00",
+        "price": "112.00",
+        "fee": "0.22",
+        "fee_currency": "USD",
+        "liquidity_role": "taker",
+        "origin": "native OrderFilled; no injected fill"
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "module_book_snapshot",
+      "at": 1700000120000000000,
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "112.00",
+          "ask": "112.00",
+          "bid_size": "25.00",
+          "ask_size": "25.00",
+          "bids": {
+            "112.00": "25.00"
+          },
+          "asks": {
+            "112.00": "25.00"
+          }
+        }
+      ],
+      "origin": "native exposed venue book; no guarantee of every internal OHLC substep"
+    },
+    {
+      "sequence": 13,
+      "kind": "module_pre_process",
+      "at": 1700000121000000000,
+      "data_type": "InstrumentStatus",
+      "ts_event": 1700000121000000000,
+      "ts_init": 1700000121000000000
+    },
+    {
+      "sequence": 14,
+      "kind": "module_book_snapshot",
+      "at": 1700000121000000000,
+      "books": [
+        {
+          "instrument_id": "SYN-USD.SIM",
+          "bid": "112.00",
+          "ask": "112.00",
+          "bid_size": "25.00",
+          "ask_size": "25.00",
+          "bids": {
+            "112.00": "25.00"
+          },
+          "asks": {
+            "112.00": "25.00"
+          }
+        }
+      ],
+      "origin": "native exposed venue book; no guarantee of every internal OHLC substep"
+    }
+  ],
+  "fills": [
+    {
+      "at": 1700000120000000000,
+      "ts_event": 1700000120000000000,
+      "ts_init": 1700000120000000000,
+      "fill_id": "T-c6ac4e645304ef98-009",
+      "order_id": "bar-probe-buy",
+      "side": "BUY",
+      "quantity": "1.00",
+      "price": "112.00",
+      "fee": "0.22",
+      "fee_currency": "USD",
+      "liquidity_role": "taker",
+      "origin": "native OrderFilled; no injected fill"
+    }
+  ],
+  "synthetic_quote_inputs": [],
+  "callback_errors": [],
+  "balances": {
+    "USD": "887.78",
+    "SYN": "1.00000000"
+  },
+  "free": {
+    "USD": "887.78",
+    "SYN": "1.00000000"
+  },
+  "reserved": {
+    "USD": "0.00",
+    "SYN": "0E-8"
+  },
+  "orders": [
+    {
+      "id": "bar-probe-buy",
+      "status": "FILLED",
+      "filled": "1.00",
+      "remaining": "0.00"
+    }
+  ],
+  "positions": [
+    {
+      "id": "SYN-USD.SIM-bar-probe-B",
+      "quantity": "1.00",
+      "side": "LONG"
+    }
+  ],
+  "observability_limits": [
+    "OrderAccepted is an observed proxy, not a separate exchange-arrival callback",
+    "Module book snapshots do not certify all internal intrabar substeps"
+  ],
+  "terminal_marker_ns": 1700000121000000000
+}

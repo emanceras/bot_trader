@@ -1,0 +1,15 @@
+{
+  "case_id": "timestamp-close-True-0",
+  "command": [
+    "/workspace/technical-admission/E/recovery/venv/bin/python",
+    "/workspace/technical-admission/E/bars/frozen/bar_worker.py",
+    "--bundle",
+    "/workspace/technical-admission/E/bars/frozen/cases.json",
+    "--case",
+    "timestamp-close-True-0",
+    "--output",
+    "/workspace/technical-admission/E/bars/timestamps/timestamp-close-True-0/observations.json"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.364837842003908
+}

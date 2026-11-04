@@ -1,0 +1,340 @@
+{
+  "source_path": "/workspace/bot_trader/tools/technical_admission/fixtures/temporal_journals.json",
+  "source_sha256": "78bffe299a2e75c3fd49fcb7fa600de5a2f2d54710858ad03447515d6d7cb235",
+  "scope": "Read-only selection of existing fixture and independent expected rows; no R execution",
+  "selections": [
+    {
+      "journal_id": "R1",
+      "purpose": "Effective time is not availability; equality and unknown receipt are explicit.",
+      "rows": [
+        {
+          "original_index": 1,
+          "event": {
+            "id": "delayed",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 2,
+            "event_tick": 2,
+            "time_unit": "ns",
+            "available_ns": 30,
+            "receive_ns": 20,
+            "receive_ordinal": 1,
+            "op": "set",
+            "data": {
+              "key": "release",
+              "value": "initial"
+            }
+          },
+          "expected": {
+            "event_ns": 2,
+            "decision": "BLOCK",
+            "reason": "not_yet_available",
+            "state": {
+              "eligible_ids": [
+                "scheduled"
+              ],
+              "values": {
+                "scheduled": "announced"
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        },
+        {
+          "original_index": 3,
+          "event": {
+            "id": "delayed",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 2,
+            "event_tick": 2,
+            "time_unit": "ns",
+            "available_ns": 30,
+            "receive_ns": 30,
+            "receive_ordinal": 3,
+            "op": "set",
+            "data": {
+              "key": "release",
+              "value": "initial"
+            }
+          },
+          "expected": {
+            "event_ns": 2,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "scheduled",
+                "delayed"
+              ],
+              "values": {
+                "scheduled": "announced",
+                "release": "initial"
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "journal_id": "R2",
+      "purpose": "Submicrosecond order, declared units, true duplicates and namespaced identities.",
+      "rows": [
+        {
+          "original_index": 0,
+          "event": {
+            "id": "ns1",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 1000000001,
+            "event_tick": 1000000001,
+            "time_unit": "ns",
+            "available_ns": 1000000001,
+            "receive_ns": 2000000000,
+            "receive_ordinal": 0,
+            "op": "clock",
+            "data": {
+              "key": "fine1"
+            }
+          },
+          "expected": {
+            "event_ns": 1000000001,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "ns1"
+              ],
+              "values": {
+                "fine1": 1000000001
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        },
+        {
+          "original_index": 1,
+          "event": {
+            "id": "ns2",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 1000000002,
+            "event_tick": 1000000002,
+            "time_unit": "ns",
+            "available_ns": 1000000002,
+            "receive_ns": 2000000001,
+            "receive_ordinal": 1,
+            "op": "clock",
+            "data": {
+              "key": "fine2"
+            }
+          },
+          "expected": {
+            "event_ns": 1000000002,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "ns1",
+                "ns2"
+              ],
+              "values": {
+                "fine1": 1000000001,
+                "fine2": 1000000002
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "journal_id": "R3",
+      "purpose": "Open bars, half-open boundary, exact notional, compatible coarse aggregation and later correction.",
+      "rows": [
+        {
+          "original_index": 0,
+          "event": {
+            "id": "open0",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 0,
+            "event_tick": 0,
+            "time_unit": "ns",
+            "available_ns": 0,
+            "receive_ns": 1,
+            "receive_ordinal": 0,
+            "op": "open_bar",
+            "data": {
+              "bar_id": "b0-open"
+            }
+          },
+          "expected": {
+            "event_ns": 0,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "open0"
+              ],
+              "values": {
+                "provisional_bar": "b0-open"
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        },
+        {
+          "original_index": 4,
+          "event": {
+            "id": "close0",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 100,
+            "event_tick": 100,
+            "time_unit": "ns",
+            "available_ns": 105,
+            "receive_ns": 105,
+            "receive_ordinal": 4,
+            "op": "close_bar",
+            "data": {
+              "bar_id": "b0",
+              "start_ns": 0,
+              "end_ns": 100
+            }
+          },
+          "expected": {
+            "event_ns": 100,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "open0",
+                "t0",
+                "t1",
+                "open1",
+                "close0"
+              ],
+              "values": {
+                "bin:0": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "10",
+                  "close": "12",
+                  "quantity": "3",
+                  "amount": "34",
+                  "count": 2
+                },
+                "bar:b0": {
+                  "open": "10",
+                  "high": "12",
+                  "low": "10",
+                  "close": "12",
+                  "quantity": "3",
+                  "amount": "34",
+                  "count": 2
+                }
+              },
+              "latest_complete_bar": "b0",
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "journal_id": "R7",
+      "purpose": "Warm-up, delayed external first release, revisions and explicitly labelled corrected-history view.",
+      "rows": [
+        {
+          "original_index": 1,
+          "event": {
+            "id": "p1",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 10,
+            "event_tick": 10,
+            "time_unit": "ns",
+            "available_ns": 10,
+            "receive_ns": 10,
+            "receive_ordinal": 1,
+            "op": "set",
+            "data": {
+              "key": "p:1",
+              "value": "100"
+            }
+          },
+          "expected": {
+            "event_ns": 10,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "p1"
+              ],
+              "values": {
+                "p:1": "100"
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        },
+        {
+          "original_index": 6,
+          "event": {
+            "id": "correction",
+            "source_id": "fixture",
+            "instrument_id": "SYN-USD",
+            "event_ns": 10,
+            "event_tick": 10,
+            "time_unit": "ns",
+            "available_ns": 50,
+            "receive_ns": 50,
+            "receive_ordinal": 6,
+            "op": "set",
+            "data": {
+              "key": "p:1",
+              "value": "90"
+            },
+            "revision_of": "p1"
+          },
+          "expected": {
+            "event_ns": 10,
+            "decision": "OBSERVE",
+            "reason": "accepted",
+            "state": {
+              "eligible_ids": [
+                "p1",
+                "p2",
+                "publication",
+                "correction"
+              ],
+              "values": {
+                "p:1": "90",
+                "p:2": "110",
+                "news": "first version"
+              },
+              "latest_complete_bar": null,
+              "valid": true,
+              "last_sequence": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
