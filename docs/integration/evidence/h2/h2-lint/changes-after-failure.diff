@@ -1,0 +1,12 @@
+--- failed/src/bot_trader/market_data/replay.py
++++ current/src/bot_trader/market_data/replay.py
+@@ -296,7 +296,8 @@
+             expected = sequences.get(stream, 0) + 1
+             if event.sequence != expected:
+                 raise ValueError(
+-                    f"Sequence gap/reversal for {stream}: expected {expected}, got {event.sequence}."
++                    f"Sequence gap/reversal for {stream}: "
++                    f"expected {expected}, got {event.sequence}."
+                 )
+             identities[event.identity] = event.digest
+             sequences[stream] = event.sequence

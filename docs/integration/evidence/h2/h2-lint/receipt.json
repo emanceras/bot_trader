@@ -1,0 +1,17 @@
+{
+  "label": "h2-lint",
+  "command": [
+    ".venv/bin/ruff",
+    "check",
+    "src/bot_trader/market_data/replay.py",
+    "tests/test_replay_v2.py"
+  ],
+  "exit_code": 1,
+  "wall_seconds": 0.12499933599610813,
+  "cpu_seconds": 0.12160699999999999,
+  "peak_sampled_rss_bytes": 5505024,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T08:20:23Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

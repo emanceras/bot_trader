@@ -1,0 +1,15 @@
+{
+  "label": "h2-static",
+  "command": [
+    ".venv/bin/mypy",
+    "src/bot_trader/market_data/replay.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 1.2476979839993874,
+  "cpu_seconds": 1.1719929999999998,
+  "peak_sampled_rss_bytes": 94904320,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T08:20:06Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

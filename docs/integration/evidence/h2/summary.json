@@ -1,0 +1,89 @@
+{
+  "milestone": "h2",
+  "invocations": [
+    {
+      "label": "h2-format",
+      "command": [
+        ".venv/bin/ruff",
+        "format",
+        "src/bot_trader/market_data/replay.py",
+        "tests/test_replay_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.22195736700086854,
+      "cpu_seconds": 0.143778,
+      "peak_sampled_rss_bytes": 9043968,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:18:23Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h2-check",
+      "command": [
+        ".venv/bin/pytest",
+        "-q",
+        "tests/test_replay_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.0606484620002448,
+      "cpu_seconds": 2.983209,
+      "peak_sampled_rss_bytes": 98603008,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:18:54Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h2-static",
+      "command": [
+        ".venv/bin/mypy",
+        "src/bot_trader/market_data/replay.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 1.2476979839993874,
+      "cpu_seconds": 1.1719929999999998,
+      "peak_sampled_rss_bytes": 94904320,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:20:06Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h2-lint",
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "src/bot_trader/market_data/replay.py",
+        "tests/test_replay_v2.py"
+      ],
+      "exit_code": 1,
+      "wall_seconds": 0.12499933599610813,
+      "cpu_seconds": 0.12160699999999999,
+      "peak_sampled_rss_bytes": 5505024,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:20:23Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h2-lint-fixed",
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "src/bot_trader/market_data/replay.py",
+        "tests/test_replay_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.10732748100417666,
+      "cpu_seconds": 0.098923,
+      "peak_sampled_rss_bytes": 4194304,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:20:59Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    }
+  ],
+  "guarded_wall_seconds": 4.7626306300007855,
+  "scope": "Synthetic technical implementation; no financial experiments or downloads"
+}

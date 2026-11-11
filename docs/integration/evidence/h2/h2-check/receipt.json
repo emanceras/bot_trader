@@ -1,0 +1,16 @@
+{
+  "label": "h2-check",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_replay_v2.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 3.0606484620002448,
+  "cpu_seconds": 2.983209,
+  "peak_sampled_rss_bytes": 98603008,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T08:18:54Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

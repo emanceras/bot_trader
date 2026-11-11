@@ -1,0 +1,12 @@
+E501 Line too long (101 > 100)
+   --> src/bot_trader/market_data/replay.py:299:101
+    |
+297 |             if event.sequence != expected:
+298 |                 raise ValueError(
+299 |                     f"Sequence gap/reversal for {stream}: expected {expected}, got {event.sequence}."
+    |                                                                                                     ^
+300 |                 )
+301 |             identities[event.identity] = event.digest
+    |
+
+Found 1 error.
