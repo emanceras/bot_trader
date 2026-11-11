@@ -1,0 +1,17 @@
+{
+  "label": "h4-backend",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "--ignore=tests/test_slice_native.py",
+    "--ignore=tests/test_slice_delivery.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 33.943355046008946,
+  "cpu_seconds": 32.80119799999999,
+  "peak_sampled_rss_bytes": 154296320,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T16:01:23Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

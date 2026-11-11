@@ -1,0 +1,19 @@
+{
+  "label": "h4-format",
+  "command": [
+    ".venv/bin/ruff",
+    "format",
+    "tests/test_slice_boundaries.py",
+    "tests/test_slice_delivery.py",
+    "tests/test_slice_native.py",
+    "src/bot_trader/simulation/slice.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.24121427799400408,
+  "cpu_seconds": 0.149149,
+  "peak_sampled_rss_bytes": 7208960,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T16:00:08Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

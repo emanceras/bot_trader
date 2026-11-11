@@ -1,0 +1,107 @@
+{
+  "milestone": "h4",
+  "invocations": [
+    {
+      "label": "h4-format",
+      "command": [
+        ".venv/bin/ruff",
+        "format",
+        "tests/test_slice_boundaries.py",
+        "tests/test_slice_delivery.py",
+        "tests/test_slice_native.py",
+        "src/bot_trader/simulation/slice.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.24121427799400408,
+      "cpu_seconds": 0.149149,
+      "peak_sampled_rss_bytes": 7208960,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T16:00:08Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h4-lint",
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "--fix",
+        "src",
+        "tests"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.22723682298965286,
+      "cpu_seconds": 0.15226399999999998,
+      "peak_sampled_rss_bytes": 7340032,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T16:00:08Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h4-backend",
+      "command": [
+        ".venv/bin/pytest",
+        "-q",
+        "--ignore=tests/test_slice_native.py",
+        "--ignore=tests/test_slice_delivery.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 33.943355046008946,
+      "cpu_seconds": 32.80119799999999,
+      "peak_sampled_rss_bytes": 154296320,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T16:01:23Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h4-delivery",
+      "command": [
+        ".venv/bin/pytest",
+        "-q",
+        "tests/test_slice_delivery.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 28.498416493996046,
+      "cpu_seconds": 22.764670999999996,
+      "peak_sampled_rss_bytes": 267812864,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T16:04:26Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h4-types",
+      "command": [
+        ".venv/bin/mypy",
+        "src/bot_trader"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 2.590356458007591,
+      "cpu_seconds": 2.5046530000000002,
+      "peak_sampled_rss_bytes": 195403776,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T16:04:37Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h4-preservation",
+      "command": [
+        "python",
+        "tools/integration/verify_delivery.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 2.152760979006416,
+      "cpu_seconds": 2.081076,
+      "peak_sampled_rss_bytes": 13082624,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T21:23:00Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    }
+  ],
+  "guarded_wall_seconds": 67.65334007800266,
+  "scope": "Synthetic technical implementation; no financial experiments or downloads"
+}

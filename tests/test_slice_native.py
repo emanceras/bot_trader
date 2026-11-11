@@ -16,8 +16,11 @@ from bot_trader.simulation.bridge import NativeSliceProcess
 from bot_trader.simulation.slice import SliceConfiguration
 
 FIXTURES = Path(__file__).parent / "fixtures/integration"
-PYTHON = Path(os.environ.get("BOT_TRADER_NATIVE_PYTHON",
-                            "/workspace/technical-admission/E/recovery/venv/bin/python"))
+PYTHON = Path(
+    os.environ.get(
+        "BOT_TRADER_NATIVE_PYTHON", "/workspace/technical-admission/E/recovery/venv/bin/python"
+    )
+)
 ADMIN = Principal(id="technical-test", role="admin")
 pytestmark = pytest.mark.skipif(
     not PYTHON.is_file() or "SLICE_EVIDENCE_DIR" not in os.environ,

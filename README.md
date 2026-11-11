@@ -1,6 +1,8 @@
 # bot_trader
 
-Latest technical evidence: [E1 causal bar execution](docs/en/phase-iv/bar-execution.md) ([español](docs/es/phase-iv/bar-execution.md)). Exact rc7 reproduces same-close execution; 1 ms latency reaches the next close, not its open. The tested causal boundary passes 135 component checks across 15 native contexts, with explicit synthetic pricing assumptions. Production integration and financial admission remain pending.
+Latest implementation: [synthetic integration report](docs/integration/REPORT.md) and [resumable checkpoint](STATE.md). The platform now connects immutable local inputs, exact-time events, causal replay, fixed synthetic signals, isolated native buy/sell execution and independent accounting. Full/partial/cancel/rejection paths pass the bounded integration checks. This is technical evidence only; Nautilus remains conditional and Phase V is not authorized.
+
+Earlier technical evidence: [E1 causal bar execution](docs/en/phase-iv/bar-execution.md) ([español](docs/es/phase-iv/bar-execution.md)). Exact rc7 reproduces same-close execution; 1 ms latency reaches the next close, not its open. The tested causal boundary passes 135 component checks across 15 native contexts, with explicit synthetic pricing assumptions. At that checkpoint, production integration and financial admission remained pending.
 
 Previous bounded correction: [E3-L2 / E4 findings](docs/en/phase-iv/engine-correction.md) ([español](docs/es/phase-iv/engine-correction.md)). Causal L2 execution works in the tested fixture; supervisor duplicate protection preserves state, while original E4 still lacks its required second native fill. At that checkpoint, E1/bar execution and financial admission remained pending.
 

@@ -1,0 +1,15 @@
+{
+  "label": "h4-types",
+  "command": [
+    ".venv/bin/mypy",
+    "src/bot_trader"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 2.590356458007591,
+  "cpu_seconds": 2.5046530000000002,
+  "peak_sampled_rss_bytes": 195403776,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T16:04:37Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

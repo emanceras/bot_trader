@@ -1,0 +1,15 @@
+{
+  "label": "h4-preservation",
+  "command": [
+    "python",
+    "tools/integration/verify_delivery.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 2.152760979006416,
+  "cpu_seconds": 2.081076,
+  "peak_sampled_rss_bytes": 13082624,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T21:23:00Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

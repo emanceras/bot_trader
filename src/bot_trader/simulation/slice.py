@@ -142,6 +142,11 @@ def execution_request(replay: ReplayResult, config: SliceConfiguration) -> dict[
                     quote_id=later[0]["id"],
                 )
             )
+    market_quote_ids = [c["quote_id"] for c in commands if c["kind"] == "market"]
+    if len(market_quote_ids) != len(set(market_quote_ids)):
+        raise ValueError(
+            "Multiple signals on one quote require a separately versioned arbitration policy."
+        )
     commands.sort(key=lambda c: (c["submitted_ns"], c["kind"] != "cancel", c["id"]))
     return dict(
         schema_version=1,

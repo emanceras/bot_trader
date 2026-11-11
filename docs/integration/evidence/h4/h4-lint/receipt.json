@@ -1,0 +1,18 @@
+{
+  "label": "h4-lint",
+  "command": [
+    ".venv/bin/ruff",
+    "check",
+    "--fix",
+    "src",
+    "tests"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.22723682298965286,
+  "cpu_seconds": 0.15226399999999998,
+  "peak_sampled_rss_bytes": 7340032,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T16:00:08Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

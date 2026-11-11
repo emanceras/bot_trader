@@ -1,0 +1,16 @@
+{
+  "label": "h4-delivery",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_slice_delivery.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 28.498416493996046,
+  "cpu_seconds": 22.764670999999996,
+  "peak_sampled_rss_bytes": 267812864,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T16:04:26Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "protected_paths_changed": [],
+  "decisions_restored_prefix_bytes": 101065,
+  "experiments_historical_prefix_bytes": 13018,
+  "production_regular_files_unchanged": 4630,
+  "evidence_hashes_verified": 357,
+  "limits": [
+    "Baseline excludes symlink targets and runtime state.",
+    "Evidence manifests as exported before this audit receipt; no recursive self-proof.",
+    "No credentials, financial datasets, engine execution or financial metrics read."
+  ]
+}

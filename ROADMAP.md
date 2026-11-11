@@ -1,10 +1,12 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-03 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-11 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Integración incremental autorizada — D-054
 
 Seguimiento vigente: [STATE.md](STATE.md), [solicitud](docs/integration/REQUEST.es.md). Cuatro hitos técnicos, sin ampliar Fase V: H1 archivo/contratos; H2 replay/analítica/señal; H3 ida/vuelta sintética y conciliación; H4 integración y aceptación. La evaluación general de motores queda pausada; no se reabren M/R/E. Segunda fuente y captura directa mínima quedan en cola, esta última con prioridad temporal pero autorización separada antes de activarse.
+
+**Cierre técnico de la primera integración (D-055):** H1–H4 implementados y probados dentro del alcance sintético; [informe y ocho criterios](docs/integration/REPORT.md). Publicados H1 `889ef23`, H2 `64929d6`, H3 `d3048f7` y H4 `slice-h4`. Backend 159 pruebas satisfactorias; cinco pruebas nativas de integración en seis contextos correctos, más dos preparaciones fallidas conservadas. Sin cierre incondicional de IV ni admisión financiera. A: segundo adaptador de fuente; B: captura mínima solo lectura, con prioridad temporal y autorización separada antes de activarla. Recuperación nativa tras fallo y realismo de ejecución siguen pendientes.
 
 ## Objetivo y estado general
 
