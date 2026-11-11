@@ -41,8 +41,9 @@ def main():
         output = ROOT / args.label
         output.mkdir(exist_ok=False)
         files = sorted((REPO / "src").rglob("*.py")) + sorted((REPO / "tests").rglob("*.py"))
-        files += sorted((REPO / "tests/fixtures/integration").rglob("*.jsonl"))
-        files += [REPO / "pyproject.toml", REPO / "uv.lock", Path(__file__)]
+        files += sorted((REPO / "tests/fixtures/integration").glob("*.json*"))
+        files += sorted((REPO / "tools/integration").glob("*.py"))
+        files += [REPO / "pyproject.toml", REPO / "uv.lock"]
         hashes = {}
         for path in files:
             relative = path.relative_to(REPO)
@@ -53,7 +54,8 @@ def main():
         (output / "source-manifest.json").write_text(json.dumps(hashes, indent=2) + "\n")
         environment = os.environ.copy()
         environment.update(PYTHONDONTWRITEBYTECODE="1", OPENBLAS_NUM_THREADS="1",
-                           OMP_NUM_THREADS="1", RAYON_NUM_THREADS="4")
+                           OMP_NUM_THREADS="1", RAYON_NUM_THREADS="4",
+                           SLICE_EVIDENCE_DIR=str(output / "native"))
         started = time.monotonic()
         before = resource.getrusage(resource.RUSAGE_CHILDREN)
         peak = 0

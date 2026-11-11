@@ -1,0 +1,134 @@
+--- failed/src/bot_trader/cli.py
++++ current/src/bot_trader/cli.py
+@@ -14,8 +14,8 @@
+ from bot_trader.core.contracts import DatasetSpec, Principal
+ from bot_trader.core.errors import PlatformError
+ from bot_trader.core.settings import Settings
++from bot_trader.market_data.archive import SourceSpec
+ from bot_trader.persistence import Database, migrate
+-from bot_trader.market_data.archive import SourceSpec
+ from bot_trader.simulation.bridge import NativeSliceProcess
+ from bot_trader.simulation.slice import SliceConfiguration
+ 
+--- failed/src/bot_trader/simulation/bridge.py
++++ current/src/bot_trader/simulation/bridge.py
+@@ -33,6 +33,15 @@
+         raise ValueError("Native execution is incomplete; no confirmed final state.")
+     if result.get("events") != events or result.get("journal_terminal_hash") != previous:
+         raise ValueError("Native output does not match its journal.")
++    fills = [row["fill"] for row in events if row["kind"] == "native_fill"]
++    snapshots = [row["state"] for row in events if row["kind"] == "account_snapshot"]
++    if result.get("fills") != fills or result.get("snapshots") != snapshots or not snapshots:
++        raise ValueError("Native fills/account snapshots are not bound to the journal.")
++    if snapshots[-1]["reason"] != "final_after_native_queue" or any(
++        result.get(field) != snapshots[-1][field]
++        for field in ("orders", "positions", "cash", "free", "reserved")
++    ):
++        raise ValueError("Native final summary differs from the journaled account snapshot.")
+ 
+ 
+ class NativeSliceProcess:
+--- failed/src/bot_trader/simulation/native_slice_worker.py
++++ current/src/bot_trader/simulation/native_slice_worker.py
+@@ -185,6 +185,14 @@
+     usd = Currency.from_str("USD")
+     base = Currency("SYN", 8, 0, "Invented slice token", CurrencyType.CRYPTO)
+     Currency.register(base, overwrite=True)
++
++    def native_price(value: str) -> Any:
++        # Validation has proved exact .01 divisibility; fixed precision changes
++        # representation only and never rounds an unsupported source value.
++        return Price.from_str(format(number(value, positive=True, step=True), ".2f"))
++
++    def native_quantity(value: str) -> Any:
++        return Quantity.from_str(format(number(value, positive=True, step=True), ".2f"))
+     events: list[dict[str, Any]] = []
+     fills: list[dict[str, Any]] = []
+     errors: list[dict[str, Any]] = []
+@@ -271,13 +279,15 @@
+                 {
+                     "id": str(p.id),
+                     "quantity": str(p.quantity),
+-                    "signed_quantity": str(p.signed_qty),
++                    "signed_quantity": str(-p.quantity.as_decimal() if p.side.name == "SHORT"
++                                           else p.quantity.as_decimal()),
+                     "side": p.side.name,
+                 }
+                 for p in cache.positions()
+             ],
+         }
+         snapshots.append(row)
++        emit("account_snapshot", at, state=row)
+         return row
+ 
+     by_init = {q["engine_init_ns"]: q for q in quotes}
+@@ -289,7 +299,7 @@
+         def __init__(self) -> None:
+             super().__init__(
+                 StrategyConfig(
+-                    strategy_id=StrategyId("slice"),
++                    strategy_id=StrategyId("slice-probe"),
+                     order_id_tag="S",
+                     log_events=False,
+                     log_commands=False,
+@@ -371,7 +381,7 @@
+             order = self.order_factory.market(
+                 instrument_id=iid,
+                 order_side=OrderSide.BUY if command["side"] == "buy" else OrderSide.SELL,
+-                quantity=Quantity.from_str(command["quantity"]),
++                quantity=native_quantity(command["quantity"]),
+                 time_in_force=TimeInForce.GTC,
+                 client_order_id=ClientOrderId(cid),
+             )
+@@ -461,7 +471,7 @@
+                 OrderBookDelta(
+                     iid,
+                     BookAction.ADD,
+-                    BookOrder(side, Price.from_str(price), Quantity.from_str(quantity), index + 1),
++                    BookOrder(side, native_price(price), native_quantity(quantity), index + 1),
+                     flags,
+                     sequence,
+                     t,
+@@ -474,10 +484,10 @@
+         data.append(
+             QuoteTick(
+                 iid,
+-                Price.from_str(bid),
+-                Price.from_str(ask),
+-                Quantity.from_str(bid_size),
+-                Quantity.from_str(ask_size),
++                native_price(bid),
++                native_price(ask),
++                native_quantity(bid_size),
++                native_quantity(ask_size),
+                 t,
+                 init,
+             )
+--- failed/tests/test_slice_native.py
++++ current/tests/test_slice_native.py
+@@ -16,8 +16,13 @@
+ from bot_trader.simulation.slice import SliceConfiguration
+ 
+ FIXTURES = Path(__file__).parent / "fixtures/integration"
+-PYTHON = Path("/workspace/technical-admission/E/recovery/venv/bin/python")
++PYTHON = Path(os.environ.get("BOT_TRADER_NATIVE_PYTHON",
++                            "/workspace/technical-admission/E/recovery/venv/bin/python"))
+ ADMIN = Principal(id="technical-test", role="admin")
++pytestmark = pytest.mark.skipif(
++    not PYTHON.is_file() or "SLICE_EVIDENCE_DIR" not in os.environ,
++    reason="Requires an explicitly guarded artifact directory and existing isolated rc7 runtime.",
++)
+ 
+ 
+ @pytest.fixture
+--- failed/tools/integration/export_evidence.py
++++ current/tools/integration/export_evidence.py
+@@ -31,6 +31,8 @@
+         target.mkdir()
+         for name in ("output.log", "receipt.json", "source-manifest.json"):
+             shutil.copyfile(source / name, target / name)
++        if (source / "native").exists():
++            shutil.copytree(source / "native", target / "native")
+         if row["exit_code"]:
+             shutil.copytree(source / "source", target / "failed-source")
+             diff = []

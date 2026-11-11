@@ -1,0 +1,1 @@
+{"automatic_retry":false,"error":"Native integration failed; preserved output/state may be unknown.","exit_code":2,"request_hash":"4032adc733e0ea1d61bae137b3558780c0e8cc0827a8d9ee0e4c075ff3813944","runtime":"/workspace/technical-admission/E/recovery/venv/bin/python","status":"failed_or_unknown","worker_sha256":"e30d9c58565b3d400c49849e6388dcb92f99817260f887a5c7c6a5483002b31e"}

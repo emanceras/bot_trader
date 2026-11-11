@@ -1,0 +1,15 @@
+{
+  "label": "h3-fixtures",
+  "command": [
+    "python",
+    "tools/integration/make_fixtures.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.4242119700065814,
+  "cpu_seconds": 0.327972,
+  "peak_sampled_rss_bytes": 9830400,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T15:49:07Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

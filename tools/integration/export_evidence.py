@@ -31,6 +31,8 @@ def main():
         target.mkdir()
         for name in ("output.log", "receipt.json", "source-manifest.json"):
             shutil.copyfile(source / name, target / name)
+        if (source / "native").exists():
+            shutil.copytree(source / "native", target / "native")
         if row["exit_code"]:
             shutil.copytree(source / "source", target / "failed-source")
             diff = []

@@ -1,0 +1,247 @@
+{
+  "batch_oracle": {
+    "cash_usd": "1001.48",
+    "fees_usd": "0.42",
+    "inventory": "0",
+    "purchase_flows_usd": "105.05",
+    "sale_flows_usd": "106.95"
+  },
+  "cash_usd": "1001.48",
+  "checks": [
+    {
+      "detail": null,
+      "name": "native_completed_without_errors",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "synthetic_scope",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "request_identity",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fill_lineage:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "causal_bound_quote:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "price_and_depth_capacity:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fee_quantization:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "ordered_quantity:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "long_cash_prefix:T-7b4062016d14eac5-001",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fill_lineage:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "causal_bound_quote:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "price_and_depth_capacity:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fee_quantization:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "ordered_quantity:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "long_cash_prefix:T-794488ac133bee09-002",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "ledger_equals_independent_batch",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "order_arithmetic:order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_order:order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "cancellation_confirmed:order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "order_arithmetic:order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_order:order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "filled_complete:order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "every_market_command_has_native_state",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:0",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:0",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:1",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:1",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:2",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:2",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:3",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:3",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:4",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:4",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_totals_equal_independent_batch",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_positions_long_only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_position_equals_inventory",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_market_reservations_zero",
+      "passed": true
+    },
+    {
+      "detail": [],
+      "name": "no_unresolved_order_state",
+      "passed": true
+    }
+  ],
+  "duplicate_fill_rows_suppressed": 0,
+  "fees_usd": "0.42",
+  "financial_validation": false,
+  "initial_cash_usd": "1000",
+  "inventory": "0",
+  "kind": "synthetic-posting-reconciliation",
+  "passed": true,
+  "postings": [
+    {
+      "at_ns": 1700000002000000120,
+      "cash_delta_usd": "-105.26",
+      "fee_usd": "0.21",
+      "fill_id": "T-7b4062016d14eac5-001",
+      "inventory_delta": "1",
+      "order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "price": "105.05",
+      "quantity": "1",
+      "quote_id": "quote-buy",
+      "side": "buy",
+      "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "source_hash": "5bca0ef5224a7b1cb7a6b1753ca3ede236d3a7f38517f12f52755bcf36947c86",
+      "ts_event_ns": 1700000002000000120,
+      "ts_init_ns": 1700000002000000120
+    },
+    {
+      "at_ns": 1700000003000000120,
+      "cash_delta_usd": "106.74",
+      "fee_usd": "0.21",
+      "fill_id": "T-794488ac133bee09-002",
+      "inventory_delta": "-1",
+      "order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "price": "106.95",
+      "quantity": "1",
+      "quote_id": "quote-sell",
+      "side": "sell",
+      "signal_id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "source_hash": "24ab9ab17f558cfcbe9f18c5d961854a797877f8cabb5f84fbc2bf09db676968",
+      "ts_event_ns": 1700000003000000120,
+      "ts_init_ns": 1700000003000000120
+    }
+  ],
+  "problems": [],
+  "schema_version": 2,
+  "scope": "Technical Decimal flows only; no matching, returns or market valuation.",
+  "unresolved_orders": []
+}

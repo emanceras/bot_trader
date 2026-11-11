@@ -1,0 +1,20 @@
+{
+  "label": "h3-types",
+  "command": [
+    ".venv/bin/mypy",
+    "src/bot_trader/application.py",
+    "src/bot_trader/cli.py",
+    "src/bot_trader/simulation/bridge.py",
+    "src/bot_trader/simulation/slice.py",
+    "src/bot_trader/simulation/reconciliation.py",
+    "src/bot_trader/simulation/native_slice_worker.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 5.890399448995595,
+  "cpu_seconds": 5.645626999999999,
+  "peak_sampled_rss_bytes": 193069056,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T15:55:15Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

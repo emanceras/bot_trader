@@ -1,0 +1,17 @@
+{
+  "label": "h3-native",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_slice_native.py",
+    "-x"
+  ],
+  "exit_code": 1,
+  "wall_seconds": 4.51507751000463,
+  "cpu_seconds": 4.460576,
+  "peak_sampled_rss_bytes": 169254912,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T15:51:03Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

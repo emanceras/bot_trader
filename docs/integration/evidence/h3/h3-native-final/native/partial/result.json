@@ -1,0 +1,646 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "synthetic": true,
+  "financial_validation": false,
+  "engine": "NautilusTrader",
+  "engine_version": "2.0.0rc7",
+  "python": "3.13.16",
+  "request_hash": "773f6ffec987cf5336c25bdb1b24e1dd234a9897276b4b5a19726513485a48a3",
+  "instrument_mapping": {
+    "SYNTH-USD": "SYN-USD.SIM"
+  },
+  "policy": {
+    "cancel_remainder_on_next_quote": true,
+    "fee_rate": "0.002",
+    "latency_ns": 0,
+    "max_quote_age_ns": 1000000,
+    "quote_model": "explicit_synthetic_depth",
+    "slippage_usd": "0",
+    "version": "slice-execution-v1"
+  },
+  "native_configuration": {
+    "book_type": "L2_MBP",
+    "bar_execution": false,
+    "trade_execution": false,
+    "liquidity_consumption": true,
+    "native_latency_ns": 0,
+    "use_message_queue": false,
+    "risk_enabled": true,
+    "custom_fill_model": false
+  },
+  "fills": [
+    {
+      "id": "T-7b4062016d14eac5-001",
+      "order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "quote_id": "quote-buy",
+      "side": "buy",
+      "quantity": "1.00",
+      "price": "105.05",
+      "fee": "0.21",
+      "currency": "USD",
+      "at": 1700000002000000120,
+      "ts_event": 1700000002000000120,
+      "ts_init": 1700000002000000120,
+      "origin": "native OrderFilled; no injected fill"
+    },
+    {
+      "id": "T-794488ac133bee09-002",
+      "order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "signal_id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "quote_id": "quote-sell",
+      "side": "sell",
+      "quantity": "1.00",
+      "price": "106.95",
+      "fee": "0.21",
+      "currency": "USD",
+      "at": 1700000003000000120,
+      "ts_event": 1700000003000000120,
+      "ts_init": 1700000003000000120,
+      "origin": "native OrderFilled; no injected fill"
+    }
+  ],
+  "orders": [
+    {
+      "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "status": "CANCELED",
+      "side": "buy",
+      "quantity": "2.00",
+      "filled": "1.00",
+      "remaining": "1.00"
+    },
+    {
+      "id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "status": "FILLED",
+      "side": "sell",
+      "quantity": "1.00",
+      "filled": "1.00",
+      "remaining": "0.00"
+    }
+  ],
+  "cash": {
+    "USD": "1001.48",
+    "SYN": "0E-8"
+  },
+  "free": {
+    "USD": "1001.48",
+    "SYN": "0E-8"
+  },
+  "reserved": {
+    "USD": "0.00",
+    "SYN": "0E-8"
+  },
+  "positions": [
+    {
+      "id": "SYN-USD.SIM-slice-probe-S",
+      "quantity": "0.00",
+      "signed_quantity": "0.00",
+      "side": "FLAT"
+    }
+  ],
+  "snapshots": [
+    {
+      "at": 1700000002000000120,
+      "reason": "before_quote_commands:quote-buy",
+      "cash": {
+        "USD": "1000.00",
+        "SYN": "0E-8"
+      },
+      "free": {
+        "USD": "1000.00",
+        "SYN": "0E-8"
+      },
+      "reserved": {
+        "USD": "0.00",
+        "SYN": "0E-8"
+      },
+      "orders": [],
+      "positions": []
+    },
+    {
+      "at": 1700000002000000220,
+      "reason": "before_quote_commands:quote-cancel",
+      "cash": {
+        "USD": "894.74",
+        "SYN": "1.00000000"
+      },
+      "free": {
+        "USD": "894.74",
+        "SYN": "1.00000000"
+      },
+      "reserved": {
+        "USD": "0.00",
+        "SYN": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+          "status": "PARTIALLY_FILLED",
+          "side": "buy",
+          "quantity": "2.00",
+          "filled": "1.00",
+          "remaining": "1.00"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-slice-probe-S",
+          "quantity": "1.00",
+          "signed_quantity": "1.00",
+          "side": "LONG"
+        }
+      ]
+    },
+    {
+      "at": 1700000003000000120,
+      "reason": "before_quote_commands:quote-sell",
+      "cash": {
+        "USD": "894.74",
+        "SYN": "1.00000000"
+      },
+      "free": {
+        "USD": "894.74",
+        "SYN": "1.00000000"
+      },
+      "reserved": {
+        "USD": "0.00",
+        "SYN": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+          "status": "CANCELED",
+          "side": "buy",
+          "quantity": "2.00",
+          "filled": "1.00",
+          "remaining": "1.00"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-slice-probe-S",
+          "quantity": "1.00",
+          "signed_quantity": "1.00",
+          "side": "LONG"
+        }
+      ]
+    },
+    {
+      "at": 1700000003000000221,
+      "reason": "final_after_native_queue",
+      "cash": {
+        "USD": "1001.48",
+        "SYN": "0E-8"
+      },
+      "free": {
+        "USD": "1001.48",
+        "SYN": "0E-8"
+      },
+      "reserved": {
+        "USD": "0.00",
+        "SYN": "0E-8"
+      },
+      "orders": [
+        {
+          "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+          "status": "CANCELED",
+          "side": "buy",
+          "quantity": "2.00",
+          "filled": "1.00",
+          "remaining": "1.00"
+        },
+        {
+          "id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+          "status": "FILLED",
+          "side": "sell",
+          "quantity": "1.00",
+          "filled": "1.00",
+          "remaining": "0.00"
+        }
+      ],
+      "positions": [
+        {
+          "id": "SYN-USD.SIM-slice-probe-S",
+          "quantity": "0.00",
+          "signed_quantity": "0.00",
+          "side": "FLAT"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "Synthetic depth/reference quotes are assumptions, not observed liquidity.",
+    "OrderAccepted is observed processing, not independent arrival measurement.",
+    "Pending commands and cancel requests are not execution confirmation.",
+    "No automatic replay/resubmission after interruption or unknown state."
+  ],
+  "events": [
+    {
+      "sequence": 1,
+      "kind": "worker_started",
+      "at": 1700000002000000119,
+      "request_hash": "773f6ffec987cf5336c25bdb1b24e1dd234a9897276b4b5a19726513485a48a3"
+    },
+    {
+      "sequence": 2,
+      "kind": "book_received",
+      "at": 1700000002000000120,
+      "ts_event": 1700000002000000100,
+      "ts_init": 1700000002000000120,
+      "source_event_id": "quote-buy"
+    },
+    {
+      "sequence": 3,
+      "kind": "quote_received",
+      "at": 1700000002000000120,
+      "quote_id": "quote-buy",
+      "ts_event": 1700000002000000100,
+      "ts_init": 1700000002000000120,
+      "source_event_id": "quote-buy",
+      "source_hash": "ff2e4d3fbfdfdfca67dec060742c04c4e246d810ecc19c44074ec3165a41c297",
+      "bid": "104.95",
+      "ask": "105.05",
+      "origin": "synthetic depth top-of-book reference, no extra liquidity"
+    },
+    {
+      "sequence": 4,
+      "kind": "account_snapshot",
+      "at": 1700000002000000120,
+      "state": {
+        "at": 1700000002000000120,
+        "reason": "before_quote_commands:quote-buy",
+        "cash": {
+          "USD": "1000.00",
+          "SYN": "0E-8"
+        },
+        "free": {
+          "USD": "1000.00",
+          "SYN": "0E-8"
+        },
+        "reserved": {
+          "USD": "0.00",
+          "SYN": "0E-8"
+        },
+        "orders": [],
+        "positions": []
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "command_pending",
+      "at": 1700000002000000120,
+      "command": {
+        "decision_ns": 1700000002000000020,
+        "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "kind": "market",
+        "quantity": "2",
+        "quote_id": "quote-buy",
+        "side": "buy",
+        "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "submitted_ns": 1700000002000000120
+      },
+      "signature": "eb7f8b2eee4ef8e2186e3b5e2e8ae535d01852d70f5037e7b470ca02e1dad0e2"
+    },
+    {
+      "sequence": 6,
+      "kind": "dispatch_returned",
+      "at": 1700000002000000120,
+      "command_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "nominal_arrival_ns": 1700000002000000120,
+      "arrival_is_observed": false
+    },
+    {
+      "sequence": 7,
+      "kind": "native_order_event",
+      "at": 1700000002000000120,
+      "event_type": "OrderSubmitted",
+      "ts_event": 1700000002000000120,
+      "ts_init": 1700000002000000120,
+      "client_order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651"
+    },
+    {
+      "sequence": 8,
+      "kind": "native_order_event",
+      "at": 1700000002000000120,
+      "event_type": "OrderAccepted",
+      "ts_event": 1700000002000000120,
+      "ts_init": 1700000002000000120,
+      "client_order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "venue_order_id": "SIM-1-1"
+    },
+    {
+      "sequence": 9,
+      "kind": "native_order_event",
+      "at": 1700000002000000120,
+      "event_type": "OrderFilled",
+      "ts_event": 1700000002000000120,
+      "ts_init": 1700000002000000120,
+      "client_order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "venue_order_id": "SIM-1-1",
+      "trade_id": "T-7b4062016d14eac5-001"
+    },
+    {
+      "sequence": 10,
+      "kind": "native_fill",
+      "at": 1700000002000000120,
+      "fill": {
+        "id": "T-7b4062016d14eac5-001",
+        "order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "quote_id": "quote-buy",
+        "side": "buy",
+        "quantity": "1.00",
+        "price": "105.05",
+        "fee": "0.21",
+        "currency": "USD",
+        "at": 1700000002000000120,
+        "ts_event": 1700000002000000120,
+        "ts_init": 1700000002000000120,
+        "origin": "native OrderFilled; no injected fill"
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "book_received",
+      "at": 1700000002000000220,
+      "ts_event": 1700000002000000200,
+      "ts_init": 1700000002000000220,
+      "source_event_id": "quote-cancel"
+    },
+    {
+      "sequence": 12,
+      "kind": "quote_received",
+      "at": 1700000002000000220,
+      "quote_id": "quote-cancel",
+      "ts_event": 1700000002000000200,
+      "ts_init": 1700000002000000220,
+      "source_event_id": "quote-cancel",
+      "source_hash": "0e4a9f761db6f600872e14519ee149d3e0fd44a7117f02ef3a7ce1711fd043e2",
+      "bid": "104.96",
+      "ask": "105.06",
+      "origin": "synthetic depth top-of-book reference, no extra liquidity"
+    },
+    {
+      "sequence": 13,
+      "kind": "account_snapshot",
+      "at": 1700000002000000220,
+      "state": {
+        "at": 1700000002000000220,
+        "reason": "before_quote_commands:quote-cancel",
+        "cash": {
+          "USD": "894.74",
+          "SYN": "1.00000000"
+        },
+        "free": {
+          "USD": "894.74",
+          "SYN": "1.00000000"
+        },
+        "reserved": {
+          "USD": "0.00",
+          "SYN": "0E-8"
+        },
+        "orders": [
+          {
+            "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+            "status": "PARTIALLY_FILLED",
+            "side": "buy",
+            "quantity": "2.00",
+            "filled": "1.00",
+            "remaining": "1.00"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-slice-probe-S",
+            "quantity": "1.00",
+            "signed_quantity": "1.00",
+            "side": "LONG"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 14,
+      "kind": "command_pending",
+      "at": 1700000002000000220,
+      "command": {
+        "decision_ns": 1700000002000000120,
+        "id": "cancel-order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "kind": "cancel",
+        "quote_id": "quote-cancel",
+        "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+        "submitted_ns": 1700000002000000220,
+        "target": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651"
+      },
+      "signature": "a0bf24a23e93bd75370e500ab3cf5895b40eb41d55b992bdfb0332dbbe049416"
+    },
+    {
+      "sequence": 15,
+      "kind": "cancel_requested",
+      "at": 1700000002000000220,
+      "command_id": "cancel-order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "target": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651"
+    },
+    {
+      "sequence": 16,
+      "kind": "native_order_event",
+      "at": 1700000002000000220,
+      "event_type": "OrderCanceled",
+      "ts_event": 1700000002000000220,
+      "ts_init": 1700000002000000220,
+      "client_order_id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "venue_order_id": "SIM-1-1",
+      "reason": "None"
+    },
+    {
+      "sequence": 17,
+      "kind": "book_received",
+      "at": 1700000003000000120,
+      "ts_event": 1700000003000000100,
+      "ts_init": 1700000003000000120,
+      "source_event_id": "quote-sell"
+    },
+    {
+      "sequence": 18,
+      "kind": "quote_received",
+      "at": 1700000003000000120,
+      "quote_id": "quote-sell",
+      "ts_event": 1700000003000000100,
+      "ts_init": 1700000003000000120,
+      "source_event_id": "quote-sell",
+      "source_hash": "4a9e4fe50e4a855b96d328710a0ec47c06111394443a1185e152a3f0e56e55b6",
+      "bid": "106.95",
+      "ask": "107.05",
+      "origin": "synthetic depth top-of-book reference, no extra liquidity"
+    },
+    {
+      "sequence": 19,
+      "kind": "account_snapshot",
+      "at": 1700000003000000120,
+      "state": {
+        "at": 1700000003000000120,
+        "reason": "before_quote_commands:quote-sell",
+        "cash": {
+          "USD": "894.74",
+          "SYN": "1.00000000"
+        },
+        "free": {
+          "USD": "894.74",
+          "SYN": "1.00000000"
+        },
+        "reserved": {
+          "USD": "0.00",
+          "SYN": "0E-8"
+        },
+        "orders": [
+          {
+            "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+            "status": "CANCELED",
+            "side": "buy",
+            "quantity": "2.00",
+            "filled": "1.00",
+            "remaining": "1.00"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-slice-probe-S",
+            "quantity": "1.00",
+            "signed_quantity": "1.00",
+            "side": "LONG"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 20,
+      "kind": "command_pending",
+      "at": 1700000003000000120,
+      "command": {
+        "decision_ns": 1700000003000000020,
+        "id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+        "kind": "market",
+        "quantity": "1",
+        "quote_id": "quote-sell",
+        "side": "sell",
+        "signal_id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+        "submitted_ns": 1700000003000000120
+      },
+      "signature": "7e86e5927246afd66dcedfa8733c70ed840de3b6367b0663d533218837ba100d"
+    },
+    {
+      "sequence": 21,
+      "kind": "dispatch_returned",
+      "at": 1700000003000000120,
+      "command_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "nominal_arrival_ns": 1700000003000000120,
+      "arrival_is_observed": false
+    },
+    {
+      "sequence": 22,
+      "kind": "native_order_event",
+      "at": 1700000003000000120,
+      "event_type": "OrderSubmitted",
+      "ts_event": 1700000003000000120,
+      "ts_init": 1700000003000000120,
+      "client_order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c"
+    },
+    {
+      "sequence": 23,
+      "kind": "native_order_event",
+      "at": 1700000003000000120,
+      "event_type": "OrderAccepted",
+      "ts_event": 1700000003000000120,
+      "ts_init": 1700000003000000120,
+      "client_order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "venue_order_id": "SIM-1-2"
+    },
+    {
+      "sequence": 24,
+      "kind": "native_order_event",
+      "at": 1700000003000000120,
+      "event_type": "OrderFilled",
+      "ts_event": 1700000003000000120,
+      "ts_init": 1700000003000000120,
+      "client_order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "venue_order_id": "SIM-1-2",
+      "trade_id": "T-794488ac133bee09-002"
+    },
+    {
+      "sequence": 25,
+      "kind": "native_fill",
+      "at": 1700000003000000120,
+      "fill": {
+        "id": "T-794488ac133bee09-002",
+        "order_id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+        "signal_id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+        "quote_id": "quote-sell",
+        "side": "sell",
+        "quantity": "1.00",
+        "price": "106.95",
+        "fee": "0.21",
+        "currency": "USD",
+        "at": 1700000003000000120,
+        "ts_event": 1700000003000000120,
+        "ts_init": 1700000003000000120,
+        "origin": "native OrderFilled; no injected fill"
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "account_snapshot",
+      "at": 1700000003000000221,
+      "state": {
+        "at": 1700000003000000221,
+        "reason": "final_after_native_queue",
+        "cash": {
+          "USD": "1001.48",
+          "SYN": "0E-8"
+        },
+        "free": {
+          "USD": "1001.48",
+          "SYN": "0E-8"
+        },
+        "reserved": {
+          "USD": "0.00",
+          "SYN": "0E-8"
+        },
+        "orders": [
+          {
+            "id": "order-signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+            "status": "CANCELED",
+            "side": "buy",
+            "quantity": "2.00",
+            "filled": "1.00",
+            "remaining": "1.00"
+          },
+          {
+            "id": "order-signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+            "status": "FILLED",
+            "side": "sell",
+            "quantity": "1.00",
+            "filled": "1.00",
+            "remaining": "0.00"
+          }
+        ],
+        "positions": [
+          {
+            "id": "SYN-USD.SIM-slice-probe-S",
+            "quantity": "0.00",
+            "signed_quantity": "0.00",
+            "side": "FLAT"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 27,
+      "kind": "worker_completed",
+      "at": 1700000003000000221,
+      "status": "completed"
+    }
+  ],
+  "journal_terminal_hash": "6cbcf42a77ff9b979f33bc618b89186ee1d586946ea19b69d8959fe6c55a56b9"
+}

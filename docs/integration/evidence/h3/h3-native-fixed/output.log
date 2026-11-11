@@ -1,0 +1,73 @@
+F
+=================================== FAILURES ===================================
+______________ test_integrated_native_round_trip_and_determinism _______________
+
+platform = Services(settings=Settings(mode='technical', environment='development', repository_root=PosixPath('/workspace/bot_trad...HypothesisService object at 0x7fc58f814590>, slice=<bot_trader.simulation.slice.SliceService object at 0x7fc58f814560>)
+
+    def test_integrated_native_round_trip_and_determinism(platform):
+>       first, native, accounting = execute(platform, "roundtrip", "full-a")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_slice_native.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_slice_native.py:39: in execute
+    report = services.slice.run(
+src/bot_trader/simulation/slice.py:214: in run
+    native = execution.execute(request, directory)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <bot_trader.simulation.bridge.NativeSliceProcess object at 0x7fc59b92b800>
+request = {'schema_version': 1, 'mode': 'technical', 'synthetic': True, 'partition': 'development', ...}
+directory = PosixPath('/workspace/platform-slice/h3-native-fixed/native/full-a')
+
+    def execute(self, request: dict[str, Any], directory: Path) -> dict[str, Any]:
+        if (
+            request.get("synthetic") is not True
+            or request.get("mode") != "technical"
+            or (request.get("partition") != "development")
+        ):
+            raise ValueError("Native bridge denies non-synthetic/reserved execution.")
+        if not self.python.is_file():
+            raise ValueError("Isolated runtime absent; automatic installation is forbidden.")
+        directory.mkdir(parents=True, exist_ok=False)
+        worker = Path(__file__).with_name("native_slice_worker.py")
+        request_path, output = directory / "request.json", directory / "result.json"
+        request_path.write_bytes(canonical_bytes(request))
+        receipt: dict[str, Any] = {
+            "request_hash": content_hash(request),
+            "worker_sha256": hashlib.sha256(worker.read_bytes()).hexdigest(),
+            "runtime": str(self.python),
+            "status": "started",
+            "automatic_retry": False,
+        }
+        receipt_path = directory / "transport.json"
+        receipt_path.write_bytes(canonical_bytes(receipt))
+        try:
+            with (directory / "native.log").open("xb") as log:
+                process = subprocess.run(
+                    [
+                        str(self.python),
+                        str(worker),
+                        "--request",
+                        str(request_path),
+                        "--output",
+                        str(output),
+                    ],
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    timeout=self.timeout_seconds,
+                    check=False,
+                )
+            receipt["exit_code"] = process.returncode
+            if process.returncode != 0 or not output.exists():
+>               raise ValueError(
+                    "Native integration failed; preserved output/state may be unknown."
+                )
+E               ValueError: Native integration failed; preserved output/state may be unknown.
+
+src/bot_trader/simulation/bridge.py:96: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_slice_native.py::test_integrated_native_round_trip_and_determinism
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 3.63s

@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "source_id": "slice-fixture",
+  "source_version": "1",
+  "source_schema": "fixture-jsonl-v2",
+  "locator": "internal:integration/roundtrip",
+  "rights": "Internally authored synthetic fixture; project technical use permitted.",
+  "permitted_use": "technical_validation_only",
+  "acquired_ns": 1794412147729323766,
+  "raw_sha256": "79713d0566b9f3fe117f51d96d966e11061f7baf36df83712194dfde8fd07ecb",
+  "size_bytes": 6574,
+  "data_class": "synthetic",
+  "partition": "development"
+}

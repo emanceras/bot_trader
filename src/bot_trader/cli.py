@@ -14,7 +14,10 @@ from bot_trader.application import build_services
 from bot_trader.core.contracts import DatasetSpec, Principal
 from bot_trader.core.errors import PlatformError
 from bot_trader.core.settings import Settings
+from bot_trader.market_data.archive import SourceSpec
 from bot_trader.persistence import Database, migrate
+from bot_trader.simulation.bridge import NativeSliceProcess
+from bot_trader.simulation.slice import SliceConfiguration
 
 
 def main() -> None:
@@ -40,6 +43,12 @@ def main() -> None:
     recover.add_argument("worker_id")
     credential = commands.add_parser("credential", help="Create a private role credential once.")
     credential.add_argument("role", choices=ROLES)
+    slice_command = commands.add_parser("slice", help="Run one synthetic integration fixture.")
+    slice_command.add_argument("--source", type=Path, required=True)
+    slice_command.add_argument("--manifest", type=Path, required=True)
+    slice_command.add_argument("--config", type=Path)
+    slice_command.add_argument("--native-python", type=Path, required=True)
+    slice_command.add_argument("--run-dir", type=Path, required=True)
     args = parser.parse_args()
     settings = Settings() if args.state_dir is None else Settings(data_dir=args.state_dir)
     administrator = Principal(id="local-admin", role="admin")
@@ -81,7 +90,41 @@ def main() -> None:
             return
         services = build_services(settings)
         try:
-            if args.command == "fixture":
+            if args.command == "slice":
+                source = SourceSpec.model_validate_json(args.manifest.read_bytes())
+                config = (
+                    SliceConfiguration()
+                    if args.config is None
+                    else SliceConfiguration.model_validate_json(args.config.read_bytes())
+                )
+                progress = services.slice.import_file(args.source, source, administrator)
+                if progress.archive_hash is None:
+                    parser.exit(
+                        1, "Import incomplete; preserve the checkpoint and resume explicitly."
+                    )
+                report = services.slice.run(
+                    progress.archive_hash,
+                    config,
+                    administrator,
+                    execution=NativeSliceProcess(args.native_python),
+                    directory=args.run_dir,
+                )
+                record = services.repository.put(
+                    "technical-slice", str(report["canonical_hash"]), report
+                )
+                services.repository.append_audit(
+                    administrator.id,
+                    "technical-slice.run",
+                    record.id,
+                    str(report["status"]),
+                    {"result_hash": record.content_hash},
+                )
+                print(json.dumps(report, sort_keys=True))
+                if report["status"] != "reconciled":
+                    parser.exit(
+                        1, "Technical execution remains unresolved; inspect preserved evidence."
+                    )
+            elif args.command == "fixture":
                 record = services.datasets.create(
                     DatasetSpec(seed=args.seed, rows=args.rows), administrator
                 )
@@ -110,6 +153,8 @@ def main() -> None:
             services.database.close()
     except PlatformError as error:
         parser.exit(1, f"{error.code}: {error.message}\n")
+    except (ValueError, OSError) as error:
+        parser.exit(1, f"Technical input/execution rejected: {error}\n")
     except KeyboardInterrupt:
         parser.exit(130, "Stopped. Recover interrupted work explicitly if necessary.\n")
 

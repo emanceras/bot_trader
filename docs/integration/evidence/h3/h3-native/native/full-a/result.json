@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "synthetic": true,
+  "financial_validation": false,
+  "errors": [
+    {
+      "type": "ValueError",
+      "message": "invalid string for 'value' did not contain '-', was 'slice'"
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/bot_trader/src/bot_trader/simulation/native_slice_worker.py\", line 557, in main\n    result = run(request, journal)\n  File \"/workspace/bot_trader/src/bot_trader/simulation/native_slice_worker.py\", line 449, in run\n    engine.add_strategy(SliceStrategy())\n                        ~~~~~~~~~~~~~^^\n  File \"/workspace/bot_trader/src/bot_trader/simulation/native_slice_worker.py\", line 292, in __init__\n    strategy_id=StrategyId(\"slice\"),\n                ~~~~~~~~~~^^^^^^^^^\nValueError: invalid string for 'value' did not contain '-', was 'slice'\n",
+  "native_state": "unknown_if_journal_exists; no inferred fills or cancellations"
+}

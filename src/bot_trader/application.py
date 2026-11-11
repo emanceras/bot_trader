@@ -9,6 +9,7 @@ from bot_trader.core.settings import Settings
 from bot_trader.lab import HypothesisService, LabService
 from bot_trader.market_data import DatasetService, LocalArtifactStore
 from bot_trader.persistence import Database, Repository
+from bot_trader.simulation.slice import SliceService
 
 
 @dataclass
@@ -21,13 +22,19 @@ class Services:
     datasets: DatasetService
     lab: LabService
     hypotheses: HypothesisService
+    slice: SliceService
 
 
 def build_registry() -> Registry:
     registry = Registry()
     definitions = [
         ("core", "operational", (), "Typed contracts, policy, configuration and module registry."),
-        ("market-data", "operational", ("core",), "Synthetic catalog, provenance and validation."),
+        (
+            "market-data",
+            "operational",
+            ("core",),
+            "Synthetic catalog, exact event replay and immutable local archives.",
+        ),
         (
             "research-lab",
             "operational",
@@ -75,6 +82,15 @@ def build_registry() -> Registry:
             )
         )
     registry.add_capability("core", "runtime-status", lambda _: {"mode": "technical"})
+    registry.add_capability(
+        "market-data",
+        "technical-slice",
+        lambda _: {
+            "mode": "technical",
+            "synthetic_only": True,
+            "execution": "optional isolated candidate process; no financial admission",
+        },
+    )
     registry.validate()
     return registry
 
@@ -94,4 +110,5 @@ def build_services(settings: Settings) -> Services:
         datasets,
         LabService(repo, datasets, store, policy, settings),
         HypothesisService(repo, policy),
+        SliceService(store, policy),
     )

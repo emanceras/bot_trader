@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "synthetic": true,
+  "financial_validation": false,
+  "errors": [
+    {
+      "type": "RuntimeError",
+      "message": "Invalid delta order size precision 0, expected 2 for SYN-USD.SIM"
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/bot_trader/src/bot_trader/simulation/native_slice_worker.py\", line 559, in main\n    result = run(request, journal)\n  File \"/workspace/bot_trader/src/bot_trader/simulation/native_slice_worker.py\", line 501, in run\n    engine.run(start=first - 1, end=last + 101)\n    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Invalid delta order size precision 0, expected 2 for SYN-USD.SIM\n",
+  "native_state": "unknown_if_journal_exists; no inferred fills or cancellations"
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "financial_validation": false,
+  "status": "reconciled",
+  "archive_hash": "fe694c1a5495b31390f3e98c966f653c9ac6d0ec1b823979938fef74b474806e",
+  "raw_sha256": "79713d0566b9f3fe117f51d96d966e11061f7baf36df83712194dfde8fd07ecb",
+  "source_manifest_hash": "eeb9be48b040188528af9628bfe91b001695e29b0d31d582a4d1beb1d338e524",
+  "normalized_hash": "39cfa9425ee74ab94c267df2c341ddfb0a7a166d77813ccf3164a9d6b57c45f1",
+  "replay_hash": "69f9f9f8baa6a2e1f29ba191f8c2534a6895a3942a7f143240a96dafecaf151b",
+  "request_hash": "491e2b6c7ffb1bd54c4b712eb1da30b6762e7ae5dde74917de38027790743368",
+  "native_hash": "0a82cb4654d705d9b8a57ab73af592a616b66f4a8fd45d35524b4436a0bce634",
+  "accounting_hash": "cf9804d971a953d7eb0998e2ea24004a01c3c0013530177328a49335b720c90e",
+  "configuration": {
+    "schema_version": 1,
+    "mode": "technical",
+    "synthetic": true,
+    "partition": "development",
+    "initial_cash_usd": "50",
+    "replay": {
+      "schema_version": 1,
+      "version": "synthetic-round-trip-v1",
+      "interval_ns": 1000000000,
+      "mean_window": 2,
+      "buy_quantity": "1",
+      "sell_quantity": "1",
+      "complete_trade_coverage": true,
+      "max_events": 10000
+    },
+    "execution": {
+      "version": "slice-execution-v1",
+      "fee_rate": "0.002",
+      "slippage_usd": "0",
+      "latency_ns": 0,
+      "max_quote_age_ns": 1000000,
+      "cancel_remainder_on_next_quote": true,
+      "quote_model": "explicit_synthetic_depth"
+    }
+  },
+  "signal_count": 2,
+  "fill_count": 0,
+  "implementation": "integrated-synthetic-slice-v1",
+  "canonical_hash": "7d0443f75f3e61a1194be3aac642449ee4c13fc3890ef788e89d0f09312497b3"
+}

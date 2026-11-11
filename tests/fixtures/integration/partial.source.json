@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "source_id": "slice-fixture",
+  "source_version": "1",
+  "source_schema": "fixture-jsonl-v2",
+  "locator": "internal:integration/partial",
+  "rights": "Internally authored synthetic fixture; project technical use permitted.",
+  "permitted_use": "technical_validation_only",
+  "acquired_ns": 1794412147729782906,
+  "raw_sha256": "a6e9f6833340a06f4901c1175f5bac268c4ecccf98cccfaca092ed3954b37e17",
+  "size_bytes": 6574,
+  "data_class": "synthetic",
+  "partition": "development"
+}

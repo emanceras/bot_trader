@@ -1,0 +1,1647 @@
+{
+  "checkpoint": {
+    "consumed_count": 15,
+    "policy_hash": "3787068d799f9f1f983af7a4a5884f3a5800aeb318f7bfb78c826e4dbd7733d6",
+    "prefix_hash": "6241c342ccf2247f1d6d06c25dd0295d55cee97a3815822c9350b9cb699577df",
+    "schema_version": 1,
+    "state_hash": "6ee5d976a2173730feed6d2fba1b1f876339917f02ab65bc002ed9707b10f976",
+    "tie_policy": "effective_ns/source_id/stream_id/sequence/event_id:v1"
+  },
+  "diagnostics": [],
+  "financial_validation": false,
+  "quotes": [
+    {
+      "available_ns": 1700000002000000110,
+      "data": {
+        "asks": [
+          {
+            "price": "105.05",
+            "quantity": "1"
+          }
+        ],
+        "bids": [
+          {
+            "price": "104.95",
+            "quantity": "2"
+          }
+        ],
+        "kind": "quote",
+        "origin": "synthetic_explicit"
+      },
+      "engine_ts_init_ns": null,
+      "event_id": "quote-buy",
+      "event_ns": 1700000002000000100,
+      "instrument": "SYNTH-USD",
+      "original_tick": 1700000002000000100,
+      "original_unit": "ns",
+      "provider_available_ns": null,
+      "published_ns": null,
+      "quote_currency": "USD",
+      "raw_sha256": "a6e9f6833340a06f4901c1175f5bac268c4ecccf98cccfaca092ed3954b37e17",
+      "received_ns": 1700000002000000120,
+      "schema_version": 2,
+      "sequence": 9,
+      "source_id": "slice-fixture",
+      "source_version": "1",
+      "stream_id": "market",
+      "transformed_ns": null
+    },
+    {
+      "available_ns": 1700000002000000210,
+      "data": {
+        "asks": [
+          {
+            "price": "105.06",
+            "quantity": "2"
+          }
+        ],
+        "bids": [
+          {
+            "price": "104.96",
+            "quantity": "2"
+          }
+        ],
+        "kind": "quote",
+        "origin": "synthetic_explicit"
+      },
+      "engine_ts_init_ns": null,
+      "event_id": "quote-cancel",
+      "event_ns": 1700000002000000200,
+      "instrument": "SYNTH-USD",
+      "original_tick": 1700000002000000200,
+      "original_unit": "ns",
+      "provider_available_ns": null,
+      "published_ns": null,
+      "quote_currency": "USD",
+      "raw_sha256": "a6e9f6833340a06f4901c1175f5bac268c4ecccf98cccfaca092ed3954b37e17",
+      "received_ns": 1700000002000000220,
+      "schema_version": 2,
+      "sequence": 10,
+      "source_id": "slice-fixture",
+      "source_version": "1",
+      "stream_id": "market",
+      "transformed_ns": null
+    },
+    {
+      "available_ns": 1700000003000000110,
+      "data": {
+        "asks": [
+          {
+            "price": "107.05",
+            "quantity": "1"
+          }
+        ],
+        "bids": [
+          {
+            "price": "106.95",
+            "quantity": "2"
+          }
+        ],
+        "kind": "quote",
+        "origin": "synthetic_explicit"
+      },
+      "engine_ts_init_ns": null,
+      "event_id": "quote-sell",
+      "event_ns": 1700000003000000100,
+      "instrument": "SYNTH-USD",
+      "original_tick": 1700000003000000100,
+      "original_unit": "ns",
+      "provider_available_ns": null,
+      "published_ns": null,
+      "quote_currency": "USD",
+      "raw_sha256": "a6e9f6833340a06f4901c1175f5bac268c4ecccf98cccfaca092ed3954b37e17",
+      "received_ns": 1700000003000000120,
+      "schema_version": 2,
+      "sequence": 15,
+      "source_id": "slice-fixture",
+      "source_version": "1",
+      "stream_id": "market",
+      "transformed_ns": null
+    }
+  ],
+  "records": [
+    {
+      "effective_ns": 1700000000000000040,
+      "event_hash": "72d5cf5d07f464a4e9f516e301e93f4eb171e254da85232295d35884f0cb0076",
+      "event_id": "bar-1-open",
+      "kind": "bar",
+      "prefix_hash": "f052640b18a96ec43063a067b7304bc311ffdfdae6ce2c0b906fc34ed9f35d17",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "100",
+              "end_ns": 1700000001000000000,
+              "high": "100",
+              "kind": "bar",
+              "label": "open",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-1-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 0,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": []
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000000000000150,
+      "event_hash": "836c92fbadc3f062c2bc2a29e6df024876184f1c9119facd4386c1fe731d1240",
+      "event_id": "trade-1-1",
+      "kind": "trade",
+      "prefix_hash": "22c777c760b657d3c981a16f5c043a073725012c01eee57d961de02f681c0445",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "100",
+              "end_ns": 1700000001000000000,
+              "high": "100",
+              "kind": "bar",
+              "label": "open",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-1-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 0,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "100",
+            "end_ns": 1700000001000000000,
+            "high": "100",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1"
+            ],
+            "volume": "1"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000000000000250,
+      "event_hash": "7884b6f2712deed4a44e255a38e7ffc0ff6ae92efe71899df054dee451ea8bb1",
+      "event_id": "trade-1-2",
+      "kind": "trade",
+      "prefix_hash": "3bf5ca2ad50a8ef8c23d3970c191ea6d7fca567f0d661ac1d20ca608791c4ba3",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "100",
+              "end_ns": 1700000001000000000,
+              "high": "100",
+              "kind": "bar",
+              "label": "open",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-1-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 0,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000001000000020,
+      "event_hash": "a18f788ba057c46e9cf89dd85d5c1ae8d4913e0fe148d936b35e225209e8d356",
+      "event_id": "bar-1-closed",
+      "kind": "bar",
+      "prefix_hash": "4a65fc71fecb83498287635db8029e1662b1dcc976b4ef3f9ce9d6782bb93a66",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 1,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000001000000040,
+      "event_hash": "1facb05f562d5578c1cb0aa6a5313661a49a88964ea07cf1b72aa8b4b6da79a1",
+      "event_id": "bar-2-open",
+      "kind": "bar",
+      "prefix_hash": "94ec60e9cdbad557fcb57edaa43979bb8506b693fd2bc54bfd3e30e713f3c7fc",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "101",
+              "end_ns": 1700000002000000000,
+              "high": "101",
+              "kind": "bar",
+              "label": "open",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-2-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 1,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000001000000150,
+      "event_hash": "d413cc2d48f9e69e00fd225899f8201dc4ee5cbc6c7ed9d5949f7f29b26d424b",
+      "event_id": "trade-2-1",
+      "kind": "trade",
+      "prefix_hash": "18aee2e1b942c39097635cc304510be5a3f255708c7784ed22693b2f4e67cb8e",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "101",
+              "end_ns": 1700000002000000000,
+              "high": "101",
+              "kind": "bar",
+              "label": "open",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-2-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 1,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "101",
+            "end_ns": 1700000002000000000,
+            "high": "101",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1"
+            ],
+            "volume": "1"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000001000000250,
+      "event_hash": "fc44bdaf3c11f57710f7658fbd563e1c69bb0d33308e759e38a391b52ae55afb",
+      "event_id": "trade-2-2",
+      "kind": "trade",
+      "prefix_hash": "862333d655310f9e0851d1ab5e2d26d5f67f6cf9f2cb18d4856f8b530dbf3311",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "101",
+              "end_ns": 1700000002000000000,
+              "high": "101",
+              "kind": "bar",
+              "label": "open",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-2-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 1,
+            "contributing_event_ids": [],
+            "instrument": "SYNTH-USD",
+            "mean": null,
+            "ready": false,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000020,
+      "event_hash": "53588789200fe8d66f654191967365b2787c566f460726a7ca0d4f102e392493",
+      "event_id": "bar-2-closed",
+      "kind": "bar",
+      "prefix_hash": "6656078c78dac75002cd6e7c7ecaf6d7fc99a19f3e99a20a3311be42a458d7f2",
+      "signal_id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000120,
+      "event_hash": "ff2e4d3fbfdfdfca67dec060742c04c4e246d810ecc19c44074ec3165a41c297",
+      "event_id": "quote-buy",
+      "kind": "quote",
+      "prefix_hash": "49ea660d7f3390fff4fd4c9464a72c634ef1dc07b75fdb70cc78989c6fbfeab4",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000220,
+      "event_hash": "0e4a9f761db6f600872e14519ee149d3e0fd44a7117f02ef3a7ce1711fd043e2",
+      "event_id": "quote-cancel",
+      "kind": "quote",
+      "prefix_hash": "6be3af237e908d91826f519bf4bb4cb62025c1ac8ac02f67d01ed27d8d879428",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000310,
+      "event_hash": "99171b62737e0d265ccedf0e93607e420f336baddc737ae0f80cdeb54b645fa1",
+      "event_id": "bar-3-open",
+      "kind": "bar",
+      "prefix_hash": "f4b5c2d3d16931ad217fa6a138531a7960a89a7c97476f42d4d995887a11e8d3",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-3",
+              "close": "102",
+              "end_ns": 1700000003000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "open",
+              "low": "102",
+              "open": "102",
+              "revision_of": null,
+              "start_ns": 1700000002000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-3-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000420,
+      "event_hash": "b6cf1f82034445047e59249fcf8341aabb857f22d8e9a48c8cdf60360161cb83",
+      "event_id": "trade-3-1",
+      "kind": "trade",
+      "prefix_hash": "c583ac233d576ddc59ce5a8b9fe1c5794522afc88d326d24cade3b66e7bf17c6",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-3",
+              "close": "102",
+              "end_ns": 1700000003000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "open",
+              "low": "102",
+              "open": "102",
+              "revision_of": null,
+              "start_ns": 1700000002000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-3-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "102",
+            "end_ns": 1700000003000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "102",
+            "open": "102",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000002000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-3-1"
+            ],
+            "volume": "1"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000002000000520,
+      "event_hash": "7a4dc93f5731531b1fbe7778fe6633e404bc56a064931c7b6048c6d3e256c361",
+      "event_id": "trade-3-2",
+      "kind": "trade",
+      "prefix_hash": "a8b9c0f4a92ca41d6b7fbed64dae116eefbe2de98ab169aa258275b1f4c12e84",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-3",
+              "close": "102",
+              "end_ns": 1700000003000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "open",
+              "low": "102",
+              "open": "102",
+              "revision_of": null,
+              "start_ns": 1700000002000000000,
+              "status": "open",
+              "volume": "0"
+            },
+            "event_id": "bar-3-open",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 2,
+            "contributing_event_ids": [
+              "bar-1-closed",
+              "bar-2-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "102.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "104",
+            "end_ns": 1700000003000000000,
+            "high": "104",
+            "instrument": "SYNTH-USD",
+            "low": "102",
+            "open": "102",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000002000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-3-1",
+              "trade-3-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000003000000020,
+      "event_hash": "7d126f7134e18baa287fed7afaf7eee778780d17ebc1fef1d9f0fdf7608beefc",
+      "event_id": "bar-3-closed",
+      "kind": "bar",
+      "prefix_hash": "559f8f3ee65b8b8058d73c58cebf2537110b3caea84e247a028b3173a4ebb2b9",
+      "signal_id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-3",
+              "close": "104",
+              "end_ns": 1700000003000000000,
+              "high": "104",
+              "kind": "bar",
+              "label": "close",
+              "low": "102",
+              "open": "102",
+              "revision_of": null,
+              "start_ns": 1700000002000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-3-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 3,
+            "contributing_event_ids": [
+              "bar-2-closed",
+              "bar-3-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "103.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "104",
+            "end_ns": 1700000003000000000,
+            "high": "104",
+            "instrument": "SYNTH-USD",
+            "low": "102",
+            "open": "102",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000002000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-3-1",
+              "trade-3-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    },
+    {
+      "effective_ns": 1700000003000000120,
+      "event_hash": "4a9e4fe50e4a855b96d328710a0ec47c06111394443a1185e152a3f0e56e55b6",
+      "event_id": "quote-sell",
+      "kind": "quote",
+      "prefix_hash": "6241c342ccf2247f1d6d06c25dd0295d55cee97a3815822c9350b9cb699577df",
+      "signal_id": null,
+      "source_id": "slice-fixture",
+      "state": {
+        "bars": [
+          {
+            "bar": {
+              "bar_id": "bar-1",
+              "close": "102",
+              "end_ns": 1700000001000000000,
+              "high": "102",
+              "kind": "bar",
+              "label": "close",
+              "low": "100",
+              "open": "100",
+              "revision_of": null,
+              "start_ns": 1700000000000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-1-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-2",
+              "close": "103",
+              "end_ns": 1700000002000000000,
+              "high": "103",
+              "kind": "bar",
+              "label": "close",
+              "low": "101",
+              "open": "101",
+              "revision_of": null,
+              "start_ns": 1700000001000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-2-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          },
+          {
+            "bar": {
+              "bar_id": "bar-3",
+              "close": "104",
+              "end_ns": 1700000003000000000,
+              "high": "104",
+              "kind": "bar",
+              "label": "close",
+              "low": "102",
+              "open": "102",
+              "revision_of": null,
+              "start_ns": 1700000002000000000,
+              "status": "closed",
+              "volume": "2"
+            },
+            "event_id": "bar-3-closed",
+            "instrument": "SYNTH-USD",
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "indicators": [
+          {
+            "closed_count": 3,
+            "contributing_event_ids": [
+              "bar-2-closed",
+              "bar-3-closed"
+            ],
+            "instrument": "SYNTH-USD",
+            "mean": "103.5",
+            "ready": true,
+            "source_id": "slice-fixture",
+            "stream_id": "market"
+          }
+        ],
+        "trade_buckets": [
+          {
+            "close": "102",
+            "end_ns": 1700000001000000000,
+            "high": "102",
+            "instrument": "SYNTH-USD",
+            "low": "100",
+            "open": "100",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000000000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-1-1",
+              "trade-1-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "103",
+            "end_ns": 1700000002000000000,
+            "high": "103",
+            "instrument": "SYNTH-USD",
+            "low": "101",
+            "open": "101",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000001000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-2-1",
+              "trade-2-2"
+            ],
+            "volume": "2"
+          },
+          {
+            "close": "104",
+            "end_ns": 1700000003000000000,
+            "high": "104",
+            "instrument": "SYNTH-USD",
+            "low": "102",
+            "open": "102",
+            "source_id": "slice-fixture",
+            "start_ns": 1700000002000000000,
+            "stream_id": "market",
+            "trade_ids": [
+              "trade-3-1",
+              "trade-3-2"
+            ],
+            "volume": "2"
+          }
+        ]
+      },
+      "stream_id": "market"
+    }
+  ],
+  "schema_version": 1,
+  "signals": [
+    {
+      "decision_ns": 1700000002000000020,
+      "id": "signal-3db825f7a26e6673a711fd92e337ec7cf5020305367f7ca472e899c3b1dcc651",
+      "instrument": "SYNTH-USD",
+      "policy_hash": "3787068d799f9f1f983af7a4a5884f3a5800aeb318f7bfb78c826e4dbd7733d6",
+      "quantity": "2",
+      "schema_version": 1,
+      "side": "buy",
+      "source_event_hash": "fcd9146e560737711cceff543b95c32049866eba9ac65c38fa12fbb518adcfdf",
+      "source_event_id": "bar-2-closed",
+      "state_hash": "b5d0265065cf713f1a66b3cb6d36987bd46b067abc636b2262c7e5fe4252eed2",
+      "synthetic": true
+    },
+    {
+      "decision_ns": 1700000003000000020,
+      "id": "signal-421196cab57417a6e637e56f8570413bd03c41d6bf0a173385fa1393318a4e4c",
+      "instrument": "SYNTH-USD",
+      "policy_hash": "3787068d799f9f1f983af7a4a5884f3a5800aeb318f7bfb78c826e4dbd7733d6",
+      "quantity": "1",
+      "schema_version": 1,
+      "side": "sell",
+      "source_event_hash": "69ca996d5a00d7fbbc4ab562bcf58dbe2e938f66c74f7778a8fc5b5e6c3996fc",
+      "source_event_id": "bar-3-closed",
+      "state_hash": "6ee5d976a2173730feed6d2fba1b1f876339917f02ab65bc002ed9707b10f976",
+      "synthetic": true
+    }
+  ],
+  "synthetic": true
+}

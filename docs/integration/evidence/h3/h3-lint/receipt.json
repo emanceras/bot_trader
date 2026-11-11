@@ -1,0 +1,24 @@
+{
+  "label": "h3-lint",
+  "command": [
+    ".venv/bin/ruff",
+    "check",
+    "--fix",
+    "src/bot_trader/application.py",
+    "src/bot_trader/cli.py",
+    "src/bot_trader/simulation/bridge.py",
+    "src/bot_trader/simulation/slice.py",
+    "src/bot_trader/simulation/reconciliation.py",
+    "src/bot_trader/simulation/native_slice_worker.py",
+    "tests/test_slice_native.py",
+    "tests/test_reconciliation_v2.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.24669380400155205,
+  "cpu_seconds": 0.162085,
+  "peak_sampled_rss_bytes": 6029312,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T15:55:09Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

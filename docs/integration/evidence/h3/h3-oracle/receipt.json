@@ -1,0 +1,16 @@
+{
+  "label": "h3-oracle",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_reconciliation_v2.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 4.264078975000302,
+  "cpu_seconds": 4.139136000000001,
+  "peak_sampled_rss_bytes": 38838272,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T15:50:46Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

@@ -1,0 +1,154 @@
+{
+  "batch_oracle": {
+    "cash_usd": "50",
+    "fees_usd": "0",
+    "inventory": "0",
+    "purchase_flows_usd": "0",
+    "sale_flows_usd": "0"
+  },
+  "cash_usd": "50",
+  "checks": [
+    {
+      "detail": null,
+      "name": "native_completed_without_errors",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "synthetic_scope",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "request_identity",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "ledger_equals_independent_batch",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "order_arithmetic:order-signal-5c029405f295bc0d7fcd24ffa44c4e4f5a927ff5c6af4efb1393d8e405c8d1fe",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_order:order-signal-5c029405f295bc0d7fcd24ffa44c4e4f5a927ff5c6af4efb1393d8e405c8d1fe",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "rejection_has_no_fill:order-signal-5c029405f295bc0d7fcd24ffa44c4e4f5a927ff5c6af4efb1393d8e405c8d1fe",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "order_arithmetic:order-signal-76d0c5a7f291ae9cc891cfc05cdb36701fac8174eaf7fd769e38222bd17b4d4f",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_order:order-signal-76d0c5a7f291ae9cc891cfc05cdb36701fac8174eaf7fd769e38222bd17b4d4f",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "rejection_has_no_fill:order-signal-76d0c5a7f291ae9cc891cfc05cdb36701fac8174eaf7fd769e38222bd17b4d4f",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "every_market_command_has_native_state",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:0",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:0",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:1",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:1",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:2",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:2",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:3",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:3",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "balance_keys:4",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "free_plus_reserved:4",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_totals_equal_independent_batch",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_positions_long_only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "native_position_equals_inventory",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "terminal_market_reservations_zero",
+      "passed": true
+    },
+    {
+      "detail": [],
+      "name": "no_unresolved_order_state",
+      "passed": true
+    }
+  ],
+  "duplicate_fill_rows_suppressed": 0,
+  "fees_usd": "0",
+  "financial_validation": false,
+  "initial_cash_usd": "50",
+  "inventory": "0",
+  "kind": "synthetic-posting-reconciliation",
+  "passed": true,
+  "postings": [],
+  "problems": [],
+  "schema_version": 2,
+  "scope": "Technical Decimal flows only; no matching, returns or market valuation.",
+  "unresolved_orders": []
+}
