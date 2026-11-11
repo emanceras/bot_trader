@@ -1,0 +1,17 @@
+{
+  "label": "h1-types-fixed",
+  "command": [
+    ".venv/bin/mypy",
+    "src/bot_trader/core/events.py",
+    "src/bot_trader/market_data/archive.py",
+    "src/bot_trader/market_data/normalization.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.7277417940058513,
+  "cpu_seconds": 0.666232,
+  "peak_sampled_rss_bytes": 89088000,
+  "stop_reason": null,
+  "started_utc": "2026-11-11T08:14:54Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

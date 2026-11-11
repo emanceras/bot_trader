@@ -12,7 +12,7 @@ from uuid import uuid4
 
 from bot_trader.core.errors import NotFound, PlatformError
 
-_SUFFIXES = frozenset({"parquet", "json", "md"})
+_SUFFIXES = frozenset({"parquet", "json", "md", "bin"})
 
 
 def _validate_key(digest: str, suffix: str) -> str:

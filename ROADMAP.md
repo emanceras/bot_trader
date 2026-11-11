@@ -2,6 +2,10 @@
 
 Fecha de inicio: 2026-10-13 · Actualización: 2026-11-03 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
+## Integración incremental autorizada — D-054
+
+Seguimiento vigente: [STATE.md](STATE.md), [solicitud](docs/integration/REQUEST.es.md). Cuatro hitos técnicos, sin ampliar Fase V: H1 archivo/contratos; H2 replay/analítica/señal; H3 ida/vuelta sintética y conciliación; H4 integración y aceptación. La evaluación general de motores queda pausada; no se reabren M/R/E. Segunda fuente y captura directa mínima quedan en cola, esta última con prioridad temporal pero autorización separada antes de activarse.
+
 ## Objetivo y estado general
 
 Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. III aceptada por el usuario; IV metodológica autorizada en D-035. V–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.

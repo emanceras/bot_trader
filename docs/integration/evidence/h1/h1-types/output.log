@@ -1,0 +1,2 @@
+src/bot_trader/market_data/normalization.py:73: error: Need type annotation for "events" (hint: "events: list[<type>] = ...")  [var-annotated]
+Found 1 error in 1 file (checked 3 source files)

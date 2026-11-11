@@ -1,0 +1,20 @@
+{
+  "label": "h1-check",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_archive_v2.py",
+    "tests/test_events_v2.py",
+    "tests/test_normalization_v2.py",
+    "tests/test_market_data.py",
+    "tests/test_core.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 3.966589411999962,
+  "cpu_seconds": 3.85213,
+  "peak_sampled_rss_bytes": 121405440,
+  "stop_reason": null,
+  "started_utc": "2026-11-10T21:23:50Z",
+  "network": "IPv4/IPv6 denied; no new downloads",
+  "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+}

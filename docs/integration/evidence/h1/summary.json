@@ -1,0 +1,119 @@
+{
+  "milestone": "h1",
+  "invocations": [
+    {
+      "label": "h1-format",
+      "command": [
+        ".venv/bin/ruff",
+        "format",
+        "src/bot_trader/core/events.py",
+        "src/bot_trader/market_data/archive.py",
+        "src/bot_trader/market_data/normalization.py",
+        "tests/test_archive_v2.py",
+        "tests/test_events_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.38680303000001004,
+      "cpu_seconds": 0.22671899999999998,
+      "peak_sampled_rss_bytes": 11141120,
+      "stop_reason": null,
+      "started_utc": "2026-11-10T21:23:17Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h1-check",
+      "command": [
+        ".venv/bin/pytest",
+        "-q",
+        "tests/test_archive_v2.py",
+        "tests/test_events_v2.py",
+        "tests/test_normalization_v2.py",
+        "tests/test_market_data.py",
+        "tests/test_core.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 3.966589411999962,
+      "cpu_seconds": 3.85213,
+      "peak_sampled_rss_bytes": 121405440,
+      "stop_reason": null,
+      "started_utc": "2026-11-10T21:23:50Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h1-lint",
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "--fix",
+        "src/bot_trader/core/events.py",
+        "src/bot_trader/market_data/archive.py",
+        "src/bot_trader/market_data/normalization.py",
+        "tests/test_archive_v2.py",
+        "tests/test_events_v2.py",
+        "tests/test_normalization_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.12565721000282792,
+      "cpu_seconds": 0.138803,
+      "peak_sampled_rss_bytes": 7864320,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:12:56Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h1-types",
+      "command": [
+        ".venv/bin/mypy",
+        "src/bot_trader/core/events.py",
+        "src/bot_trader/market_data/archive.py",
+        "src/bot_trader/market_data/normalization.py"
+      ],
+      "exit_code": 1,
+      "wall_seconds": 4.61355761300365,
+      "cpu_seconds": 4.514855999999999,
+      "peak_sampled_rss_bytes": 173776896,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:13:06Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h1-types-fixed",
+      "command": [
+        ".venv/bin/mypy",
+        "src/bot_trader/core/events.py",
+        "src/bot_trader/market_data/archive.py",
+        "src/bot_trader/market_data/normalization.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.7277417940058513,
+      "cpu_seconds": 0.666232,
+      "peak_sampled_rss_bytes": 89088000,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:14:54Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    },
+    {
+      "label": "h1-bound-manifest",
+      "command": [
+        ".venv/bin/pytest",
+        "-q",
+        "tests/test_normalization_v2.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 2.2305837140011135,
+      "cpu_seconds": 2.185326,
+      "peak_sampled_rss_bytes": 97538048,
+      "stop_reason": null,
+      "started_utc": "2026-11-11T08:17:12Z",
+      "network": "IPv4/IPv6 denied; no new downloads",
+      "limits": "4 CPU affinity; RSS sampled100ms, not a hard memory certificate"
+    }
+  ],
+  "guarded_wall_seconds": 12.050932773013415,
+  "scope": "Synthetic technical implementation; no financial experiments or downloads"
+}

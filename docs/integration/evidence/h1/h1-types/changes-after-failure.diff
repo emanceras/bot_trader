@@ -1,0 +1,64 @@
+--- failed/src/bot_trader/market_data/normalization.py
++++ current/src/bot_trader/market_data/normalization.py
+@@ -70,7 +70,7 @@
+         rows = raw.splitlines()
+         if not 1 <= len(rows) <= 10_000:
+             raise ValueError("Technical event count must be between one and10000.")
+-        events = []
++        events: list[MarketEventV2] = []
+         identities: dict[tuple[str, str, str], str] = {}
+         sequences: dict[tuple[str, str, int], str] = {}
+         diagnostics = []
+--- failed/src/bot_trader/market_data/replay.py
++++ current/src/bot_trader/market_data/replay.py
+@@ -7,9 +7,9 @@
+ 
+ from collections.abc import Sequence
+ from decimal import Decimal, localcontext
+-from typing import Literal, Self
+-
+-from pydantic import Field, field_validator, model_validator
++from typing import Literal
++
++from pydantic import Field, field_validator
+ 
+ from bot_trader.core.contracts import Identifier
+ from bot_trader.core.errors import AccessDenied
+@@ -29,7 +29,19 @@
+ Feed = tuple[str, str, str]
+ BarKey = tuple[str, str, str, str]
+ BucketKey = tuple[str, str, str, int]
+-TIE_POLICY = "effective_ns/source_id/stream_id/sequence/event_id:v1"
++TIE_POLICY: Literal["effective_ns/source_id/stream_id/sequence/event_id:v1"] = (
++    "effective_ns/source_id/stream_id/sequence/event_id:v1"
++)
++
++
++def information_hash(event: MarketEventV2) -> str:
++    """Hash causal contents independently of the enclosing archive's future rows.
++
++    Full event digests still bind records/checkpoints to exact raw provenance.
++    Changing a future raw row may change that archive hash but must not change
++    an already determined action's identity solely through archive metadata.
++    """
++    return content_hash(event.model_dump(mode="json", exclude={"raw_sha256"}))
+ 
+ 
+ class ReplayPolicy(ImmutableV2):
+@@ -327,14 +339,14 @@
+                     )
+                     signal = SyntheticSignal(
+                         id="signal-" + content_hash({
+-                            "source": event.digest, "policy": self.policy.digest,
++                            "source": information_hash(event), "policy": self.policy.digest,
+                             "state": state.digest, "side": side,
+                         }),
+                         instrument=event.instrument, side=side,
+                         quantity=(self.policy.buy_quantity if side == "buy"
+                                   else self.policy.sell_quantity),
+                         decision_ns=event.effective_ns, source_event_id=event.event_id,
+-                        source_event_hash=event.digest, state_hash=state.digest,
++                        source_event_hash=information_hash(event), state_hash=state.digest,
+                         policy_hash=self.policy.digest,
+                     )
+                     signals.append(signal)

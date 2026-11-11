@@ -1,5 +1,14 @@
 # Instrucciones persistentes del proyecto
 
+## Incremental integration continuity
+
+- Read `STATE.md` first after an interruption; published milestone commits and actual receipts take precedence over dated historical status below. Keep that checkpoint short and update it at each milestone.
+- Add exact-time contracts alongside existing versions. Require explicit source time units/label conventions; preserve nanoseconds or reject lossy conversion. Source event, availability, reception and engine initialization are distinct clocks.
+- Keep raw, normalized and derived artifacts separately identified and immutable. Source declarations include rights/provenance; a hash verifies content, not rights or source correctness. Resumption must verify source identity and staged prefixes.
+- Market Replay orders information and feeds analytics/signals/execution; it is not a second financial matching engine. Preserve earlier decisions when later revisions arrive and report gaps/conflicts without silent repair.
+- A technically passing synthetic route is not financial admission. Keep observed native fills separate from modeled quotes and isolated lifecycle contract tests; uncertain execution/cancellation must remain unresolved rather than inferred.
+
+
 **Resultado vigente D-053:** [E1/velas EN](docs/en/phase-iv/bar-execution.md) / [ES](docs/es/phase-iv/bar-execution.md), [evidencia](docs/phase-iv/technical-results/E-bars/README.md). D-052 ejecutado: seis grupos, quince procesos nativos,135 comprobaciones de componentes correctas, una preparación y ninguna corrección. Sin latencia, ambas ordenaciones llenan1@100.50 al cierre N; con1 ms,1@112 al cierre N+1. No prometer apertura siguiente. La frontera causal `bar_execution=False` usa cotizaciones expresamente sintéticas, omite aperturas anteriores a la decisión y conserva cuatro prefijos ante información futura. Timestamps incorrectos entregan la vela completa anticipadamente; corregidos y precisión123 ns verificados. No repetir pruebas completadas ni gastar slots restantes sin necesidad. Contabilidad limitada a compras USD; cancelación de remanentes solo documentada aquí. Producción/E1 integral, admisión financiera y recuperación siguen pendientes. E3/E4 económicos,26 especificaciones y V/paper/live intactos.
 
 **Autorización D-052, ahora ejecutada:** [alcance E1/velas](docs/phase-iv/APPROVAL-E1-BARS.es.md), posterior a c1d4029: máximo ocho invocaciones,1800 segundos,512 MiB extra,4 CPU/8 GiB RAM, cero descargas y un ciclo correctivo. Consultar recibos antes de reanudar; no repetir M/R160/E3/E4/LEAN.
