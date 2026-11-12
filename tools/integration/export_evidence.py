@@ -1,59 +1,59 @@
-"""Copy completed check receipts, preserving failed versions and exact correction diffs."""
+"""Publish compact receipts and Git diffs; never copy source trees or market data."""
 
 import argparse
-import difflib
 import hashlib
 import json
 from pathlib import Path
 import shutil
 
 REPO = Path(__file__).resolve().parents[2]
-SCRATCH = Path("/workspace/platform-slice")
+PUBLIC_FILES = ("output.log", "receipt.json", "source-manifest.json", "source.diff", "history-prefix.json")
+
+
+def export(scratch: Path, out: Path, milestone: str):
+    rows = [json.loads(line) for line in (scratch / "checks.jsonl").read_text().splitlines()]
+    selected = [r for r in rows if r["label"].startswith(milestone + "-")]
+    out.mkdir(parents=True, exist_ok=True)
+    for row in selected:
+        if row.get("schema_version") != 2:
+            raise ValueError("Historical evidence is frozen; use its recorded exporter if needed.")
+        source, target = scratch / row["label"], out / row["label"]
+        target.mkdir(exist_ok=True)
+        for name in PUBLIC_FILES:
+            original, copied = source / name, target / name
+            if copied.exists():
+                if original.read_bytes() != copied.read_bytes():
+                    raise RuntimeError("Previously exported evidence changed: " + str(copied))
+            else:
+                shutil.copyfile(original, copied)
+    # A later invocation set receives a new index; existing indices are never rewritten.
+    index_id = hashlib.sha256(json.dumps([r["label"] for r in selected]).encode()).hexdigest()[:16]
+    manifest = {
+        str(p.relative_to(out)): hashlib.sha256(p.read_bytes()).hexdigest()
+        for row in selected for p in (out / row["label"]).iterdir() if p.is_file()
+    }
+    index = {
+        "schema_version": 2, "milestone": milestone, "invocations": selected,
+        "files": manifest, "guarded_wall_seconds": sum(r["wall_seconds"] for r in selected),
+        "scope": "Technical source/QA evidence; private market records are never copied",
+    }
+    destination = out / ("index-" + index_id + ".json")
+    payload = (json.dumps(index, indent=2) + "\n").encode()
+    if destination.exists() and destination.read_bytes() != payload:
+        raise RuntimeError("Previously published evidence index changed.")
+    if not destination.exists():
+        destination.write_bytes(payload)
+    return len(selected)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("milestone")
+    parser.add_argument("--budget", type=Path, required=True)
     args = parser.parse_args()
-    out = REPO / "docs/integration/evidence" / args.milestone
-    out.mkdir(parents=True, exist_ok=True)
-    rows = [json.loads(line) for line in (SCRATCH / "checks.jsonl").read_text().splitlines()]
-    selected = [r for r in rows if r["label"].startswith(args.milestone + "-")]
-    files = {}
-    for row in selected:
-        source = SCRATCH / row["label"]
-        target = out / row["label"]
-        if target.exists():
-            for name in ("output.log", "receipt.json", "source-manifest.json"):
-                if (source / name).read_bytes() != (target / name).read_bytes():
-                    raise RuntimeError("Previously exported evidence changed: " + row["label"])
-            continue
-        target.mkdir()
-        for name in ("output.log", "receipt.json", "source-manifest.json"):
-            shutil.copyfile(source / name, target / name)
-        if (source / "native").exists():
-            shutil.copytree(source / "native", target / "native")
-        if row["exit_code"]:
-            shutil.copytree(source / "source", target / "failed-source")
-            diff = []
-            for old in sorted((source / "source").rglob("*.py")):
-                relative = old.relative_to(source / "source")
-                new = REPO / relative
-                if new.exists():
-                    diff += difflib.unified_diff(old.read_text().splitlines(True),
-                        new.read_text().splitlines(True), fromfile="failed/" + str(relative),
-                        tofile="current/" + str(relative))
-            (target / "changes-after-failure.diff").write_text("".join(diff))
-    for path in out.rglob("*"):
-        if path.is_file() and path not in (out / "manifest.json", out / "summary.json"):
-            files[str(path.relative_to(out))] = hashlib.sha256(path.read_bytes()).hexdigest()
-    (out / "manifest.json").write_text(json.dumps(files, indent=2) + "\n")
-    (out / "summary.json").write_text(json.dumps({
-        "milestone": args.milestone, "invocations": selected,
-        "guarded_wall_seconds": sum(row["wall_seconds"] for row in selected),
-        "scope": "Synthetic technical implementation; no financial experiments or downloads",
-    }, indent=2) + "\n")
-    print(json.dumps({"milestone": args.milestone, "receipts": len(selected)}))
+    budget = json.loads(args.budget.read_text())
+    count = export(Path(budget["scratch_root"]), REPO / budget["public_evidence"] / args.milestone, args.milestone)
+    print(json.dumps({"milestone": args.milestone, "receipts": count}))
 
 
 if __name__ == "__main__":
