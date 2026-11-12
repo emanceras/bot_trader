@@ -101,3 +101,6 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 
 
 - **2026-11-10–11, integración técnica incremental (D-054/D-055):** archivo local, normalización v2, replay causal, señal sintética fija y ciclo nativo de compra/venta conciliado con Decimal. Tres pruebas H3 y dos H4 pasan en seis contextos nativos satisfactorios; se conservan dos preparaciones fallidas, correcciones acotadas y pruebas adversas. Regresión backend: 159 pruebas satisfactorias. [Informe y evidencias](docs/integration/REPORT.md). Todos los precios y cantidades son fixtures inventados; no se adquirieron ni usaron datos reales en este recorrido, ni se calcularon métricas de rentabilidad. Ninguna validación financiera, selección de hipótesis o apertura de holdout. **Los siete contadores financieros permanecen en cero.** E3/E4 y V pendientes.
+
+
+- **2026-11-12, mantenimiento técnico A (D-057):** diez pruebas pequeñas correctas; tres regresiones adicionales y reconstrucción de un fallo deliberado desde Git. Sin mercado, estrategia, motor, entrenamiento o métricas financieras. Evidencias previas conservadas; **los siete contadores financieros siguen en cero**. Auditoría histórica Kraken pendiente en este checkpoint.

@@ -2,6 +2,9 @@
 
 ## Incremental integration continuity
 
+- Before checks/publication, verify DECISIONS.md and EXPERIMENTS.md as exact byte prefixes of the latest verified published commit with `tools/integration/append_only.py`. A mutable or stale local tracking ref is not a baseline. Exceptional replacements need an explicit hash-bound amendment; never silently restore/rewrite historical content.
+- Preserve failed dirty sources with immutable Git evidence refs, source hashes and binary diffs; publish referenced refs. Do not copy full source trees per failure or rewrite old evidence. Keep real market records and normalization sidecars outside Git; inspect public logs for accidental data disclosure.
+
 - Read `STATE.md` first after an interruption; published milestone commits and actual receipts take precedence over dated historical status below. Keep that checkpoint short and update it at each milestone.
 - Add exact-time contracts alongside existing versions. Require explicit source time units/label conventions; preserve nanoseconds or reject lossy conversion. Source event, availability, reception and engine initialization are distinct clocks.
 - Keep raw, normalized and derived artifacts separately identified and immutable. Source declarations include rights/provenance; a hash verifies content, not rights or source correctness. Resumption must verify source identity and staged prefixes.

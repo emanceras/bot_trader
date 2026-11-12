@@ -1,0 +1,1224 @@
+diff --git a/STATE.md b/STATE.md
+index de27caf..6c7cc20 100644
+--- a/STATE.md
++++ b/STATE.md
+@@ -1,10 +1,8 @@
+ # Integration checkpoint
+ 
+-- Published checkpoint: `slice-h4` (this milestone; resolve with `git rev-parse slice-h4`). Earlier published commits: H1 `889ef23`, H2 `64929d6`, H3 `d3048f7`.
+-- Complete: four authorized milestones; immutable resumable local archive, exact-time v2/v1 compatibility, fixture normalization, causal replay/analytics/fixed signals, composed service and CLI, isolated native buy/sell, ledger/oracle and final acceptance review. [Single technical report](docs/integration/REPORT.md).
+-- Executed: backend **159 passed**; H3 **3 tests / 4 successful native contexts**; H4 **2 tests / 2 native contexts**. Determinism, full/partial/cancel/rejection, future-data invariance and CLI audit persistence verified. Host Ruff/mypy pass. Preserve two failed native preparations and corrections; both native correction attempts consumed. Original source/log/diff/receipts under `docs/integration/evidence/`.
+-- Limits: synthetic SYNTH-USD only; local fixture adapter; no real-source or Windows verification of this new route; positive latency/slippage, realistic capacity, second-engine substitution and actual native crash recovery unproved. Import/replay recovery and mocked transport timeout are distinct from native recovery.
+-- History: `DECISIONS.md` restored exactly from H2 after accidental H3 replacement; D-055/D-056 record completion and correction. No published history rewritten.
+-- Next exact action: review the completed report. Next integration queue A is a second provider adapter; B is read-only trades/best-bid-ask capture, with temporal priority but separate source/rights/resources authorization before activation. No further native rescue or completed M/R/E/E1 reruns.
+-- Authority: `docs/integration/REQUEST.es.md`; this bounded technical scope is complete. No new software/data, expenses, external capture, financial experiments, Phase V or paper/live. Economic E3/E4 and26 specifications unchanged.
+-- Resources: **112.179 guarded seconds**,103.542 CPU seconds,255.4 MiB maximum sampled RSS;25 commands, no resource stop or downloads. Exact receipts retained; engineering time not continuously instrumented and interruptions are not active work. No automatic budget extension.
++- Last published: `7206eb1` / `slice-h4`; first synthetic integration complete.
++- Current authority: maintenance A and existing Kraken historical QA B, two recoverable milestones. New limits:2h active engineering,900s monitored commands,4 CPU,8GiB RAM,512MiB extra; no new datasets/software/spend/financial execution.
++- Prepared, not tested: compact Git evidence, append-only history guard and small tests; Kraken schema adapter and synthetic tests; disabled future capture specification. Original two Kraken ZIPs still available.
++- Preflight: local `origin/main` was stale; prefix guard correctly refused before a test ran. Use explicit verified published commit from campaign budget; no historical content changed.
++- Next: run A small tests and intentional failure reconstruction; publish milestone A. Then data-only replay and private bounded Kraken QA, no signals or engine.
++- Pending: actual A/B test results and single report `docs/integration/kraken/REPORT.md`; do not claim execution from code alone. Historical evidence immutable. E3/E4,26 specifications,holdout and Phase V restrictions unchanged.
+diff --git a/docs/integration/kraken/budget.json b/docs/integration/kraken/budget.json
+new file mode 100644
+index 0000000..964715c
+--- /dev/null
++++ b/docs/integration/kraken/budget.json
+@@ -0,0 +1,18 @@
++{
++  "schema_version": 1,
++  "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
++  "engineering_seconds": 7200,
++  "machine_seconds": 900,
++  "command_seconds": 180,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-integration",
++  "additional_temp_roots": [
++    "/tmp/kraken-doc-check"
++  ],
++  "public_evidence": "docs/integration/kraken/evidence",
++  "new_downloads": false,
++  "financial_execution": false,
++  "published_baseline_commit": "7206eb13b1641b644f1ef87ba50bc1ef1ecd8322"
++}
+diff --git a/src/bot_trader/market_data/kraken_history.py b/src/bot_trader/market_data/kraken_history.py
+new file mode 100644
+index 0000000..f786d2a
+--- /dev/null
++++ b/src/bot_trader/market_data/kraken_history.py
+@@ -0,0 +1,367 @@
++"""Bounded, private normalization of the explicitly versioned Kraken quarterly CSVs.
++
++No provider autodetection, quotes, strategy or execution. Fractional source seconds
++remain verbatim in a private sidecar; v2 carries their exact integer ns equivalent.
++"""
++
++from __future__ import annotations
++
++import csv
++import hashlib
++import re
++import stat
++from decimal import Decimal
++from pathlib import Path, PurePosixPath
++from typing import Literal
++from zipfile import ZipFile
++
++from pydantic import Field, model_validator
++
++from bot_trader.core.contracts import Currency, Identifier
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import (
++    BarData,
++    Digest,
++    ImmutableV2,
++    MarketEventV2,
++    Nanoseconds,
++    TradeData,
++    content_hash,
++    exact_ns,
++)
++from bot_trader.market_data.archive import SourceSpec
++from bot_trader.market_data.normalization import NormalizedBatch
++
++TRADE_COLUMNS = ("timestamp", "price", "volume", "type", "order_type", "misc", "trade_id")
++TRADE_SCHEMA = "kraken-trades-csv-v2"
++BAR_SCHEMA = "kraken-ohlcvt-csv-v1"
++MAX_SLICE_BYTES = 2 * 1024 * 1024
++
++
++def seconds_to_ns(text: str) -> int:
++    """Exact decimal seconds, independent of ambient Decimal context or binary floats."""
++    if not isinstance(text, str) or len(text) > 64 or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", text):
++        raise ValueError("Timestamp must be a finite unsigned decimal-seconds string.")
++    number = Decimal(text)
++    sign, digits, exponent = number.as_tuple()
++    if not isinstance(exponent, int):
++        raise ValueError("Invalid timestamp exponent.")
++    coefficient = int("".join(map(str, digits)))
++    shift = exponent + 9
++    if shift >= 0:
++        result = coefficient * 10**shift
++    else:
++        result, remainder = divmod(coefficient, 10**-shift)
++        if remainder:
++            raise ValueError("Timestamp would lose subnanosecond precision.")
++    return exact_ns(result)
++
++
++def _identity(path: Path) -> tuple[int, int, int, int, int]:
++    if any(p.is_symlink() for p in (path, *path.parents)):
++        raise ValueError("Archive path cannot contain symlinks.")
++    info = path.stat()
++    if not stat.S_ISREG(info.st_mode):
++        raise ValueError("Archive must be a regular file.")
++    return info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns
++
++
++class VerifiedArchive(ImmutableV2):
++    schema_version: Literal[1] = 1
++    sha256: Digest
++    size_bytes: int = Field(strict=True, gt=0)
++    file_identity: tuple[int, int, int, int, int]
++
++
++def verify_archive(path: Path, *, expected_sha256: str, expected_size: int) -> VerifiedArchive:
++    """Read the existing compressed body once with a 4 MiB buffer; never acquire it."""
++    before = _identity(path)
++    if before[2] != expected_size:
++        raise ValueError("Existing archive size differs from the acquisition receipt.")
++    digest = hashlib.sha256()
++    with path.open("rb") as stream:
++        while chunk := stream.read(4 * 1024 * 1024):
++            digest.update(chunk)
++    if before != _identity(path) or digest.hexdigest() != expected_sha256:
++        raise ValueError("Existing archive changed or differs from its acquisition receipt.")
++    return VerifiedArchive(sha256=digest.hexdigest(), size_bytes=expected_size, file_identity=before)
++
++
++class KrakenSelection(ImmutableV2):
++    schema_version: Literal[1] = 1
++    selection: Literal["member-first-data-rows-v1"] = "member-first-data-rows-v1"
++    archive_sha256: Digest
++    archive_size_bytes: int = Field(strict=True, gt=0)
++    member: str
++    member_size_bytes: int = Field(strict=True, gt=0)
++    member_crc32: int = Field(strict=True, ge=0, le=2**32 - 1)
++    readme_sha256: Digest
++    source_schema: Literal["kraken-trades-csv-v2", "kraken-ohlcvt-csv-v1"]
++    instrument: Identifier
++    base_currency: Currency
++    quote_currency: Currency
++    interval_seconds: int | None = Field(default=None, strict=True, gt=0)
++    rows: int = Field(strict=True, ge=1, le=10_000)
++    raw_sha256: Digest
++    size_bytes: int = Field(strict=True, gt=0, le=MAX_SLICE_BYTES)
++    first_data_row: Literal[1] = 1
++    whole_member_crc_verified: Literal[False] = False
++
++    @model_validator(mode="after")
++    def schema_matches(self) -> KrakenSelection:
++        path = PurePosixPath(self.member)
++        if path.name != self.member or path.suffix != ".csv":
++            raise ValueError("Only a declared top-level CSV member is admitted.")
++        if self.source_schema == BAR_SCHEMA:
++            if self.interval_seconds is None or self.interval_seconds % 60:
++                raise ValueError("OHLCVT requires an explicit whole-minute interval.")
++            expected = f"{self.instrument}_{self.interval_seconds // 60}.csv"
++        else:
++            if self.interval_seconds is not None:
++                raise ValueError("Trade CSV has no bar interval.")
++            expected = f"{self.instrument}.csv"
++        if self.member != expected:
++            raise ValueError("Member name differs from the declared original instrument/interval.")
++        return self
++
++
++def select_prefix(
++    path: Path,
++    verified: VerifiedArchive,
++    *,
++    member: str,
++    source_schema: Literal["kraken-trades-csv-v2", "kraken-ohlcvt-csv-v1"],
++    instrument: str,
++    base_currency: str,
++    quote_currency: str,
++    interval_seconds: int | None = None,
++    max_rows: int = 64,
++) -> tuple[bytes, KrakenSelection]:
++    """Read only the declared prefix, without extracting or importing a full member.
++
++    Repeating selection reconstructs the same prefix. LocalArchive supplies durable
++    chunk checkpoints once this bounded private raw object has been selected.
++    """
++    if type(max_rows) is not int or not 1 <= max_rows <= 10_000:
++        raise ValueError("Selection must declare 1 to 10000 source rows.")
++    if _identity(path) != verified.file_identity:
++        raise ValueError("Archive identity changed after full-body verification.")
++    data = bytearray()
++    rows = 0
++    with ZipFile(path) as archive:
++        if archive.namelist().count(member) != 1:
++            raise ValueError("CSV member missing or duplicated in archive directory.")
++        info = archive.getinfo(member)
++        readme = archive.getinfo("README.md")
++        if readme.file_size > 65536:
++            raise ValueError("Unexpectedly large source schema notice.")
++        readme_hash = hashlib.sha256(archive.read(readme)).hexdigest()
++        with archive.open(info) as stream:
++            if source_schema == TRADE_SCHEMA:
++                header = stream.readline(4097)
++                if len(header) > 4096:
++                    raise ValueError("CSV header exceeds declared bound.")
++                data.extend(header)
++            for _ in range(max_rows):
++                line = stream.readline(4097)
++                if not line:
++                    break
++                if len(line) > 4096 or len(data) + len(line) > MAX_SLICE_BYTES:
++                    raise ValueError("CSV record/slice exceeds declared memory bound.")
++                if not line.strip():
++                    raise ValueError("Blank record inside selected CSV prefix.")
++                data.extend(line)
++                rows += 1
++    if _identity(path) != verified.file_identity:
++        raise ValueError("Archive changed during bounded prefix selection.")
++    raw = bytes(data)
++    selection = KrakenSelection(
++        archive_sha256=verified.sha256,
++        archive_size_bytes=verified.size_bytes,
++        member=member,
++        member_size_bytes=info.file_size,
++        member_crc32=info.CRC,
++        readme_sha256=readme_hash,
++        source_schema=source_schema,
++        instrument=instrument,
++        base_currency=base_currency,
++        quote_currency=quote_currency,
++        interval_seconds=interval_seconds,
++        rows=rows,
++        raw_sha256=hashlib.sha256(raw).hexdigest(),
++        size_bytes=len(raw),
++    )
++    return raw, selection
++
++
++class HistoricalAvailability(ImmutableV2):
++    version: Literal["kraken-history-optimistic-v1"] = "kraken-history-optimistic-v1"
++    delay_ns: Nanoseconds = 0
++    interpretation: Literal["event-or-bar-end-plus-declared-delay"] = (
++        "event-or-bar-end-plus-declared-delay"
++    )
++    optimistic_assumption: Literal[True] = True
++    historical_reception_observed: Literal[False] = False
++
++
++class KrakenRowProvenance(ImmutableV2):
++    data_row: int
++    physical_line: int
++    row_sha256: Digest
++    event_id: str
++    original_timestamp: str
++    original_unit: Literal["fractional_unix_seconds"] = "fractional_unix_seconds"
++    v2_tick_interpretation: Literal["exact-derived-nanoseconds"] = "exact-derived-nanoseconds"
++    native_trade_id: str | None = None
++    side: str | None = None
++    order_type: str | None = None
++    misc: str | None = None
++    trade_count: int | None = None
++
++
++class KrakenNormalizedSlice(ImmutableV2):
++    schema_version: Literal[1] = 1
++    selection: KrakenSelection
++    availability: HistoricalAvailability
++    batch: NormalizedBatch
++    rows: tuple[KrakenRowProvenance, ...]
++    price_unit: str
++    quantity_unit: str
++    sequence_origin: Literal["unique-selected-row-ordinal-not-provider-sequence"] = (
++        "unique-selected-row-ordinal-not-provider-sequence"
++    )
++
++
++class KrakenHistoricalNormalizer:
++    """Implements the existing Normalizer port; metadata absent in v2 stays in a sidecar."""
++
++    def __init__(
++        self,
++        selection: KrakenSelection,
++        availability: HistoricalAvailability | None = None,
++    ) -> None:
++        self.selection = KrakenSelection.model_validate(selection.model_dump())
++        self.availability = availability or HistoricalAvailability()
++
++    def normalize(self, raw: bytes, source: SourceSpec, manifest_hash: str) -> NormalizedBatch:
++        return self.normalize_with_provenance(raw, source, manifest_hash).batch
++
++    def normalize_with_provenance(
++        self, raw: bytes, source: SourceSpec, manifest_hash: str
++    ) -> KrakenNormalizedSlice:
++        source = SourceSpec.model_validate(source.model_dump())
++        selected = self.selection
++        if source.partition != "development":
++            raise AccessDenied("Reserved source cannot enter historical technical QA.")
++        if source.source_schema != selected.source_schema:
++            raise ValueError("Explicit source schema differs from adapter version.")
++        if content_hash(source.model_dump(mode="json")) != manifest_hash:
++            raise ValueError("Source declaration hash mismatch.")
++        digest = hashlib.sha256(raw).hexdigest()
++        if (len(raw), digest) != (selected.size_bytes, selected.raw_sha256) or (
++            len(raw), digest
++        ) != (source.size_bytes, source.raw_sha256):
++            raise ValueError("Selected raw bytes no longer match their declared provenance.")
++        lines = raw.splitlines(keepends=True)
++        header = selected.source_schema == TRADE_SCHEMA
++        if header:
++            parsed_header = tuple(next(csv.reader([lines[0].decode("utf-8")])))
++            if parsed_header != TRADE_COLUMNS:
++                raise ValueError("Trade header differs from explicit schema v2; no autodetection.")
++            lines = lines[1:]
++        if len(lines) != selected.rows:
++            raise ValueError("Selected source row count changed.")
++        events: list[MarketEventV2] = []
++        provenance: list[KrakenRowProvenance] = []
++        identities: dict[str, tuple[tuple[str, ...], MarketEventV2]] = {}
++        diagnostics = [
++            "availability_is_optimistic_assumption_not_historical_reception",
++            "adapter_ordinal_is_not_provider_sequence",
++            "timestamp_lexeme_and_source_units_preserved_in_private_sidecar",
++        ]
++        previous_ns: int | None = None
++        previous_id: int | None = None
++        for index, raw_line in enumerate(lines, start=1):
++            fields = tuple(next(csv.reader([raw_line.decode("utf-8")])))
++            if len(fields) != 7:
++                raise ValueError(f"Unexpected CSV field count at data row {index}.")
++            timestamp = seconds_to_ns(fields[0])
++            native_id = side = order_type = misc = None
++            count = None
++            payload: TradeData | BarData
++            if header:
++                side, order_type, misc = fields[3:6]
++                if side not in ("", "b", "s") or order_type not in ("", "l", "m"):
++                    raise ValueError(f"Unsupported trade metadata at data row {index}.")
++                native_id = fields[6] or None
++                if native_id is not None and not re.fullmatch(r"[0-9]+", native_id):
++                    raise ValueError(f"Invalid native trade ID at data row {index}.")
++                event_id = (
++                    "trade-" + native_id if native_id is not None else
++                    f"row-{selected.archive_sha256[:16]}-{index}"
++                )
++                payload = TradeData(price=fields[1], quantity=fields[2])
++                eligible = timestamp
++                stream = "trades-" + selected.instrument
++                if native_id is None:
++                    diagnostics.append(f"missing_native_id:row-{index}")
++                elif previous_id is not None and int(native_id) > previous_id + 1:
++                    diagnostics.append(f"native_id_gap_not_proven_loss:row-{index}")
++                if native_id is not None:
++                    if previous_id is not None and int(native_id) < previous_id:
++                        diagnostics.append(f"native_id_reversal:row-{index}")
++                    previous_id = int(native_id)
++            else:
++                assert selected.interval_seconds is not None
++                interval = selected.interval_seconds * 10**9
++                if timestamp % interval:
++                    raise ValueError(f"Opening timestamp is not interval aligned at row {index}.")
++                if not re.fullmatch(r"[0-9]+", fields[6]) or int(fields[6]) < 1:
++                    raise ValueError(f"Invalid populated-bar trade count at row {index}.")
++                count = int(fields[6])
++                event_id = f"bar-{timestamp}-{interval}"
++                payload = BarData(
++                    bar_id=event_id, start_ns=timestamp, end_ns=exact_ns(timestamp + interval),
++                    status="closed", label="open", open=fields[1], high=fields[2],
++                    low=fields[3], close=fields[4], volume=fields[5],
++                )
++                eligible = payload.end_ns
++                stream = f"ohlcvt-{selected.instrument}-{selected.interval_seconds}"
++                if previous_ns is not None and timestamp > previous_ns + interval:
++                    diagnostics.append(f"sparse_bar_intervals_not_proven_loss:row-{index}")
++            if previous_ns is not None and timestamp < previous_ns:
++                diagnostics.append(f"source_timestamp_reversal:row-{index}")
++            previous_ns = timestamp
++            old = identities.get(event_id)
++            if old is not None:
++                if fields != old[0]:
++                    raise ValueError(f"Conflicting native identity at data row {index}.")
++                event = old[1]
++                diagnostics.append(f"identical_duplicate:row-{index}")
++            else:
++                event = MarketEventV2(
++                    event_id=event_id, source_id=source.source_id,
++                    source_version=source.source_version, stream_id=stream,
++                    sequence=len(identities) + 1, instrument=selected.instrument,
++                    quote_currency=selected.quote_currency,
++                    original_tick=timestamp, original_unit="ns", event_ns=timestamp,
++                    available_ns=exact_ns(eligible + self.availability.delay_ns),
++                    received_ns=None, raw_sha256=digest, data=payload,
++                )
++                identities[event_id] = fields, event
++            events.append(event)
++            provenance.append(KrakenRowProvenance(
++                data_row=index, physical_line=index + int(header),
++                row_sha256=hashlib.sha256(raw_line).hexdigest(), event_id=event.event_id,
++                original_timestamp=fields[0], native_trade_id=native_id, side=side,
++                order_type=order_type, misc=misc, trade_count=count,
++            ))
++        return KrakenNormalizedSlice(
++            selection=selected, availability=self.availability,
++            batch=NormalizedBatch(
++                normalizer="kraken-history-v1", source_manifest_hash=manifest_hash,
++                raw_sha256=digest, events=tuple(events), diagnostics=tuple(diagnostics),
++            ),
++            rows=tuple(provenance), price_unit=f"{selected.quote_currency}/{selected.base_currency}",
++            quantity_unit=selected.base_currency,
++        )
+diff --git a/tests/test_append_only.py b/tests/test_append_only.py
+new file mode 100644
+index 0000000..641c25a
+--- /dev/null
++++ b/tests/test_append_only.py
+@@ -0,0 +1,91 @@
++"""Tiny temporary Git histories verify exact preservation and explicit exceptions."""
++
++import hashlib
++import importlib.util
++import subprocess
++from pathlib import Path
++
++import pytest
++
++SPEC = importlib.util.spec_from_file_location(
++    "append_only", Path(__file__).resolve().parents[1] / "tools/integration/append_only.py"
++)
++assert SPEC is not None and SPEC.loader is not None
++MODULE = importlib.util.module_from_spec(SPEC)
++SPEC.loader.exec_module(MODULE)
++
++
++@pytest.fixture
++def history(tmp_path):
++    subprocess.run(["git", "init", "--quiet", str(tmp_path)], check=True)
++    for name in MODULE.PROTECTED:
++        (tmp_path / name).write_bytes(b"Published first line\r\nPreserved second line\n")
++    subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
++    subprocess.run(
++        ["git", "-c", "user.name=Test", "-c", "user.email=test@example.invalid",
++         "commit", "--quiet", "-m", "Published baseline"],
++        cwd=tmp_path, check=True,
++    )
++    commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=tmp_path, text=True).strip()
++    return tmp_path, commit
++
++
++def test_exact_prefix_accepts_only_append_and_does_not_change_history(history):
++    root, commit = history
++    original = (root / "DECISIONS.md").read_bytes()
++    (root / "DECISIONS.md").write_bytes(original + b"\nNew decision\n")
++    result = MODULE.verify_published_prefix(root, commit)
++    assert result["accepted"]
++    assert all(row["prefix_preserved"] for row in result["files"])
++    assert subprocess.check_output(["git", "show", f"{commit}:DECISIONS.md"], cwd=root) == original
++
++
++@pytest.mark.parametrize("mutation", ["replace", "truncate", "normalize_newlines", "remove"])
++def test_unamended_change_is_rejected(history, mutation):
++    root, commit = history
++    path = root / "EXPERIMENTS.md"
++    original = path.read_bytes()
++    if mutation == "remove":
++        path.unlink()
++    else:
++        replacement = {
++            "replace": b"Replacement history\n",
++            "truncate": original[:-1],
++            "normalize_newlines": original.replace(b"\r\n", b"\n"),
++        }[mutation]
++        path.write_bytes(replacement)
++    with pytest.raises(ValueError):
++        MODULE.verify_published_prefix(root, commit)
++
++
++def test_mutable_baseline_is_rejected(history):
++    root, _ = history
++    with pytest.raises(ValueError, match="immutable"):
++        MODULE.verify_published_prefix(root, "HEAD")
++
++
++def test_exception_requires_exact_recorded_amendment(history):
++    root, commit = history
++    path = root / "DECISIONS.md"
++    previous = path.read_bytes()
++    replacement = b"Explicit synthetic test correction\n"
++    path.write_bytes(replacement)
++    amendment = {
++        "file": "DECISIONS.md", "baseline_commit": commit,
++        "previous_sha256": hashlib.sha256(previous).hexdigest(),
++        "replacement_sha256": hashlib.sha256(replacement).hexdigest(),
++        "amendment_id": "TEST-ONLY-001", "reason": "Exercise the exception contract.",
++        "authority_reference": "Synthetic test fixture, not project authorization.",
++    }
++    result = MODULE.verify_published_prefix(root, commit, [amendment])
++    assert result["files"][0]["prefix_preserved"] is False
++    assert result["files"][0]["explicit_amendment"] == amendment
++    for key in ("reason", "authority_reference", "previous_sha256", "replacement_sha256"):
++        with pytest.raises(ValueError):
++            MODULE.verify_published_prefix(root, commit, [amendment | {key: ""}])
++    for key in ("baseline_commit", "previous_sha256", "replacement_sha256"):
++        with pytest.raises(ValueError, match="exact"):
++            MODULE.verify_published_prefix(root, commit, [amendment | {key: "0" * 64}])
++    path.write_bytes(replacement + b"Unrecorded later modification\n")
++    with pytest.raises(ValueError, match="exact"):
++        MODULE.verify_published_prefix(root, commit, [amendment])
+diff --git a/tests/test_evidence_tools.py b/tests/test_evidence_tools.py
+new file mode 100644
+index 0000000..09d38e9
+--- /dev/null
++++ b/tests/test_evidence_tools.py
+@@ -0,0 +1,78 @@
++"""Tiny Git repositories exercise reconstructible dirty failures without tree copies."""
++
++import hashlib
++import importlib.util
++import json
++import subprocess
++from pathlib import Path
++
++import pytest
++
++
++def module(name):
++    path = Path(__file__).resolve().parents[1] / "tools/integration" / (name + ".py")
++    spec = importlib.util.spec_from_file_location(name, path)
++    result = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(result)
++    return result
++
++
++EVIDENCE = module("evidence")
++EXPORT = module("export_evidence")
++
++
++def test_uncommitted_failed_source_reconstructs_exactly_without_touching_index(tmp_path):
++    repo, scratch = tmp_path / "repo", tmp_path / "scratch"
++    repo.mkdir()
++    subprocess.run(["git", "init", "-q", str(repo)], check=True)
++    for key, value in (("user.name", "Test"), ("user.email", "test@example.invalid")):
++        subprocess.run(["git", "config", key, value], cwd=repo, check=True)
++    (repo / "src").mkdir()
++    program = repo / "src/canary.py"
++    program.write_text("assert 1 == 1\n")
++    subprocess.run(["git", "add", "."], cwd=repo, check=True)
++    subprocess.run(["git", "commit", "-qm", "base"], cwd=repo, check=True)
++    index_before = (repo / ".git/index").read_bytes()
++    program.write_text("assert 1 == 2, 'deliberate negative control'\n")
++    original = program.read_bytes()
++    record, patch = EVIDENCE.snapshot(repo, scratch, "test-failure")
++    assert (repo / ".git/index").read_bytes() == index_before
++    assert program.read_bytes() == original
++    assert record["files"]["src/canary.py"] == hashlib.sha256(original).hexdigest()
++    assert hashlib.sha256(patch).hexdigest() == record["patch_sha256"]
++    saved = EVIDENCE.git(repo, "show", record["snapshot_commit"] + ":src/canary.py")
++    restored = subprocess.run(["python", "-c", saved.decode()], capture_output=True)
++    assert restored.returncode == 1 and b"deliberate negative control" in restored.stderr
++    program.write_text("assert 1 == 1\n")
++    assert EVIDENCE.git(repo, "show", record["evidence_ref"] + ":src/canary.py") == original
++    with pytest.raises(subprocess.CalledProcessError):
++        EVIDENCE.snapshot(repo, scratch, "test-failure")
++    assert not list(scratch.rglob("canary.py"))
++
++
++def test_export_is_immutable_and_excludes_private_market_and_full_source(tmp_path):
++    scratch, out = tmp_path / "private", tmp_path / "public"
++    check = scratch / "a-failure"
++    check.mkdir(parents=True)
++    row = {"schema_version": 2, "label": "a-failure", "exit_code": 1, "wall_seconds": 0.1}
++    (scratch / "checks.jsonl").write_text(json.dumps(row) + "\n")
++    for name in EXPORT.PUBLIC_FILES:
++        (check / name).write_text("public receipt only\n")
++    (check / "private").mkdir()
++    (check / "private/market.csv").write_text("private record must not be exported\n")
++    (check / "source").mkdir()
++    (check / "source/example.py").write_text("pass\n")
++    assert EXPORT.export(scratch, out, "a") == 1
++    first = {str(p.relative_to(out)): p.read_bytes() for p in out.rglob("*") if p.is_file()}
++    assert EXPORT.export(scratch, out, "a") == 1
++    assert not list(out.rglob("market.csv")) and not list(out.rglob("example.py"))
++    assert first == {str(p.relative_to(out)): p.read_bytes() for p in out.rglob("*") if p.is_file()}
++    (check / "output.log").write_text("altered evidence\n")
++    with pytest.raises(RuntimeError, match="Previously exported"):
++        EXPORT.export(scratch, out, "a")
++
++
++def test_old_evidence_export_is_refused_not_rewritten(tmp_path):
++    (tmp_path / "checks.jsonl").write_text('{"label":"h1-old","wall_seconds":1}\n')
++    with pytest.raises(ValueError, match="Historical evidence is frozen"):
++        EXPORT.export(tmp_path, tmp_path / "out", "h1")
+diff --git a/tests/test_kraken_history.py b/tests/test_kraken_history.py
+new file mode 100644
+index 0000000..553d1a2
+--- /dev/null
++++ b/tests/test_kraken_history.py
+@@ -0,0 +1,197 @@
++"""Invented CSVs faithful to documented schemas; never published market extracts."""
++
++import hashlib
++from decimal import localcontext
++from zipfile import ZIP_DEFLATED, ZipFile
++
++import pytest
++
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import MarketEventV2, content_hash
++from bot_trader.market_data.archive import LocalArchive, SourceSpec
++from bot_trader.market_data.kraken_history import (
++    BAR_SCHEMA,
++    TRADE_SCHEMA,
++    HistoricalAvailability,
++    KrakenHistoricalNormalizer,
++    KrakenSelection,
++    seconds_to_ns,
++    select_prefix,
++    verify_archive,
++)
++from bot_trader.market_data.storage import MemoryArtifactStore
++
++HEADER = b"timestamp,price,volume,type,order_type,misc,trade_id\n"
++TRADE = b"1700000000.123456789,10.25,2.5,b,l,,71\n"
++BAR = b"1700000040,10,12,9,11,2.5,3\n"
++
++
++def prepared(raw, schema=TRADE_SCHEMA, rows=1):
++    digest = hashlib.sha256(raw).hexdigest()
++    selection = KrakenSelection(
++        archive_sha256="a" * 64,
++        archive_size_bytes=1234,
++        member="XBTUSD.csv" if schema == TRADE_SCHEMA else "XBTUSD_1.csv",
++        member_size_bytes=len(raw) + 100,
++        member_crc32=0,
++        readme_sha256="b" * 64,
++        source_schema=schema,
++        instrument="XBTUSD",
++        base_currency="XBT",
++        quote_currency="USD",
++        interval_seconds=None if schema == TRADE_SCHEMA else 60,
++        rows=rows,
++        raw_sha256=digest,
++        size_bytes=len(raw),
++    )
++    source = SourceSpec(
++        source_id="kraken-history-fixture",
++        source_version="schema-fixture-v1",
++        source_schema=schema,
++        locator="internal:invented-schema-fixture",
++        rights="Invented test CSV; contains no historical market records.",
++        acquired_ns=1700001000000000000,
++        raw_sha256=digest,
++        size_bytes=len(raw),
++        data_class="synthetic",
++    )
++    return selection, source, content_hash(source.model_dump(mode="json"))
++
++
++@pytest.mark.parametrize(
++    ("value", "expected"),
++    [("0", 0), ("1.000000001", 1000000001), ("1.2300000000", 1230000000),
++     ("1700000000.123456789", 1700000000123456789)],
++)
++def test_decimal_seconds_exact_under_low_decimal_precision(value, expected):
++    with localcontext() as context:
++        context.prec = 3
++        assert seconds_to_ns(value) == expected
++
++
++@pytest.mark.parametrize("value", [1.2, "1e3", "NaN", "-1", "1.0000000001", "18446744074"])
++def test_invalid_or_lossy_time_is_rejected(value):
++    with pytest.raises(ValueError):
++        seconds_to_ns(value)
++
++
++def test_trade_units_source_identity_and_unknown_reception_preserved():
++    raw = HEADER + TRADE
++    selection, source, manifest = prepared(raw)
++    result = KrakenHistoricalNormalizer(selection).normalize_with_provenance(raw, source, manifest)
++    event = result.batch.events[0]
++    row = result.rows[0]
++    assert event.event_id == "trade-71" and event.instrument == "XBTUSD"
++    assert event.event_ns == 1700000000123456789
++    assert event.available_ns == event.event_ns and event.received_ns is None
++    assert event.published_ns is None and event.engine_ts_init_ns is None
++    assert event.original_tick == event.event_ns and event.original_unit == "ns"
++    assert row.original_timestamp == "1700000000.123456789"
++    assert row.original_unit == "fractional_unix_seconds" and row.physical_line == 2
++    assert row.native_trade_id == "71" and row.side == "b" and row.order_type == "l"
++    assert result.price_unit == "USD/XBT" and result.quantity_unit == "XBT"
++    assert result.availability.optimistic_assumption is True
++    assert result.batch.raw_sha256 == hashlib.sha256(raw).hexdigest()
++    assert KrakenHistoricalNormalizer(selection).normalize(raw, source, manifest) == result.batch
++
++
++def test_complete_open_labelled_bar_requires_end_plus_declared_delay():
++    selection, source, manifest = prepared(BAR, BAR_SCHEMA)
++    delay = 123
++    result = KrakenHistoricalNormalizer(selection, HistoricalAvailability(delay_ns=delay))
++    event = result.normalize(BAR, source, manifest).events[0]
++    assert event.data.label == "open" and event.data.status == "closed"
++    assert event.event_ns == 1700000040000000000
++    assert event.available_ns == event.data.end_ns + delay
++    assert event.received_ns is None
++    with pytest.raises(ValueError, match="complete bar"):
++        MarketEventV2.model_validate(event.model_dump() | {"available_ns": event.event_ns})
++
++
++def test_native_identity_duplicate_gap_and_absent_ids_are_distinct():
++    raw = HEADER + TRADE + TRADE + TRADE.replace(b",71", b",73")
++    missing = b"1700000000.123456789,10.25,2.5,,,,\n"
++    raw += missing + missing
++    selection, source, manifest = prepared(raw, rows=5)
++    result = KrakenHistoricalNormalizer(selection).normalize_with_provenance(raw, source, manifest)
++    events = result.batch.events
++    assert events[0] == events[1]
++    assert [event.sequence for event in events] == [1, 1, 2, 3, 4]
++    assert events[2].event_id == "trade-73"
++    assert events[3].event_id != events[4].event_id
++    assert any("native_id_gap_not_proven_loss" in item for item in result.batch.diagnostics)
++    assert result.rows[3].native_trade_id is None
++    assert len(result.rows) == 5
++
++
++def test_conflicting_trade_identity_rejected_and_source_manifest_bound():
++    raw = HEADER + TRADE + TRADE.replace(b"10.25", b"10.26")
++    selection, source, manifest = prepared(raw, rows=2)
++    adapter = KrakenHistoricalNormalizer(selection)
++    with pytest.raises(ValueError, match="Conflicting native identity"):
++        adapter.normalize(raw, source, manifest)
++    with pytest.raises(ValueError, match="declaration hash"):
++        adapter.normalize(raw, source, "c" * 64)
++    reserved = SourceSpec.model_validate(source.model_dump() | {"partition": "final"})
++    with pytest.raises(AccessDenied):
++        adapter.normalize(raw, reserved, manifest)
++
++
++def test_sparse_bar_intervals_are_not_claimed_to_be_transport_loss():
++    raw = BAR + BAR.replace(b"1700000040", b"1700000160")
++    selection, source, manifest = prepared(raw, BAR_SCHEMA, rows=2)
++    result = KrakenHistoricalNormalizer(selection).normalize_with_provenance(raw, source, manifest)
++    assert [event.sequence for event in result.batch.events] == [1, 2]
++    assert any("sparse_bar_intervals_not_proven_loss" in item for item in result.batch.diagnostics)
++    assert result.rows[0].trade_count == 3
++
++
++def test_old_trade_column_order_is_not_silently_inferred():
++    raw = HEADER.replace(b"timestamp,price,volume", b"price,volume,timestamp") + TRADE
++    selection, source, manifest = prepared(raw)
++    with pytest.raises(ValueError, match="header differs"):
++        KrakenHistoricalNormalizer(selection).normalize(raw, source, manifest)
++
++
++def test_bounded_zip_selection_archive_restart_and_idempotence(tmp_path):
++    path = tmp_path / "invented.zip"
++    raw = HEADER + TRADE + TRADE.replace(b",71", b",72") + TRADE.replace(b",71", b",73")
++    with ZipFile(path, "w", compression=ZIP_DEFLATED) as archive:
++        archive.writestr("README.md", "Invented schema fixture, not Kraken market data.")
++        archive.writestr("XBTUSD.csv", raw)
++    expected = hashlib.sha256(path.read_bytes()).hexdigest()
++    proof = verify_archive(path, expected_sha256=expected, expected_size=path.stat().st_size)
++    parameters = dict(
++        member="XBTUSD.csv", source_schema=TRADE_SCHEMA,
++        instrument="XBTUSD", base_currency="XBT", quote_currency="USD", max_rows=2,
++    )
++    selected_raw, selected = select_prefix(path, proof, **parameters)
++    assert selected_raw == HEADER + TRADE + TRADE.replace(b",71", b",72")
++    assert selected.rows == 2 and selected.archive_sha256 == expected
++    assert selected.whole_member_crc_verified is False
++    assert select_prefix(path, proof, **parameters) == (selected_raw, selected)
++    _, source, _ = prepared(selected_raw, rows=2)
++    local = tmp_path / "private-prefix.csv"
++    local.write_bytes(selected_raw)
++    store = MemoryArtifactStore()
++    importer = LocalArchive(store, chunk_size=32)
++    partial = importer.import_step(local, source)
++    assert not partial.complete
++    restarted = LocalArchive(store, chunk_size=32)
++    final = restarted.import_step(local, source, checkpoint_hash=partial.checkpoint_hash, max_chunks=100)
++    assert final.complete
++    repeated = restarted.import_step(local, source, max_chunks=100)
++    assert final.archive_hash == repeated.archive_hash
++    _, declared, restored = restarted.read(final.archive_hash)
++    result = KrakenHistoricalNormalizer(selected).normalize(
++        restored, declared, content_hash(declared.model_dump(mode="json"))
++    )
++    assert len(result.events) == 2
++    path.write_bytes(path.read_bytes() + b"changed")
++    with pytest.raises(ValueError, match="identity changed"):
++        select_prefix(path, proof, **parameters)
++
++
++def test_missing_original_never_triggers_download(tmp_path):
++    with pytest.raises(FileNotFoundError):
++        verify_archive(tmp_path / "missing.zip", expected_sha256="0" * 64, expected_size=1)
+diff --git a/tools/integration/append_only.py b/tools/integration/append_only.py
+new file mode 100644
+index 0000000..a5defb8
+--- /dev/null
++++ b/tools/integration/append_only.py
+@@ -0,0 +1,87 @@
++"""Verify published history byte prefixes; an amendment records, never grants, authority."""
++
++import argparse
++import hashlib
++import json
++import re
++import subprocess
++from pathlib import Path
++
++PROTECTED = ("DECISIONS.md", "EXPERIMENTS.md")
++
++
++def verify_published_prefix(
++    repository: Path, baseline_commit: str, amendments: list[dict[str, str]] | None = None
++) -> dict[str, object]:
++    """The caller supplies the pinned latest published commit, not a mutable branch."""
++    if not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", baseline_commit):
++        raise ValueError("Use a full immutable published commit ID, not a branch or abbreviation.")
++    resolved = subprocess.check_output(
++        ["git", "rev-parse", "--verify", baseline_commit + "^{commit}"],
++        cwd=repository, text=True,
++    ).strip()
++    if resolved != baseline_commit:
++        raise ValueError("Baseline must identify the commit itself.")
++    exceptions = {}
++    for amendment in amendments or []:
++        required = {
++            "file", "baseline_commit", "previous_sha256", "replacement_sha256",
++            "amendment_id", "reason", "authority_reference",
++        }
++        if set(amendment) != required or any(
++            not isinstance(value, str) or not value.strip() for value in amendment.values()
++        ):
++            raise ValueError("An amendment must explicitly bind both hashes and state its authority.")
++        name = amendment["file"]
++        if name not in PROTECTED or name in exceptions:
++            raise ValueError("Amendment file is unprotected or repeated.")
++        exceptions[name] = amendment
++    results = []
++    for name in PROTECTED:
++        previous = subprocess.check_output(
++            ["git", "show", f"{baseline_commit}:{name}"], cwd=repository,
++        )
++        path = repository / name
++        if not path.is_file() or path.is_symlink():
++            raise ValueError(f"Protected history must be a regular file: {name}")
++        current = path.read_bytes()
++        old_hash = hashlib.sha256(previous).hexdigest()
++        new_hash = hashlib.sha256(current).hexdigest()
++        prefix = current.startswith(previous)
++        amendment = exceptions.pop(name, None)
++        if prefix and amendment:
++            raise ValueError(f"Unused amendment for unchanged published prefix: {name}")
++        if not prefix:
++            if amendment is None:
++                raise ValueError(f"Published history was replaced or truncated: {name}")
++            if (
++                amendment["baseline_commit"] != baseline_commit
++                or amendment["previous_sha256"] != old_hash
++                or amendment["replacement_sha256"] != new_hash
++            ):
++                raise ValueError(f"Amendment does not match the exact original and replacement: {name}")
++        results.append({
++            "file": name, "published_bytes": len(previous), "current_bytes": len(current),
++            "previous_sha256": old_hash, "current_sha256": new_hash,
++            "prefix_preserved": prefix, "explicit_amendment": amendment,
++        })
++    return {
++        "baseline_commit": baseline_commit, "files": results, "accepted": True,
++        "limit": "Checks content and declared amendment identity, not authenticity of authority.",
++    }
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--repository", type=Path, default=Path(__file__).resolve().parents[2])
++    parser.add_argument("--baseline-commit", required=True)
++    parser.add_argument("--amendments", type=Path)
++    args = parser.parse_args()
++    amendments = json.loads(args.amendments.read_text()) if args.amendments else None
++    if amendments is not None and not isinstance(amendments, list):
++        raise ValueError("Amendment document must contain a JSON list.")
++    print(json.dumps(verify_published_prefix(args.repository, args.baseline_commit, amendments)))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/integration/check.py b/tools/integration/check.py
+index a02c6c9..5a9ac11 100644
+--- a/tools/integration/check.py
++++ b/tools/integration/check.py
+@@ -1,88 +1,108 @@
+-"""Bounded offline development checks with source snapshots, logs and resource receipts."""
++"""Bounded offline checks with compact Git evidence and an explicit campaign budget."""
+ 
+ import argparse
+ import fcntl
+-import hashlib
+ import json
+ import os
+ from pathlib import Path
+ import resource
+-import shutil
+ import signal
+ import subprocess
+ import sys
+ import time
+ 
++from append_only import verify_published_prefix
++from evidence import write_snapshot
++
+ REPO = Path(__file__).resolve().parents[2]
+-ROOT = Path("/workspace/platform-slice")
+ sys.path.insert(0, str(REPO / "tools/technical_admission"))
+ from runtime_guard import group_rss, restrict  # noqa: E402
+ 
+ 
++def tree_bytes(root):
++    return sum(p.stat().st_size for p in root.rglob("*") if p.is_file() and not p.is_symlink())
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--child", action="store_true")
++    parser.add_argument("--budget", type=Path, required=True)
+     parser.add_argument("label")
+     parser.add_argument("command", nargs=argparse.REMAINDER)
+     args = parser.parse_args()
++    budget = json.loads(args.budget.read_text())
++    root = Path(budget["scratch_root"])
+     command = args.command[1:] if args.command[:1] == ["--"] else args.command
+-    ROOT.mkdir(exist_ok=True)
++    if not command:
++        raise ValueError("A concrete command is required.")
++    root.mkdir(exist_ok=True)
+     if args.child:
+-        os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[:4])
+-        restrict(ROOT, False)
++        os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[:budget["cpus"]])
++        restrict(root, False)
+         os.execvpe(command[0], command, os.environ)
+-    with (ROOT / "checks.lock").open("a") as lock:
++    with (root / "checks.lock").open("a") as lock:
+         fcntl.flock(lock, fcntl.LOCK_EX)
+-        ledger = ROOT / "checks.jsonl"
+-        prior = [json.loads(row) for row in ledger.read_text().splitlines()] if ledger.exists() else []
+-        remaining = 1800 - sum(row["wall_seconds"] for row in prior)
++        ledger = root / "checks.jsonl"
++        prior = [json.loads(r) for r in ledger.read_text().splitlines()] if ledger.exists() else []
++        remaining = budget["machine_seconds"] - sum(r["wall_seconds"] for r in prior)
+         if remaining <= 0:
+-            raise RuntimeError("Thirty-minute machine execution budget exhausted")
+-        output = ROOT / args.label
++            raise RuntimeError("Campaign machine budget exhausted.")
++        baseline = budget["published_baseline_commit"]
++        history = verify_published_prefix(REPO, baseline)
++        output = root / args.label
+         output.mkdir(exist_ok=False)
+-        files = sorted((REPO / "src").rglob("*.py")) + sorted((REPO / "tests").rglob("*.py"))
+-        files += sorted((REPO / "tests/fixtures/integration").glob("*.json*"))
+-        files += sorted((REPO / "tools/integration").glob("*.py"))
+-        files += [REPO / "pyproject.toml", REPO / "uv.lock"]
+-        hashes = {}
+-        for path in files:
+-            relative = path.relative_to(REPO)
+-            target = output / "source" / relative
+-            target.parent.mkdir(parents=True, exist_ok=True)
+-            shutil.copyfile(path, target)
+-            hashes[str(relative)] = hashlib.sha256(path.read_bytes()).hexdigest()
+-        (output / "source-manifest.json").write_text(json.dumps(hashes, indent=2) + "\n")
+-        environment = os.environ.copy()
+-        environment.update(PYTHONDONTWRITEBYTECODE="1", OPENBLAS_NUM_THREADS="1",
+-                           OMP_NUM_THREADS="1", RAYON_NUM_THREADS="4",
+-                           SLICE_EVIDENCE_DIR=str(output / "native"))
++        (root / "tmp").mkdir(exist_ok=True)
++        initial = root / "resource-baseline.json"
++        objects = REPO / ".git/objects"
++        if not initial.exists():
++            initial.write_text(json.dumps({"git_object_bytes": tree_bytes(objects)}) + "\n")
++        object_baseline = json.loads(initial.read_text())["git_object_bytes"]
++        source = write_snapshot(REPO, root / "tmp", output, args.label)
++        (output / "history-prefix.json").write_text(json.dumps(history, indent=2) + "\n")
++        environment = os.environ | {
++            "PYTHONDONTWRITEBYTECODE": "1", "OPENBLAS_NUM_THREADS": "1",
++            "OMP_NUM_THREADS": "1", "RAYON_NUM_THREADS": str(budget["cpus"]),
++            "TMPDIR": str(root / "tmp"), "SLICE_EVIDENCE_DIR": str(output / "private"),
++        }
++        started_utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+         started = time.monotonic()
+         before = resource.getrusage(resource.RUSAGE_CHILDREN)
+-        peak = 0
++        peak = disk_peak = 0
+         stopped = None
+         with (output / "output.log").open("xb") as log:
+-            proc = subprocess.Popen([sys.executable, __file__, "--child", args.label,
+-                                     "--", *command], cwd=REPO, env=environment,
+-                                    stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
++            proc = subprocess.Popen(
++                [sys.executable, __file__, "--child", "--budget", str(args.budget.resolve()),
++                 args.label, "--", *command], cwd=REPO, env=environment,
++                stdout=log, stderr=subprocess.STDOUT, start_new_session=True,
++            )
+             while proc.poll() is None:
+                 peak = max(peak, group_rss(proc.pid))
+-                if time.monotonic() - started > min(300, remaining):
++                size = tree_bytes(root) + max(0, tree_bytes(objects)-object_baseline)
++                size += sum(tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", []))
++                disk_peak = max(disk_peak, size)
++                if time.monotonic() - started > min(budget["command_seconds"], remaining):
+                     stopped = "time_budget"
+-                if peak > 8 * 1024**3 * .9:
++                if peak > budget["ram_bytes"] * .9:
+                     stopped = "memory_guard"
++                if disk_peak > budget["temporary_bytes"]:
++                    stopped = "disk_guard"
+                 if stopped:
+                     os.killpg(proc.pid, signal.SIGKILL)
+                     break
+                 time.sleep(.1)
+             code = proc.wait()
+         after = resource.getrusage(resource.RUSAGE_CHILDREN)
+-        record = dict(label=args.label, command=command, exit_code=code,
+-                      wall_seconds=time.monotonic()-started,
+-                      cpu_seconds=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
+-                      peak_sampled_rss_bytes=peak, stop_reason=stopped,
+-                      started_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+-                      network="IPv4/IPv6 denied; no new downloads",
+-                      limits="4 CPU affinity; RSS sampled100ms, not a hard memory certificate")
++        record = dict(
++            schema_version=2, label=args.label, command=command, exit_code=code,
++            wall_seconds=time.monotonic()-started,
++            cpu_seconds=after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
++            peak_sampled_rss_bytes=peak, peak_sampled_temporary_bytes=disk_peak,
++            stop_reason=stopped, started_utc=started_utc,
++            completed_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
++            budget=budget, source_commit=source["snapshot_commit"], evidence_ref=source["evidence_ref"],
++            network="IPv4/IPv6 denied; no new datasets/software downloads",
++            limits="CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported",
++        )
+         (output / "receipt.json").write_text(json.dumps(record, indent=2) + "\n")
+         with ledger.open("a") as stream:
+             stream.write(json.dumps(record) + "\n")
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+new file mode 100644
+index 0000000..6ef8c8a
+--- /dev/null
++++ b/tools/integration/evidence.py
+@@ -0,0 +1,62 @@
++"""Compact, reconstructible public-source snapshots backed by immutable Git refs."""
++
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import subprocess
++import tempfile
++
++SOURCE_PATHS = (
++    "src", "tests", "tools/integration", "pyproject.toml", "uv.lock",
++    "AGENTS.md", "STATE.md", "DECISIONS.md", "EXPERIMENTS.md", "ROADMAP.md",
++    "docs/integration/kraken/budget.json",
++)
++
++
++def git(repo, *args, env=None, input=None):
++    return subprocess.check_output(["git", *args], cwd=repo, env=env, input=input)
++
++
++def snapshot(repo: Path, scratch: Path, label: str) -> tuple[dict, bytes]:
++    """Preserve dirty sources without changing HEAD, the real index or worktree."""
++    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,79}", label):
++        raise ValueError("Use a bounded plain evidence label.")
++    base = git(repo, "rev-parse", "HEAD").decode().strip()
++    ref = "refs/tags/evidence/kraken-" + label
++    scratch.mkdir(parents=True, exist_ok=True)
++    with tempfile.TemporaryDirectory(dir=scratch) as temporary:
++        env = os.environ | {"GIT_INDEX_FILE": str(Path(temporary) / "index")}
++        git(repo, "read-tree", base, env=env)
++        paths = [p for p in SOURCE_PATHS if (repo / p).exists()]
++        git(repo, "add", "--all", "--", *paths, env=env)
++        tree = git(repo, "write-tree", env=env).decode().strip()
++        manifest = {}
++        entries = git(repo, "ls-files", "-z", "--", *paths, env=env).split(b"\0")
++        for entry in filter(None, entries):
++            name = entry.decode()
++            path = repo / name
++            if path.is_symlink() or not path.is_file():
++                raise ValueError("Only regular public source files may enter a snapshot.")
++            saved = git(repo, "show", f"{tree}:{name}")
++            if path.read_bytes() != saved:
++                raise RuntimeError("Source changed during snapshot: " + name)
++            manifest[name] = hashlib.sha256(saved).hexdigest()
++        commit = git(repo, "commit-tree", tree, "-p", base,
++                     input=("Technical evidence " + label + "\n").encode()).decode().strip()
++        git(repo, "update-ref", ref, commit, "")
++    patch = git(repo, "diff", "--binary", base, commit)
++    return {
++        "schema_version": 2, "base_commit": base, "snapshot_commit": commit,
++        "snapshot_tree": tree, "evidence_ref": ref, "files": manifest,
++        "source_paths": list(SOURCE_PATHS), "patch_sha256": hashlib.sha256(patch).hexdigest(),
++        "reconstruct": f"git fetch origin {ref}; git show {commit}:PATH",
++    }, patch
++
++
++def write_snapshot(repo: Path, scratch: Path, output: Path, label: str) -> dict:
++    record, patch = snapshot(repo, scratch, label)
++    (output / "source-manifest.json").write_text(json.dumps(record, indent=2) + "\n")
++    (output / "source.diff").write_bytes(patch)
++    return record
+diff --git a/tools/integration/export_evidence.py b/tools/integration/export_evidence.py
+index 21cd7b3..e42aa98 100644
+--- a/tools/integration/export_evidence.py
++++ b/tools/integration/export_evidence.py
+@@ -1,59 +1,59 @@
+-"""Copy completed check receipts, preserving failed versions and exact correction diffs."""
++"""Publish compact receipts and Git diffs; never copy source trees or market data."""
+ 
+ import argparse
+-import difflib
+ import hashlib
+ import json
+ from pathlib import Path
+ import shutil
+ 
+ REPO = Path(__file__).resolve().parents[2]
+-SCRATCH = Path("/workspace/platform-slice")
++PUBLIC_FILES = ("output.log", "receipt.json", "source-manifest.json", "source.diff", "history-prefix.json")
++
++
++def export(scratch: Path, out: Path, milestone: str):
++    rows = [json.loads(line) for line in (scratch / "checks.jsonl").read_text().splitlines()]
++    selected = [r for r in rows if r["label"].startswith(milestone + "-")]
++    out.mkdir(parents=True, exist_ok=True)
++    for row in selected:
++        if row.get("schema_version") != 2:
++            raise ValueError("Historical evidence is frozen; use its recorded exporter if needed.")
++        source, target = scratch / row["label"], out / row["label"]
++        target.mkdir(exist_ok=True)
++        for name in PUBLIC_FILES:
++            original, copied = source / name, target / name
++            if copied.exists():
++                if original.read_bytes() != copied.read_bytes():
++                    raise RuntimeError("Previously exported evidence changed: " + str(copied))
++            else:
++                shutil.copyfile(original, copied)
++    # A later invocation set receives a new index; existing indices are never rewritten.
++    index_id = hashlib.sha256(json.dumps([r["label"] for r in selected]).encode()).hexdigest()[:16]
++    manifest = {
++        str(p.relative_to(out)): hashlib.sha256(p.read_bytes()).hexdigest()
++        for row in selected for p in (out / row["label"]).iterdir() if p.is_file()
++    }
++    index = {
++        "schema_version": 2, "milestone": milestone, "invocations": selected,
++        "files": manifest, "guarded_wall_seconds": sum(r["wall_seconds"] for r in selected),
++        "scope": "Technical source/QA evidence; private market records are never copied",
++    }
++    destination = out / ("index-" + index_id + ".json")
++    payload = (json.dumps(index, indent=2) + "\n").encode()
++    if destination.exists() and destination.read_bytes() != payload:
++        raise RuntimeError("Previously published evidence index changed.")
++    if not destination.exists():
++        destination.write_bytes(payload)
++    return len(selected)
+ 
+ 
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("milestone")
++    parser.add_argument("--budget", type=Path, required=True)
+     args = parser.parse_args()
+-    out = REPO / "docs/integration/evidence" / args.milestone
+-    out.mkdir(parents=True, exist_ok=True)
+-    rows = [json.loads(line) for line in (SCRATCH / "checks.jsonl").read_text().splitlines()]
+-    selected = [r for r in rows if r["label"].startswith(args.milestone + "-")]
+-    files = {}
+-    for row in selected:
+-        source = SCRATCH / row["label"]
+-        target = out / row["label"]
+-        if target.exists():
+-            for name in ("output.log", "receipt.json", "source-manifest.json"):
+-                if (source / name).read_bytes() != (target / name).read_bytes():
+-                    raise RuntimeError("Previously exported evidence changed: " + row["label"])
+-            continue
+-        target.mkdir()
+-        for name in ("output.log", "receipt.json", "source-manifest.json"):
+-            shutil.copyfile(source / name, target / name)
+-        if (source / "native").exists():
+-            shutil.copytree(source / "native", target / "native")
+-        if row["exit_code"]:
+-            shutil.copytree(source / "source", target / "failed-source")
+-            diff = []
+-            for old in sorted((source / "source").rglob("*.py")):
+-                relative = old.relative_to(source / "source")
+-                new = REPO / relative
+-                if new.exists():
+-                    diff += difflib.unified_diff(old.read_text().splitlines(True),
+-                        new.read_text().splitlines(True), fromfile="failed/" + str(relative),
+-                        tofile="current/" + str(relative))
+-            (target / "changes-after-failure.diff").write_text("".join(diff))
+-    for path in out.rglob("*"):
+-        if path.is_file() and path not in (out / "manifest.json", out / "summary.json"):
+-            files[str(path.relative_to(out))] = hashlib.sha256(path.read_bytes()).hexdigest()
+-    (out / "manifest.json").write_text(json.dumps(files, indent=2) + "\n")
+-    (out / "summary.json").write_text(json.dumps({
+-        "milestone": args.milestone, "invocations": selected,
+-        "guarded_wall_seconds": sum(row["wall_seconds"] for row in selected),
+-        "scope": "Synthetic technical implementation; no financial experiments or downloads",
+-    }, indent=2) + "\n")
+-    print(json.dumps({"milestone": args.milestone, "receipts": len(selected)}))
++    budget = json.loads(args.budget.read_text())
++    count = export(Path(budget["scratch_root"]), REPO / budget["public_evidence"] / args.milestone, args.milestone)
++    print(json.dumps({"milestone": args.milestone, "receipts": count}))
+ 
+ 
+ if __name__ == "__main__":

@@ -1,0 +1,12 @@
+E501 Line too long (110 > 100)
+   --> tools/integration/check.py:126:101
+    |
+124 |             evidence_ref=source["evidence_ref"],
+125 |             network="IPv4/IPv6 denied; no new datasets/software downloads",
+126 |             limits="CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported",
+    |                                                                                                     ^^^^^^^^^^
+127 |         )
+128 |         (output / "receipt.json").write_text(json.dumps(record, indent=2) + "\n")
+    |
+
+Found 5 errors (4 fixed, 1 remaining).

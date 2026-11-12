@@ -493,3 +493,11 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
 - **Date:** 2026-11-11. Final review found that H3 `d3048f7` replaced this file with the short checkpoint intended for `STATE.md`. This was an editing defect, not a change of scientific decisions.
 - **Correction:** restore the exact complete `DECISIONS.md` from H2 `64929d6`, then append D-055 and this entry. Keep the published faulty commit and all test evidence; do not rewrite history. The restored prefix includes D-001–D-054 unchanged.
 - **Verification:** publication integrity check compares the restored prefix byte-for-byte with H2 and verifies the original scientific documents, dependencies and prior M/R/E evidence against base `9be75a2`. `STATE.md` remains the only short operational checkpoint.
+
+
+## D-057 — Compact evidence maintenance and bounded existing Kraken QA
+
+- **Authority/date:** user request after7206eb1, executed incrementally2026-11-11/12. Two milestones; new2h engineering/900s monitored execution/4CPU/8GiB/512MiB extra budget. No reused engine permission, downloads of software/datasets, costs, financial signals or Phase V.
+- **A implemented/tested:** temporary-index Git snapshots, immutable evidence tags, source hashes/binary diffs and allowlisted exports replace copied source trees. Existing evidence untouched. Ten small tests pass; three evidence regressions pass after deleted-root handling. Deliberate failure reconstructed from Git after local fixture removal reproduces the failure. Lint negative/fix preserved.
+- **History protection:** exact published-prefix guard for DECISIONS/EXPERIMENTS before commands/publication; explicit pinned immutable baseline avoids stale remote tracking. Exception requires a separately justified hash-bound amendment; no exception used. This is content integrity, not independent authentication of authority.
+- **B pending at this milestone:** private bounded original Kraken normalization/replay, with a data-only QA route and no strategy. Future public capture requires separate rights/resource authorization. [Single evolving delivery report](docs/integration/kraken/REPORT.md).

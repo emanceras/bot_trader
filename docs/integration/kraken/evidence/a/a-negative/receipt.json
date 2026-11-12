@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "label": "a-negative",
+  "command": [
+    ".venv/bin/python",
+    "-c",
+    "import json; from pathlib import Path; x=json.loads(Path(\"tests/fixtures/integration/maintenance-canary.json\").read_text()); assert x[\"expected\"] == x[\"actual\"], \"deliberate evidence canary\""
+  ],
+  "exit_code": 1,
+  "wall_seconds": 0.20598045099177398,
+  "cpu_seconds": 0.194516,
+  "peak_sampled_rss_bytes": 5505024,
+  "peak_sampled_temporary_bytes": 2723263,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:42:38Z",
+  "completed_utc": "2026-11-12T07:42:38Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "7206eb13b1641b644f1ef87ba50bc1ef1ecd8322"
+  },
+  "source_commit": "9e59ec896b600db36902487655873493597c003d",
+  "evidence_ref": "refs/tags/evidence/kraken-a-negative",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

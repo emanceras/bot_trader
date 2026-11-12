@@ -8,6 +8,10 @@ Seguimiento vigente: [STATE.md](STATE.md), [solicitud](docs/integration/REQUEST.
 
 **Cierre técnico de la primera integración (D-055):** H1–H4 implementados y probados dentro del alcance sintético; [informe y ocho criterios](docs/integration/REPORT.md). Publicados H1 `889ef23`, H2 `64929d6`, H3 `d3048f7` y H4 `slice-h4`. Backend 159 pruebas satisfactorias; cinco pruebas nativas de integración en seis contextos correctos, más dos preparaciones fallidas conservadas. Sin cierre incondicional de IV ni admisión financiera. A: segundo adaptador de fuente; B: captura mínima solo lectura, con prioridad temporal y autorización separada antes de activarla. Recuperación nativa tras fallo y realismo de ejecución siguen pendientes.
 
+## Entrega técnica Kraken y mantenimiento — D-057
+
+A completado y probado (`kraken-historical-a`): evidencias compactas reconstruibles y protección append-only. B preparado, pruebas históricas pendientes. [Informe vigente](docs/integration/kraken/REPORT.md), [checkpoint](STATE.md). Sin reabrir motores ni ampliar permisos financieros; captura futura solo especificación.
+
 ## Objetivo y estado general
 
 Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. III aceptada por el usuario; IV metodológica autorizada en D-035. V–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.

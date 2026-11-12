@@ -1,0 +1,40 @@
+{
+  "schema_version": 2,
+  "label": "a-tests",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_append_only.py",
+    "tests/test_evidence_tools.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 4.473935874004383,
+  "cpu_seconds": 3.949582,
+  "peak_sampled_rss_bytes": 33370112,
+  "peak_sampled_temporary_bytes": 2519230,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:40:07Z",
+  "completed_utc": "2026-11-12T07:40:12Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "7206eb13b1641b644f1ef87ba50bc1ef1ecd8322"
+  },
+  "source_commit": "18d7f1b4eee0f4c97015dc75ee71f567ec2202c0",
+  "evidence_ref": "refs/tags/evidence/kraken-a-tests",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}
