@@ -20,6 +20,8 @@ SOURCE_PATHS = (
     "EXPERIMENTS.md",
     "ROADMAP.md",
     "docs/integration/kraken/budget.json",
+    "docs/integration/kraken/sources.json",
+    "docs/integration/kraken/capture-spec.json",
 )
 
 
@@ -38,7 +40,8 @@ def snapshot(repo: Path, scratch: Path, label: str) -> tuple[dict, bytes]:
         env = os.environ | {"GIT_INDEX_FILE": str(Path(temporary) / "index")}
         git(repo, "read-tree", base, env=env)
         paths = [
-            p for p in SOURCE_PATHS
+            p
+            for p in SOURCE_PATHS
             if (repo / p).exists() or git(repo, "ls-tree", "--name-only", base, "--", p).strip()
         ]
         git(repo, "add", "--all", "--", *paths, env=env)
