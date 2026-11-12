@@ -20,6 +20,8 @@ SOURCE_PATHS = (
     "EXPERIMENTS.md",
     "ROADMAP.md",
     "docs/integration/kraken/budget.json",
+    "docs/integration/kraken/sources.json",
+    "docs/integration/kraken/capture-spec.json",
 )
 
 
