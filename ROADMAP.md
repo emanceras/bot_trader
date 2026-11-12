@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-11 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-12 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Integración incremental autorizada — D-054
 
@@ -10,7 +10,7 @@ Seguimiento vigente: [STATE.md](STATE.md), [solicitud](docs/integration/REQUEST.
 
 ## Entrega técnica Kraken y mantenimiento — D-057
 
-A completado y probado (`kraken-historical-a`): evidencias compactas reconstruibles y protección append-only. B preparado, pruebas históricas pendientes. [Informe vigente](docs/integration/kraken/REPORT.md), [checkpoint](STATE.md). Sin reabrir motores ni ampliar permisos financieros; captura futura solo especificación.
+A publicado en `31c1b59`: evidencias compactas reconstruibles y protección append-only. B completado y probado (`kraken-historical-b`): adaptador Kraken,128 registros originales en QA temporal privada y190 regresiones backend correctas. [Informe vigente](docs/integration/kraken/REPORT.md), [checkpoint](STATE.md). Sin reabrir motores ni ampliar permisos financieros; captura futura solo especificación.
 
 ## Objetivo y estado general
 

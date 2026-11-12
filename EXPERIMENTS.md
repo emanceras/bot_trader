@@ -104,3 +104,6 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 
 
 - **2026-11-12, mantenimiento técnico A (D-057):** diez pruebas pequeñas correctas; tres regresiones adicionales y reconstrucción de un fallo deliberado desde Git. Sin mercado, estrategia, motor, entrenamiento o métricas financieras. Evidencias previas conservadas; **los siete contadores financieros siguen en cero**. Auditoría histórica Kraken pendiente en este checkpoint.
+
+
+- **2026-11-12, QA histórica Kraken B (D-058):**64 trades y64 velas reales del prefijo fijo de XBTUSD, con identidades de los ZIP existentes verificadas. Archivo/normalización/replay temporal exclusivamente; cero señales, motores o métricas económicas. Canario antes del cierre0/después1; reinicio e idempotencia comprobados.41 pruebas focalizadas y190 regresiones backend correctas (capas solapadas, no observaciones financieras). Ningún dataset nuevo, entrenamiento ni acceso al holdout; **los siete contadores financieros siguen en cero**. Datos y derivados de mercado privados fuera de Git; solo hashes/recuentos técnicos publicados.

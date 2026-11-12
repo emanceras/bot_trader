@@ -1,0 +1,50 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> tools/integration/verify_kraken_delivery.py:3:1
+   |
+ 1 |   """Read-only publication audit and explicit late binding of a documentation input."""
+ 2 |
+ 3 | / import hashlib
+ 4 | | import json
+ 5 | | from datetime import datetime
+ 6 | | from pathlib import Path
+ 7 | | import subprocess
+ 8 | |
+ 9 | | from bot_trader.core.events import datetime_ns
+   | |______________________________________________^
+10 |
+11 |   ROOT = Path(__file__).resolve().parents[2]
+   |
+help: Organize imports
+  |
+4 | import json
+5 + import subprocess
+6 | from datetime import datetime
+7 | from pathlib import Path
+  - import subprocess
+8 |
+  |
+
+E501 Line too long (111 > 100)
+  --> tools/integration/verify_kraken_delivery.py:91:101
+   |
+89 |                     "file_metadata_predates_original_run": True,
+90 |                     "timing": "Binding recorded after original QA, original receipt left unchanged",
+91 |                     "limit": "Filesystem times support continuity but cannot independently prove past content",
+   |                                                                                                     ^^^^^^^^^^^
+92 |                 },
+93 |                 "limits": [
+   |
+
+E501 Line too long (101 > 100)
+  --> tools/integration/verify_kraken_delivery.py:95:101
+   |
+93 |                 "limits": [
+94 |                     "Public original-data log inspected: hashes/counts/assumptions only",
+95 |                     "No financial values or private sidecars copied; runtime symlinks not certified",
+   |                                                                                                     ^
+96 |                 ],
+97 |             },
+   |
+
+Found 3 errors.
+[*] 1 fixable with `--fix`.

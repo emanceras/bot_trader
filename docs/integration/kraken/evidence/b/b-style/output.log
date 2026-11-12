@@ -1,0 +1,122 @@
+E501 Line too long (117 > 100)
+  --> tools/integration/kraken_qa.py:51:101
+   |
+49 |         for filename, member, schema, interval in SELECTIONS:
+50 |             stage = "existing_archive_identity"
+51 |             acquired = next(r for r in receipts if r.get("event") == "acquired" and Path(r["path"]).name == filename)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^
+52 |             path = Path(acquired["path"])
+53 |             if not path.is_file():
+   |
+
+E501 Line too long (109 > 100)
+  --> tools/integration/kraken_qa.py:56:101
+   |
+54 |                 public.append({"archive": filename, "status": "original_unavailable_no_download"})
+55 |                 continue
+56 |             proof = verify_archive(path, expected_sha256=acquired["sha256"], expected_size=acquired["bytes"])
+   |                                                                                                     ^^^^^^^^^
+57 |             stage = "bounded_selection"
+58 |             args = dict(member=member, source_schema=schema, instrument="XBTUSD",
+   |
+
+E501 Line too long (104 > 100)
+  --> tools/integration/kraken_qa.py:69:101
+   |
+67 |                 source_id="kraken-historical-qa", source_version="2026Q3",
+68 |                 source_schema=schema, locator=f"{acquired['url']}#{member};first-64-data-rows-v1",
+69 |                 rights="Private technical QA only; no redistribution. Assessment SHA256:" + rights_hash,
+   |                                                                                                     ^^^^
+70 |                 acquired_ns=datetime_to_ns(datetime.fromisoformat(acquired["at"])),
+71 |                 raw_sha256=selection.raw_sha256, size_bytes=len(raw),
+   |
+
+E501 Line too long (121 > 100)
+  --> tools/integration/kraken_qa.py:82:101
+   |
+80 |                                     max_bytes=2*1024*1024, chunk_size=256)
+81 |             while not progress.complete:
+82 |                 progress = importer.import_step(raw_path, source, checkpoint_hash=progress.checkpoint_hash, max_chunks=1)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^
+83 |             repeated_import = importer.import_step(raw_path, source, max_chunks=1000)
+84 |             assert repeated_import.archive_hash == progress.archive_hash
+   |
+
+E501 Line too long (116 > 100)
+  --> tools/integration/kraken_qa.py:89:101
+   |
+87 |             stage = "exact_normalization"
+88 |             adapter = KrakenHistoricalNormalizer(selection, HistoricalAvailability(delay_ns=0))
+89 |             normalized = adapter.normalize_with_provenance(restored, restored_source, archived.source_manifest_hash)
+   |                                                                                                     ^^^^^^^^^^^^^^^^
+90 |             normalized_hash = store_normalized(normalized.batch, store)
+91 |             sidecar_hash = store.put(canonical_bytes(normalized.model_dump(mode="json")), "json")
+   |
+
+E501 Line too long (114 > 100)
+  --> tools/integration/kraken_qa.py:92:101
+   |
+90 |             normalized_hash = store_normalized(normalized.batch, store)
+91 |             sidecar_hash = store.put(canonical_bytes(normalized.model_dump(mode="json")), "json")
+92 |             assert adapter.normalize(restored, restored_source, archived.source_manifest_hash) == normalized.batch
+   |                                                                                                     ^^^^^^^^^^^^^^
+93 |             events = normalized.batch.events
+94 |             assert all(event.received_ns is None and event.engine_ts_init_ns is None for event in events)
+   |
+
+E501 Line too long (105 > 100)
+  --> tools/integration/kraken_qa.py:94:101
+   |
+92 |             assert adapter.normalize(restored, restored_source, archived.source_manifest_hash) == normalized.batch
+93 |             events = normalized.batch.events
+94 |             assert all(event.received_ns is None and event.engine_ts_init_ns is None for event in events)
+   |                                                                                                     ^^^^^
+95 |             stage = "data_only_replay"
+96 |             result = replay.inspect_history(events, data_class=source.data_class)
+   |
+
+E501 Line too long (113 > 100)
+   --> tools/integration/kraken_qa.py:101:101
+    |
+ 99 |             duplicate = replay.inspect_history((*events, events[0]), data_class=source.data_class)
+100 |             assert duplicate.events == result.events and duplicate.checkpoint == result.checkpoint
+101 |             first = replay.inspect_history(events, data_class=source.data_class, until_ns=events[0].effective_ns)
+    |                                                                                                     ^^^^^^^^^^^^^
+102 |             resumed = replay.inspect_history(events, data_class=source.data_class, checkpoint=first.checkpoint)
+103 |             assert resumed.events == result.events and resumed.checkpoint == result.checkpoint
+    |
+
+E501 Line too long (111 > 100)
+   --> tools/integration/kraken_qa.py:102:101
+    |
+100 |             assert duplicate.events == result.events and duplicate.checkpoint == result.checkpoint
+101 |             first = replay.inspect_history(events, data_class=source.data_class, until_ns=events[0].effective_ns)
+102 |             resumed = replay.inspect_history(events, data_class=source.data_class, checkpoint=first.checkpoint)
+    |                                                                                                     ^^^^^^^^^^^
+103 |             assert resumed.events == result.events and resumed.checkpoint == result.checkpoint
+104 |             canary = None
+    |
+
+E501 Line too long (119 > 100)
+   --> tools/integration/kraken_qa.py:107:101
+    |
+105 |             if isinstance(events[0].data, BarData):
+106 |                 stage = "closed_bar_canary"
+107 |                 before = replay.inspect_history(events, data_class=source.data_class, until_ns=events[0].data.end_ns-1)
+    |                                                                                                     ^^^^^^^^^^^^^^^^^^^
+108 |                 assert not before.events
+109 |                 assert all(e.available_ns == e.data.end_ns for e in events)
+    |
+
+E501 Line too long (110 > 100)
+   --> tools/integration/kraken_qa.py:123:101
+    |
+121 |                 "readme_sha256": selection.readme_sha256,
+122 |                 "selection": "first-64-data-rows-v1", "selected_rows": selection.rows,
+123 |                 "selected_bytes": len(raw), "selection_hash": content_hash(selection.model_dump(mode="json")),
+    |                                                                                                     ^^^^^^^^^^
+124 |                 "raw_sha256": selection.raw_sha256, "archive_record_hash": progress.archive_hash,
+125 |                 "normalized_hash": normalized_hash, "private_sidecar_hash": sidecar_hash,
+    |
+
+Found 12 errors (1 fixed, 11 remaining).

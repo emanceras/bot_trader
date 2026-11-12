@@ -1,0 +1,24 @@
+{
+  "verified_evidence_files": 100,
+  "old_evidence_core_science_unchanged": true,
+  "actual_public_log_contains_no_market_rows": true,
+  "private_rows_scanned_for_exact_public_leak": 128,
+  "resources": {
+    "commands": 20,
+    "wall_seconds": 132.42724571897998,
+    "cpu_seconds": 115.139782,
+    "rss_bytes": 195940352,
+    "temporary_sampled_bytes": 7186295,
+    "engineering_minutes_estimate": 60.37298898179991,
+    "resumed_minutes_measured": 25.372988981799907,
+    "earlier_minutes_estimate": 35,
+    "scratch_logical_bytes": 4682037,
+    "temporary_and_reference_bytes_at_closeout": 7189692,
+    "public_delivery_bytes": 1562985
+  },
+  "limits": [
+    "Exact-row scan is supplementary; public summaries were also manually reviewed.",
+    "Engineering estimate combines35estimated previous active minutes and measured resumed elapsed; interruption excluded.",
+    "Git refs are published separately; no copied full source trees."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "label": "b-types",
+  "command": [
+    ".venv/bin/mypy",
+    "src/bot_trader"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 35.09122274800029,
+  "cpu_seconds": 33.628346,
+  "peak_sampled_rss_bytes": 195940352,
+  "peak_sampled_temporary_bytes": 4031937,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:52:20Z",
+  "completed_utc": "2026-11-12T07:52:55Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "31c1b593f5a1f2563b98fce065d7961cc9226946"
+  },
+  "source_commit": "5222b53c40dcdf5e34be82496015c92d6adbe9e3",
+  "evidence_ref": "refs/tags/evidence/kraken-b-types",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

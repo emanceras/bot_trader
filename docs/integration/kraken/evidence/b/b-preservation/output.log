@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "protected_changes": [],
+  "production_regular_files_unchanged": 4630,
+  "originals_summary_sha256": "cb0f33b113ba29f6893a8bfc65c0555d6a89142f91a234a97b52298dc5f6451c",
+  "documentation_binding": {
+    "path": "docs/integration/kraken/sources.json",
+    "sha256": "450788b4ef181e39db55a209b2ff5bb428ae4936682c1c9af00775bf5a16d75c",
+    "bound_in_commit": "51751338c25d846728660bc0f9a4a55405cfb057",
+    "file_metadata_predates_original_run": true,
+    "timing": "Binding recorded after original QA, original receipt left unchanged",
+    "limit": "Filesystem times support continuity but cannot independently prove past content"
+  },
+  "limits": [
+    "Public original-data log inspected: hashes/counts/assumptions only",
+    "No financial values or private sidecars copied; runtime symlinks not certified"
+  ]
+}

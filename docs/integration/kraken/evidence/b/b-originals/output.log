@@ -1,0 +1,94 @@
+{
+  "status": "completed",
+  "rights_assessment_sha256": "b25b793cbc67afe6d48638f12e30800f9d45a11bcfd428fa3adc133071811d24",
+  "cases": [
+    {
+      "archive": "Kraken_Trades_2026Q3.zip",
+      "archive_sha256": "67aa726be17a0f3ed14e4737030c777e1aa522e568090e72aa950415d66bce25",
+      "archive_bytes_verified": 1596570274,
+      "member": "XBTUSD.csv",
+      "readme_sha256": "b802c78e05351b485c4ce2c8619e473a0e8c110883569f55ffe29baf59d7496f",
+      "selection": "first-64-data-rows-v1",
+      "selected_rows": 64,
+      "selected_bytes": 3683,
+      "selection_hash": "3365634607bdfb7d67d595caa7e72966a9a2abb1be40e4498f1d3898eb67ad04",
+      "raw_sha256": "93c42714d88c18a5a0f1d1b758393b08f33415b4bc16c1e35ff01be8495c09a9",
+      "archive_record_hash": "67bc1c7643802f50c972d426f510dfa9f60350b7e7be06a75f950bca5cf598a8",
+      "normalized_hash": "7b6fbcfe8c2a8dc286332f490b8e577b810cf58e95841812be8c2afcaa4d18f6",
+      "private_sidecar_hash": "8e462fb57cdfcf2effbe64ac3dd5a8d6a08ef476779fb128bc28de91c5e035f9",
+      "unique_replayed_events": 64,
+      "diagnostic_counts": {
+        "availability_is_optimistic_assumption_not_historical_reception": 1,
+        "adapter_ordinal_is_not_provider_sequence": 1,
+        "timestamp_lexeme_and_source_units_preserved_in_private_sidecar": 1
+      },
+      "availability": {
+        "version": "kraken-history-optimistic-v1",
+        "delay_ns": 0,
+        "interpretation": "event-or-bar-end-plus-declared-delay",
+        "optimistic_assumption": true,
+        "historical_reception_observed": false
+      },
+      "source_reception_observed": false,
+      "bar_canary": null,
+      "selection_repeat_identical": true,
+      "import_resume_idempotent": true,
+      "normalizer_repeat_identical": true,
+      "replay_repeat_and_resume_identical": true,
+      "duplicate_does_not_double_effect": true,
+      "whole_member_crc_retested": false,
+      "status": "technical_qa_passed_not_financial_admission"
+    },
+    {
+      "archive": "Kraken_OHLCVT_2026Q3.zip",
+      "archive_sha256": "96daae63c7b3acb522892e1f602f9c564d1a3fb659089d9b0699282f30d41226",
+      "archive_bytes_verified": 576348633,
+      "member": "XBTUSD_1.csv",
+      "readme_sha256": "35d1f89eac2b22560756a839130c40533653c12e3e74651a5b9f515e8653ae54",
+      "selection": "first-64-data-rows-v1",
+      "selected_rows": 64,
+      "selected_bytes": 4069,
+      "selection_hash": "b4bb8b5674722884728e434919852aaad35341a2bb3ea5f46dc2d5d7cedefc0f",
+      "raw_sha256": "17b1279721d17320788346ccf00cc5be7029a936d68c9635f935f126057dc511",
+      "archive_record_hash": "713745758dde7c95091d53e087466fdf8a5c2683485ff2cb61aaf1909f8f9bf0",
+      "normalized_hash": "260f76bbbd1e8e4cb54b058f774d51fe8b466e20f916d084176293b91d8cfd15",
+      "private_sidecar_hash": "df6425cfdd20f6a48532c5aa6139bb24fa7c2aa4e3202068dcdd3a06fa8edd65",
+      "unique_replayed_events": 64,
+      "diagnostic_counts": {
+        "availability_is_optimistic_assumption_not_historical_reception": 1,
+        "adapter_ordinal_is_not_provider_sequence": 1,
+        "timestamp_lexeme_and_source_units_preserved_in_private_sidecar": 1
+      },
+      "availability": {
+        "version": "kraken-history-optimistic-v1",
+        "delay_ns": 0,
+        "interpretation": "event-or-bar-end-plus-declared-delay",
+        "optimistic_assumption": true,
+        "historical_reception_observed": false
+      },
+      "source_reception_observed": false,
+      "bar_canary": {
+        "before_first_close_count": 0,
+        "at_first_close_count": 1,
+        "all_available_at_close_under_zero_delay_assumption": true
+      },
+      "selection_repeat_identical": true,
+      "import_resume_idempotent": true,
+      "normalizer_repeat_identical": true,
+      "replay_repeat_and_resume_identical": true,
+      "duplicate_does_not_double_effect": true,
+      "whole_member_crc_retested": false,
+      "status": "technical_qa_passed_not_financial_admission"
+    }
+  ],
+  "first_trade_in_first_opening_labelled_interval": true,
+  "data_class": "exposed_structural_only",
+  "signals_generated": 0,
+  "engine_invoked": false,
+  "financial_metrics_computed": false,
+  "limitations": [
+    "Two fixed prefixes, no quarter-wide completeness inference",
+    "No observed reception, quotes, order book or financial admission",
+    "Gaps in native IDs/sparse bars do not prove missing market events"
+  ]
+}

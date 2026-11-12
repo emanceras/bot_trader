@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "label": "b-lint",
+  "command": [
+    ".venv/bin/ruff",
+    "check",
+    "tools/integration/verify_kraken_delivery.py",
+    "src/bot_trader/market_data/kraken_history.py",
+    "src/bot_trader/market_data/replay.py",
+    "tests/test_kraken_history.py",
+    "tests/test_history_replay.py",
+    "tools/integration/evidence.py",
+    "tools/integration/kraken_qa.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.636976144000073,
+  "cpu_seconds": 0.5269329999999999,
+  "peak_sampled_rss_bytes": 12976128,
+  "peak_sampled_temporary_bytes": 7186295,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:59:49Z",
+  "completed_utc": "2026-11-12T07:59:50Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "31c1b593f5a1f2563b98fce065d7961cc9226946"
+  },
+  "source_commit": "4b83da51d644c5d6587ffb5c1bdd568bde6dbbb6",
+  "evidence_ref": "refs/tags/evidence/kraken-b-lint",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

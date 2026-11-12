@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "label": "b-runner-format",
+  "command": [
+    ".venv/bin/ruff",
+    "format",
+    "tools/integration/kraken_qa.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.14655605099687818,
+  "cpu_seconds": 0.12920400000000004,
+  "peak_sampled_rss_bytes": 3145728,
+  "peak_sampled_temporary_bytes": 3520647,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:50:30Z",
+  "completed_utc": "2026-11-12T07:50:30Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "31c1b593f5a1f2563b98fce065d7961cc9226946"
+  },
+  "source_commit": "73f8877a0ffb035a9ddf97068472f1aaa87bac2c",
+  "evidence_ref": "refs/tags/evidence/kraken-b-runner-format",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "label": "b-style-fixed",
+  "command": [
+    ".venv/bin/ruff",
+    "check",
+    "src/bot_trader/market_data/kraken_history.py",
+    "src/bot_trader/market_data/replay.py",
+    "tests/test_kraken_history.py",
+    "tests/test_history_replay.py",
+    "tools/integration/kraken_qa.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.8630082110030344,
+  "cpu_seconds": 0.21274999999999977,
+  "peak_sampled_rss_bytes": 3801088,
+  "peak_sampled_temporary_bytes": 4096157,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:53:25Z",
+  "completed_utc": "2026-11-12T07:53:26Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "31c1b593f5a1f2563b98fce065d7961cc9226946"
+  },
+  "source_commit": "2aff5b1b5e1c0ff8617948a70ae6ac4f6d6f8c38",
+  "evidence_ref": "refs/tags/evidence/kraken-b-style-fixed",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

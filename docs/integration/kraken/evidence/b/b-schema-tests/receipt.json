@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "label": "b-schema-tests",
+  "command": [
+    ".venv/bin/pytest",
+    "-q",
+    "tests/test_kraken_history.py",
+    "tests/test_history_replay.py",
+    "tests/test_replay_v2.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 3.212230388991884,
+  "cpu_seconds": 3.1461230000000002,
+  "peak_sampled_rss_bytes": 101896192,
+  "peak_sampled_temporary_bytes": 3377848,
+  "stop_reason": null,
+  "started_utc": "2026-11-12T07:48:19Z",
+  "completed_utc": "2026-11-12T07:48:22Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-integration",
+    "additional_temp_roots": [
+      "/tmp/kraken-doc-check"
+    ],
+    "public_evidence": "docs/integration/kraken/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "31c1b593f5a1f2563b98fce065d7961cc9226946"
+  },
+  "source_commit": "3412dab8f98ee0e4e271a00c196f53a5088b9af2",
+  "evidence_ref": "refs/tags/evidence/kraken-b-schema-tests",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}
