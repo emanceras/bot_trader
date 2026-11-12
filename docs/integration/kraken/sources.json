@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "scope": "Directed technical documentation/metadata verification; no financial dataset acquisition, WebSocket connection or credentials.",
+  "reviewed_at": "2026-11-11T22:58:26.664180+00:00",
+  "new_document_bytes": 1614623,
+  "instrument_metadata_bytes": 562,
+  "cache": "New documentation held temporarily outside Git at /tmp/kraken-doc-check; body hashes and selected findings retained here. No market extract published.",
+  "rights_disposition": {
+    "existing_archives": "Narrow private technical QA/normalization/replay under current user authorization and previous offered-use assessment; no redistribution.",
+    "future_capture": "Not activated; scoped EEA public-feed storage/retention rights and user resource authorization remain unresolved. API documentation alone is insufficient."
+  },
+  "sources": [
+    {
+      "id": "ticker",
+      "url": "https://docs.kraken.com/api/docs/websocket-v2/ticker/",
+      "final_url": "https://docs.kraken.com/exchange/api-reference/spot-websocket-v2/ticker",
+      "status": 200,
+      "read_at": "2026-11-11T22:55:52.934289+00:00",
+      "sha256": "717aeb0e9dd058c465b7910ee87251b5e69a91acf8c5387455d051b61eb10dfb",
+      "bytes": 439118,
+      "kind": "official_documentation",
+      "read_scope": "Subscription trigger, top-of-book fields, timestamp and missing continuity proof",
+      "findings": [
+        "event_trigger: bbo or trades; default trades.",
+        "bbo: on a change in the best-bid-offer price levels; trades: on every trade.",
+        "Payload contains bid, bid_qty, ask, ask_qty and ticker timestamp, as well as rolling trade statistics.",
+        "No documented ticker sequence number or book checksum in the examined payload."
+      ],
+      "limitations": [
+        "bbo does not document delivery of every size-only update; not complete L1 order-flow history.",
+        "Generic Snapshot / Update prose says updates on trade events despite the more specific bbo parameter; future capture must verify acknowledged trigger and observed behavior.",
+        "No WebSocket connection, latency measurement or feed-completeness test performed."
+      ]
+    },
+    {
+      "id": "trade",
+      "url": "https://docs.kraken.com/api/docs/websocket-v2/trade/",
+      "final_url": "https://docs.kraken.com/exchange/api-reference/spot-websocket-v2/trade",
+      "status": 200,
+      "read_at": "2026-11-11T22:55:52.895516+00:00",
+      "sha256": "0e5382e7729f8a8746ef328f23ff3ccb035ea0e077a8cb725a5924749036c6aa",
+      "bytes": 414341,
+      "kind": "official_documentation",
+      "read_scope": "Trade identity, timestamps, snapshot and side",
+      "findings": [
+        "Trade identifier is a sequence number, unique per book.",
+        "Snapshot reflects the most recent 50 trades.",
+        "side and ord_type describe the taker order; timestamp is RFC3339.",
+        "Timestamps are not unique transaction identifiers."
+      ],
+      "limitations": [
+        "Last-50 snapshot is not complete reconnect backfill; upstream loss cannot be repaired or ruled out solely from it."
+      ]
+    },
+    {
+      "id": "instrument",
+      "url": "https://docs.kraken.com/api/docs/websocket-v2/instrument/",
+      "final_url": "https://docs.kraken.com/exchange/api-reference/spot-websocket-v2/instrument",
+      "status": 200,
+      "read_at": "2026-11-11T22:55:53.009661+00:00",
+      "sha256": "67fba8ffa7b47178436d8cf7120bd32f4c6917fa59317d3f3f22f8c7429daef5",
+      "bytes": 500936,
+      "kind": "official_documentation",
+      "read_scope": "Authoritative v2 symbol/status and precision metadata preflight",
+      "findings": [
+        "instrument snapshot contains pairs with symbol, base, quote, status and precision/increment metadata.",
+        "The inspected documentation example is BTC/USD, not evidence that BTC/EUR was subscribed."
+      ],
+      "limitations": [
+        "No instrument-channel subscription occurred. Exact BTC/EUR v2 eligibility remains an activation preflight condition."
+      ]
+    },
+    {
+      "id": "overview",
+      "url": "https://docs.kraken.com/api/docs/guides/spot-ws-intro/",
+      "final_url": "https://docs.kraken.com/exchange/guides/websockets/introduction",
+      "status": 200,
+      "read_at": "2026-11-11T22:55:54.331573+00:00",
+      "sha256": "9724c8bd388683c1a4e976ee394abe0176b63dc092b3aa03ba189a2f8dc8bb89",
+      "bytes": 260228,
+      "kind": "official_documentation",
+      "read_scope": "Public endpoint, naming, exact numeric decoding and reconnect guidance",
+      "findings": [
+        "Public v2 endpoint is wss://ws.kraken.com/v2; authentication applies to the separate private endpoint.",
+        "v2 uses BTC naming and requires instrument channel to discover supported symbols; REST wsname is v1 naming.",
+        "Documentation explicitly recommends decimal or string decoding to preserve price/quantity precision.",
+        "Approximately 150 connection attempts per rolling 10 minutes per IP can trigger a 10-minute ban."
+      ],
+      "limitations": [
+        "This is access mechanism documentation, not a comprehensive historical retention or redistribution licence."
+      ]
+    },
+    {
+      "id": "pair_metadata",
+      "url": "https://api.kraken.com/0/public/AssetPairs?pair=XBTEUR",
+      "final_url": "https://api.kraken.com/0/public/AssetPairs?pair=XBTEUR",
+      "status": 200,
+      "read_at": "2026-11-11T22:55:53.132628+00:00",
+      "sha256": "22506703401f0322eadd54a7c0204cecc192430a3dd826ba037d1f5a3cb2b4b2",
+      "bytes": 562,
+      "kind": "instrument_metadata_only",
+      "read_scope": "One public REST instrument metadata request, no prices/trades/quotes",
+      "findings": [
+        "error=[]; result key XXBTZEUR; altname XBTEUR; wsname XBT/EUR; base XXBT; quote ZEUR; status online."
+      ],
+      "limitations": [
+        "Confirms current listed spot pair at retrieval, not v2 subscription success, historical mapping or access from the eventual Spanish host."
+      ]
+    },
+    {
+      "id": "eea-terms-cached",
+      "url": "https://www.kraken.com/legal/eea-terms",
+      "source_retrieved_at": "2026-10-26",
+      "read_at": "2026-11-11T22:58:26.655857+00:00",
+      "new_retrieval": false,
+      "sha256": "aa4c08d8dea1c69bae45c6f396096d3ae2a9bfcaa9baae4966351862c98f84e7",
+      "bytes": 3167013,
+      "read_scope": "Directed cached reread: Intellectual Property and Restrictions",
+      "findings": [
+        "Our Content includes pricing data. Permission is only for approved purposes as permitted by Kraken and for the user's own benefit.",
+        "Restrictions include copying, third-party availability/commercial exploitation, automated extraction and third-party applications without prior written consent.",
+        "These sections do not establish a blanket right to retain public WebSocket data indefinitely."
+      ],
+      "limitations": [
+        "Cached terms may change; recheck applicable terms before future capture activation.",
+        "Narrow technical interpretation, not legal certification."
+      ]
+    },
+    {
+      "id": "archive-offered-use-cached",
+      "url": "https://support.kraken.com/articles/360047543791-downloadable-historical-market-data-time-and-sales-",
+      "source_retrieved_at": "2026-10-26",
+      "read_at": "2026-11-11T22:58:26.660667+00:00",
+      "new_retrieval": false,
+      "sha256": "fa973639087456f529f63bf08826d2c55f47089f29909e4a1f44799d096ee091",
+      "bytes": 993878,
+      "read_scope": "Reuse previously checked official offered download/code-use invitation",
+      "findings": [
+        "Specific archive invitation supports download, use in code and format conversion for the narrow private QA workflow assessed in D-040.",
+        "Current user authority extends technical normalization/replay of existing archives; no public raw-data or extract redistribution is inferred."
+      ],
+      "limitations": [
+        "Cached terms may change; recheck applicable terms before future capture activation.",
+        "Narrow technical interpretation, not legal certification."
+      ]
+    },
+    {
+      "id": "archive-ohlcvt-readme",
+      "url": "https://assets.kraken.com/marketing/institutions/Kraken_OHLCVT_2026Q3.zip",
+      "member": "README.md",
+      "archive_sha256": "96daae63c7b3acb522892e1f602f9c564d1a3fb659089d9b0699282f30d41226",
+      "sha256": "35d1f89eac2b22560756a839130c40533653c12e3e74651a5b9f515e8653ae54",
+      "read_at": "2026-11-11T22:58:26.664166+00:00",
+      "new_retrieval": false,
+      "findings": [
+        "No header; timestamp,open,high,low,close,volume,trades.",
+        "timestamp: unix seconds, start of the bar. INTERVAL in filename is minutes.",
+        "Volume is total base-currency volume. Bars without trades are omitted."
+      ],
+      "limitations": [
+        "README inspected in the existing local archive; checksum references are not an independent provider-truth certificate."
+      ]
+    },
+    {
+      "id": "archive-trades-readme",
+      "url": "https://assets.kraken.com/marketing/institutions/Kraken_Trades_2026Q3.zip",
+      "member": "README.md",
+      "archive_sha256": "67aa726be17a0f3ed14e4737030c777e1aa522e568090e72aa950415d66bce25",
+      "sha256": "b802c78e05351b485c4ce2c8619e473a0e8c110883569f55ffe29baf59d7496f",
+      "read_at": "2026-11-11T22:58:26.664177+00:00",
+      "new_retrieval": false,
+      "findings": [
+        "Header: timestamp,price,volume,type,order_type,misc,trade_id.",
+        "Fractional Unix seconds; volume in base currency; trade IDs ascend per pair.",
+        "Earlier releases used different column order; schema must be verified.",
+        "ID gaps expected: allocated IDs sometimes never become public trades. Delisted rows may have empty type/order_type/misc/trade_id."
+      ],
+      "limitations": [
+        "No received-at timestamps are present; archive publication time cannot impersonate contemporaneous reception."
+      ]
+    }
+  ]
+}
