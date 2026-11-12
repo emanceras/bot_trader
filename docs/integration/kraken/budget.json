@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "authority": "User authorization after 7206eb1: maintenance and existing Kraken historical QA only",
+  "engineering_seconds": 7200,
+  "machine_seconds": 900,
+  "command_seconds": 180,
+  "cpus": 4,
+  "ram_bytes": 8589934592,
+  "temporary_bytes": 536870912,
+  "scratch_root": "/workspace/kraken-integration",
+  "additional_temp_roots": [
+    "/tmp/kraken-doc-check"
+  ],
+  "public_evidence": "docs/integration/kraken/evidence",
+  "new_downloads": false,
+  "financial_execution": false,
+  "published_baseline_commit": "7206eb13b1641b644f1ef87ba50bc1ef1ecd8322"
+}

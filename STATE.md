@@ -1,10 +1,8 @@
 # Integration checkpoint
 
-- Published checkpoint: `slice-h4` (this milestone; resolve with `git rev-parse slice-h4`). Earlier published commits: H1 `889ef23`, H2 `64929d6`, H3 `d3048f7`.
-- Complete: four authorized milestones; immutable resumable local archive, exact-time v2/v1 compatibility, fixture normalization, causal replay/analytics/fixed signals, composed service and CLI, isolated native buy/sell, ledger/oracle and final acceptance review. [Single technical report](docs/integration/REPORT.md).
-- Executed: backend **159 passed**; H3 **3 tests / 4 successful native contexts**; H4 **2 tests / 2 native contexts**. Determinism, full/partial/cancel/rejection, future-data invariance and CLI audit persistence verified. Host Ruff/mypy pass. Preserve two failed native preparations and corrections; both native correction attempts consumed. Original source/log/diff/receipts under `docs/integration/evidence/`.
-- Limits: synthetic SYNTH-USD only; local fixture adapter; no real-source or Windows verification of this new route; positive latency/slippage, realistic capacity, second-engine substitution and actual native crash recovery unproved. Import/replay recovery and mocked transport timeout are distinct from native recovery.
-- History: `DECISIONS.md` restored exactly from H2 after accidental H3 replacement; D-055/D-056 record completion and correction. No published history rewritten.
-- Next exact action: review the completed report. Next integration queue A is a second provider adapter; B is read-only trades/best-bid-ask capture, with temporal priority but separate source/rights/resources authorization before activation. No further native rescue or completed M/R/E/E1 reruns.
-- Authority: `docs/integration/REQUEST.es.md`; this bounded technical scope is complete. No new software/data, expenses, external capture, financial experiments, Phase V or paper/live. Economic E3/E4 and26 specifications unchanged.
-- Resources: **112.179 guarded seconds**,103.542 CPU seconds,255.4 MiB maximum sampled RSS;25 commands, no resource stop or downloads. Exact receipts retained; engineering time not continuously instrumented and interruptions are not active work. No automatic budget extension.
+- Last published: `7206eb1` / `slice-h4`; first synthetic integration complete.
+- Current authority: maintenance A and existing Kraken historical QA B, two recoverable milestones. New limits:2h active engineering,900s monitored commands,4 CPU,8GiB RAM,512MiB extra; no new datasets/software/spend/financial execution.
+- Prepared, not tested: compact Git evidence, append-only history guard and small tests; Kraken schema adapter and synthetic tests; disabled future capture specification. Original two Kraken ZIPs still available.
+- Preflight: local `origin/main` was stale; prefix guard correctly refused before a test ran. Use explicit verified published commit from campaign budget; no historical content changed.
+- Next: run A small tests and intentional failure reconstruction; publish milestone A. Then data-only replay and private bounded Kraken QA, no signals or engine.
+- Pending: actual A/B test results and single report `docs/integration/kraken/REPORT.md`; do not claim execution from code alone. Historical evidence immutable. E3/E4,26 specifications,holdout and Phase V restrictions unchanged.
