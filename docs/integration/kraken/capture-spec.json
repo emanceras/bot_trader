@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "spec_id": "kraken-public-capture-v1",
+  "status": "proposed_not_implemented_or_authorized",
+  "enabled": false,
+  "purpose": "Raw public-market capture for future temporal QA; no signals, orders, accounts or investment evaluation.",
+  "endpoint": "wss://ws.kraken.com/v2",
+  "authentication": "none; reject private/authenticated channels and order methods",
+  "market": {
+    "proposed_v2_symbol": "BTC/EUR",
+    "original_rest_key": "XXBTZEUR",
+    "original_rest_altname": "XBTEUR",
+    "original_rest_wsname": "XBT/EUR",
+    "rest_status_observed": "online",
+    "verification": "One REST metadata response; exact v2 instrument snapshot/subscription and applicable Spanish-host access pending.",
+    "scientific_account_currency": "USD remains unchanged; retain native EUR prices, no implicit EUR/USD conversion."
+  },
+  "activation_requirements": [
+    "Separate user approval of source, rights, finite resource envelope and host.",
+    "Current terms assessment explicitly addressing own-use public-feed storage/retention; seek clarification only if needed, never presume redistribution rights.",
+    "Finite instrument-channel preflight: exact BTC/EUR entry online with preserved base/quote/increments; fail on absent or ambiguous mapping.",
+    "Acknowledge both channel subscriptions and bbo trigger; reject any channel/symbol/trigger mismatch.",
+    "Host clock synchronization and persistent local disk verified; dependencies and host costs separately authorized."
+  ],
+  "preflight_request": {
+    "method": "subscribe",
+    "params": {
+      "channel": "instrument",
+      "snapshot": true
+    },
+    "req_id": 1
+  },
+  "subscription_requests": [
+    {
+      "method": "subscribe",
+      "params": {
+        "channel": "trade",
+        "symbol": [
+          "BTC/EUR"
+        ],
+        "snapshot": true
+      },
+      "req_id": 2
+    },
+    {
+      "method": "subscribe",
+      "params": {
+        "channel": "ticker",
+        "symbol": [
+          "BTC/EUR"
+        ],
+        "event_trigger": "bbo",
+        "snapshot": true
+      },
+      "req_id": 3
+    }
+  ],
+  "semantics": {
+    "trade": "Keep original trade_id per book, taker side/order type and exact RFC3339 event timestamp. Snapshot overlap is explicitly marked.",
+    "ticker": "Capture supplied best bid/ask and quantities on documented bbo PRICE-level changes; not guaranteed every size-only update or complete order flow. Ignore rolling statistics for signal generation.",
+    "timestamp": "Record raw frame receipt with UTC time_ns and monotonic_ns immediately upon delivery to collector, before parsing; this is application receipt, not NIC/exchange receipt. Preserve source event timestamp separately. Parse numbers as Decimal and timestamps exactly, reject precision beyond ns.",
+    "acknowledgements": "time_in/time_out describe subscription acknowledgement, never per-trade local receipt."
+  },
+  "storage": {
+    "format": "Append-only raw UTF-8 frame journal plus envelope: session_id, local_sequence, received_utc_ns, received_monotonic_ns, frame_sha256, channel/symbol if parsed, schema/config/source hashes. Retain undecodable frames and error reason.",
+    "segments": "Rotate at 16 MiB or 300 seconds; atomically finalize segment checksum/count/first-last local sequence and fsync manifest; maintain checksum-linked immutable manifests.",
+    "write_buffer_limit_bytes": 4194304,
+    "fsync_interval_seconds": 1,
+    "raw_market_content_publication": false,
+    "retention": "Initial finite pilot: retain all raw and normalized QA content privately until explicit review. At approved duration/disk boundary stop cleanly; no silent ring-buffer overwrite or deletion. Future deletion requires versioned retention policy and tombstone audit."
+  },
+  "continuity": {
+    "trade_duplicate_key": "venue + original v2 symbol + trade_id, with payload-hash conflict check; retain every raw delivery, suppress only repeated logical effect. Without ID retain row provenance and do not collapse equal value/timestamps.",
+    "ticker_identity": "session_id + local_sequence; equal payload or timestamp is not evidence of duplicate exchange event. No provider sequence/checksum promised by ticker.",
+    "gap_policy": "Record disconnect intervals, parser/write failures and local sequence breaks; trade-ID jumps are diagnostic, not conclusive missing trades. No fabricated events or silent gap repair.",
+    "reconnection": "New session ID, persisted last durable checkpoint, exponential jittered reconnect delays 5..60 seconds and at most 10 attempts/10 minutes; recover instrument/status and snapshots before marking state fresh. Preserve old/new snapshots and overlapping trade deliveries.",
+    "snapshot_limit": "Latest 50 trades cannot ensure complete backfill; unknown interval remains unknown. No REST data backfill under this specification without additional scope.",
+    "shutdown": "On stop/limit/storage failure, disable reconnect, stop subscription intake, flush bounded buffer, close/fsync journal and manifest; if flush fails mark session incomplete. On restart verify hashes and complete prefix, retain partial tail separately and never silently truncate original bytes."
+  },
+  "proposed_finite_pilot_limits": {
+    "duration_seconds": 86400,
+    "vcpus": 1,
+    "ram_bytes": 1073741824,
+    "capture_disk_hard_bytes": 4294967296,
+    "stop_at_capture_bytes": 3758096384,
+    "minimum_free_disk_bytes": 2147483648,
+    "max_frame_bytes": 1048576,
+    "overflow_action": "Stop and record gap/limit, do not drop silently.",
+    "meaning": "Operational trial bounds to authorize later, not current execution permission or permanent research/data-horizon limits."
+  },
+  "hosting": {
+    "requirements": "One always-on process with supervised restart, stable TLS outbound connection, synchronized UTC clock, persistent disk, restricted filesystem access, rotation and actionable offline/disk/clock alerts. No inbound public service required.",
+    "options": [
+      "Personal computer: no new server fee but power/network/sleep interruptions need measurement; cannot promise 24/7 continuity.",
+      "Small hosted VM: 1 vCPU/1 GiB RAM proposed starting envelope, at least 20 GiB persistent disk; quote provider/region/transfer/backups before approval."
+    ],
+    "resource_model": "Raw bytes/day = mean_frames_per_second * mean_frame_bytes * 86400, plus envelopes/indexes. At 10 frames/s and1024 bytes/frame:884736000 bytes/day; at100 frames/s:8847360000 bytes/day. These are sensitivity examples, not measured Kraken rates. Compression benefit not assumed.",
+    "costs": "No provider selected or quoted. Public authentication-free access does not mean free hosting, unlimited rights or guaranteed service."
+  },
+  "future_acceptance": [
+    "No order/auth methods emitted; only allowlisted public subscriptions.",
+    "Exact frame receipt clocks and payload hashes survive restart; corrupt/partial tails detected.",
+    "Duplicate trades cannot double logical effects; equal-value distinct IDs preserved.",
+    "Disconnect leaves explicit unknown-coverage interval despite snapshot recovery.",
+    "bbo acknowledgement and observed change semantics recorded; do not overclaim size-only coverage.",
+    "Disk/duration/backpressure stop conditions exercised on synthetic frames before activation."
+  ],
+  "sources_file": "sources.json"
+}

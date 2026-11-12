@@ -160,6 +160,57 @@ def _key(event: MarketEventV2) -> tuple[int, str, str, int, str]:
     return (event.effective_ns, event.source_id, event.stream_id, event.sequence, event.event_id)
 
 
+def _ordered_information(
+    events: Sequence[MarketEventV2],
+    until_ns: int | None,
+) -> tuple[list[MarketEventV2], list[str]]:
+    """Shared ordering/identity boundary; source ordinals are not exchange trade IDs."""
+    if until_ns is not None:
+        exact_ns(until_ns)
+    eligible = [event for event in events if until_ns is None or event.effective_ns <= until_ns]
+    ordered = sorted(eligible, key=_key)
+    diagnostics = []
+    if [_key(event) for event in eligible] != [_key(event) for event in ordered]:
+        diagnostics.append("input_reordered_by_explicit_availability_policy")
+    unique = []
+    identities: dict[tuple[str, str, str], str] = {}
+    sequences: dict[tuple[str, str], int] = {}
+    for event in ordered:
+        prior = identities.get(event.identity)
+        if prior is not None:
+            if prior != event.digest:
+                raise ValueError("Conflicting duplicate event identity.")
+            diagnostics.append("identical_duplicate_ignored:" + ":".join(event.identity))
+            continue
+        stream = event.source_id, event.stream_id
+        expected = sequences.get(stream, 0) + 1
+        if event.sequence != expected:
+            raise ValueError(
+                f"Sequence gap/reversal for {stream}: expected {expected}, got {event.sequence}."
+            )
+        identities[event.identity] = event.digest
+        sequences[stream] = event.sequence
+        unique.append(event)
+    return unique, diagnostics
+
+
+class QAReplayCheckpoint(ImmutableV2):
+    version: Literal["historical-information-qa-v1"] = "historical-information-qa-v1"
+    consumed_count: int = Field(strict=True, ge=0)
+    prefix_hash: Digest
+
+
+class QAReplayResult(ImmutableV2):
+    """Private data-only result: no strategy, signals, matching, returns or execution port."""
+
+    version: Literal["historical-information-qa-v1"] = "historical-information-qa-v1"
+    events: tuple[MarketEventV2, ...]
+    diagnostics: tuple[str, ...]
+    checkpoint: QAReplayCheckpoint
+    data_class: Literal["exposed_structural_only"] = "exposed_structural_only"
+    financial_validation: Literal[False] = False
+
+
 def _bucket(events: list[MarketEventV2], interval_ns: int) -> TradeBucket:
     ordered = sorted(events, key=lambda event: (event.event_ns, event.sequence, event.event_id))
     first = ordered[0]
@@ -247,6 +298,51 @@ class MarketReplay:
     def __init__(self, policy: ReplayPolicy | None = None) -> None:
         self.policy = policy or ReplayPolicy()
 
+    def inspect_history(
+        self,
+        events: Sequence[MarketEventV2],
+        *,
+        data_class: str,
+        partition: str = "development",
+        purpose: str = "structural_qa",
+        until_ns: int | None = None,
+        checkpoint: QAReplayCheckpoint | None = None,
+    ) -> QAReplayResult:
+        """Explicit exposed-data QA entry point, isolated from synthetic signal generation."""
+        if (
+            data_class != "exposed_structural_only"
+            or partition != "development"
+            or purpose != "structural_qa"
+        ):
+            raise AccessDenied("Historical replay is restricted to exposed structural QA.")
+        if len(events) > self.policy.max_events:
+            raise ValueError("Historical QA exceeds the bounded event budget.")
+        validated = [MarketEventV2.model_validate(event.model_dump()) for event in events]
+        if any(isinstance(event.data, QuoteData) for event in validated):
+            raise ValueError(
+                "This historical QA route does not admit quotes or inferred liquidity."
+            )
+        ordered, diagnostics = _ordered_information(validated, until_ns)
+        prefix = content_hash(
+            {"qa_version": "historical-information-qa-v1", "tie_policy": TIE_POLICY}
+        )
+        checkpoints = [QAReplayCheckpoint(consumed_count=0, prefix_hash=prefix)]
+        for event in ordered:
+            prefix = content_hash({"previous": prefix, "event": event.digest})
+            checkpoints.append(
+                QAReplayCheckpoint(consumed_count=len(checkpoints), prefix_hash=prefix)
+            )
+        if checkpoint is not None:
+            if (
+                checkpoint.consumed_count >= len(checkpoints)
+                or checkpoints[checkpoint.consumed_count] != checkpoint
+            ):
+                raise ValueError("Historical QA checkpoint prefix changed; resume rejected.")
+            diagnostics.append("checkpoint_prefix_reconstructed_and_verified")
+        return QAReplayResult(
+            events=tuple(ordered), diagnostics=tuple(diagnostics), checkpoint=checkpoints[-1]
+        )
+
     def run(
         self,
         events: Sequence[MarketEventV2],
@@ -261,17 +357,9 @@ class MarketReplay:
             raise AccessDenied("This replay/analytical path accepts synthetic development only.")
         if len(events) > self.policy.max_events:
             raise ValueError("Replay input exceeds its finite technical budget.")
-        if until_ns is not None:
-            exact_ns(until_ns)
-        eligible = [event for event in events if until_ns is None or event.effective_ns <= until_ns]
-        ordered = sorted(eligible, key=_key)
-        diagnostics = []
-        if [_key(event) for event in eligible] != [_key(event) for event in ordered]:
-            diagnostics.append("input_reordered_by_explicit_availability_policy")
+        ordered, diagnostics = _ordered_information(events, until_ns)
         bars: dict[BarKey, BarSnapshot] = {}
         trades: dict[BucketKey, list[MarketEventV2]] = {}
-        identities: dict[tuple[str, str, str], str] = {}
-        sequences: dict[tuple[str, str], int] = {}
         records: list[ReplayRecord] = []
         signals: list[SyntheticSignal] = []
         quotes: list[MarketEventV2] = []
@@ -286,21 +374,6 @@ class MarketReplay:
             )
         ]
         for event in ordered:
-            prior = identities.get(event.identity)
-            if prior is not None:
-                if prior != event.digest:
-                    raise ValueError("Conflicting duplicate event identity.")
-                diagnostics.append("identical_duplicate_ignored:" + ":".join(event.identity))
-                continue
-            stream = event.source_id, event.stream_id
-            expected = sequences.get(stream, 0) + 1
-            if event.sequence != expected:
-                raise ValueError(
-                    f"Sequence gap/reversal for {stream}: "
-                    f"expected {expected}, got {event.sequence}."
-                )
-            identities[event.identity] = event.digest
-            sequences[stream] = event.sequence
             data = event.data
             feed = _feed(event)
             new_close = False
