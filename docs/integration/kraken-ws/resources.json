@@ -1,0 +1,17 @@
+{
+  "guarded_invocations": 8,
+  "guarded_wall_seconds": 18.566140487000666,
+  "guarded_cpu_seconds": 14.246204,
+  "peak_sampled_rss_bytes": 196894720,
+  "peak_sampled_temporary_bytes": 4969759,
+  "downloads_bytes": 0,
+  "real_capture_connections": 0,
+  "financial_experiments": 0,
+  "engineering_active_minutes_estimate": 55,
+  "engineering_measurement": "Approximate aggregate across interrupted sessions; not continuous elapsed wall time or per-agent CPU accounting",
+  "ceiling": "Fresh self-imposed7200engineering_seconds/900guarded_seconds/4CPU/8GiB/512MiB; no earlier campaign renewed",
+  "failures_preserved": [
+    "ws-types",
+    "ws-lint"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "label": "ws-preservation",
+  "command": [
+    ".venv/bin/python",
+    "tools/integration/verify_ws_delivery.py"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 1.2721304440019594,
+  "cpu_seconds": 1.244248,
+  "peak_sampled_rss_bytes": 12750848,
+  "peak_sampled_temporary_bytes": 4969759,
+  "stop_reason": null,
+  "started_utc": "2026-11-13T13:44:22Z",
+  "completed_utc": "2026-11-13T13:44:23Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User authorizes simulated Kraken WebSocket integration after dc859e8; real capture forbidden",
+    "ceiling_origin": "Conservative internal ceiling for this new simulated-only delivery, not reused old campaign permission",
+    "engineering_seconds": 7200,
+    "machine_seconds": 900,
+    "command_seconds": 180,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-ws-integration",
+    "additional_temp_roots": [],
+    "public_evidence": "docs/integration/kraken-ws/evidence",
+    "new_downloads": false,
+    "financial_execution": false,
+    "published_baseline_commit": "dc859e816ae3fc700f6423f1e32ea849d1f833f3"
+  },
+  "source_commit": "cbf2811fd65fb141dc1bc525257dd0c4d76c176b",
+  "evidence_ref": "refs/tags/evidence/kraken-ws-preservation",
+  "network": "IPv4/IPv6 denied; no new datasets/software downloads",
+  "limits": "CPU affinity; sampled RSS/disk, not hard peak certification; private output not exported"
+}

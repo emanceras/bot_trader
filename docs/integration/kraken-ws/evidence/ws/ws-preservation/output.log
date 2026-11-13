@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "baseline": "dc859e816ae3fc700f6423f1e32ea849d1f833f3",
+  "protected_changes": [],
+  "stable_environment_files_unchanged": 4630,
+  "history": {
+    "baseline_commit": "dc859e816ae3fc700f6423f1e32ea849d1f833f3",
+    "files": [
+      {
+        "file": "DECISIONS.md",
+        "published_bytes": 107805,
+        "current_bytes": 107805,
+        "previous_sha256": "2b3cab1ee2ae88e93d8995c5753ef12e398882bf492c96f587a08a96da3b8e5c",
+        "current_sha256": "2b3cab1ee2ae88e93d8995c5753ef12e398882bf492c96f587a08a96da3b8e5c",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      },
+      {
+        "file": "EXPERIMENTS.md",
+        "published_bytes": 14826,
+        "current_bytes": 14826,
+        "previous_sha256": "63489f9bca4bc0b2a64dd5934fb5425e973093345c75416dbc1ab2966fe04b4e",
+        "current_sha256": "63489f9bca4bc0b2a64dd5934fb5425e973093345c75416dbc1ab2966fe04b4e",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      }
+    ],
+    "accepted": true,
+    "limit": "Checks content and declared amendment identity, not authenticity of authority."
+  },
+  "paired_reports": 2,
+  "local_report_links": 10,
+  "scope": "Preservation/document audit only; no market, engine or financial test"
+}

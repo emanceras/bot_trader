@@ -1,6 +1,8 @@
 # bot_trader
 
-Latest delivery: [compact evidence and Kraken historical QA](docs/integration/kraken/REPORT.md). Published-source histories are protected by an append-only guard; failed dirty states are reconstructible from Git refs. A versioned Kraken adapter now normalizes and replays bounded existing historical samples through a data-only route, with no investment signals. Future public capture remains a disabled specification.
+Latest delivery: [simulated Kraken WebSocket capture and Market Replay](docs/en/integration/kraken-ws.md) ([español](docs/es/integration/kraken-ws.md)). Public trade/ticker schemas, durable original messages, bounded reconnection, exact normalization and causal data-only replay are integrated and tested with injected transport. No real connection is activated; the report defines the conditional 5–10 minute pilot.
+
+Previous delivery: [compact evidence and Kraken historical QA](docs/integration/kraken/REPORT.md). Published-source histories are protected by an append-only guard; failed dirty states are reconstructible from Git refs. A versioned Kraken adapter now normalizes and replays bounded existing historical samples through a data-only route, with no investment signals. Future public capture remains a disabled specification.
 
 Previous integrated implementation: [synthetic integration report](docs/integration/REPORT.md) and [resumable checkpoint](STATE.md). The platform now connects immutable local inputs, exact-time events, causal replay, fixed synthetic signals, isolated native buy/sell execution and independent accounting. Full/partial/cancel/rejection paths pass the bounded integration checks. This is technical evidence only; Nautilus remains conditional and Phase V is not authorized.
 

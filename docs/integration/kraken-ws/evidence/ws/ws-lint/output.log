@@ -1,0 +1,35 @@
+E501 Line too long (101 > 100)
+  --> tools/integration/make_fixtures.py:60:101
+   |
+58 |                   source_schema="fixture-jsonl-v2", locator=f"internal:integration/{name}",
+59 |                   rights="Internally authored synthetic fixture; project technical use permitted.",
+60 |                   permitted_use="technical_validation_only", acquired_ns=raw_path.stat().st_mtime_ns,
+   |                                                                                                     ^
+61 |                   raw_sha256=hashlib.sha256(raw).hexdigest(), size_bytes=len(raw),
+62 |                   data_class="synthetic", partition="development")
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> tools/integration/verify_delivery.py:3:1
+  |
+1 |   """Read-only preservation audit; does not rerun an engine or financial experiment."""
+2 |
+3 | / import hashlib
+4 | | import json
+5 | | from pathlib import Path
+6 | | import subprocess
+  | |_________________^
+7 |
+8 |   ROOT = Path(__file__).resolve().parents[2]
+  |
+help: Organize imports
+  |
+4 | import json
+5 + import subprocess
+6 | from pathlib import Path
+  - import subprocess
+7 |
+  |
+
+Found 2 errors.
+[*] 1 fixable with `--fix`.

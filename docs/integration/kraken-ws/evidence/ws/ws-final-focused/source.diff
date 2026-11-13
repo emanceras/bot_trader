@@ -1,0 +1,2875 @@
+diff --git a/STATE.md b/STATE.md
+index b7a2cb5..4f570b1 100644
+--- a/STATE.md
++++ b/STATE.md
+@@ -1,9 +1,8 @@
+ # Integration checkpoint
+ 
+-- Published checkpoint: `kraken-historical-b` (resolve tag); A=`31c1b59`/`kraken-historical-a`; previous synthetic integration=`7206eb1`.
+-- Complete A/B: compact immutable Git evidence, published-prefix guard, Kraken historical adapter and data-only replay. Core v2 unchanged. Existing ZIPs verified;64trades+64bars normalized/replayed privately. No financial route/engine involved.
+-- Executed:10 maintenance tests,3 deletion regressions, reconstructed intentional failure;41 adapter/replay tests;190 backend tests; mypy/Ruff pass. Actual close canary0before/1atclose, restart/idempotence/duplicate checks pass. Evidence and lint negatives preserved.
+-- Limits: two fixed prefixes, optimistic historical availability with received_ns absent; no quarter-wide completeness or financial admission. Rights-reference JSON was bound after original QA; receipt documents this limitation. Old evidence and4630 stable environment files unchanged.
+-- Resources: 132.427/900 monitored seconds, 186.9MiB sampledRSS, 6.85MiB sampledadditional footprint. Engineering approximately60min at release audit; earlier portion estimated. Fresh2h/4CPU/8GiB/512MiB budget; no downloads of datasets/software or costs.
+-- Next exact action: review `docs/integration/kraken/REPORT.md` and disabled `capture-spec.json`. Future capture needs separate source/rights/resource authorization, v2 instrument preflight and finite approved pilot. Do not start capture or repeat M/R/E/E1.
+-- E3/E4 economics pending;26specifications,USD,C1/C3,C2,C4/C5,T/D/U/V/F,holdout and Phase V restrictions unchanged. A/B scope complete; this budget is not permission for a new campaign.
++- Last published: `dc859e8` / `kraken-historical-b`; A=`31c1b59`. Historical adapter and previous tests remain complete.
++- Current authority: simulated Kraken WSv2 BTC/EUR trade+ticker/BBO → archive → normalization → data-only replay. No real connections, financial strategies, credentials, new dependencies or engine research.
++- In progress: reusable durable raw capture journal, exact WS normalizer/protocol, bounded injected transport orchestration and separate capture QA profile. Contracts v2 remain unchanged.
++- Not yet executed: new tests or capture. Next: finish composition, run synthetic faults/restart/causality tests under `docs/integration/kraken-ws/budget.json`, publish one recoverable commit and synchronized EN/ES report/procedure.
++- Self-imposed fresh technical ceilings:900 guarded seconds,4CPU,8GiB,512MiB extra; do not reuse completed historical-package resources/permissions. Engineering checkpoint outside Git in campaign scratch.
++- Future5–10min live pilot requires separate rights/source/resources approval, transport implementation/admission and BTC/EUR v2 preflight. Stable environment has no admitted WS client. E3/E4,26specifications,holdout and Phase V/paper/live remain unchanged.
+diff --git a/docs/integration/kraken-ws/budget.json b/docs/integration/kraken-ws/budget.json
+new file mode 100644
+index 0000000..87c6b7c
+--- /dev/null
++++ b/docs/integration/kraken-ws/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User authorizes simulated Kraken WebSocket integration after dc859e8; real capture forbidden",
++  "ceiling_origin": "Conservative internal ceiling for this new simulated-only delivery, not reused old campaign permission",
++  "engineering_seconds": 7200,
++  "machine_seconds": 900,
++  "command_seconds": 180,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-ws-integration",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-ws/evidence",
++  "new_downloads": false,
++  "financial_execution": false,
++  "published_baseline_commit": "dc859e816ae3fc700f6423f1e32ea849d1f833f3"
++}
+diff --git a/src/bot_trader/application.py b/src/bot_trader/application.py
+index 3f30cb0..508610b 100644
+--- a/src/bot_trader/application.py
++++ b/src/bot_trader/application.py
+@@ -8,6 +8,7 @@ from bot_trader.core.security import Policy
+ from bot_trader.core.settings import Settings
+ from bot_trader.lab import HypothesisService, LabService
+ from bot_trader.market_data import DatasetService, LocalArtifactStore
++from bot_trader.market_data.capture_service import KrakenCaptureService
+ from bot_trader.persistence import Database, Repository
+ from bot_trader.simulation.slice import SliceService
+ 
+@@ -23,6 +24,7 @@ class Services:
+     lab: LabService
+     hypotheses: HypothesisService
+     slice: SliceService
++    capture: KrakenCaptureService
+ 
+ 
+ def build_registry() -> Registry:
+@@ -111,4 +113,5 @@ def build_services(settings: Settings) -> Services:
+         LabService(repo, datasets, store, policy, settings),
+         HypothesisService(repo, policy),
+         SliceService(store, policy),
++        KrakenCaptureService(store, policy, settings.state_path / "captures"),
+     )
+diff --git a/src/bot_trader/market_data/capture.py b/src/bot_trader/market_data/capture.py
+new file mode 100644
+index 0000000..f412795
+--- /dev/null
++++ b/src/bot_trader/market_data/capture.py
+@@ -0,0 +1,475 @@
++"""Bounded, append-only raw receipt journal over the existing artifact store.
++
++Local durability uses the same POSIX filesystem assumptions as LocalArtifactStore.
++A receipt ordinal is not an exchange sequence or evidence of upstream completeness.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++import shutil
++import stat
++from collections.abc import Iterator
++from contextlib import contextmanager
++from pathlib import Path
++from typing import Any, Self
++from uuid import uuid4
++
++from pydantic import Field, model_validator
++
++from bot_trader.core.contracts import Identifier
++from bot_trader.core.events import (
++    Digest,
++    ImmutableV2,
++    Nanoseconds,
++    canonical_bytes,
++    content_hash,
++)
++from bot_trader.market_data.storage import ArtifactStore
++
++_RECORD_CHARGE = 8192
++_METADATA_LIMIT = 4096
++
++
++class CaptureLimitError(ValueError):
++    """A configured capture bound prevents a further durable receipt."""
++
++
++class CaptureLimits(ImmutableV2):
++    max_frames: int = Field(default=1000, strict=True, gt=0, le=10_000)
++    max_records: int = Field(default=2000, strict=True, gt=0, le=20_000)
++    max_frame_bytes: int = Field(default=1_048_576, strict=True, gt=0, le=1_048_576)
++    max_total_bytes: int = Field(default=67_108_864, strict=True, gt=0)
++    min_free_disk_bytes: int = Field(default=0, strict=True, ge=0)
++
++
++class CaptureRecord(ImmutableV2):
++    capture_id: Identifier
++    session_id: Identifier
++    local_sequence: int = Field(strict=True, ge=1)
++    kind: Identifier
++    raw_sha256: Digest | None = None
++    raw_size: int = Field(default=0, strict=True, ge=0)
++    received_ns: Nanoseconds
++    monotonic_ns: Nanoseconds
++    config_hash: Digest
++    source_id: Identifier
++    source_version: Identifier
++    details: dict[str, Any] = Field(default_factory=dict)
++    previous_hash: Digest
++    abandoned_charge: int = Field(default=0, strict=True, ge=0)
++
++    @model_validator(mode="after")
++    def bounded(self) -> Self:
++        if (self.kind == "frame") != (self.raw_sha256 is not None):
++            raise ValueError("Only raw frame receipts carry a content hash.")
++        if self.kind != "frame" and self.raw_size:
++            raise ValueError("Control records cannot claim raw bytes.")
++        if len(canonical_bytes(self.model_dump(mode="json"))) > _METADATA_LIMIT:
++            raise CaptureLimitError("Receipt metadata exceeds its bounded envelope.")
++        return self
++
++    @property
++    def digest(self) -> str:
++        return content_hash(self.model_dump(mode="json"))
++
++
++class CaptureCheckpoint(ImmutableV2):
++    capture_id: Identifier
++    config_hash: Digest
++    committed_records: int
++    frames: int
++    total_charged_bytes: int
++    last_hash: Digest
++    pending_intent: bool
++
++
++class CaptureJournal:
++    """Single local writer; raw bytes precede publication of each immutable index.
++
++    The index and envelope establish local integrity, not source truth or adversarial
++    tamper resistance. Explicit recovery never invents an uncommitted market frame.
++    """
++
++    def __init__(
++        self,
++        store: ArtifactStore,
++        directory: Path,
++        capture_id: str,
++        config_hash: str,
++        limits: CaptureLimits | None = None,
++        source_id: str = "kraken-ws-v2",
++        source_version: str = "1",
++        rights_reference: str = "synthetic-technical-fixture",
++        synthetic: bool = True,
++    ) -> None:
++        self.store, self.directory = store, Path(os.path.abspath(directory))
++        self.capture_id, self.config_hash = capture_id, config_hash
++        self.source_id, self.source_version = source_id, source_version
++        self.limits = CaptureLimits.model_validate((limits or CaptureLimits()).model_dump())
++        if type(synthetic) is not bool or not rights_reference or len(rights_reference) > 1024:
++            raise ValueError("Capture requires a bounded rights declaration and data class.")
++        # Validate identities even for an empty journal.
++        CaptureRecord(
++            capture_id=capture_id,
++            session_id="header",
++            local_sequence=1,
++            kind="header",
++            received_ns=0,
++            monotonic_ns=0,
++            config_hash=config_hash,
++            source_id=source_id,
++            source_version=source_version,
++            previous_hash="0" * 64,
++        )
++        self._safe_directory()
++        self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
++        self._safe_directory()
++        self._index = self.directory / "records"
++        self._index.mkdir(exist_ok=True, mode=0o700)
++        self._header = {
++            "version": "raw-receipt-journal-v1",
++            "capture_id": capture_id,
++            "config_hash": config_hash,
++            "source_id": source_id,
++            "source_version": source_version,
++            "rights_reference": rights_reference,
++            "synthetic": synthetic,
++            "limits": self.limits.model_dump(mode="json"),
++        }
++        self._genesis = content_hash(self._header)
++        with self._writer():
++            header = self.directory / "capture.json"
++            if not header.exists():
++                self._publish(header, canonical_bytes(self._header))
++            if self._read(header) != canonical_bytes(self._header):
++                raise ValueError(
++                    "Capture identity, source, rights, configuration or limits changed."
++                )
++            self._load()
++
++    def _safe_directory(self) -> None:
++        if any(path.is_symlink() for path in (self.directory, *self.directory.parents)):
++            raise ValueError("Capture directory cannot contain symlinks.")
++
++    @contextmanager
++    def _writer(self) -> Iterator[None]:
++        import fcntl  # POSIX durability is required only when capture is instantiated.
++
++        self._safe_directory()
++        descriptor = os.open(
++            self.directory / "writer.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600
++        )
++        try:
++            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
++            yield
++        finally:
++            os.close(descriptor)
++
++    @contextmanager
++    def capture_lease(self) -> Iterator[None]:
++        """One collector/inspector per capture; separate from short append locks."""
++        import fcntl
++
++        self._safe_directory()
++        descriptor = os.open(
++            self.directory / "capture.lock", os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600
++        )
++        try:
++            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
++            yield
++        finally:
++            os.close(descriptor)
++
++    @staticmethod
++    def _sync(directory: Path) -> None:
++        descriptor = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
++        try:
++            os.fsync(descriptor)
++        finally:
++            os.close(descriptor)
++
++    def _publish(self, path: Path, data: bytes, *, replace: bool = False) -> None:
++        if path.parent.is_symlink():
++            raise ValueError("Journal metadata directory cannot be a symlink.")
++        temporary = path.parent / (".pending-" + uuid4().hex)
++        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
++        try:
++            with os.fdopen(descriptor, "wb") as stream:
++                stream.write(data)
++                stream.flush()
++                os.fsync(stream.fileno())
++            if replace:
++                os.replace(temporary, path)
++            else:
++                os.link(temporary, path)
++            self._sync(path.parent)
++        finally:
++            temporary.unlink(missing_ok=True)
++
++    @staticmethod
++    def _read(path: Path) -> bytes:
++        if path.parent.is_symlink():
++            raise ValueError("Journal metadata directory cannot be a symlink.")
++        descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
++        with os.fdopen(descriptor, "rb") as stream:
++            metadata = os.fstat(stream.fileno())
++            if not stat.S_ISREG(metadata.st_mode) or metadata.st_size > _METADATA_LIMIT:
++                raise ValueError("Journal metadata is not a bounded regular file.")
++            return stream.read(_METADATA_LIMIT + 1)
++
++    def _pending(self) -> CaptureRecord | None:
++        path = self.directory / "pending.json"
++        if not path.exists() and not path.is_symlink():
++            return None
++        record = CaptureRecord.model_validate_json(self._read(path))
++        self._binding(record)
++        sequence = record.local_sequence
++        if sequence == len(self._records) + 1:
++            if record.previous_hash != self._head:
++                raise ValueError("Pending intent does not extend the committed prefix.")
++        elif sequence != len(self._records) or record.digest != self._head:
++            raise ValueError("Pending intent conflicts with the committed prefix.")
++        return record
++
++    def _binding(self, record: CaptureRecord) -> None:
++        if (record.capture_id, record.config_hash, record.source_id, record.source_version) != (
++            self.capture_id,
++            self.config_hash,
++            self.source_id,
++            self.source_version,
++        ):
++            raise ValueError("Receipt identity or provenance differs from capture header.")
++        if record.raw_size > self.limits.max_frame_bytes:
++            raise CaptureLimitError("Raw frame exceeds the configured bound.")
++
++    def _load(self) -> None:
++        if self._index.is_symlink():
++            raise ValueError("Journal index cannot be a symlink.")
++        records: list[CaptureRecord] = []
++        head = self._genesis
++        clocks: dict[str, int] = {}
++        for path in sorted(self._index.iterdir()):
++            # Leftover unpublished atomic-write temporaries are not committed receipts.
++            if path.name.startswith(".pending-"):
++                continue
++            if path.name != f"{len(records) + 1:012d}.json":
++                raise ValueError("Journal index has a missing, unexpected or reordered entry.")
++            reference = json.loads(self._read(path))
++            if not isinstance(reference, dict) or set(reference) != {"record_hash"}:
++                raise ValueError("Invalid journal index reference.")
++            raw = self.store.get(reference["record_hash"], "json")
++            record = CaptureRecord.model_validate_json(raw)
++            self._binding(record)
++            if (
++                record.local_sequence != len(records) + 1
++                or record.previous_hash != head
++                or record.digest != reference["record_hash"]
++            ):
++                raise ValueError("Journal receipt hash, ordinal or predecessor changed.")
++            if record.monotonic_ns < clocks.get(record.session_id, 0):
++                raise ValueError("Monotonic clock reversed within a journal session.")
++            clocks[record.session_id] = record.monotonic_ns
++            if record.kind == "frame":
++                self.read_frame(record)
++            records.append(record)
++            head = record.digest
++            if len(records) > self.limits.max_records:
++                raise CaptureLimitError("Committed journal exceeds its record bound.")
++        self._records, self._head = records, head
++        self._pending()
++
++    def records(self) -> tuple[CaptureRecord, ...]:
++        with self._writer():
++            self._load()
++            return tuple(record.model_copy(deep=True) for record in self._records)
++
++    def frames(self) -> tuple[CaptureRecord, ...]:
++        return tuple(record for record in self.records() if record.kind == "frame")
++
++    def read_frame(self, record: CaptureRecord) -> bytes:
++        record = CaptureRecord.model_validate(record.model_dump())
++        self._binding(record)
++        if record.kind != "frame" or record.raw_sha256 is None:
++            raise ValueError("Only frame receipts reference raw content.")
++        raw = self.store.get(record.raw_sha256, "bin") if record.raw_size else b""
++        if len(raw) != record.raw_size or hashlib.sha256(raw).hexdigest() != record.raw_sha256:
++            raise ValueError("Raw frame size or checksum changed.")
++        return raw
++
++    @property
++    def checkpoint(self) -> CaptureCheckpoint:
++        pending = self._pending()
++        charged = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
++        if pending is not None and pending.local_sequence > len(self._records):
++            charged += _RECORD_CHARGE + pending.raw_size + pending.abandoned_charge
++        return CaptureCheckpoint(
++            capture_id=self.capture_id,
++            config_hash=self.config_hash,
++            committed_records=len(self._records),
++            frames=sum(r.kind == "frame" for r in self._records),
++            total_charged_bytes=charged,
++            last_hash=self._head,
++            pending_intent=pending is not None,
++        )
++
++    @property
++    def diagnostics(self) -> tuple[str, ...]:
++        return tuple(
++            f"utc_receipt_regression:{current.local_sequence}"
++            for previous, current in zip(self._records, self._records[1:], strict=False)
++            if current.received_ns < previous.received_ns
++        )
++
++    def _budget(self, record: CaptureRecord) -> None:
++        total = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
++        charge = _RECORD_CHARGE + record.raw_size + record.abandoned_charge
++        if (
++            len(self._records) + 1 > self.limits.max_records
++            or sum(r.kind == "frame" for r in self._records) + (record.kind == "frame")
++            > self.limits.max_frames
++            or total + charge > self.limits.max_total_bytes
++        ):
++            raise CaptureLimitError("Capture record, frame or conservative disk budget exhausted.")
++        if shutil.disk_usage(self.directory).free < self.limits.min_free_disk_bytes + charge:
++            raise CaptureLimitError("Capture free-disk reserve would be crossed.")
++
++    def _record(
++        self,
++        kind: str,
++        session_id: str,
++        received_ns: int,
++        monotonic_ns: int,
++        raw: bytes | None,
++        details: dict[str, Any] | None = None,
++        abandoned_charge: int = 0,
++    ) -> CaptureRecord:
++        if len(canonical_bytes(details or {})) > 2048:
++            raise CaptureLimitError("Receipt details exceed the bounded metadata budget.")
++        record = CaptureRecord(
++            capture_id=self.capture_id,
++            session_id=session_id,
++            local_sequence=len(self._records) + 1,
++            kind=kind,
++            raw_sha256=hashlib.sha256(raw).hexdigest() if raw is not None else None,
++            raw_size=len(raw) if raw is not None else 0,
++            received_ns=received_ns,
++            monotonic_ns=monotonic_ns,
++            config_hash=self.config_hash,
++            source_id=self.source_id,
++            source_version=self.source_version,
++            details=details or {},
++            previous_hash=self._head,
++            abandoned_charge=abandoned_charge,
++        )
++        self._binding(record)
++        previous = next((r for r in reversed(self._records) if r.session_id == session_id), None)
++        if previous is not None and record.monotonic_ns < previous.monotonic_ns:
++            raise ValueError("Monotonic receipt clock cannot reverse within a session.")
++        self._budget(record)
++        return record
++
++    def _clear_pending(self) -> None:
++        (self.directory / "pending.json").unlink()
++        self._sync(self.directory)
++
++    def _commit(self, record: CaptureRecord, raw: bytes | None) -> CaptureRecord:
++        if raw:
++            if self.store.put(raw, "bin") != record.raw_sha256:
++                raise ValueError("Artifact store changed the raw content identity.")
++        digest = self.store.put(canonical_bytes(record.model_dump(mode="json")), "json")
++        if digest != record.digest:
++            raise ValueError("Artifact store changed the receipt identity.")
++        self._publish(
++            self._index / f"{record.local_sequence:012d}.json",
++            canonical_bytes({"record_hash": digest}),
++        )
++        self._records.append(record.model_copy(deep=True))
++        self._head = digest
++        self._clear_pending()
++        return record.model_copy(deep=True)
++
++    def append_frame(
++        self, raw: bytes, *, session_id: str, received_ns: int, monotonic_ns: int
++    ) -> CaptureRecord:
++        if not isinstance(raw, bytes):
++            raise ValueError("Original frames must be bytes, without decoding or reserialization.")
++        return self._append("frame", session_id, received_ns, monotonic_ns, raw)
++
++    def append_control(
++        self,
++        kind: str,
++        *,
++        session_id: str,
++        received_ns: int,
++        monotonic_ns: int,
++        details: dict[str, Any] | None = None,
++    ) -> CaptureRecord:
++        if kind == "frame":
++            raise ValueError("A control cannot impersonate a raw frame receipt.")
++        return self._append(kind, session_id, received_ns, monotonic_ns, None, details)
++
++    def _append(
++        self,
++        kind: str,
++        session_id: str,
++        received_ns: int,
++        monotonic_ns: int,
++        raw: bytes | None,
++        details: dict[str, Any] | None = None,
++    ) -> CaptureRecord:
++        with self._writer():
++            self._load()
++            if self._pending() is not None:
++                raise ValueError("Pending writer intent requires explicit recovery before append.")
++            record = self._record(kind, session_id, received_ns, monotonic_ns, raw, details)
++            self._publish(
++                self.directory / "pending.json", canonical_bytes(record.model_dump(mode="json"))
++            )
++            return self._commit(record, raw)
++
++    def recover(
++        self, *, writer_stopped: bool, session_id: str, received_ns: int, monotonic_ns: int
++    ) -> CaptureRecord | None:
++        if writer_stopped is not True:
++            raise ValueError("Recovery requires explicit confirmation that the old writer stopped.")
++        with self._writer():
++            self._load()
++            pending = self._pending()
++            if pending is None:
++                return None
++            committed = pending.local_sequence == len(self._records)
++            if pending.kind == "interruption" and "recovery_of" in pending.details:
++                if committed:
++                    self._clear_pending()
++                    return pending
++                return self._commit(pending, None)
++            record = self._record(
++                "interruption",
++                session_id,
++                received_ns,
++                monotonic_ns,
++                None,
++                {
++                    "recovery_of": pending.digest,
++                    "intent_already_committed": committed,
++                    "coverage": "unknown",
++                    "uncommitted_frame_not_reconstructed": not committed,
++                },
++                abandoned_charge=0 if committed else _RECORD_CHARGE + pending.raw_size,
++            )
++            preserved = self.directory / ("interrupted-" + pending.digest + ".json")
++            raw = canonical_bytes(pending.model_dump(mode="json"))
++            if preserved.exists():
++                if self._read(preserved) != raw:
++                    raise ValueError("Preserved writer intent changed.")
++            else:
++                self._publish(preserved, raw)
++            self._publish(
++                self.directory / "pending.json",
++                canonical_bytes(record.model_dump(mode="json")),
++                replace=True,
++            )
++            return self._commit(record, None)
+diff --git a/src/bot_trader/market_data/capture_service.py b/src/bot_trader/market_data/capture_service.py
+new file mode 100644
+index 0000000..c391f61
+--- /dev/null
++++ b/src/bot_trader/market_data/capture_service.py
+@@ -0,0 +1,401 @@
++"""Finite simulated public-feed capture composed with the platform's storage and policy.
++
++Transport is injected; this module has no socket client or order interface. A future
++real connector requires separate admission rather than a runtime flag bypass.
++"""
++
++import hashlib
++import os
++import re
++from collections.abc import Callable
++from pathlib import Path
++from typing import Any, Literal, Protocol
++
++from pydantic import Field
++
++from bot_trader.core.contracts import Principal
++from bot_trader.core.errors import AccessDenied, PlatformError
++from bot_trader.core.events import ImmutableV2, canonical_bytes, content_hash, exact_ns
++from bot_trader.core.security import Policy
++from bot_trader.market_data.archive import LocalArchive, SourceSpec
++from bot_trader.market_data.capture import CaptureJournal, CaptureLimitError, CaptureLimits
++from bot_trader.market_data.kraken_ws import SCHEMA, KrakenProtocol, KrakenWSNormalizer
++from bot_trader.market_data.replay import CaptureReplayCheckpoint, MarketReplay
++from bot_trader.market_data.storage import ArtifactStore
++
++
++class ReceiptClock(Protocol):
++    def now(self) -> tuple[int, int]: ...
++    def sleep_ns(self, duration_ns: int) -> None: ...
++
++
++class FrameTransport(Protocol):
++    simulated: bool
++
++    def connect(self, endpoint: str) -> None: ...
++    def send(self, request: dict[str, Any]) -> None: ...
++    def receive(self, timeout_ns: int) -> bytes: ...
++    def close(self) -> None: ...
++
++
++class FixtureComplete(Exception):
++    """Finite scripted input ended; a real remote disconnect is not this condition."""
++
++
++class CaptureConfiguration(ImmutableV2):
++    version: Literal["kraken-simulated-capture-v1"] = "kraken-simulated-capture-v1"
++    mode: Literal["simulated"] = "simulated"
++    synthetic: Literal[True] = True
++    symbol: Literal["BTC/EUR"] = "BTC/EUR"
++    endpoint: Literal["wss://ws.kraken.com/v2"] = "wss://ws.kraken.com/v2"
++    partition: Literal["development"] = "development"
++    max_duration_ns: int = Field(default=600_000_000_000, strict=True, gt=0, le=600_000_000_000)
++    receive_timeout_ns: int = Field(default=2_000_000_000, strict=True, gt=0, le=10_000_000_000)
++    max_reconnects: int = Field(default=2, strict=True, ge=0, le=10)
++    reconnect_delay_ns: int = Field(default=1_000_000_000, strict=True, ge=0, le=10_000_000_000)
++    limits: CaptureLimits = CaptureLimits()
++
++    @property
++    def digest(self) -> str:
++        return content_hash(self.model_dump(mode="json"))
++
++
++def collect(
++    journal: CaptureJournal,
++    config: CaptureConfiguration,
++    factory: Callable[[int], FrameTransport],
++    clock: ReceiptClock,
++    stop_requested: Callable[[], bool] = lambda: False,
++) -> dict[str, Any]:
++    """Bounded collector; every received raw frame is durable before protocol decoding."""
++    with journal.capture_lease():
++        return _collect(journal, config, factory, clock, stop_requested)
++
++
++def _collect(
++    journal: CaptureJournal,
++    config: CaptureConfiguration,
++    factory: Callable[[int], FrameTransport],
++    clock: ReceiptClock,
++    stop_requested: Callable[[], bool],
++) -> dict[str, Any]:
++    config = CaptureConfiguration.model_validate(config.model_dump())
++    if config.digest != journal.config_hash:
++        raise ValueError("Collector configuration differs from the journal binding.")
++    if journal.checkpoint.pending_intent:
++        raise ValueError("Explicit interrupted-writer recovery is required before capture.")
++    initial = journal.records()
++    if (
++        initial
++        and initial[-1].kind == "capture_stop"
++        and initial[-1].details.get("reason") != "interrupted"
++    ):
++        return {
++            "reason": initial[-1].details["reason"],
++            "resumed_terminal": True,
++            "sessions_started": sum(r.kind == "session_start" for r in initial),
++            "checkpoint": journal.checkpoint.model_dump(mode="json"),
++            "diagnostics": [],
++            "real_capture": False,
++        }
++    utc, started_monotonic = clock.now()
++    exact_ns(utc)
++    exact_ns(started_monotonic)
++    start_utc = initial[0].received_ns if initial else utc
++    deadline = start_utc + config.max_duration_ns
++    sessions = sum(record.kind == "session_start" for record in initial)
++    reason = "reconnect_limit"
++    diagnostics: list[str] = []
++    last_utc = initial[-1].received_ns if initial else utc
++    session = "none"
++    transport: FrameTransport | None = None
++
++    def control(kind: str, details: dict[str, Any] | None = None) -> None:
++        nonlocal last_utc
++        received, monotonic = clock.now()
++        journal.append_control(
++            kind,
++            session_id=session,
++            received_ns=received,
++            monotonic_ns=monotonic,
++            details=details or {},
++        )
++        last_utc = max(last_utc, received)
++
++    def close_transport() -> None:
++        nonlocal transport
++        current, transport = transport, None
++        if current is not None:
++            try:
++                current.close()
++            except (OSError, ValueError):
++                diagnostics.append("transport_close_not_confirmed")
++
++    try:
++        while sessions <= config.max_reconnects:
++            now, monotonic = clock.now()
++            if now >= deadline or monotonic - started_monotonic >= config.max_duration_ns:
++                reason = "duration_limit"
++                break
++            if stop_requested():
++                reason = "user_stop"
++                break
++            if journal.checkpoint.frames >= config.limits.max_frames:
++                reason = "frame_limit"
++                break
++            session = f"session-{sessions + 1}"
++            transport = factory(sessions)
++            if transport.simulated is not True:
++                raise AccessDenied("This delivery has no admitted real-capture transport.")
++            sessions += 1
++            protocol = KrakenProtocol()
++            subscribed = False
++            control("session_start", {"attempt": sessions, "deadline_utc_ns": deadline})
++            try:
++                transport.connect(config.endpoint)
++                for request in protocol.requests_for_preflight():
++                    control("public_request", {"request": request})
++                    transport.send(request)
++                while True:
++                    now, monotonic = clock.now()
++                    if now >= deadline or monotonic - started_monotonic >= config.max_duration_ns:
++                        reason = "duration_limit"
++                        break
++                    if stop_requested():
++                        reason = "user_stop"
++                        break
++                    if journal.checkpoint.frames >= config.limits.max_frames:
++                        reason = "frame_limit"
++                        break
++                    remaining = min(
++                        deadline - now, config.max_duration_ns - (monotonic - started_monotonic)
++                    )
++                    raw = transport.receive(min(config.receive_timeout_ns, remaining))
++                    received, received_monotonic = clock.now()  # before parsing
++                    journal.append_frame(
++                        raw,
++                        session_id=session,
++                        received_ns=received,
++                        monotonic_ns=received_monotonic,
++                    )
++                    if received < last_utc:
++                        reason = "clock_regression"
++                        control("clock_regression", {"normalization_allowed": False})
++                        break
++                    last_utc = received
++                    if (
++                        received >= deadline
++                        or received_monotonic - started_monotonic >= config.max_duration_ns
++                    ):
++                        # Preserve the receipt but do not subscribe or consume another frame.
++                        reason = "duration_limit"
++                        break
++                    result = protocol.accept(raw)
++                    diagnostics.extend(result.diagnostics)
++                    if protocol.preflight_ready and not subscribed:
++                        for request in protocol.market_requests():
++                            control("public_request", {"request": request})
++                            transport.send(request)
++                        subscribed = True
++            except FixtureComplete:
++                reason = "fixture_complete"
++            except (ConnectionError, TimeoutError) as error:
++                reason = "disconnected"
++                control("coverage_gap", {"cause": type(error).__name__, "coverage": "unknown"})
++            except CaptureLimitError:
++                raise
++            except ValueError as error:
++                reason = "protocol_error"
++                control(
++                    "protocol_error", {"error_type": type(error).__name__, "raw_preserved": True}
++                )
++            finally:
++                close_transport()
++            if "transport_close_not_confirmed" in diagnostics:
++                reason = "transport_close_failure"
++                break
++            if reason != "disconnected":
++                break
++            if sessions > config.max_reconnects:
++                reason = "reconnect_limit"
++                break
++            jitter = (
++                int(hashlib.sha256(f"{journal.capture_id}:{sessions}".encode()).hexdigest()[:8], 16)
++                % 201
++                + 900
++            )
++            delay = (
++                min(10_000_000_000, config.reconnect_delay_ns * 2 ** (sessions - 1))
++                * jitter
++                // 1000
++            )
++            now, monotonic = clock.now()
++            remaining = min(
++                deadline - now, config.max_duration_ns - (monotonic - started_monotonic)
++            )
++            if remaining <= 0:
++                reason = "duration_limit"
++                break
++            control(
++                "reconnect_wait", {"delay_ns": min(delay, remaining), "policy": "bounded-jitter-v1"}
++            )
++            clock.sleep_ns(min(delay, remaining))
++        control("capture_stop", {"reason": reason})
++    except CaptureLimitError:
++        reason = "storage_or_record_limit"
++    except KeyboardInterrupt:
++        reason = "interrupted"
++        try:
++            control("capture_stop", {"reason": reason})
++        except (OSError, ValueError):
++            diagnostics.append("stop_record_not_confirmed")
++    except OSError:
++        reason = "storage_failure"
++    except PlatformError as error:
++        if isinstance(error, AccessDenied):
++            raise
++        reason = "artifact_failure"
++        diagnostics.append(error.code)
++    finally:
++        close_transport()
++    return {
++        "reason": reason,
++        "sessions_started": sessions,
++        "checkpoint": journal.checkpoint.model_dump(mode="json"),
++        "diagnostics": diagnostics,
++        "real_capture": False,
++    }
++
++
++class KrakenCaptureService:
++    """Platform service using the existing store, normalizer port and data-only replay."""
++
++    def __init__(self, store: ArtifactStore, policy: Policy, directory: Path) -> None:
++        self.store, self.policy, self.directory = store, policy, directory
++
++    def journal(
++        self, capture_id: str, config: CaptureConfiguration, principal: Principal
++    ) -> CaptureJournal:
++        self.policy.require(principal, "worker.execute", partition=config.partition)
++        config = CaptureConfiguration.model_validate(config.model_dump())
++        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", capture_id):
++            raise ValueError("Use a bounded portable capture identity, not a path.")
++        journal = CaptureJournal(
++            self.store,
++            self.directory / capture_id,
++            capture_id=capture_id,
++            config_hash=config.digest,
++            limits=config.limits,
++        )
++        if self.store.put(canonical_bytes(config.model_dump(mode="json")), "json") != config.digest:
++            raise ValueError("Configuration artifact identity changed.")
++        return journal
++
++    def run_simulated(
++        self,
++        capture_id: str,
++        config: CaptureConfiguration,
++        principal: Principal,
++        factory: Callable[[int], FrameTransport],
++        clock: ReceiptClock,
++        stop_requested: Callable[[], bool] = lambda: False,
++    ) -> dict[str, Any]:
++        journal = self.journal(capture_id, config, principal)
++        capture = collect(journal, config, factory, clock, stop_requested)
++        if journal.checkpoint.pending_intent:
++            return {"status": "blocked_pending_recovery", "capture": capture, "synthetic": True}
++        try:
++            result = self.inspect(capture_id, config, principal)
++        except (ValueError, OSError, PlatformError) as error:
++            return {
++                "status": "blocked_normalization",
++                "capture": capture,
++                "synthetic": True,
++                "error_type": type(error).__name__,
++                "financial_validation": False,
++            }
++        return {**result, "capture": capture}
++
++    def inspect(
++        self,
++        capture_id: str,
++        config: CaptureConfiguration,
++        principal: Principal,
++        *,
++        until_ns: int | None = None,
++        checkpoint: CaptureReplayCheckpoint | None = None,
++    ) -> dict[str, Any]:
++        journal = self.journal(capture_id, config, principal)
++        with journal.capture_lease():
++            return self._inspect(journal, capture_id, config, until_ns, checkpoint)
++
++    def _inspect(
++        self,
++        journal: CaptureJournal,
++        capture_id: str,
++        config: CaptureConfiguration,
++        until_ns: int | None,
++        checkpoint: CaptureReplayCheckpoint | None,
++    ) -> dict[str, Any]:
++        journal.records()  # Refresh and verify the committed prefix under the capture lease.
++        if journal.checkpoint.pending_intent:
++            raise ValueError("Unresolved writer intent prevents capture admission.")
++        if journal.diagnostics:
++            raise ValueError("Receipt clock regression prevents capture admission.")
++        frames = journal.frames()
++        manifest = canonical_bytes(
++            {
++                "schema_version": 1,
++                "capture_id": capture_id,
++                "frames": [record.model_dump(mode="json") for record in frames],
++            }
++        )
++        digest = hashlib.sha256(manifest).hexdigest()
++        path = self.directory / capture_id / ("manifest-" + digest + ".json")
++        if path.exists():
++            if path.read_bytes() != manifest:
++                raise ValueError("Capture manifest content changed.")
++        else:
++            with path.open("xb") as stream:
++                stream.write(manifest)
++                stream.flush()
++                os.fsync(stream.fileno())
++        source = SourceSpec(
++            source_id="kraken-ws-v2",
++            source_version="1",
++            source_schema=SCHEMA,
++            locator=f"internal:simulated-capture:{capture_id}",
++            rights="Invented transport fixtures; no market-data acquisition.",
++            acquired_ns=frames[-1].received_ns if frames else 0,
++            raw_sha256=digest,
++            size_bytes=len(manifest),
++            data_class="synthetic",
++        )
++        archive = LocalArchive(self.store)
++        imported = archive.import_step(path, source, max_chunks=1000)
++        if imported.archive_hash is None:
++            raise ValueError("Bounded capture manifest import remains incomplete.")
++        record, declaration, raw = archive.read(imported.archive_hash)
++        normalizer = KrakenWSNormalizer(self.store, synthetic=True)
++        normalized = normalizer.normalize_with_provenance(
++            raw, declaration, record.source_manifest_hash
++        )
++        replay = MarketReplay().inspect_capture(
++            normalized.events, data_class="synthetic", until_ns=until_ns, checkpoint=checkpoint
++        )
++        sidecar = self.store.put(canonical_bytes(normalized.model_dump(mode="json")), "json")
++        replay_hash = self.store.put(canonical_bytes(replay.model_dump(mode="json")), "json")
++        return {
++            "status": "technical_qa",
++            "synthetic": True,
++            "financial_validation": False,
++            "capture_id": capture_id,
++            "config_hash": config.digest,
++            "journal_checkpoint": journal.checkpoint.model_dump(mode="json"),
++            "upstream_completeness": "unknown",
++            "archive_hash": imported.archive_hash,
++            "normalization_hash": sidecar,
++            "replay_hash": replay_hash,
++            "market_events": len(replay.events),
++            "checkpoint": replay.checkpoint.model_dump(mode="json"),
++        }
+diff --git a/src/bot_trader/market_data/kraken_ws.py b/src/bot_trader/market_data/kraken_ws.py
+new file mode 100644
+index 0000000..a357f12
+--- /dev/null
++++ b/src/bot_trader/market_data/kraken_ws.py
+@@ -0,0 +1,547 @@
++"""Exact public Kraken v2 decoding; no network client, orders or strategy interface."""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import re
++from collections.abc import Sequence
++from dataclasses import dataclass
++from datetime import datetime
++from decimal import Decimal, InvalidOperation
++from typing import Any, Literal
++
++from pydantic import Field
++
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import (
++    Digest,
++    ImmutableV2,
++    Level,
++    MarketEventV2,
++    Nanoseconds,
++    QuoteData,
++    TradeData,
++    content_hash,
++    datetime_ns,
++    decimal_text,
++    exact_ns,
++)
++from bot_trader.market_data.archive import SourceSpec
++from bot_trader.market_data.normalization import NormalizedBatch
++from bot_trader.market_data.storage import ArtifactStore
++
++SYMBOL: Literal["BTC/EUR"] = "BTC/EUR"
++INSTRUMENT = "BTC-EUR"
++SCHEMA = "kraken-ws-v2-capture-v1"
++MAPPING = "kraken-symbol-map-v1:BTC/EUR=BTC-EUR;quote=EUR;base=BTC"
++
++
++def _pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
++    result: dict[str, Any] = {}
++    for key, value in pairs:
++        if key in result:
++            raise ValueError("Duplicate JSON key in public frame.")
++        result[key] = value
++    return result
++
++
++def _constant(_: str) -> None:
++    raise ValueError("Non-finite JSON number in public frame.")
++
++
++def exact_ws_json(raw: bytes) -> dict[str, Any]:
++    return _exact_json_object(raw, 1_048_576)
++
++
++def _exact_json_object(raw: bytes, max_bytes: int) -> dict[str, Any]:
++    if not isinstance(raw, bytes) or not 0 < len(raw) <= max_bytes:
++        raise ValueError("JSON object must be nonempty bytes within its declared bound.")
++    try:
++        value = json.loads(
++            raw,
++            object_pairs_hook=_pairs,
++            parse_float=Decimal,
++            parse_constant=_constant,
++        )
++    except (UnicodeDecodeError, json.JSONDecodeError, RecursionError) as error:
++        raise ValueError("Malformed or excessively nested public JSON frame.") from error
++    if not isinstance(value, dict):
++        raise ValueError("Kraken v2 public frame must be an object.")
++    return value
++
++
++def rfc3339_ns(value: object) -> int:
++    if not isinstance(value, str):
++        raise ValueError("RFC3339 event timestamp must be a string.")
++    match = re.fullmatch(
++        r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,9}))?(Z|[+-]\d{2}:\d{2})",
++        value,
++    )
++    if match is None:
++        raise ValueError("Unsupported RFC3339 syntax or precision beyond nanoseconds.")
++    base, fraction, zone = match.groups()
++    if zone != "Z" and (int(zone[1:3]) > 23 or int(zone[4:6]) > 59 or zone == "-00:00"):
++        raise ValueError("RFC3339 offset is invalid or denotes an unknown local offset.")
++    seconds = datetime_ns(datetime.fromisoformat(base + ("+00:00" if zone == "Z" else zone)))
++    return exact_ns(seconds + int((fraction or "").ljust(9, "0")))
++
++
++def _number(value: object) -> str:
++    if isinstance(value, bool) or not isinstance(value, (str, int, Decimal)):
++        raise ValueError("Market numbers require exact decimal input, never binary floats.")
++    text = str(value)
++    if len(text) > 128:
++        raise ValueError("Market numeric representation exceeds the admitted bound.")
++    try:
++        number = Decimal(text)
++    except InvalidOperation as error:
++        raise ValueError("Invalid market decimal.") from error
++    exponent = number.as_tuple().exponent
++    if not number.is_finite() or not isinstance(exponent, int) or abs(exponent) > 1000:
++        raise ValueError("Market number is non-finite or has an unsupported exponent.")
++    return decimal_text(text, positive=True)
++
++
++def _market_rows(value: dict[str, Any]) -> list[dict[str, Any]]:
++    if value.get("channel") not in ("trade", "ticker") or value.get("type") not in (
++        "snapshot",
++        "update",
++    ):
++        raise ValueError("Only declared trade/ticker snapshot/update schemas are admitted.")
++    rows = value.get("data")
++    if not isinstance(rows, list) or not 1 <= len(rows) <= 1000:
++        raise ValueError("Market data requires a bounded nonempty list.")
++    for row in rows:
++        if not isinstance(row, dict) or row.get("symbol") != SYMBOL:
++            raise ValueError("Unexpected or ambiguous public-market symbol.")
++    if value["channel"] == "ticker" and len(rows) != 1:
++        raise ValueError("Single-market ticker frame must contain exactly one observation.")
++    return rows
++
++
++@dataclass(frozen=True)
++class ProtocolResult:
++    kind: Literal["control", "market"]
++    channel: str
++    ready: bool
++    diagnostics: tuple[str, ...] = ()
++
++
++class KrakenProtocol:
++    """Per-connection public handshake; original wire responses are archived separately."""
++
++    def __init__(self, symbol: str = SYMBOL) -> None:
++        if symbol != SYMBOL:
++            raise ValueError("This version admits only the explicit BTC/EUR mapping.")
++        self.instrument_online = False
++        self.acknowledged: set[str] = set()
++
++    @property
++    def preflight_ready(self) -> bool:
++        return self.instrument_online and "instrument" in self.acknowledged
++
++    @property
++    def ready(self) -> bool:
++        return self.preflight_ready and {"trade", "ticker"}.issubset(self.acknowledged)
++
++    @staticmethod
++    def preflight_request() -> dict[str, Any]:
++        return {
++            "method": "subscribe",
++            "params": {"channel": "instrument", "snapshot": True},
++            "req_id": 1,
++        }
++
++    @classmethod
++    def requests_for_preflight(cls) -> tuple[dict[str, Any], ...]:
++        return (cls.preflight_request(),)
++
++    def market_requests(self) -> tuple[dict[str, Any], ...]:
++        if not self.preflight_ready:
++            raise ValueError(
++                "Instrument metadata and subscription acknowledgement are required first."
++            )
++        return (
++            {
++                "method": "subscribe",
++                "params": {"channel": "trade", "symbol": [SYMBOL], "snapshot": True},
++                "req_id": 2,
++            },
++            {
++                "method": "subscribe",
++                "params": {
++                    "channel": "ticker",
++                    "symbol": [SYMBOL],
++                    "event_trigger": "bbo",
++                    "snapshot": True,
++                },
++                "req_id": 3,
++            },
++        )
++
++    def accept(self, raw: bytes) -> ProtocolResult:
++        value = exact_ws_json(raw)
++        diagnostics: list[str] = []
++        method = value.get("method")
++        if method is not None:
++            if method == "pong":
++                return ProtocolResult("control", "pong", self.ready)
++            if method != "subscribe" or value.get("success") is not True:
++                raise ValueError("Unexpected method or rejected public subscription.")
++            result = value.get("result")
++            if not isinstance(result, dict):
++                raise ValueError("Subscription acknowledgement lacks a result object.")
++            channel = result.get("channel")
++            expected = {"instrument": 1, "trade": 2, "ticker": 3}
++            if (
++                channel not in expected
++                or type(value.get("req_id")) is not int
++                or value["req_id"] != expected[channel]
++            ):
++                raise ValueError("Subscription acknowledgement does not match the public request.")
++            if channel in ("trade", "ticker"):
++                if not self.preflight_ready or result.get("symbol") != SYMBOL:
++                    raise ValueError(
++                        "Market acknowledgement lacks the admitted instrument context."
++                    )
++            if result.get("snapshot") is not True:
++                raise ValueError("Snapshot acknowledgement does not match the public request.")
++            if channel == "ticker":
++                if "event_trigger" in result and result["event_trigger"] != "bbo":
++                    raise ValueError("Ticker acknowledgement reports a different trigger.")
++                if "event_trigger" not in result:
++                    diagnostics.append("bbo_requested_but_not_echoed_by_documented_subscribe_ack")
++            self.acknowledged.add(channel)
++            return ProtocolResult("control", channel, self.ready, tuple(diagnostics))
++        channel = value.get("channel")
++        if channel == "heartbeat":
++            return ProtocolResult("control", "heartbeat", self.ready)
++        if channel == "status":
++            rows = value.get("data")
++            if not isinstance(rows, list) or len(rows) != 1 or not isinstance(rows[0], dict):
++                raise ValueError("Invalid status schema.")
++            if rows[0].get("system") != "online":
++                raise ValueError("Public service is not online.")
++            return ProtocolResult("control", "status", self.ready)
++        if channel == "instrument":
++            if value.get("type") not in ("snapshot", "update") or not isinstance(
++                value.get("data"), dict
++            ):
++                raise ValueError("Invalid instrument schema.")
++            pairs = value["data"].get("pairs")
++            if not isinstance(pairs, list):
++                raise ValueError("Instrument message has no pair list.")
++            selected = [p for p in pairs if isinstance(p, dict) and p.get("symbol") == SYMBOL]
++            if not selected and value["type"] == "update":
++                return ProtocolResult("control", "instrument", self.ready)
++            if len(selected) != 1:
++                raise ValueError("Requested v2 instrument is absent or ambiguous.")
++            pair = selected[0]
++            if (pair.get("base"), pair.get("quote"), pair.get("status")) != (
++                "BTC",
++                "EUR",
++                "online",
++            ):
++                raise ValueError("Requested v2 instrument has incompatible identity or status.")
++            self.instrument_online = True
++            return ProtocolResult("control", "instrument", self.ready)
++        if channel in ("trade", "ticker"):
++            if not self.preflight_ready or channel not in self.acknowledged:
++                raise ValueError(
++                    "Market frame arrived before its admitted channel handshake completed."
++                )
++            _market_rows(value)
++            return ProtocolResult("market", channel, self.ready)
++        raise ValueError("Unrecognized public frame schema; raw bytes remain the evidence.")
++
++
++class FrameReference(ImmutableV2):
++    capture_id: str
++    session_id: str
++    local_sequence: int = Field(strict=True, ge=1)
++    raw_sha256: Digest
++    received_ns: Nanoseconds
++    monotonic_ns: Nanoseconds
++    config_hash: Digest
++    source_id: str
++    source_version: str
++
++    @classmethod
++    def from_record(cls, record: object) -> FrameReference:
++        if isinstance(record, dict):
++            data = {name: record[name] for name in cls.model_fields}
++        else:
++            data = {name: getattr(record, name) for name in cls.model_fields}
++        return cls.model_validate(data)
++
++
++class WSRowProvenance(ImmutableV2):
++    frame_sequence: int
++    session_id: str
++    raw_sha256: Digest
++    item_index: int
++    original_symbol: Literal["BTC/EUR"] = SYMBOL
++    mapping_version: Literal["kraken-symbol-map-v1"] = "kraken-symbol-map-v1"
++    timestamp_text: str
++    timestamp_unit: Literal["RFC3339"] = "RFC3339"
++    received_ns: Nanoseconds
++    monotonic_ns: Nanoseconds
++    native_trade_id: str | None = None
++    event_id: str
++    duplicate_delivery: bool = False
++    snapshot: bool
++
++
++class WSCaptureNormalization(ImmutableV2):
++    version: Literal["kraken-ws-v2-normalizer-v1"] = "kraken-ws-v2-normalizer-v1"
++    events: tuple[MarketEventV2, ...]
++    batch: NormalizedBatch | None
++    rows: tuple[WSRowProvenance, ...]
++    diagnostics: tuple[str, ...]
++
++
++class KrakenWSNormalizer:
++    """Existing normalizer port over a frame-manifest with raw blobs in ArtifactStore."""
++
++    def __init__(
++        self, store: ArtifactStore, *, symbol: str = SYMBOL, synthetic: bool = True
++    ) -> None:
++        if symbol != SYMBOL or type(synthetic) is not bool:
++            raise ValueError(
++                "Only the explicit BTC/EUR mapping and a declared data class are admitted."
++            )
++        self.store = store
++        self.synthetic = synthetic
++
++    def normalize_frames(
++        self,
++        frames: Sequence[object],
++        source_manifest_hash: str,
++        *,
++        manifest_raw_hash: str | None = None,
++    ) -> WSCaptureNormalization:
++        if len(frames) > 10_000:
++            raise ValueError("Capture normalization requires a bounded frame prefix.")
++        references = [FrameReference.from_record(frame) for frame in frames]
++        raw_digest = manifest_raw_hash or content_hash(
++            [f.model_dump(mode="json") for f in references]
++        )
++        events: list[MarketEventV2] = []
++        sidecars: list[WSRowProvenance] = []
++        diagnostics = [MAPPING, "ticker_bbo_is_not_complete_order_flow_or_upstream_gap_proof"]
++        identities: dict[str, tuple[str, MarketEventV2]] = {}
++        sequences = {"trade": 0, "ticker": 0}
++        last_sequence = 0
++        last_receipt = 0
++        last_monotonic: dict[str, int] = {}
++        capture_id = config_hash = None
++        prior_trade_id: int | None = None
++        protocol = KrakenProtocol()
++        session_id: str | None = None
++        visited_sessions: set[str] = set()
++        for reference in references:
++            if reference.source_id != "kraken-ws-v2" or reference.source_version != "1":
++                raise ValueError("Frame source does not match the versioned Kraken adapter.")
++            if capture_id is None:
++                capture_id, config_hash = reference.capture_id, reference.config_hash
++            if (capture_id, config_hash) != (reference.capture_id, reference.config_hash):
++                raise ValueError("Capture/config identity changed within normalization.")
++            if reference.local_sequence <= last_sequence or reference.received_ns < last_receipt:
++                raise ValueError("Capture frame ordinal or UTC receipt order reversed.")
++            if reference.monotonic_ns < last_monotonic.get(reference.session_id, 0):
++                raise ValueError("Monotonic receipt clock reversed within a session.")
++            last_sequence, last_receipt = reference.local_sequence, reference.received_ns
++            last_monotonic[reference.session_id] = reference.monotonic_ns
++            raw = self.store.get(reference.raw_sha256, "bin")
++            if hashlib.sha256(raw).hexdigest() != reference.raw_sha256:
++                raise ValueError("Captured frame content hash mismatch.")
++            if reference.session_id != session_id:
++                if reference.session_id in visited_sessions:
++                    raise ValueError(
++                        "A closed connection session cannot resume without a new identity."
++                    )
++                session_id = reference.session_id
++                visited_sessions.add(session_id)
++                protocol = KrakenProtocol()
++            admitted = protocol.accept(raw)
++            diagnostics.extend(admitted.diagnostics)
++            if admitted.kind == "control":
++                diagnostics.append(f"control_frame_retained:{reference.local_sequence}")
++                continue
++            value = exact_ws_json(raw)
++            channel = admitted.channel
++            for index, row in enumerate(_market_rows(value)):
++                if len(sidecars) >= 10_000:
++                    raise ValueError(
++                        "Market-row count exceeds the bounded normalization admission."
++                    )
++                timestamp_text = row.get("timestamp")
++                event_ns = rfc3339_ns(timestamp_text)
++                assert isinstance(timestamp_text, str)  # validated by the exact parser
++                if event_ns > reference.received_ns:
++                    raise ValueError(
++                        "Exchange timestamp follows receipt; clock skew cannot be clamped."
++                    )
++                native_id = None
++                payload: TradeData | QuoteData
++                semantic: dict[str, Any]
++                if channel == "trade":
++                    trade_id = row.get("trade_id")
++                    if type(trade_id) is not int or not 0 <= trade_id < 2**64:
++                        raise ValueError("Native trade identity must be an exact unsigned integer.")
++                    native_id = str(trade_id)
++                    if row.get("side") not in ("buy", "sell") or row.get("ord_type") not in (
++                        "limit",
++                        "market",
++                    ):
++                        raise ValueError("Trade side/order type differs from admitted v2 schema.")
++                    payload = TradeData(
++                        price=_number(row.get("price")), quantity=_number(row.get("qty"))
++                    )
++                    event_id = "trade-" + native_id
++                    semantic = {
++                        "time": event_ns,
++                        "symbol": SYMBOL,
++                        "side": row["side"],
++                        "ord_type": row["ord_type"],
++                        "payload": payload.model_dump(mode="json"),
++                    }
++                else:
++                    payload = QuoteData(
++                        origin="synthetic_explicit" if self.synthetic else "observed",
++                        bids=(
++                            Level(
++                                price=_number(row.get("bid")), quantity=_number(row.get("bid_qty"))
++                            ),
++                        ),
++                        asks=(
++                            Level(
++                                price=_number(row.get("ask")), quantity=_number(row.get("ask_qty"))
++                            ),
++                        ),
++                    )
++                    event_id = "ticker-" + content_hash(
++                        {"capture": capture_id, "frame": reference.local_sequence}
++                    )
++                    semantic = {"frame": reference.local_sequence}
++                signature = content_hash(semantic)
++                previous = identities.get(event_id)
++                duplicate = previous is not None
++                if previous is not None:
++                    if previous[0] != signature:
++                        raise ValueError(
++                            "Repeated native trade ID has conflicting semantic content."
++                        )
++                    event = previous[1]
++                    diagnostics.append(
++                        f"duplicate_trade_delivery:{reference.local_sequence}:{index}"
++                    )
++                else:
++                    sequences[channel] += 1
++                    event = MarketEventV2(
++                        event_id=event_id,
++                        source_id=reference.source_id,
++                        source_version=reference.source_version,
++                        stream_id=channel + "-BTC-EUR",
++                        sequence=sequences[channel],
++                        instrument=INSTRUMENT,
++                        quote_currency="EUR",
++                        original_tick=event_ns,
++                        original_unit="ns",
++                        event_ns=event_ns,
++                        available_ns=reference.received_ns,
++                        received_ns=reference.received_ns,
++                        raw_sha256=reference.raw_sha256,
++                        data=payload,
++                    )
++                    identities[event_id] = signature, event
++                    events.append(event)
++                    if channel == "trade":
++                        assert type(trade_id) is int  # validated in the trade branch
++                        number = trade_id  # exact integer validated in the trade branch
++                        if prior_trade_id is not None and number > prior_trade_id + 1:
++                            diagnostics.append(
++                                f"native_trade_id_gap_not_proven_loss:{reference.local_sequence}"
++                            )
++                        if prior_trade_id is not None and number < prior_trade_id:
++                            diagnostics.append(
++                                f"late_native_trade_not_retroactive:{reference.local_sequence}"
++                            )
++                        prior_trade_id = (
++                            number if prior_trade_id is None else max(prior_trade_id, number)
++                        )
++                sidecars.append(
++                    WSRowProvenance(
++                        frame_sequence=reference.local_sequence,
++                        session_id=reference.session_id,
++                        raw_sha256=reference.raw_sha256,
++                        item_index=index,
++                        timestamp_text=timestamp_text,
++                        received_ns=reference.received_ns,
++                        monotonic_ns=reference.monotonic_ns,
++                        native_trade_id=native_id,
++                        event_id=event.event_id,
++                        duplicate_delivery=duplicate,
++                        snapshot=value["type"] == "snapshot",
++                    )
++                )
++        if len(events) > 10_000:
++            raise ValueError("Normalized event count exceeds the bounded replay admission.")
++        batch = (
++            None
++            if not events
++            else NormalizedBatch(
++                normalizer="kraken-ws-v2-normalizer-v1",
++                source_manifest_hash=source_manifest_hash,
++                raw_sha256=raw_digest,
++                events=tuple(events),
++                diagnostics=tuple(diagnostics),
++            )
++        )
++        return WSCaptureNormalization(
++            events=tuple(events), batch=batch, rows=tuple(sidecars), diagnostics=tuple(diagnostics)
++        )
++
++    def normalize_with_provenance(
++        self, raw: bytes, source: SourceSpec, manifest_hash: str
++    ) -> WSCaptureNormalization:
++        source = SourceSpec.model_validate(source.model_dump())
++        if source.partition != "development":
++            raise AccessDenied("Reserved captures cannot enter technical normalization.")
++        if (
++            source.source_schema != SCHEMA
++            or source.source_id != "kraken-ws-v2"
++            or source.source_version != "1"
++        ):
++            raise ValueError("Capture declaration differs from the admitted source/schema.")
++        if (source.data_class == "synthetic") != self.synthetic:
++            raise ValueError(
++                "Declared synthetic/observed data class differs from adapter configuration."
++            )
++        digest = hashlib.sha256(raw).hexdigest()
++        if (digest, len(raw)) != (source.raw_sha256, source.size_bytes) or content_hash(
++            source.model_dump(mode="json")
++        ) != manifest_hash:
++            raise ValueError("Capture manifest identity or source declaration changed.")
++        value = _exact_json_object(raw, 10_485_760)
++        if (
++            type(value.get("schema_version")) is not int
++            or value["schema_version"] != 1
++            or not isinstance(value.get("capture_id"), str)
++            or not value["capture_id"]
++            or not isinstance(value.get("frames"), list)
++        ):
++            raise ValueError("Unknown captured-frame manifest schema.")
++        references = [FrameReference.from_record(frame) for frame in value["frames"]]
++        if any(frame.capture_id != value.get("capture_id") for frame in references):
++            raise ValueError("Manifest capture identity differs from its frame records.")
++        return self.normalize_frames(references, manifest_hash, manifest_raw_hash=digest)
++
++    def normalize(self, raw: bytes, source: SourceSpec, manifest_hash: str) -> NormalizedBatch:
++        result = self.normalize_with_provenance(raw, source, manifest_hash)
++        if result.batch is None:
++            raise ValueError(
++                "Control-only capture has no nonempty market batch; use provenance result."
++            )
++        return result.batch
+diff --git a/src/bot_trader/market_data/replay.py b/src/bot_trader/market_data/replay.py
+index 3e2ab23..cea967a 100644
+--- a/src/bot_trader/market_data/replay.py
++++ b/src/bot_trader/market_data/replay.py
+@@ -211,6 +211,21 @@ class QAReplayResult(ImmutableV2):
+     financial_validation: Literal[False] = False
+ 
+ 
++class CaptureReplayCheckpoint(ImmutableV2):
++    version: Literal["capture-information-qa-v1"] = "capture-information-qa-v1"
++    consumed_count: int = Field(strict=True, ge=0)
++    prefix_hash: Digest
++
++
++class CaptureReplayResult(ImmutableV2):
++    version: Literal["capture-information-qa-v1"] = "capture-information-qa-v1"
++    events: tuple[MarketEventV2, ...]
++    diagnostics: tuple[str, ...]
++    checkpoint: CaptureReplayCheckpoint
++    data_class: Literal["synthetic", "exposed_structural_only"]
++    financial_validation: Literal[False] = False
++
++
+ def _bucket(events: list[MarketEventV2], interval_ns: int) -> TradeBucket:
+     ordered = sorted(events, key=lambda event: (event.event_ns, event.sequence, event.event_id))
+     first = ordered[0]
+@@ -298,6 +313,62 @@ class MarketReplay:
+     def __init__(self, policy: ReplayPolicy | None = None) -> None:
+         self.policy = policy or ReplayPolicy()
+ 
++    def inspect_capture(
++        self,
++        events: Sequence[MarketEventV2],
++        *,
++        data_class: Literal["synthetic", "exposed_structural_only"],
++        partition: str = "development",
++        purpose: str = "capture_qa",
++        until_ns: int | None = None,
++        checkpoint: CaptureReplayCheckpoint | None = None,
++    ) -> CaptureReplayResult:
++        """Data-only recorded-feed profile; no inference of permissions or executable liquidity."""
++        if (
++            data_class not in ("synthetic", "exposed_structural_only")
++            or partition != "development"
++            or purpose != "capture_qa"
++        ):
++            raise AccessDenied("Capture replay is restricted to technical development QA.")
++        if checkpoint is not None and not isinstance(checkpoint, CaptureReplayCheckpoint):
++            raise ValueError("Capture replay requires its own versioned checkpoint.")
++        if len(events) > self.policy.max_events:
++            raise ValueError("Capture replay exceeds the bounded event budget.")
++        validated = [MarketEventV2.model_validate(event.model_dump()) for event in events]
++        origin = "synthetic_explicit" if data_class == "synthetic" else "observed"
++        for event in validated:
++            if event.received_ns is None or isinstance(event.data, BarData):
++                raise ValueError("Capture profile requires recorded receipt and trade/BBO events.")
++            if isinstance(event.data, QuoteData) and event.data.origin != origin:
++                raise ValueError("Capture quote origin differs from its declared data class.")
++        ordered, diagnostics = _ordered_information(validated, until_ns)
++        prefix = content_hash(
++            {
++                "qa_version": "capture-information-qa-v1",
++                "data_class": data_class,
++                "tie_policy": TIE_POLICY,
++            }
++        )
++        checkpoints = [CaptureReplayCheckpoint(consumed_count=0, prefix_hash=prefix)]
++        for event in ordered:
++            prefix = content_hash({"previous": prefix, "event": event.digest})
++            checkpoints.append(
++                CaptureReplayCheckpoint(consumed_count=len(checkpoints), prefix_hash=prefix)
++            )
++        if checkpoint is not None:
++            if (
++                checkpoint.consumed_count >= len(checkpoints)
++                or checkpoints[checkpoint.consumed_count] != checkpoint
++            ):
++                raise ValueError("Capture checkpoint prefix changed; resume rejected.")
++            diagnostics.append("capture_checkpoint_reconstructed_and_verified")
++        return CaptureReplayResult(
++            events=tuple(ordered),
++            diagnostics=tuple(diagnostics),
++            checkpoint=checkpoints[-1],
++            data_class=data_class,
++        )
++
+     def inspect_history(
+         self,
+         events: Sequence[MarketEventV2],
+diff --git a/tests/test_capture_archive.py b/tests/test_capture_archive.py
+new file mode 100644
+index 0000000..2aa2c63
+--- /dev/null
++++ b/tests/test_capture_archive.py
+@@ -0,0 +1,229 @@
++"""Synthetic raw receipts: durable prefixes, bounded storage and explicit recovery."""
++
++import hashlib
++import json
++from types import SimpleNamespace
++
++import pytest
++
++from bot_trader.core.errors import PlatformError
++from bot_trader.market_data.capture import CaptureJournal, CaptureLimitError, CaptureLimits
++from bot_trader.market_data.storage import LocalArtifactStore, MemoryArtifactStore
++
++
++def journal(tmp_path, *, store=None, limits=None, **changes):
++    parameters = {"capture_id": "capture-1", "config_hash": "a" * 64, **changes}
++    return CaptureJournal(
++        store or MemoryArtifactStore(), tmp_path / "journal", limits=limits, **parameters
++    )
++
++
++def frame(capture, raw=b'{"synthetic":true}', *, utc=123456789, mono=10, session="session-1"):
++    return capture.append_frame(raw, session_id=session, received_ns=utc, monotonic_ns=mono)
++
++
++def test_duplicate_deliveries_remain_independent_and_restart_is_exact(tmp_path):
++    store = LocalArtifactStore(tmp_path / "blobs")
++    capture = journal(tmp_path, store=store)
++    first = frame(capture)
++    second = frame(capture, utc=123456790, mono=11)
++    assert first.raw_sha256 == second.raw_sha256
++    assert first.digest != second.digest and second.previous_hash == first.digest
++    assert first.received_ns == 123456789
++    before = capture.checkpoint
++    reopened = journal(tmp_path, store=store)
++    assert reopened.checkpoint == before
++    assert reopened.records() == (first, second)
++    assert reopened.read_frame(first) == b'{"synthetic":true}'
++    assert len(list((tmp_path / "blobs").glob("*.bin"))) == 1
++    assert len(list((tmp_path / "journal/records").glob("*.json"))) == 2
++    assert before.total_charged_bytes == 2 * (8192 + first.raw_size)
++
++
++def test_control_details_cannot_mutate_committed_envelopes(tmp_path):
++    capture = journal(tmp_path)
++    details = {"nested": {"cause": "synthetic"}}
++    record = capture.append_control(
++        "gap", session_id="s", received_ns=1, monotonic_ns=1, details=details
++    )
++    details["nested"]["cause"] = "changed"
++    record.details["nested"]["cause"] = "also-changed"
++    assert capture.records()[0].details == {"nested": {"cause": "synthetic"}}
++
++
++@pytest.mark.parametrize("corruption", ["raw", "envelope", "index", "missing"])
++def test_corruption_never_silently_repaired(tmp_path, corruption):
++    store = LocalArtifactStore(tmp_path / "blobs")
++    capture = journal(tmp_path, store=store)
++    first = frame(capture)
++    frame(capture, utc=123456790, mono=11)
++    if corruption == "raw":
++        (store.root / f"{first.raw_sha256}.bin").write_bytes(b"corrupt")
++    elif corruption == "envelope":
++        (store.root / f"{first.digest}.json").write_bytes(b"{}")
++    elif corruption == "index":
++        (capture.directory / "records/000000000001.json").write_text("{}")
++    else:
++        (capture.directory / "records/000000000001.json").unlink()
++    with pytest.raises((ValueError, PlatformError)):
++        journal(tmp_path, store=store)
++
++
++def test_failed_blob_write_preserves_prefix_and_requires_explicit_recovery(tmp_path, monkeypatch):
++    store = MemoryArtifactStore()
++    capture = journal(tmp_path, store=store)
++    first = frame(capture)
++    original = store.put
++
++    def fail(data, suffix):
++        if suffix == "bin":
++            raise OSError("injected disk failure")
++        return original(data, suffix)
++
++    monkeypatch.setattr(store, "put", fail)
++    with pytest.raises(OSError, match="injected"):
++        frame(capture, b"uncommitted", utc=123456790, mono=11)
++    monkeypatch.setattr(store, "put", original)
++    reopened = journal(tmp_path, store=store)
++    assert reopened.records() == (first,)
++    assert reopened.checkpoint.pending_intent
++    pending_bytes = (reopened.directory / "pending.json").read_bytes()
++    with pytest.raises(ValueError, match="Pending"):
++        frame(reopened, utc=123456791, mono=12)
++    with pytest.raises(ValueError, match="confirmation"):
++        reopened.recover(
++            writer_stopped=False, session_id="recovery", received_ns=123456791, monotonic_ns=0
++        )
++    interruption = reopened.recover(
++        writer_stopped=True, session_id="recovery", received_ns=123456791, monotonic_ns=0
++    )
++    assert interruption.kind == "interruption"
++    assert interruption.details["coverage"] == "unknown"
++    assert interruption.details["intent_already_committed"] is False
++    preserved = list(reopened.directory.glob("interrupted-*.json"))
++    assert len(preserved) == 1 and preserved[0].read_bytes() == pending_bytes
++    assert reopened.frames() == (first,) and not reopened.checkpoint.pending_intent
++    assert reopened.checkpoint.total_charged_bytes == 3 * 8192 + first.raw_size + len(
++        b"uncommitted"
++    )
++    frame(reopened, utc=123456792, mono=1, session="restarted")
++    assert len(reopened.frames()) == 2
++
++
++def test_crash_after_index_commit_does_not_repeat_frame(tmp_path, monkeypatch):
++    store = MemoryArtifactStore()
++    capture = journal(tmp_path, store=store)
++
++    def fail():
++        raise OSError("injected pre-unlink failure")
++
++    monkeypatch.setattr(capture, "_clear_pending", fail)
++    with pytest.raises(OSError, match="pre-unlink"):
++        frame(capture)
++    reopened = journal(tmp_path, store=store)
++    assert len(reopened.frames()) == 1 and reopened.checkpoint.pending_intent
++    result = reopened.recover(
++        writer_stopped=True, session_id="restart", received_ns=123456790, monotonic_ns=0
++    )
++    assert result.details["intent_already_committed"] is True
++    assert len(reopened.frames()) == 1 and not reopened.checkpoint.pending_intent
++
++
++def test_recovery_write_failure_is_itself_recoverable(tmp_path, monkeypatch):
++    store = MemoryArtifactStore()
++    capture = journal(tmp_path, store=store)
++    original = store.put
++    monkeypatch.setattr(store, "put", lambda *_: (_ for _ in ()).throw(OSError("injected")))
++    with pytest.raises(OSError):
++        frame(capture)
++    with pytest.raises(OSError):
++        capture.recover(
++            writer_stopped=True, session_id="restart", received_ns=123456790, monotonic_ns=0
++        )
++    monkeypatch.setattr(store, "put", original)
++    reopened = journal(tmp_path, store=store)
++    recovered = reopened.recover(
++        writer_stopped=True, session_id="restart-2", received_ns=123456791, monotonic_ns=0
++    )
++    assert recovered.kind == "interruption"
++    assert len(reopened.records()) == 1 and not reopened.frames()
++    assert not reopened.checkpoint.pending_intent
++
++
++@pytest.mark.parametrize(
++    "limits,first_allowed",
++    [
++        (CaptureLimits(max_frames=1), True),
++        (CaptureLimits(max_records=1), True),
++        (CaptureLimits(max_frame_bytes=1), False),
++        (CaptureLimits(max_total_bytes=8193), False),
++    ],
++)
++def test_limits_stop_before_new_intent(tmp_path, limits, first_allowed):
++    capture = journal(tmp_path, limits=limits)
++    if first_allowed:
++        frame(capture)
++    before = capture.checkpoint
++    with pytest.raises(CaptureLimitError):
++        frame(capture, utc=123456790, mono=11)
++    assert capture.checkpoint == before and not capture.checkpoint.pending_intent
++
++
++def test_free_space_reserve_stops_before_write(tmp_path, monkeypatch):
++    capture = journal(tmp_path, limits=CaptureLimits(min_free_disk_bytes=100))
++    monkeypatch.setattr(
++        "bot_trader.market_data.capture.shutil.disk_usage", lambda _: SimpleNamespace(free=100)
++    )
++    with pytest.raises(CaptureLimitError, match="free-disk"):
++        frame(capture)
++    assert capture.records() == ()
++
++
++def test_clock_reversals_are_not_clamped_or_erased(tmp_path):
++    capture = journal(tmp_path)
++    first = frame(capture)
++    with pytest.raises(ValueError, match="Monotonic"):
++        frame(capture, utc=first.received_ns + 1, mono=9)
++    reverse = frame(capture, utc=first.received_ns - 1, mono=11)
++    assert reverse.received_ns == first.received_ns - 1
++    assert capture.diagnostics == ("utc_receipt_regression:2",)
++    frame(capture, utc=first.received_ns + 2, mono=0, session="new-session")
++    with pytest.raises(ValueError):
++        frame(capture, utc=1.5, mono=12)
++    assert len(capture.frames()) == 3
++
++
++@pytest.mark.parametrize(
++    "change",
++    [
++        {"config_hash": "b" * 64},
++        {"source_id": "other"},
++        {"source_version": "2"},
++        {"rights_reference": "different"},
++        {"synthetic": False},
++    ],
++)
++def test_reopen_cannot_change_provenance(tmp_path, change):
++    capture = journal(tmp_path)
++    with pytest.raises(ValueError, match="changed"):
++        journal(tmp_path, store=capture.store, **change)
++
++
++def test_empty_original_frame_retained_without_fake_payload(tmp_path):
++    capture = journal(tmp_path)
++    receipt = frame(capture, b"")
++    assert receipt.raw_sha256 == hashlib.sha256(b"").hexdigest()
++    assert capture.read_frame(receipt) == b"" and receipt.raw_size == 0
++
++
++def test_metadata_limit_and_symlink_are_rejected(tmp_path):
++    capture = journal(tmp_path)
++    with pytest.raises(CaptureLimitError):
++        capture.append_control(
++            "gap", session_id="s", received_ns=1, monotonic_ns=1, details={"oversize": "x" * 4096}
++        )
++    target = tmp_path / "target.json"
++    target.write_text(json.dumps({"record_hash": "a" * 64}))
++    (capture.directory / "records/000000000001.json").symlink_to(target)
++    with pytest.raises((ValueError, OSError)):
++        capture.records()
+diff --git a/tests/test_capture_replay.py b/tests/test_capture_replay.py
+new file mode 100644
+index 0000000..b114a11
+--- /dev/null
++++ b/tests/test_capture_replay.py
+@@ -0,0 +1,174 @@
++"""Recorded-feed QA uses invented frames; no financial signal or execution path."""
++
++import pytest
++from test_kraken_ws import frames, handshake, session, ticker, trade
++
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import BarData, MarketEventV2, QuoteData
++from bot_trader.market_data.kraken_ws import KrakenWSNormalizer
++from bot_trader.market_data.replay import (
++    CaptureReplayCheckpoint,
++    MarketReplay,
++    QAReplayCheckpoint,
++    ReplayCheckpoint,
++    ReplayPolicy,
++)
++
++
++def captured_events(*, future_price="102"):
++    store, references = frames(
++        session(handshake() + [trade(), ticker(), trade(2, price=future_price)])
++    )
++    return KrakenWSNormalizer(store).normalize_frames(references, "a" * 64).events
++
++
++def changed_event(event, **updates):
++    value = event.model_dump()
++    value.update(updates)
++    return MarketEventV2.model_validate(value)
++
++
++def test_capture_cutoff_checkpoint_and_future_suffix_invariance(monkeypatch):
++    events = captured_events()
++    replay = MarketReplay()
++    monkeypatch.setattr(
++        "bot_trader.market_data.replay._state", lambda *_: pytest.fail("Analytics invoked")
++    )
++    before = replay.inspect_capture(
++        events, data_class="synthetic", until_ns=events[0].received_ns - 1
++    )
++    assert before.events == () and before.checkpoint.consumed_count == 0
++    first = replay.inspect_capture(events, data_class="synthetic", until_ns=events[0].received_ns)
++    assert first.events == (events[0],)
++    assert events[0].event_ns < events[0].received_ns
++    prefix = replay.inspect_capture(events, data_class="synthetic", until_ns=events[1].received_ns)
++    altered = captured_events(future_price="999")
++    assert altered[-1].digest != events[-1].digest
++    assert (
++        replay.inspect_capture(altered, data_class="synthetic", until_ns=events[1].received_ns)
++        == prefix
++    )
++    # A later received trade with an earlier exchange timestamp stays unavailable.
++    late = changed_event(altered[-1], event_ns=1, original_tick=1)
++    assert (
++        replay.inspect_capture(
++            (*altered[:-1], late), data_class="synthetic", until_ns=events[1].received_ns
++        )
++        == prefix
++    )
++    full = replay.inspect_capture(events, data_class="synthetic")
++    resumed = replay.inspect_capture(events, data_class="synthetic", checkpoint=prefix.checkpoint)
++    assert full.events == resumed.events == events
++    assert full.checkpoint == resumed.checkpoint
++    assert "capture_checkpoint_reconstructed_and_verified" in resumed.diagnostics
++    assert full == replay.inspect_capture(events, data_class="synthetic")
++    assert not full.financial_validation
++    assert not hasattr(full, "signals") and not hasattr(full, "indicators")
++
++
++@pytest.mark.parametrize(
++    "profile",
++    [
++        {"data_class": "financial"},
++        {"data_class": "synthetic", "partition": "validation"},
++        {"data_class": "synthetic", "partition": "final"},
++        {"data_class": "synthetic", "purpose": "financial"},
++        {"data_class": "synthetic", "purpose": "structural_qa"},
++    ],
++)
++def test_capture_profile_rejects_other_purposes_and_reserved_data(profile):
++    with pytest.raises(AccessDenied):
++        MarketReplay().inspect_capture(captured_events(), **profile)
++
++
++def test_capture_checkpoints_reject_changed_prefix_other_profiles_and_wrong_type():
++    replay, events = MarketReplay(), captured_events()
++    checkpoint = replay.inspect_capture(events, data_class="synthetic").checkpoint
++    changed = events[0].model_dump()
++    changed["data"]["price"] = "99"
++    with pytest.raises(ValueError, match="prefix changed"):
++        replay.inspect_capture(
++            (MarketEventV2.model_validate(changed), *events[1:]),
++            data_class="synthetic",
++            checkpoint=checkpoint,
++        )
++    for other in (
++        QAReplayCheckpoint(consumed_count=0, prefix_hash="a" * 64),
++        ReplayCheckpoint(
++            consumed_count=0, prefix_hash="a" * 64, state_hash="b" * 64, policy_hash="c" * 64
++        ),
++    ):
++        with pytest.raises(ValueError, match="own versioned checkpoint"):
++            replay.inspect_capture(events, data_class="synthetic", checkpoint=other)
++    for count in (0, 10):
++        with pytest.raises(ValueError, match="prefix changed"):
++            replay.inspect_capture(
++                events,
++                data_class="synthetic",
++                checkpoint=CaptureReplayCheckpoint(consumed_count=count, prefix_hash="d" * 64),
++            )
++    trades = (events[0], events[2])
++    synthetic = replay.inspect_capture(trades, data_class="synthetic")
++    with pytest.raises(ValueError, match="prefix changed"):
++        replay.inspect_capture(
++            trades, data_class="exposed_structural_only", checkpoint=synthetic.checkpoint
++        )
++
++
++def test_capture_requires_reception_trade_bbo_and_explicit_quote_origin():
++    replay, events = MarketReplay(), captured_events()
++    without_receipt = changed_event(events[0], received_ns=None)
++    with pytest.raises(ValueError, match="recorded receipt"):
++        replay.inspect_capture((without_receipt,), data_class="synthetic")
++    bar = BarData(
++        bar_id="bar-1",
++        start_ns=0,
++        end_ns=1,
++        status="closed",
++        label="close",
++        open="100",
++        high="101",
++        low="99",
++        close="100",
++        volume="1",
++    )
++    bar_event = changed_event(events[0], data=bar.model_dump(), event_ns=1, original_tick=1)
++    with pytest.raises(ValueError, match="trade/BBO"):
++        replay.inspect_capture((bar_event,), data_class="synthetic")
++    quote = events[1]
++    assert isinstance(quote.data, QuoteData)
++    for origin in ("observed", "ohlc_assumption"):
++        value = quote.data.model_dump()
++        value["origin"] = origin
++        mismatched = changed_event(quote, data=value)
++        with pytest.raises(ValueError, match="origin"):
++            replay.inspect_capture((mismatched,), data_class="synthetic")
++    with pytest.raises(ValueError, match="origin"):
++        replay.inspect_capture((quote,), data_class="exposed_structural_only")
++    observed_data = quote.data.model_dump()
++    observed_data["origin"] = "observed"
++    observed = changed_event(quote, data=observed_data)
++    assert replay.inspect_capture((observed,), data_class="exposed_structural_only").events == (
++        observed,
++    )
++    # Adding captured BBO support must not widen the historical OHLC/trade route.
++    with pytest.raises(ValueError, match="does not admit quotes"):
++        replay.inspect_history((observed,), data_class="exposed_structural_only")
++
++
++def test_capture_shared_identity_sequence_and_budget_guards():
++    events, replay = captured_events(), MarketReplay()
++    expected = replay.inspect_capture(events, data_class="synthetic")
++    reordered = replay.inspect_capture((*reversed(events), events[0]), data_class="synthetic")
++    assert reordered.events == expected.events and reordered.checkpoint == expected.checkpoint
++    assert any("identical_duplicate_ignored" in item for item in reordered.diagnostics)
++    with pytest.raises(ValueError, match="Sequence gap"):
++        replay.inspect_capture((events[2],), data_class="synthetic")
++    changed = events[0].model_dump()
++    changed["data"]["price"] = "99"
++    with pytest.raises(ValueError, match="Conflicting duplicate"):
++        replay.inspect_capture(
++            (*events, MarketEventV2.model_validate(changed)), data_class="synthetic"
++        )
++    with pytest.raises(ValueError, match="bounded event budget"):
++        MarketReplay(ReplayPolicy(max_events=1)).inspect_capture(events, data_class="synthetic")
+diff --git a/tests/test_capture_service.py b/tests/test_capture_service.py
+new file mode 100644
+index 0000000..8e92651
+--- /dev/null
++++ b/tests/test_capture_service.py
+@@ -0,0 +1,451 @@
++"""Finite invented transports exercise the existing archive and data-only replay path."""
++
++import json
++
++import pytest
++
++from bot_trader.core.contracts import Principal
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import canonical_bytes
++from bot_trader.core.security import Policy
++from bot_trader.market_data.capture import CaptureLimits
++from bot_trader.market_data.capture_service import (
++    CaptureConfiguration,
++    FixtureComplete,
++    KrakenCaptureService,
++    collect,
++)
++from bot_trader.market_data.kraken_ws import rfc3339_ns
++from bot_trader.market_data.replay import CaptureReplayCheckpoint
++from bot_trader.market_data.storage import LocalArtifactStore
++
++STAMP = "2026-01-01T00:00:00.000000123Z"
++BASE = rfc3339_ns("2026-01-01T00:00:00Z")
++ADMIN = Principal(id="capture-admin", role="admin")
++
++
++class Clock:
++    def __init__(self):
++        self.utc = BASE + 1_000_000
++        self.monotonic = 10_000
++
++    def now(self):
++        return self.utc, self.monotonic
++
++    def sleep_ns(self, duration_ns):
++        self.utc += duration_ns
++        self.monotonic += duration_ns
++
++
++class Transport:
++    simulated = True
++
++    def __init__(self, clock, messages, *, step_ns=1000):
++        self.clock = clock
++        self.messages = iter(messages)
++        self.step_ns = step_ns
++        self.connected = False
++        self.closed = False
++        self.sent = []
++        self.timeouts = []
++
++    def connect(self, endpoint):
++        assert endpoint == "wss://ws.kraken.com/v2"
++        self.connected = True
++
++    def send(self, request):
++        self.sent.append(request)
++
++    def receive(self, timeout_ns):
++        self.timeouts.append(timeout_ns)
++        self.clock.sleep_ns(self.step_ns)
++        try:
++            message = next(self.messages)
++        except StopIteration:
++            raise FixtureComplete from None
++        if isinstance(message, BaseException):
++            raise message
++        return message if isinstance(message, bytes) else canonical_bytes(message)
++
++    def close(self):
++        self.closed = True
++
++
++def handshake():
++    acknowledgements = []
++    for channel, request in (("instrument", 1), ("trade", 2), ("ticker", 3)):
++        result = {"channel": channel, "snapshot": True}
++        if channel != "instrument":
++            result["symbol"] = "BTC/EUR"
++        acknowledgements.append(
++            {"method": "subscribe", "success": True, "result": result, "req_id": request}
++        )
++    instrument = {
++        "channel": "instrument",
++        "type": "snapshot",
++        "data": {
++            "pairs": [
++                {"symbol": "BTC/EUR", "base": "BTC", "quote": "EUR", "status": "online"},
++            ]
++        },
++    }
++    return [acknowledgements[0], instrument, *acknowledgements[1:]]
++
++
++def trade(identity=1):
++    return {
++        "channel": "trade",
++        "type": "update",
++        "data": [
++            {
++                "symbol": "BTC/EUR",
++                "timestamp": STAMP,
++                "trade_id": identity,
++                "side": "buy",
++                "ord_type": "limit",
++                "price": "100.125",
++                "qty": "0.25",
++            }
++        ],
++    }
++
++
++def ticker():
++    return {
++        "channel": "ticker",
++        "type": "update",
++        "data": [
++            {
++                "symbol": "BTC/EUR",
++                "timestamp": STAMP,
++                "bid": "100",
++                "ask": "101",
++                "bid_qty": "2",
++                "ask_qty": "3",
++            }
++        ],
++    }
++
++
++def setup(tmp_path, **configuration):
++    store = LocalArtifactStore(tmp_path / "artifacts")
++    service = KrakenCaptureService(store, Policy(), tmp_path / "captures")
++    config = CaptureConfiguration(**configuration)
++    return service, config, Clock()
++
++
++def test_end_to_end_capture_archive_normalization_replay_and_repeat(tmp_path):
++    service, config, clock = setup(tmp_path)
++    transport = Transport(clock, handshake() + [trade(), ticker()])
++    result = service.run_simulated("capture", config, ADMIN, lambda _: transport, clock)
++    assert result["status"] == "technical_qa"
++    assert result["market_events"] == 2
++    assert result["synthetic"] is True and result["financial_validation"] is False
++    assert result["capture"]["reason"] == "fixture_complete"
++    assert transport.closed and transport.connected
++    assert [request["params"]["channel"] for request in transport.sent] == [
++        "instrument",
++        "trade",
++        "ticker",
++    ]
++    assert transport.sent[-1]["params"]["event_trigger"] == "bbo"
++    journal = service.journal("capture", config, ADMIN)
++    assert len(journal.frames()) == 6
++    raw = journal.read_frame(journal.frames()[-1])
++    assert raw == canonical_bytes(ticker())
++    replay = json.loads(service.store.get(result["replay_hash"], "json"))
++    assert [event["quote_currency"] for event in replay["events"]] == ["EUR", "EUR"]
++    assert replay["events"][1]["data"]["origin"] == "synthetic_explicit"
++    repeated = service.inspect("capture", config, ADMIN)
++    for key in ("archive_hash", "normalization_hash", "replay_hash", "checkpoint"):
++        assert repeated[key] == result[key]
++
++
++def test_receipt_cutoff_and_checkpoint_reconstruction_are_causal(tmp_path):
++    service, config, clock = setup(tmp_path)
++    transport = Transport(clock, handshake() + [trade(), ticker()])
++    full = service.run_simulated("capture", config, ADMIN, lambda _: transport, clock)
++    first_receipt = service.journal("capture", config, ADMIN).frames()[4].received_ns
++    before = service.inspect("capture", config, ADMIN, until_ns=first_receipt - 1)
++    partial = service.inspect("capture", config, ADMIN, until_ns=first_receipt)
++    assert before["market_events"] == 0 and partial["market_events"] == 1
++    checkpoint = CaptureReplayCheckpoint.model_validate(partial["checkpoint"])
++    restarted_service = KrakenCaptureService(service.store, Policy(), service.directory)
++    resumed = restarted_service.inspect("capture", config, ADMIN, checkpoint=checkpoint)
++    assert resumed["market_events"] == 2 and resumed["checkpoint"] == full["checkpoint"]
++    changed = checkpoint.model_copy(update={"prefix_hash": "0" * 64})
++    with pytest.raises(ValueError, match="prefix"):
++        service.inspect("capture", config, ADMIN, checkpoint=changed)
++
++
++def test_finished_capture_retry_never_opens_a_second_transport(tmp_path):
++    service, config, clock = setup(tmp_path)
++    first = service.run_simulated(
++        "capture", config, ADMIN, lambda _: Transport(clock, handshake() + [trade()]), clock
++    )
++    count = service.journal("capture", config, ADMIN).checkpoint.committed_records
++
++    def forbidden(_):
++        raise AssertionError("Terminal capture retry must not create a transport.")
++
++    second = service.run_simulated("capture", config, ADMIN, forbidden, clock)
++    assert second["replay_hash"] == first["replay_hash"]
++    assert service.journal("capture", config, ADMIN).checkpoint.committed_records == count
++
++
++def test_reconnect_retains_unknown_gap_and_deduplicates_only_native_trades(tmp_path):
++    service, config, clock = setup(tmp_path, reconnect_delay_ns=1000)
++    transports = [
++        Transport(clock, handshake() + [trade(), ticker(), ConnectionError("fixture")]),
++        Transport(clock, handshake() + [trade(), ticker(), trade(2)]),
++    ]
++    result = service.run_simulated("capture", config, ADMIN, lambda i: transports[i], clock)
++    assert result["market_events"] == 4
++    assert result["capture"]["sessions_started"] == 2
++    assert all(transport.closed for transport in transports)
++    records = service.journal("capture", config, ADMIN).records()
++    gaps = [record for record in records if record.kind == "coverage_gap"]
++    assert len(gaps) == 1 and gaps[0].details["coverage"] == "unknown"
++    assert len([record for record in records if record.kind == "session_start"]) == 2
++    sidecar = json.loads(service.store.get(result["normalization_hash"], "json"))
++    assert sum(row["duplicate_delivery"] for row in sidecar["rows"]) == 1
++    events = sidecar["events"]
++    assert events[0]["available_ns"] < sidecar["rows"][2]["received_ns"]
++    assert events[1]["event_id"] != events[2]["event_id"]
++
++
++@pytest.mark.parametrize("role", ["viewer", "researcher", "agent"])
++def test_policy_denies_before_creating_transport_or_journal(tmp_path, role):
++    service, config, clock = setup(tmp_path)
++
++    def forbidden(_):
++        raise AssertionError("Denied role reached transport factory.")
++
++    with pytest.raises(AccessDenied):
++        service.run_simulated("capture", config, Principal(id="user", role=role), forbidden, clock)
++    assert not service.directory.exists()
++
++
++def test_real_classification_is_rejected_before_connect(tmp_path):
++    service, config, clock = setup(tmp_path)
++    transport = Transport(clock, [])
++    transport.simulated = False
++    with pytest.raises(AccessDenied):
++        service.run_simulated("capture", config, ADMIN, lambda _: transport, clock)
++    assert not transport.connected
++
++
++def test_partition_and_path_cannot_bypass_configuration(tmp_path):
++    service, config, clock = setup(tmp_path)
++    with pytest.raises(AccessDenied):
++        service.journal("capture", config.model_copy(update={"partition": "final"}), ADMIN)
++    for identity in ("../outside", "/absolute", ".", "capture/sub", "a" * 65):
++        with pytest.raises(ValueError):
++            service.journal(identity, config, ADMIN)
++    with pytest.raises(ValueError):
++        CaptureConfiguration(mode="live")
++
++
++def test_frame_limit_stops_before_next_receive(tmp_path):
++    service, config, clock = setup(tmp_path, limits=CaptureLimits(max_frames=5))
++    transport = Transport(clock, handshake() + [trade(), ticker()])
++    result = service.run_simulated("capture", config, ADMIN, lambda _: transport, clock)
++    assert result["capture"]["reason"] == "frame_limit"
++    assert result["market_events"] == 1 and len(transport.timeouts) == 5
++    assert transport.closed
++
++
++def test_duration_and_reconnect_budget_remain_bounded(tmp_path):
++    service, config, clock = setup(
++        tmp_path, max_duration_ns=2500, receive_timeout_ns=1000, reconnect_delay_ns=0
++    )
++    transport = Transport(clock, handshake())
++    journal = service.journal("capture", config, ADMIN)
++    result = collect(journal, config, lambda _: transport, clock)
++    assert result["reason"] == "duration_limit"
++    assert max(transport.timeouts) <= 1000
++    assert transport.timeouts[-1] <= 500
++    assert transport.closed
++    other = service.journal("bounded-reconnect", config, ADMIN)
++    disconnected = []
++
++    def factory(_):
++        instance = Transport(clock, [ConnectionError("fixture")], step_ns=1)
++        disconnected.append(instance)
++        return instance
++
++    result = collect(other, config, factory, clock)
++    assert result["reason"] == "reconnect_limit"
++    assert len(disconnected) == config.max_reconnects + 1
++    assert all(item.closed for item in disconnected)
++
++
++def test_user_stop_does_not_open_transport(tmp_path):
++    service, config, clock = setup(tmp_path)
++    journal = service.journal("capture", config, ADMIN)
++
++    def forbidden(_):
++        raise AssertionError("Stopped capture created transport.")
++
++    result = collect(journal, config, forbidden, clock, stop_requested=lambda: True)
++    assert result["reason"] == "user_stop" and not journal.frames()
++    assert journal.records()[-1].kind == "capture_stop"
++
++
++def test_bad_raw_is_preserved_before_protocol_rejection(tmp_path):
++    service, config, clock = setup(tmp_path)
++    journal = service.journal("capture", config, ADMIN)
++    transport = Transport(clock, [b'{"unrecognized":true}'])
++    result = collect(journal, config, lambda _: transport, clock)
++    assert result["reason"] == "protocol_error" and transport.closed
++    assert journal.read_frame(journal.frames()[0]) == b'{"unrecognized":true}'
++    with pytest.raises(ValueError):
++        service.inspect("capture", config, ADMIN)
++
++
++def test_frame_storage_limit_is_not_reported_as_protocol_error(tmp_path):
++    service, config, clock = setup(tmp_path, limits=CaptureLimits(max_frame_bytes=8))
++    journal = service.journal("capture", config, ADMIN)
++    transport = Transport(clock, [b"longer-than-eight"])
++    result = collect(journal, config, lambda _: transport, clock)
++    assert result["reason"] == "storage_or_record_limit" and transport.closed
++    assert not journal.frames() and not journal.checkpoint.pending_intent
++
++
++def test_interrupted_capture_resumes_new_handshake_without_losing_prefix(tmp_path):
++    service, config, clock = setup(tmp_path)
++    first = Transport(clock, handshake() + [trade(), KeyboardInterrupt()])
++    result = service.run_simulated("capture", config, ADMIN, lambda _: first, clock)
++    assert result["capture"]["reason"] == "interrupted" and first.closed
++    prefix = service.journal("capture", config, ADMIN).records()
++    second = Transport(clock, handshake() + [trade(), trade(2)])
++    attempts = []
++
++    def factory(index):
++        attempts.append(index)
++        return second
++
++    resumed = service.run_simulated("capture", config, ADMIN, factory, clock)
++    assert attempts == [1]
++    assert resumed["market_events"] == 2 and second.closed
++    assert service.journal("capture", config, ADMIN).records()[: len(prefix)] == prefix
++
++
++def test_storage_interruption_requires_explicit_recovery_before_resume(tmp_path, monkeypatch):
++    service, config, clock = setup(tmp_path)
++    original = service.store.put
++    failed_raw = canonical_bytes(trade())
++
++    def fail(data, suffix):
++        if suffix == "bin" and data == failed_raw:
++            raise OSError("injected one-time interrupted write")
++        return original(data, suffix)
++
++    monkeypatch.setattr(service.store, "put", fail)
++    transport = Transport(clock, handshake() + [trade()])
++    result = service.run_simulated("capture", config, ADMIN, lambda _: transport, clock)
++    assert result["status"] == "blocked_pending_recovery" and transport.closed
++    monkeypatch.setattr(service.store, "put", original)
++    journal = service.journal("capture", config, ADMIN)
++    prefix = journal.records()
++    assert journal.checkpoint.pending_intent
++    with pytest.raises(ValueError, match="recovery"):
++        collect(journal, config, lambda _: transport, clock)
++    journal.recover(
++        writer_stopped=True,
++        session_id="recovery",
++        received_ns=clock.utc,
++        monotonic_ns=clock.monotonic,
++    )
++    second = Transport(clock, handshake() + [trade(), ticker()])
++    resumed = service.run_simulated("capture", config, ADMIN, lambda _: second, clock)
++    assert resumed["market_events"] == 2
++    records = service.journal("capture", config, ADMIN).records()
++    assert records[: len(prefix)] == prefix
++    assert any(record.kind == "interruption" for record in records)
++    assert not service.journal("capture", config, ADMIN).checkpoint.pending_intent
++
++
++def test_configuration_is_reconstructible_and_cannot_change_under_same_capture(tmp_path):
++    service, config, clock = setup(tmp_path, max_duration_ns=123456)
++    journal = service.journal("capture", config, ADMIN)
++    assert json.loads(service.store.get(config.digest, "json")) == config.model_dump(mode="json")
++    with pytest.raises(ValueError, match="configuration"):
++        collect(journal, CaptureConfiguration(), lambda _: pytest.fail("factory"), clock)
++
++
++def test_capture_lease_rejects_second_collector_and_inspector(tmp_path):
++    service, config, clock = setup(tmp_path)
++    first = service.journal("capture", config, ADMIN)
++    second = service.journal("capture", config, ADMIN)
++    with first.capture_lease():
++        with pytest.raises(BlockingIOError):
++            collect(second, config, lambda _: pytest.fail("factory"), clock)
++        with pytest.raises(BlockingIOError):
++            service.inspect("capture", config, ADMIN)
++    assert not first.frames()
++
++
++def test_growing_capture_retains_replay_checkpoint_and_first_receipt(tmp_path):
++    service, config, clock = setup(tmp_path)
++    first = service.run_simulated(
++        "capture",
++        config,
++        ADMIN,
++        lambda _: Transport(clock, handshake() + [trade(), KeyboardInterrupt()]),
++        clock,
++    )
++    checkpoint = CaptureReplayCheckpoint.model_validate(first["checkpoint"])
++    service.run_simulated(
++        "capture",
++        config,
++        ADMIN,
++        lambda _: Transport(clock, handshake() + [trade(), ticker(), trade(2)]),
++        clock,
++    )
++    resumed = service.inspect("capture", config, ADMIN, checkpoint=checkpoint)
++    assert resumed["market_events"] == 3
++    before = json.loads(service.store.get(first["replay_hash"], "json"))["events"]
++    after = json.loads(service.store.get(resumed["replay_hash"], "json"))["events"]
++    assert after[:1] == before
++
++
++def test_close_failure_stops_reconnect_and_reports_unconfirmed_state(tmp_path):
++    service, config, clock = setup(tmp_path)
++    transport = Transport(clock, [ConnectionError("fixture")])
++
++    def fail_close():
++        raise OSError("injected close failure")
++
++    transport.close = fail_close
++    result = collect(service.journal("capture", config, ADMIN), config, lambda _: transport, clock)
++    assert result["reason"] == "transport_close_failure"
++    assert result["sessions_started"] == 1
++    assert "transport_close_not_confirmed" in result["diagnostics"]
++
++
++def test_existing_platform_composes_capture_without_financial_modules(tmp_path):
++    from bot_trader.application import build_services
++    from bot_trader.core.settings import Settings
++    from bot_trader.persistence import Database, migrate
++
++    settings = Settings(data_dir=tmp_path / "platform")
++    database = Database(settings)
++    try:
++        migrate(database)
++    finally:
++        database.close()
++    services = build_services(settings)
++    try:
++        clock = Clock()
++        result = services.capture.run_simulated(
++            "composed",
++            CaptureConfiguration(),
++            ADMIN,
++            lambda _: Transport(clock, handshake() + [trade(), ticker()]),
++            clock,
++        )
++        assert result["market_events"] == 2 and not result["financial_validation"]
++        assert services.capture.store is services.slice.store
++    finally:
++        services.database.close()
+diff --git a/tests/test_kraken_ws.py b/tests/test_kraken_ws.py
+new file mode 100644
+index 0000000..66aff67
+--- /dev/null
++++ b/tests/test_kraken_ws.py
+@@ -0,0 +1,305 @@
++"""Invented Kraken wire messages only; no socket, credential or market dataset."""
++
++import hashlib
++from decimal import Decimal
++
++import pytest
++
++from bot_trader.core.events import QuoteData, TradeData, canonical_bytes, content_hash
++from bot_trader.market_data.archive import SourceSpec
++from bot_trader.market_data.kraken_ws import (
++    SCHEMA,
++    FrameReference,
++    KrakenProtocol,
++    KrakenWSNormalizer,
++    exact_ws_json,
++    rfc3339_ns,
++)
++from bot_trader.market_data.storage import MemoryArtifactStore
++
++BASE = 1_794_441_600_000_000_000  # 2026-11-12T00:00:00Z
++STAMP = "2026-11-12T00:00:00.000000123Z"
++MANIFEST = "a" * 64
++
++
++def ack(channel):
++    result = {"channel": channel, "snapshot": True}
++    if channel != "instrument":
++        result["symbol"] = "BTC/EUR"
++    return {
++        "method": "subscribe",
++        "success": True,
++        "result": result,
++        "req_id": {"instrument": 1, "trade": 2, "ticker": 3}[channel],
++    }
++
++
++def instrument():
++    return {
++        "channel": "instrument",
++        "type": "snapshot",
++        "data": {
++            "pairs": [
++                {"symbol": "BTC/EUR", "base": "BTC", "quote": "EUR", "status": "online"},
++            ]
++        },
++    }
++
++
++def handshake():
++    return [ack("instrument"), instrument(), ack("trade"), ack("ticker")]
++
++
++def trade(identity=1, *, snapshot=False, price="100.123456789123456789"):
++    return {
++        "channel": "trade",
++        "type": "snapshot" if snapshot else "update",
++        "data": [
++            {
++                "symbol": "BTC/EUR",
++                "timestamp": STAMP,
++                "trade_id": identity,
++                "side": "buy",
++                "ord_type": "limit",
++                "price": price,
++                "qty": "0.123456789123456789",
++            }
++        ],
++    }
++
++
++def ticker():
++    return {
++        "channel": "ticker",
++        "type": "update",
++        "data": [
++            {
++                "symbol": "BTC/EUR",
++                "timestamp": STAMP,
++                "bid": "100",
++                "bid_qty": "2",
++                "ask": "101",
++                "ask_qty": "3",
++            }
++        ],
++    }
++
++
++def frames(messages):
++    """Every raw control frame is included; sessions are supplied explicitly."""
++    store = MemoryArtifactStore()
++    references = []
++    for sequence, (session, message) in enumerate(messages, 1):
++        raw = message if isinstance(message, bytes) else canonical_bytes(message)
++        references.append(
++            FrameReference(
++                capture_id="test-capture",
++                session_id=session,
++                local_sequence=sequence,
++                raw_sha256=store.put(raw, "bin"),
++                received_ns=BASE + 1_000_000 + sequence,
++                monotonic_ns=sequence,
++                config_hash="b" * 64,
++                source_id="kraken-ws-v2",
++                source_version="1",
++            )
++        )
++    return store, references
++
++
++def session(messages, identity="session-1"):
++    return [(identity, message) for message in messages]
++
++
++def test_exact_timestamp_decimal_and_json_canaries():
++    assert rfc3339_ns(STAMP) == BASE + 123
++    assert rfc3339_ns("2026-11-12T01:00:00.000000123+01:00") == BASE + 123
++    assert rfc3339_ns("1970-01-01T00:00:00.000000001Z") == 1
++    parsed = exact_ws_json(b'{"price":100.123456789123456789}')
++    assert parsed["price"] == Decimal("100.123456789123456789")
++    for raw in (b'{"x":1,"x":2}', b'{"x":NaN}', b"[]", b"{invalid"):
++        with pytest.raises(ValueError):
++            exact_ws_json(raw)
++    for timestamp in (
++        "2026-11-12T00:00:00.0000000001Z",
++        "2026-11-12T00:00:00",
++        "2026-11-12T00:00:00+01:60",
++        "2026-11-12T00:00:00-00:00",
++        1.0,
++    ):
++        with pytest.raises(ValueError):
++            rfc3339_ns(timestamp)
++
++
++def test_protocol_preflight_and_interleaved_market_acknowledgements():
++    protocol = KrakenProtocol()
++    assert protocol.requests_for_preflight()[0]["params"]["channel"] == "instrument"
++    with pytest.raises(ValueError):
++        protocol.market_requests()
++    for message in handshake()[:3]:
++        protocol.accept(canonical_bytes(message))
++    assert protocol.preflight_ready and not protocol.ready
++    assert protocol.market_requests()[1]["params"]["event_trigger"] == "bbo"
++    # Trade snapshot may precede the independent ticker acknowledgement.
++    assert protocol.accept(canonical_bytes(trade())).kind == "market"
++    with pytest.raises(ValueError, match="handshake"):
++        protocol.accept(canonical_bytes(ticker()))
++    result = protocol.accept(canonical_bytes(ack("ticker")))
++    assert result.ready and "not_echoed" in result.diagnostics[0]
++    assert protocol.accept(canonical_bytes(ticker())).kind == "market"
++
++
++@pytest.mark.parametrize("fault", ["symbol", "trigger", "request", "offline", "schema"])
++def test_protocol_rejects_incompatible_or_ambiguous_context(fault):
++    protocol = KrakenProtocol()
++    for message in handshake():
++        protocol.accept(canonical_bytes(message))
++    message = ack("ticker")
++    if fault == "symbol":
++        message["result"]["symbol"] = "ETH/EUR"
++    elif fault == "trigger":
++        message["result"]["event_trigger"] = "trades"
++    elif fault == "request":
++        message["req_id"] = True
++    elif fault == "offline":
++        message = instrument()
++        message["data"]["pairs"][0]["status"] = "cancel_only"
++    else:
++        message = {"channel": "unrecognized"}
++    with pytest.raises(ValueError):
++        protocol.accept(canonical_bytes(message))
++
++
++def test_normalizer_preserves_exact_identity_mapping_first_receipt_and_ticker_deliveries():
++    messages = session(handshake() + [trade(snapshot=True), ticker(), ticker()])
++    messages += session(handshake() + [trade(), trade(2)], "session-2")
++    store, references = frames(messages)
++    result = KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++    assert len(result.events) == 4
++    first = result.events[0]
++    assert isinstance(first.data, TradeData)
++    assert first.data.price == "100.123456789123456789"
++    assert first.data.quantity == "0.123456789123456789"
++    assert first.event_ns == BASE + 123
++    assert first.available_ns == first.received_ns == references[4].received_ns
++    assert first.raw_sha256 == references[4].raw_sha256
++    assert first.instrument == "BTC-EUR" and first.quote_currency == "EUR"
++    assert result.rows[0].original_symbol == "BTC/EUR"
++    assert result.rows[0].mapping_version == "kraken-symbol-map-v1"
++    assert result.rows[3].duplicate_delivery
++    assert result.rows[3].event_id == first.event_id
++    assert result.rows[3].received_ns > first.received_ns
++    quotes = [event for event in result.events if isinstance(event.data, QuoteData)]
++    assert len(quotes) == 2 and quotes[0].event_id != quotes[1].event_id
++    assert quotes[0].data.origin == "synthetic_explicit"
++    assert [event.sequence for event in result.events if isinstance(event.data, TradeData)] == [
++        1,
++        2,
++    ]
++    assert result == KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++    observed = KrakenWSNormalizer(store, synthetic=False).normalize_frames(references, MANIFEST)
++    assert observed.events[1].data.origin == "observed"
++
++
++def test_normalizer_requires_handshake_each_session_and_retains_bad_raw():
++    for messages in (
++        session([trade()]),
++        session(handshake() + [trade()]) + session([ticker()], "session-2"),
++        session(handshake()) + session(handshake(), "session-2") + session([ticker()]),
++        session(handshake() + [b'{"channel":"unknown"}']),
++    ):
++        store, references = frames(messages)
++        with pytest.raises(ValueError):
++            KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++        assert store.get(references[-1].raw_sha256, "bin")
++    messages = handshake()[:3] + [trade(), ack("ticker"), ticker()]
++    store, references = frames(session(messages))
++    assert len(KrakenWSNormalizer(store).normalize_frames(references, MANIFEST).events) == 2
++
++
++@pytest.mark.parametrize(
++    "fault",
++    [
++        "future",
++        "missing_timestamp",
++        "precision",
++        "conflict",
++        "float_id",
++        "crossed_quote",
++        "numeric",
++    ],
++)
++def test_normalizer_rejects_unsupported_values_without_silent_conversion(fault):
++    message = trade()
++    before = []
++    if fault == "future":
++        message["data"][0]["timestamp"] = "2026-11-13T00:00:00Z"
++    elif fault == "missing_timestamp":
++        message = ticker()
++        del message["data"][0]["timestamp"]
++    elif fault == "precision":
++        message["data"][0]["timestamp"] = "2026-11-12T00:00:00.0000000123Z"
++    elif fault == "conflict":
++        before = [trade()]
++        message["data"][0]["qty"] = "999"
++    elif fault == "float_id":
++        message["data"][0]["trade_id"] = 1.0
++    elif fault == "crossed_quote":
++        message = ticker()
++        message["data"][0]["bid"] = "102"
++    else:
++        message["data"][0]["price"] = "invalid"
++    store, references = frames(session(handshake() + before + [message]))
++    with pytest.raises(ValueError):
++        KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++
++
++def test_clock_and_manifest_integrity_and_port_compatibility():
++    store, references = frames(session(handshake() + [trade(), ticker()]))
++    normalizer = KrakenWSNormalizer(store)
++    for fields in (
++        {"received_ns": 1},
++        {"monotonic_ns": 0},
++        {"local_sequence": 1},
++        {"config_hash": "c" * 64},
++    ):
++        changed = references[:-1] + [references[-1].model_copy(update=fields)]
++        with pytest.raises(ValueError):
++            normalizer.normalize_frames(changed, MANIFEST)
++    raw = canonical_bytes(
++        {
++            "schema_version": 1,
++            "capture_id": "test-capture",
++            "frames": [frame.model_dump(mode="json") for frame in references],
++        }
++    )
++    source = SourceSpec(
++        source_id="kraken-ws-v2",
++        source_version="1",
++        source_schema=SCHEMA,
++        locator="synthetic:test-capture",
++        rights="Entirely invented test fixture",
++        acquired_ns=references[-1].received_ns,
++        size_bytes=len(raw),
++        raw_sha256=hashlib.sha256(raw).hexdigest(),
++        data_class="synthetic",
++    )
++    digest = content_hash(source.model_dump(mode="json"))
++    result = normalizer.normalize_with_provenance(raw, source, digest)
++    assert normalizer.normalize(raw, source, digest) == result.batch
++    assert result.batch.raw_sha256 == source.raw_sha256
++    with pytest.raises(ValueError, match="identity"):
++        normalizer.normalize_with_provenance(raw + b" ", source, digest)
++    with pytest.raises(ValueError, match="data class"):
++        KrakenWSNormalizer(store, synthetic=False).normalize_with_provenance(raw, source, digest)
++
++
++def test_control_only_capture_and_trade_gap_diagnostics_do_not_invent_market_data():
++    store, references = frames(session(handshake()))
++    result = KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++    assert result.events == () and result.batch is None
++    store, references = frames(session(handshake() + [trade(2), trade(4), trade(1)]))
++    result = KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++    assert len(result.events) == 3
++    assert any("gap_not_proven_loss" in item for item in result.diagnostics)
++    assert any("late_native_trade_not_retroactive" in item for item in result.diagnostics)
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index 928d7fb..e24b800 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -22,6 +22,7 @@ SOURCE_PATHS = (
+     "docs/integration/kraken/budget.json",
+     "docs/integration/kraken/sources.json",
+     "docs/integration/kraken/capture-spec.json",
++    "docs/integration/kraken-ws/budget.json",
+ )
+ 
+ 
+diff --git a/tools/integration/verify_ws_delivery.py b/tools/integration/verify_ws_delivery.py
+new file mode 100644
+index 0000000..d0d7dc1
+--- /dev/null
++++ b/tools/integration/verify_ws_delivery.py
+@@ -0,0 +1,75 @@
++"""Read-only preservation and bilingual-document checks for the simulated WS delivery."""
++
++import hashlib
++import json
++import re
++import subprocess
++from pathlib import Path
++
++from append_only import verify_published_prefix
++
++ROOT = Path(__file__).resolve().parents[2]
++BASE = "dc859e816ae3fc700f6423f1e32ea849d1f833f3"
++
++
++def main():
++    history = verify_published_prefix(ROOT, BASE)
++    protected = [
++        "src/bot_trader/core",
++        "pyproject.toml",
++        "uv.lock",
++        "RESEARCH.md",
++        "HYPOTHESES.md",
++        "docs/research",
++        "docs/phase-ii",
++        "docs/phase-iv",
++        "docs/integration/evidence",
++        "docs/integration/REPORT.md",
++        "docs/integration/kraken",
++        "tools/technical_admission",
++        "tools/admission",
++        "web",
++        "migrations",
++        "src/bot_trader/simulation",
++    ]
++    changed = subprocess.check_output(
++        ["git", "diff", "--name-only", BASE, "--", *protected],
++        cwd=ROOT,
++        text=True,
++    ).splitlines()
++    assert not changed, changed
++    previous = json.loads(
++        (ROOT / "docs/phase-iv/technical-results/preservation-baseline.json").read_text()
++    )["venv_files"]
++    for name, expected in previous.items():
++        with (ROOT / ".venv" / name).open("rb") as stream:
++            assert hashlib.file_digest(stream, "sha256").hexdigest() == expected, name
++    paths = [ROOT / f"docs/{language}/integration/kraken-ws.md" for language in ("en", "es")]
++    links = 0
++    for path in paths:
++        content = path.read_text()
++        assert "2026-11-13" in content
++        for target in re.findall(r"\]\(([^)]+)\)", content):
++            if "://" in target or target.startswith("#"):
++                continue
++            assert (path.parent / target.split("#")[0]).exists(), (path, target)
++            links += 1
++    print(
++        json.dumps(
++            {
++                "passed": True,
++                "baseline": BASE,
++                "protected_changes": changed,
++                "stable_environment_files_unchanged": len(previous),
++                "history": history,
++                "paired_reports": len(paths),
++                "local_report_links": links,
++                "scope": "Preservation/document audit only; no market input, engine or financial test",
++            },
++            indent=2,
++        )
++    )
++
++
++if __name__ == "__main__":
++    main()

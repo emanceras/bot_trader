@@ -1,6 +1,6 @@
 # Technical documentation translation policy
 
-Canonical policy language: English. Revision: 9. Updated: 2026-10-28. The Spanish policy is included below.
+Canonical policy language: English. Revision: 10. Updated: 2026-11-13. The Spanish policy is included below.
 
 New engineering documentation uses English as its canonical text, with a synchronized Spanish counterpart. Code, comments, symbols and API contract keys remain English. Each paired document records its revision, update date and a link to the other language. A technical change must update both texts in the same reviewed change, or explicitly identify the untranslated portion; a stale translation must not silently claim synchronization.
 
@@ -36,6 +36,7 @@ New engineering documentation uses English as its canonical text, with a synchro
 | [Technical packages](en/phase-iv/technical-packages.md) | [Paquetes técnicos](es/phase-iv/technical-packages.md) | 1 |
 | [M/R checks](en/phase-iv/technical-packages/dependencies-temporal.md) | [Pruebas M/R](es/phase-iv/technical-packages/dependencies-temporal.md) | 1 |
 | [E comparison](en/phase-iv/technical-packages/engines.md) | [Comparación E](es/phase-iv/technical-packages/engines.md) | 1 |
+| [Kraken WS integration](en/integration/kraken-ws.md) | [Integración Kraken WS](es/integration/kraken-ws.md) | 1 |
 | [UX evolution](en/ux-evolution.md) | [Evolución UX](es/ux-evolution.md) | 1 |
 
 `README.md` is an English entry point with direct Spanish guide links. Original user requests, scientific records, historical decisions, bibliography/source logs and progress/acceptance ledgers retain their original language and dates. These are traceability records; translating them must not replace, reinterpret or count the same evidence again. Machine-readable source fields and bibliographic titles retain their source values.
