@@ -8,6 +8,7 @@ from bot_trader.core.security import Policy
 from bot_trader.core.settings import Settings
 from bot_trader.lab import HypothesisService, LabService
 from bot_trader.market_data import DatasetService, LocalArtifactStore
+from bot_trader.market_data.capture_service import KrakenCaptureService
 from bot_trader.persistence import Database, Repository
 from bot_trader.simulation.slice import SliceService
 
@@ -23,6 +24,7 @@ class Services:
     lab: LabService
     hypotheses: HypothesisService
     slice: SliceService
+    capture: KrakenCaptureService
 
 
 def build_registry() -> Registry:
@@ -111,4 +113,5 @@ def build_services(settings: Settings) -> Services:
         LabService(repo, datasets, store, policy, settings),
         HypothesisService(repo, policy),
         SliceService(store, policy),
+        KrakenCaptureService(store, policy, settings.state_path / "captures"),
     )

@@ -22,6 +22,7 @@ SOURCE_PATHS = (
     "docs/integration/kraken/budget.json",
     "docs/integration/kraken/sources.json",
     "docs/integration/kraken/capture-spec.json",
+    "docs/integration/kraken-ws/budget.json",
 )
 
 

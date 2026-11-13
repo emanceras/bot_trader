@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "authority": "User authorizes simulated Kraken WebSocket integration after dc859e8; real capture forbidden",
+  "ceiling_origin": "Conservative internal ceiling for this new simulated-only delivery, not reused old campaign permission",
+  "engineering_seconds": 7200,
+  "machine_seconds": 900,
+  "command_seconds": 180,
+  "cpus": 4,
+  "ram_bytes": 8589934592,
+  "temporary_bytes": 536870912,
+  "scratch_root": "/workspace/kraken-ws-integration",
+  "additional_temp_roots": [],
+  "public_evidence": "docs/integration/kraken-ws/evidence",
+  "new_downloads": false,
+  "financial_execution": false,
+  "published_baseline_commit": "dc859e816ae3fc700f6423f1e32ea849d1f833f3"
+}
