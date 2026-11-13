@@ -1,0 +1,13 @@
+{
+  "version": "public-capture-approval-v1",
+  "approved": false,
+  "purpose": "public_data_qa",
+  "capture_id": "kraken-btc-eur-001",
+  "config_hash": "d4825a8e7cc0ecce88777e0f72ab219fe54924d6fce8449bc20d76a026823053",
+  "approved_by": "PENDING",
+  "decision_reference": "PENDING: separate explicit user approval",
+  "rights_reference": "PENDING: document applicable private retention rights before approval",
+  "host_id": "PENDING: bind to actual host",
+  "not_before_ns": 0,
+  "expires_ns": 0
+}
