@@ -211,6 +211,21 @@ class QAReplayResult(ImmutableV2):
     financial_validation: Literal[False] = False
 
 
+class CaptureReplayCheckpoint(ImmutableV2):
+    version: Literal["capture-information-qa-v1"] = "capture-information-qa-v1"
+    consumed_count: int = Field(strict=True, ge=0)
+    prefix_hash: Digest
+
+
+class CaptureReplayResult(ImmutableV2):
+    version: Literal["capture-information-qa-v1"] = "capture-information-qa-v1"
+    events: tuple[MarketEventV2, ...]
+    diagnostics: tuple[str, ...]
+    checkpoint: CaptureReplayCheckpoint
+    data_class: Literal["synthetic", "exposed_structural_only"]
+    financial_validation: Literal[False] = False
+
+
 def _bucket(events: list[MarketEventV2], interval_ns: int) -> TradeBucket:
     ordered = sorted(events, key=lambda event: (event.event_ns, event.sequence, event.event_id))
     first = ordered[0]
@@ -297,6 +312,62 @@ class MarketReplay:
 
     def __init__(self, policy: ReplayPolicy | None = None) -> None:
         self.policy = policy or ReplayPolicy()
+
+    def inspect_capture(
+        self,
+        events: Sequence[MarketEventV2],
+        *,
+        data_class: Literal["synthetic", "exposed_structural_only"],
+        partition: str = "development",
+        purpose: str = "capture_qa",
+        until_ns: int | None = None,
+        checkpoint: CaptureReplayCheckpoint | None = None,
+    ) -> CaptureReplayResult:
+        """Data-only recorded-feed profile; no inference of permissions or executable liquidity."""
+        if (
+            data_class not in ("synthetic", "exposed_structural_only")
+            or partition != "development"
+            or purpose != "capture_qa"
+        ):
+            raise AccessDenied("Capture replay is restricted to technical development QA.")
+        if checkpoint is not None and not isinstance(checkpoint, CaptureReplayCheckpoint):
+            raise ValueError("Capture replay requires its own versioned checkpoint.")
+        if len(events) > self.policy.max_events:
+            raise ValueError("Capture replay exceeds the bounded event budget.")
+        validated = [MarketEventV2.model_validate(event.model_dump()) for event in events]
+        origin = "synthetic_explicit" if data_class == "synthetic" else "observed"
+        for event in validated:
+            if event.received_ns is None or isinstance(event.data, BarData):
+                raise ValueError("Capture profile requires recorded receipt and trade/BBO events.")
+            if isinstance(event.data, QuoteData) and event.data.origin != origin:
+                raise ValueError("Capture quote origin differs from its declared data class.")
+        ordered, diagnostics = _ordered_information(validated, until_ns)
+        prefix = content_hash(
+            {
+                "qa_version": "capture-information-qa-v1",
+                "data_class": data_class,
+                "tie_policy": TIE_POLICY,
+            }
+        )
+        checkpoints = [CaptureReplayCheckpoint(consumed_count=0, prefix_hash=prefix)]
+        for event in ordered:
+            prefix = content_hash({"previous": prefix, "event": event.digest})
+            checkpoints.append(
+                CaptureReplayCheckpoint(consumed_count=len(checkpoints), prefix_hash=prefix)
+            )
+        if checkpoint is not None:
+            if (
+                checkpoint.consumed_count >= len(checkpoints)
+                or checkpoints[checkpoint.consumed_count] != checkpoint
+            ):
+                raise ValueError("Capture checkpoint prefix changed; resume rejected.")
+            diagnostics.append("capture_checkpoint_reconstructed_and_verified")
+        return CaptureReplayResult(
+            events=tuple(ordered),
+            diagnostics=tuple(diagnostics),
+            checkpoint=checkpoints[-1],
+            data_class=data_class,
+        )
 
     def inspect_history(
         self,
