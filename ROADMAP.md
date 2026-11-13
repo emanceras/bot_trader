@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-12 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-13 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Integración incremental autorizada — D-054
 
@@ -11,6 +11,10 @@ Seguimiento vigente: [STATE.md](STATE.md), [solicitud](docs/integration/REQUEST.
 ## Entrega técnica Kraken y mantenimiento — D-057
 
 A publicado en `31c1b59`: evidencias compactas reconstruibles y protección append-only. B completado y probado (`kraken-historical-b`): adaptador Kraken,128 registros originales en QA temporal privada y190 regresiones backend correctas. [Informe vigente](docs/integration/kraken/REPORT.md), [checkpoint](STATE.md). Sin reabrir motores ni ampliar permisos financieros; captura futura solo especificación.
+
+## Captura simulada Kraken WS y Market Replay — D-059
+
+Implementados y probados el diario bruto incremental, protocolo público BTC/EUR trade+ticker/BBO, normalizador v2 y replay causal de datos.70 pruebas focalizadas y260 regresiones backend correctas; sin repetir motores ni conectar a Kraken. [Informe EN](docs/en/integration/kraken-ws.md) / [ES](docs/es/integration/kraken-ws.md), etiqueta `kraken-ws-simulated` y [checkpoint](STATE.md). Recuperación, duplicados, fallos y límites probados con transporte simulado. Próxima etapa: admisión de un conector real y autorización separada de un piloto supervisado5–10min; permisos/host/derechos pendientes. Operación24/7, escalado y segmentación pospuestos hasta medir carga; no son capacidades acreditadas por esta entrega.
 
 ## Objetivo y estado general
 
