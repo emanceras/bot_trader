@@ -49,10 +49,28 @@ def main() -> None:
     slice_command.add_argument("--config", type=Path)
     slice_command.add_argument("--native-python", type=Path, required=True)
     slice_command.add_argument("--run-dir", type=Path, required=True)
+    pilot = commands.add_parser(
+        "capture-pilot", help="Plan a finite public-data pilot; execution needs separate approval."
+    )
+    pilot.add_argument("--capture-id", required=True)
+    pilot.add_argument("--config", type=Path, required=True)
+    pilot.add_argument("--approval", type=Path)
+    actions = pilot.add_mutually_exclusive_group()
+    actions.add_argument("--execute", action="store_true")
+    actions.add_argument("--inspect", action="store_true")
+    actions.add_argument("--recover-stopped-writer", action="store_true")
     args = parser.parse_args()
     settings = Settings() if args.state_dir is None else Settings(data_dir=args.state_dir)
     administrator = Principal(id="local-admin", role="admin")
     try:
+        if args.command == "capture-pilot":
+            from bot_trader.market_data.capture_cli import execute_command
+
+            report = execute_command(args, settings)
+            print(json.dumps(report, sort_keys=True))
+            if str(report.get("status", "")).startswith("blocked"):
+                parser.exit(1, "Technical capture is blocked; inspect its preserved receipt.\n")
+            return
         if args.command in {"init", "migrate"}:
             database = Database(settings)
             try:

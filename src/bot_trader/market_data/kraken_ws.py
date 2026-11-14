@@ -135,6 +135,7 @@ class KrakenProtocol:
         if symbol != SYMBOL:
             raise ValueError("This version admits only the explicit BTC/EUR mapping.")
         self.instrument_online = False
+        self._instrument: dict[str, Any] | None = None
         self.acknowledged: set[str] = set()
 
     @property
@@ -229,7 +230,14 @@ class KrakenProtocol:
                 value.get("data"), dict
             ):
                 raise ValueError("Invalid instrument schema.")
-            pairs = value["data"].get("pairs")
+            data = value["data"]
+            pairs = data.get("pairs")
+            if (
+                value["type"] == "update"
+                and "pairs" not in data
+                and isinstance(data.get("assets"), list)
+            ):
+                return ProtocolResult("control", "instrument", self.ready)
             if not isinstance(pairs, list):
                 raise ValueError("Instrument message has no pair list.")
             selected = [p for p in pairs if isinstance(p, dict) and p.get("symbol") == SYMBOL]
@@ -238,12 +246,21 @@ class KrakenProtocol:
             if len(selected) != 1:
                 raise ValueError("Requested v2 instrument is absent or ambiguous.")
             pair = selected[0]
+            if value["type"] == "update":
+                if self._instrument is None:
+                    raise ValueError("Instrument update cannot replace the initial full snapshot.")
+                # A sparse update changes only present fields. Raw frames retain all
+                # metadata; omitted identity/status never silently become missing.
+                pair = self._instrument | pair
             if (pair.get("base"), pair.get("quote"), pair.get("status")) != (
                 "BTC",
                 "EUR",
                 "online",
             ):
+                self.instrument_online = False
+                self._instrument = None
                 raise ValueError("Requested v2 instrument has incompatible identity or status.")
+            self._instrument = dict(pair)
             self.instrument_online = True
             return ProtocolResult("control", "instrument", self.ready)
         if channel in ("trade", "ticker"):

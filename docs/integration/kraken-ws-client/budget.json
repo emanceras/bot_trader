@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "authority": "User authorizes implementation and simulated tests after a5e9997; all Kraken connections forbidden",
+  "ceiling_origin": "Fresh conservative engineering ceiling, not reuse of previous campaigns",
+  "engineering_seconds": 10800,
+  "machine_seconds": 900,
+  "command_seconds": 180,
+  "cpus": 4,
+  "ram_bytes": 8589934592,
+  "temporary_bytes": 536870912,
+  "scratch_root": "/workspace/kraken-ws-real-dev",
+  "additional_temp_roots": [],
+  "public_evidence": "docs/integration/kraken-ws-client/evidence",
+  "new_downloads": "Only optional websockets17.4 software, no financial data",
+  "financial_execution": false,
+  "published_baseline_commit": "a5e9997da2552186e8373dacf85135c21b86002a"
+}
