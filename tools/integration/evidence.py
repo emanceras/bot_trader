@@ -23,6 +23,9 @@ SOURCE_PATHS = (
     "docs/integration/kraken/sources.json",
     "docs/integration/kraken/capture-spec.json",
     "docs/integration/kraken-ws/budget.json",
+    "docs/integration/kraken-ws-client/budget.json",
+    "docs/integration/kraken-ws-client/pilot.json",
+    "docs/integration/kraken-ws-client/approval.template.json",
 )
 
 
