@@ -227,3 +227,117 @@ def test_metadata_limit_and_symlink_are_rejected(tmp_path):
     (capture.directory / "records/000000000001.json").symlink_to(target)
     with pytest.raises((ValueError, OSError)):
         capture.records()
+
+
+class CountingStore(MemoryArtifactStore):
+    def __init__(self):
+        super().__init__()
+        self.reads = 0
+
+    def get(self, digest, suffix):
+        self.reads += 1
+        return super().get(digest, suffix)
+
+
+def test_single_writer_append_and_checkpoint_work_scales_linearly(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    directory_scans = []
+    original_iterdir = Path.iterdir
+
+    def counted_iterdir(path):
+        if path.name == "records":
+            directory_scans.append(path)
+        return original_iterdir(path)
+
+    monkeypatch.setattr(Path, "iterdir", counted_iterdir)
+
+    def measured(size, name):
+        store = CountingStore()
+        capture = journal(tmp_path / name, store=store)
+        scans_before = len(directory_scans)
+        store.reads = 0
+        for index in range(size):
+            frame(capture, str(index).encode(), utc=index, mono=index)
+            assert capture.checkpoint.frames == index + 1
+        append_reads = store.reads
+        # A single active collector must not rescan the growing directory per frame.
+        assert len(directory_scans) == scans_before
+        capture.audit()
+        audit_reads = store.reads - append_reads
+        assert len(directory_scans) == scans_before + 1
+        assert size <= audit_reads <= 2 * size + 4
+        return append_reads
+
+    small = measured(20, "small")
+    large = measured(40, "large")
+    assert small > 0
+    assert large <= small * 2.2
+
+
+def test_alternating_instances_audit_handover_and_share_exact_prefix(tmp_path):
+    store = MemoryArtifactStore()
+    first = journal(tmp_path, store=store)
+    second = journal(tmp_path, store=store)
+    expected = []
+    for index in range(8):
+        writer = first if index % 2 == 0 else second
+        expected.append(frame(writer, str(index).encode(), utc=index, mono=index))
+        assert writer.checkpoint.committed_records == index + 1
+    assert first.audit() == second.audit()
+    assert first.records() == second.records() == tuple(expected)
+    assert journal(tmp_path, store=store).records() == tuple(expected)
+
+
+def test_old_same_size_corruption_is_found_at_audit_not_silently_admitted(tmp_path):
+    store = LocalArtifactStore(tmp_path / "blobs")
+    capture = journal(tmp_path, store=store)
+    first = frame(capture, b"first", utc=1, mono=1)
+    frame(capture, b"second", utc=2, mono=2)
+    (store.root / f"{first.raw_sha256}.bin").write_bytes(b"FIRST")
+    # Cached old immutable objects aren't reread per append. This is not a hostile
+    # administrator boundary; downstream admission always requests a full audit.
+    frame(capture, b"third", utc=3, mono=3)
+    with pytest.raises(PlatformError, match="checksum"):
+        capture.audit()
+    with pytest.raises(PlatformError, match="checksum"):
+        capture.records()
+    with pytest.raises(PlatformError, match="checksum"):
+        journal(tmp_path, store=store)
+
+
+def test_latest_boundary_corruption_blocks_append_before_intent(tmp_path):
+    store = LocalArtifactStore(tmp_path / "blobs")
+    capture = journal(tmp_path, store=store)
+    latest = frame(capture, b"latest", utc=1, mono=1)
+    (store.root / f"{latest.raw_sha256}.bin").write_bytes(b"LATEST")
+    with pytest.raises(PlatformError):
+        frame(capture, b"next", utc=2, mono=2)
+    assert not (capture.directory / "pending.json").exists()
+
+
+def test_deleted_boundary_blocks_without_recreating_index(tmp_path):
+    capture = journal(tmp_path)
+    frame(capture, utc=1, mono=1)
+    last = capture.directory / "records/000000000001.json"
+    last.unlink()
+    # Deleting the entire one-record index is indistinguishable from an empty
+    # on-disk journal unless the verified in-memory prefix is compared explicitly.
+    with pytest.raises(ValueError, match="prefix"):
+        frame(capture, utc=2, mono=2)
+    assert not last.exists() and not (capture.directory / "pending.json").exists()
+
+
+def test_external_valid_tail_plus_gap_never_gets_silently_filled(tmp_path):
+    store = MemoryArtifactStore()
+    first = journal(tmp_path, store=store)
+    frame(first, utc=1, mono=1)
+    second = journal(tmp_path, store=store)
+    frame(second, utc=2, mono=2)
+    frame(second, utc=3, mono=3)
+    frame(second, utc=4, mono=4)
+    missing = first.directory / "records/000000000003.json"
+    missing.unlink()
+    with pytest.raises(ValueError, match="missing"):
+        frame(first, utc=5, mono=5)
+    assert not missing.exists() and not (first.directory / "pending.json").exists()
