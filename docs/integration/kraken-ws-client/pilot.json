@@ -1,0 +1,23 @@
+{
+  "version": "kraken-public-pilot-v1",
+  "mode": "public_data_qa",
+  "synthetic": false,
+  "symbol": "BTC/EUR",
+  "endpoint": "wss://ws.kraken.com/v2",
+  "partition": "development",
+  "max_duration_ns": 300000000000,
+  "receive_timeout_ns": 1000000000,
+  "handshake_timeout_ns": 15000000000,
+  "idle_timeout_ns": 15000000000,
+  "max_reconnects": 2,
+  "reconnect_delay_ns": 5000000000,
+  "max_market_rows": 8000,
+  "rights_reference": "PENDING: document applicable private retention rights before approval",
+  "limits": {
+    "max_frames": 10000,
+    "max_records": 20000,
+    "max_frame_bytes": 1048576,
+    "max_total_bytes": 67108864,
+    "min_free_disk_bytes": 134217728
+  }
+}
