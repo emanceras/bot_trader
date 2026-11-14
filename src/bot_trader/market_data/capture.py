@@ -91,6 +91,11 @@ class CaptureJournal:
 
     The index and envelope establish local integrity, not source truth or adversarial
     tamper resistance. Explicit recovery never invents an uncommitted market frame.
+    Appends trust a previously verified immutable prefix and verify its boundary.
+    Full raw/chain audits occur at open, external index changes, records(), audit()
+    and recovery. Historical in-place corruption is not continuously rehashed
+    during acquisition. One collector holds capture_lease(); handing the journal
+    between independent writers incurs a full verification at each handover.
     """
 
     def __init__(
@@ -140,6 +145,9 @@ class CaptureJournal:
             "limits": self.limits.model_dump(mode="json"),
         }
         self._genesis = content_hash(self._header)
+        self._index_stamp: tuple[int, int, int, int] | None = None
+        self._verified_count = 0
+        self._verified_hash = self._genesis
         with self._writer():
             header = self.directory / "capture.json"
             if not header.exists():
@@ -245,41 +253,99 @@ class CaptureJournal:
         if record.raw_size > self.limits.max_frame_bytes:
             raise CaptureLimitError("Raw frame exceeds the configured bound.")
 
+    def _directory_stamp(self) -> tuple[int, int, int, int]:
+        metadata = self._index.stat(follow_symlinks=False)
+        if not stat.S_ISDIR(metadata.st_mode):
+            raise ValueError("Journal index must be a real directory.")
+        return metadata.st_dev, metadata.st_ino, metadata.st_mtime_ns, metadata.st_ctime_ns
+
+    def _read_index_record(self, path: Path) -> CaptureRecord:
+        reference = json.loads(self._read(path))
+        if not isinstance(reference, dict) or set(reference) != {"record_hash"}:
+            raise ValueError("Invalid journal index reference.")
+        raw = self.store.get(reference["record_hash"], "json")
+        record = CaptureRecord.model_validate_json(raw)
+        self._binding(record)
+        if record.digest != reference["record_hash"]:
+            raise ValueError("Journal envelope content differs from its index hash.")
+        if record.kind == "frame":
+            self.read_frame(record)
+        return record
+
+    def _remember(self, record: CaptureRecord) -> None:
+        if record.local_sequence != len(self._records) + 1 or record.previous_hash != self._head:
+            raise ValueError("Journal receipt ordinal or predecessor changed.")
+        if record.monotonic_ns < self._clocks.get(record.session_id, 0):
+            raise ValueError("Monotonic clock reversed within a journal session.")
+        charged = self._charged + _RECORD_CHARGE + record.raw_size + record.abandoned_charge
+        frames = self._frame_count + (record.kind == "frame")
+        if (
+            len(self._records) + 1 > self.limits.max_records
+            or frames > self.limits.max_frames
+            or charged > self.limits.max_total_bytes
+        ):
+            raise CaptureLimitError("Committed journal exceeds its configured bounds.")
+        self._records.append(record.model_copy(deep=True))
+        self._head = record.digest
+        self._clocks[record.session_id] = record.monotonic_ns
+        self._charged, self._frame_count = charged, frames
+
+    def _validate_header(self) -> None:
+        if self._read(self.directory / "capture.json") != canonical_bytes(self._header):
+            raise ValueError("Capture identity, source, rights, configuration or limits changed.")
+
     def _load(self) -> None:
-        if self._index.is_symlink():
-            raise ValueError("Journal index cannot be a symlink.")
-        records: list[CaptureRecord] = []
-        head = self._genesis
-        clocks: dict[str, int] = {}
+        """Full O(N) content audit; a failed audit invalidates the entire cache."""
+        self._index_stamp = None
+        self._directory_stamp()
+        self._validate_header()
+        self._records: list[CaptureRecord] = []
+        self._head: str = self._genesis
+        self._clocks: dict[str, int] = {}
+        self._charged: int = 0
+        self._frame_count: int = 0
         for path in sorted(self._index.iterdir()):
             # Leftover unpublished atomic-write temporaries are not committed receipts.
             if path.name.startswith(".pending-"):
                 continue
-            if path.name != f"{len(records) + 1:012d}.json":
+            if path.name != f"{len(self._records) + 1:012d}.json":
                 raise ValueError("Journal index has a missing, unexpected or reordered entry.")
-            reference = json.loads(self._read(path))
-            if not isinstance(reference, dict) or set(reference) != {"record_hash"}:
-                raise ValueError("Invalid journal index reference.")
-            raw = self.store.get(reference["record_hash"], "json")
-            record = CaptureRecord.model_validate_json(raw)
-            self._binding(record)
-            if (
-                record.local_sequence != len(records) + 1
-                or record.previous_hash != head
-                or record.digest != reference["record_hash"]
-            ):
-                raise ValueError("Journal receipt hash, ordinal or predecessor changed.")
-            if record.monotonic_ns < clocks.get(record.session_id, 0):
-                raise ValueError("Monotonic clock reversed within a journal session.")
-            clocks[record.session_id] = record.monotonic_ns
-            if record.kind == "frame":
-                self.read_frame(record)
-            records.append(record)
-            head = record.digest
-            if len(records) > self.limits.max_records:
-                raise CaptureLimitError("Committed journal exceeds its record bound.")
-        self._records, self._head = records, head
+            self._remember(self._read_index_record(path))
+        if len(self._records) < self._verified_count or (
+            self._verified_count
+            and self._records[self._verified_count - 1].digest != self._verified_hash
+        ):
+            raise ValueError("Previously verified journal prefix changed or was removed.")
         self._pending()
+        self._verified_count, self._verified_hash = len(self._records), self._head
+        self._index_stamp = self._directory_stamp()
+
+    def _refresh(self) -> None:
+        """O(1) cached boundary check; external index changes require full audit."""
+        if self._index_stamp is None:
+            self._load()
+            return
+        self._validate_header()
+        current = self._directory_stamp()
+        next_path = self._index / f"{len(self._records) + 1:012d}.json"
+        if current != self._index_stamp or next_path.exists() or next_path.is_symlink():
+            # Never infer that an external directory change is an append. It could
+            # include a missing index or an unrelated entry beyond a valid tail.
+            # Probe the next index even on filesystems with coarse timestamps.
+            self._load()
+            return
+        if self._records:
+            boundary = self._read_index_record(self._index / f"{len(self._records):012d}.json")
+            if boundary.digest != self._head:
+                self._index_stamp = None
+                raise ValueError("Committed journal boundary changed.")
+        self._pending()
+
+    def audit(self) -> CaptureCheckpoint:
+        """Verify all committed raw/envelope/index content before downstream admission."""
+        with self._writer():
+            self._load()
+            return self._checkpoint()
 
     def records(self) -> tuple[CaptureRecord, ...]:
         with self._writer():
@@ -301,15 +367,20 @@ class CaptureJournal:
 
     @property
     def checkpoint(self) -> CaptureCheckpoint:
+        with self._writer():
+            self._refresh()
+            return self._checkpoint()
+
+    def _checkpoint(self) -> CaptureCheckpoint:
         pending = self._pending()
-        charged = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
+        charged = self._charged
         if pending is not None and pending.local_sequence > len(self._records):
             charged += _RECORD_CHARGE + pending.raw_size + pending.abandoned_charge
         return CaptureCheckpoint(
             capture_id=self.capture_id,
             config_hash=self.config_hash,
             committed_records=len(self._records),
-            frames=sum(r.kind == "frame" for r in self._records),
+            frames=self._frame_count,
             total_charged_bytes=charged,
             last_hash=self._head,
             pending_intent=pending is not None,
@@ -324,12 +395,11 @@ class CaptureJournal:
         )
 
     def _budget(self, record: CaptureRecord) -> None:
-        total = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
+        total = self._charged
         charge = _RECORD_CHARGE + record.raw_size + record.abandoned_charge
         if (
             len(self._records) + 1 > self.limits.max_records
-            or sum(r.kind == "frame" for r in self._records) + (record.kind == "frame")
-            > self.limits.max_frames
+            or self._frame_count + (record.kind == "frame") > self.limits.max_frames
             or total + charge > self.limits.max_total_bytes
         ):
             raise CaptureLimitError("Capture record, frame or conservative disk budget exhausted.")
@@ -365,8 +435,7 @@ class CaptureJournal:
             abandoned_charge=abandoned_charge,
         )
         self._binding(record)
-        previous = next((r for r in reversed(self._records) if r.session_id == session_id), None)
-        if previous is not None and record.monotonic_ns < previous.monotonic_ns:
+        if record.monotonic_ns < self._clocks.get(session_id, 0):
             raise ValueError("Monotonic receipt clock cannot reverse within a session.")
         self._budget(record)
         return record
@@ -386,8 +455,9 @@ class CaptureJournal:
             self._index / f"{record.local_sequence:012d}.json",
             canonical_bytes({"record_hash": digest}),
         )
-        self._records.append(record.model_copy(deep=True))
-        self._head = digest
+        self._remember(record)
+        self._verified_count, self._verified_hash = len(self._records), self._head
+        self._index_stamp = self._directory_stamp()
         self._clear_pending()
         return record.model_copy(deep=True)
 
@@ -421,7 +491,7 @@ class CaptureJournal:
         details: dict[str, Any] | None = None,
     ) -> CaptureRecord:
         with self._writer():
-            self._load()
+            self._refresh()
             if self._pending() is not None:
                 raise ValueError("Pending writer intent requires explicit recovery before append.")
             record = self._record(kind, session_id, received_ns, monotonic_ns, raw, details)
