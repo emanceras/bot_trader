@@ -19,6 +19,11 @@ dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.11,<1", "mypy>=1.15,<2"]
 [project.scripts]
 bot-trader = "bot_trader.cli:main"
 
+[project.optional-dependencies]
+capture = [
+    "websockets==17.4",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/bot_trader"]
 
