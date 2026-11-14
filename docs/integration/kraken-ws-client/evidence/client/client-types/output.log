@@ -1,0 +1,7 @@
+src/bot_trader/market_data/capture.py:239: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:241: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:276: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:280: error: Cannot determine type of "_charged"  [has-type]
+src/bot_trader/market_data/capture.py:281: error: Cannot determine type of "_frame_count"  [has-type]
+src/bot_trader/market_data/kraken_transport.py:80: error: Module "websockets" does not explicitly export attribute "__version__"  [attr-defined]
+Found 6 errors in 2 files (checked 45 source files)

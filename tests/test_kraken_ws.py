@@ -170,6 +170,107 @@ def test_protocol_rejects_incompatible_or_ambiguous_context(fault):
         protocol.accept(canonical_bytes(message))
 
 
+def test_instrument_sparse_updates_preserve_initial_admission_and_raw_provenance():
+    updates = [
+        {"channel": "instrument", "type": "update", "data": {"assets": [{"id": "BTC"}]}},
+        {
+            "channel": "instrument",
+            "type": "update",
+            "data": {
+                "pairs": [
+                    {"symbol": "ETH/EUR", "status": "cancel_only"},
+                ]
+            },
+        },
+        {
+            "channel": "instrument",
+            "type": "update",
+            "data": {
+                "pairs": [
+                    {"symbol": "BTC/EUR", "price_increment": "0.1"},
+                ]
+            },
+        },
+        {
+            "channel": "instrument",
+            "type": "update",
+            "data": {
+                "pairs": [
+                    {"symbol": "BTC/EUR", "status": "online"},
+                ]
+            },
+        },
+    ]
+    protocol = KrakenProtocol()
+    for message in handshake():
+        protocol.accept(canonical_bytes(message))
+    for update in updates:
+        result = protocol.accept(canonical_bytes(update))
+        assert result.kind == "control" and result.ready
+    assert protocol.accept(canonical_bytes(trade())).kind == "market"
+    store, references = frames(session(handshake() + updates + [trade()]))
+    normalized = KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
+    assert len(normalized.events) == 1
+    for index, update in enumerate(updates, 4):
+        assert store.get(references[index].raw_sha256, "bin") == canonical_bytes(update)
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"base": "XBT"},
+        {"quote": "USD"},
+        {"status": "cancel_only"},
+        {"base": None},
+        {"status": None},
+    ],
+)
+def test_instrument_delta_rejects_explicit_identity_or_status_changes(change):
+    protocol = KrakenProtocol()
+    for message in handshake():
+        protocol.accept(canonical_bytes(message))
+    update = {
+        "channel": "instrument",
+        "type": "update",
+        "data": {
+            "pairs": [
+                {"symbol": "BTC/EUR", **change},
+            ]
+        },
+    }
+    with pytest.raises(ValueError, match="incompatible identity or status"):
+        protocol.accept(canonical_bytes(update))
+    assert not protocol.preflight_ready
+    with pytest.raises(ValueError, match="handshake"):
+        protocol.accept(canonical_bytes(trade()))
+
+
+def test_instrument_initial_snapshot_cannot_be_replaced_by_update_or_partial_snapshot():
+    protocol = KrakenProtocol()
+    protocol.accept(canonical_bytes(ack("instrument")))
+    update = instrument()
+    update["type"] = "update"
+    with pytest.raises(ValueError, match="initial full snapshot"):
+        protocol.accept(canonical_bytes(update))
+    assert not protocol.preflight_ready
+    partial = instrument()
+    del partial["data"]["pairs"][0]["base"]
+    with pytest.raises(ValueError, match="incompatible identity or status"):
+        protocol.accept(canonical_bytes(partial))
+    assert not protocol.preflight_ready
+    protocol.accept(canonical_bytes(instrument()))
+    assert protocol.preflight_ready
+
+
+def test_oversized_instrument_message_is_rejected_without_partial_interpretation():
+    message = instrument()
+    message["data"]["padding"] = "x" * 1_048_576
+    protocol = KrakenProtocol()
+    with pytest.raises(ValueError, match="declared bound"):
+        protocol.accept(canonical_bytes(message))
+    assert not protocol.preflight_ready
+
+
 def test_normalizer_preserves_exact_identity_mapping_first_receipt_and_ticker_deliveries():
     messages = session(handshake() + [trade(snapshot=True), ticker(), ticker()])
     messages += session(handshake() + [trade(), trade(2)], "session-2")

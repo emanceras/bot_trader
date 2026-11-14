@@ -1,6 +1,8 @@
 # bot_trader
 
-Latest delivery: [simulated Kraken WebSocket capture and Market Replay](docs/en/integration/kraken-ws.md) ([español](docs/es/integration/kraken-ws.md)). Public trade/ticker schemas, durable original messages, bounded reconnection, exact normalization and causal data-only replay are integrated and tested with injected transport. No real connection is activated; the report defines the conditional 5–10 minute pilot.
+Latest delivery: [public Kraken client and incremental journal](docs/en/integration/kraken-ws-client.md) ([español](docs/es/integration/kraken-ws-client.md)). The optional pinned client is implemented and tested offline through the existing pipeline. Journal appends no longer re-read the full prefix. The finite pilot command defaults to a plan and requires separate authorization before connecting; no real capture has run.
+
+Previous delivery: [simulated Kraken WebSocket capture and Market Replay](docs/en/integration/kraken-ws.md) ([español](docs/es/integration/kraken-ws.md)). Public trade/ticker schemas, durable original messages, bounded reconnection, exact normalization and causal data-only replay are integrated and tested with injected transport. No real connection is activated; the report defines the conditional 5–10 minute pilot.
 
 Previous delivery: [compact evidence and Kraken historical QA](docs/integration/kraken/REPORT.md). Published-source histories are protected by an append-only guard; failed dirty states are reconstructible from Git refs. A versioned Kraken adapter now normalizes and replays bounded existing historical samples through a data-only route, with no investment signals. Future public capture remains a disabled specification.
 

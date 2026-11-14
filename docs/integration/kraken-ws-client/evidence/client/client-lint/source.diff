@@ -1,0 +1,2251 @@
+diff --git a/docs/integration/kraken-ws-client/approval.template.json b/docs/integration/kraken-ws-client/approval.template.json
+new file mode 100644
+index 0000000..f30aaa0
+--- /dev/null
++++ b/docs/integration/kraken-ws-client/approval.template.json
+@@ -0,0 +1,13 @@
++{
++  "version": "public-capture-approval-v1",
++  "approved": false,
++  "purpose": "public_data_qa",
++  "capture_id": "kraken-btc-eur-001",
++  "config_hash": "d4825a8e7cc0ecce88777e0f72ab219fe54924d6fce8449bc20d76a026823053",
++  "approved_by": "PENDING",
++  "decision_reference": "PENDING: separate explicit user approval",
++  "rights_reference": "PENDING: document applicable private retention rights before approval",
++  "host_id": "PENDING: bind to actual host",
++  "not_before_ns": 0,
++  "expires_ns": 0
++}
+diff --git a/docs/integration/kraken-ws-client/budget.json b/docs/integration/kraken-ws-client/budget.json
+new file mode 100644
+index 0000000..709fb4f
+--- /dev/null
++++ b/docs/integration/kraken-ws-client/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User authorizes implementation and simulated tests after a5e9997; all Kraken connections forbidden",
++  "ceiling_origin": "Fresh conservative engineering ceiling, not reuse of previous campaigns",
++  "engineering_seconds": 10800,
++  "machine_seconds": 900,
++  "command_seconds": 180,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-ws-real-dev",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-ws-client/evidence",
++  "new_downloads": "Only optional websockets17.4 software, no financial data",
++  "financial_execution": false,
++  "published_baseline_commit": "a5e9997da2552186e8373dacf85135c21b86002a"
++}
+diff --git a/docs/integration/kraken-ws-client/pilot.json b/docs/integration/kraken-ws-client/pilot.json
+new file mode 100644
+index 0000000..c966908
+--- /dev/null
++++ b/docs/integration/kraken-ws-client/pilot.json
+@@ -0,0 +1,23 @@
++{
++  "version": "kraken-public-pilot-v1",
++  "mode": "public_data_qa",
++  "synthetic": false,
++  "symbol": "BTC/EUR",
++  "endpoint": "wss://ws.kraken.com/v2",
++  "partition": "development",
++  "max_duration_ns": 300000000000,
++  "receive_timeout_ns": 1000000000,
++  "handshake_timeout_ns": 15000000000,
++  "idle_timeout_ns": 15000000000,
++  "max_reconnects": 2,
++  "reconnect_delay_ns": 5000000000,
++  "max_market_rows": 8000,
++  "rights_reference": "PENDING: document applicable private retention rights before approval",
++  "limits": {
++    "max_frames": 10000,
++    "max_records": 20000,
++    "max_frame_bytes": 1048576,
++    "max_total_bytes": 67108864,
++    "min_free_disk_bytes": 134217728
++  }
++}
+diff --git a/pyproject.toml b/pyproject.toml
+index df96839..2c36b5a 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -19,6 +19,11 @@ dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.11,<1", "mypy>=1.15,<2"]
+ [project.scripts]
+ bot-trader = "bot_trader.cli:main"
+ 
++[project.optional-dependencies]
++capture = [
++    "websockets==17.4",
++]
++
+ [tool.hatch.build.targets.wheel]
+ packages = ["src/bot_trader"]
+ 
+diff --git a/src/bot_trader/cli.py b/src/bot_trader/cli.py
+index a94af48..cb3c15a 100644
+--- a/src/bot_trader/cli.py
++++ b/src/bot_trader/cli.py
+@@ -49,10 +49,28 @@ def main() -> None:
+     slice_command.add_argument("--config", type=Path)
+     slice_command.add_argument("--native-python", type=Path, required=True)
+     slice_command.add_argument("--run-dir", type=Path, required=True)
++    pilot = commands.add_parser(
++        "capture-pilot", help="Plan a finite public-data pilot; execution needs separate approval."
++    )
++    pilot.add_argument("--capture-id", required=True)
++    pilot.add_argument("--config", type=Path, required=True)
++    pilot.add_argument("--approval", type=Path)
++    actions = pilot.add_mutually_exclusive_group()
++    actions.add_argument("--execute", action="store_true")
++    actions.add_argument("--inspect", action="store_true")
++    actions.add_argument("--recover-stopped-writer", action="store_true")
+     args = parser.parse_args()
+     settings = Settings() if args.state_dir is None else Settings(data_dir=args.state_dir)
+     administrator = Principal(id="local-admin", role="admin")
+     try:
++        if args.command == "capture-pilot":
++            from bot_trader.market_data.capture_cli import execute_command
++
++            report = execute_command(args, settings)
++            print(json.dumps(report, sort_keys=True))
++            if str(report.get("status", "")).startswith("blocked"):
++                parser.exit(1, "Technical capture is blocked; inspect its preserved receipt.\n")
++            return
+         if args.command in {"init", "migrate"}:
+             database = Database(settings)
+             try:
+diff --git a/src/bot_trader/market_data/capture.py b/src/bot_trader/market_data/capture.py
+index f412795..897fd98 100644
+--- a/src/bot_trader/market_data/capture.py
++++ b/src/bot_trader/market_data/capture.py
+@@ -91,8 +91,17 @@ class CaptureJournal:
+ 
+     The index and envelope establish local integrity, not source truth or adversarial
+     tamper resistance. Explicit recovery never invents an uncommitted market frame.
++    Appends trust a previously verified immutable prefix and verify its boundary.
++    Full raw/chain audits occur at open, external index changes, records(), audit()
++    and recovery. Historical in-place corruption is not continuously rehashed
++    during acquisition. One collector holds capture_lease(); handing the journal
++    between independent writers incurs a full verification at each handover.
+     """
+ 
++    _head: str
++    _charged: int
++    _frame_count: int
++
+     def __init__(
+         self,
+         store: ArtifactStore,
+@@ -140,6 +149,9 @@ class CaptureJournal:
+             "limits": self.limits.model_dump(mode="json"),
+         }
+         self._genesis = content_hash(self._header)
++        self._index_stamp: tuple[int, int, int, int] | None = None
++        self._verified_count = 0
++        self._verified_hash = self._genesis
+         with self._writer():
+             header = self.directory / "capture.json"
+             if not header.exists():
+@@ -245,41 +257,99 @@ class CaptureJournal:
+         if record.raw_size > self.limits.max_frame_bytes:
+             raise CaptureLimitError("Raw frame exceeds the configured bound.")
+ 
++    def _directory_stamp(self) -> tuple[int, int, int, int]:
++        metadata = self._index.stat(follow_symlinks=False)
++        if not stat.S_ISDIR(metadata.st_mode):
++            raise ValueError("Journal index must be a real directory.")
++        return metadata.st_dev, metadata.st_ino, metadata.st_mtime_ns, metadata.st_ctime_ns
++
++    def _read_index_record(self, path: Path) -> CaptureRecord:
++        reference = json.loads(self._read(path))
++        if not isinstance(reference, dict) or set(reference) != {"record_hash"}:
++            raise ValueError("Invalid journal index reference.")
++        raw = self.store.get(reference["record_hash"], "json")
++        record = CaptureRecord.model_validate_json(raw)
++        self._binding(record)
++        if record.digest != reference["record_hash"]:
++            raise ValueError("Journal envelope content differs from its index hash.")
++        if record.kind == "frame":
++            self.read_frame(record)
++        return record
++
++    def _remember(self, record: CaptureRecord) -> None:
++        if record.local_sequence != len(self._records) + 1 or record.previous_hash != self._head:
++            raise ValueError("Journal receipt ordinal or predecessor changed.")
++        if record.monotonic_ns < self._clocks.get(record.session_id, 0):
++            raise ValueError("Monotonic clock reversed within a journal session.")
++        charged = self._charged + _RECORD_CHARGE + record.raw_size + record.abandoned_charge
++        frames = self._frame_count + (record.kind == "frame")
++        if (
++            len(self._records) + 1 > self.limits.max_records
++            or frames > self.limits.max_frames
++            or charged > self.limits.max_total_bytes
++        ):
++            raise CaptureLimitError("Committed journal exceeds its configured bounds.")
++        self._records.append(record.model_copy(deep=True))
++        self._head = record.digest
++        self._clocks[record.session_id] = record.monotonic_ns
++        self._charged, self._frame_count = charged, frames
++
++    def _validate_header(self) -> None:
++        if self._read(self.directory / "capture.json") != canonical_bytes(self._header):
++            raise ValueError("Capture identity, source, rights, configuration or limits changed.")
++
+     def _load(self) -> None:
+-        if self._index.is_symlink():
+-            raise ValueError("Journal index cannot be a symlink.")
+-        records: list[CaptureRecord] = []
+-        head = self._genesis
+-        clocks: dict[str, int] = {}
++        """Full O(N) content audit; a failed audit invalidates the entire cache."""
++        self._index_stamp = None
++        self._directory_stamp()
++        self._validate_header()
++        self._records: list[CaptureRecord] = []
++        self._head = self._genesis
++        self._clocks: dict[str, int] = {}
++        self._charged = 0
++        self._frame_count = 0
+         for path in sorted(self._index.iterdir()):
+             # Leftover unpublished atomic-write temporaries are not committed receipts.
+             if path.name.startswith(".pending-"):
+                 continue
+-            if path.name != f"{len(records) + 1:012d}.json":
++            if path.name != f"{len(self._records) + 1:012d}.json":
+                 raise ValueError("Journal index has a missing, unexpected or reordered entry.")
+-            reference = json.loads(self._read(path))
+-            if not isinstance(reference, dict) or set(reference) != {"record_hash"}:
+-                raise ValueError("Invalid journal index reference.")
+-            raw = self.store.get(reference["record_hash"], "json")
+-            record = CaptureRecord.model_validate_json(raw)
+-            self._binding(record)
+-            if (
+-                record.local_sequence != len(records) + 1
+-                or record.previous_hash != head
+-                or record.digest != reference["record_hash"]
+-            ):
+-                raise ValueError("Journal receipt hash, ordinal or predecessor changed.")
+-            if record.monotonic_ns < clocks.get(record.session_id, 0):
+-                raise ValueError("Monotonic clock reversed within a journal session.")
+-            clocks[record.session_id] = record.monotonic_ns
+-            if record.kind == "frame":
+-                self.read_frame(record)
+-            records.append(record)
+-            head = record.digest
+-            if len(records) > self.limits.max_records:
+-                raise CaptureLimitError("Committed journal exceeds its record bound.")
+-        self._records, self._head = records, head
++            self._remember(self._read_index_record(path))
++        if len(self._records) < self._verified_count or (
++            self._verified_count
++            and self._records[self._verified_count - 1].digest != self._verified_hash
++        ):
++            raise ValueError("Previously verified journal prefix changed or was removed.")
+         self._pending()
++        self._verified_count, self._verified_hash = len(self._records), self._head
++        self._index_stamp = self._directory_stamp()
++
++    def _refresh(self) -> None:
++        """O(1) cached boundary check; external index changes require full audit."""
++        if self._index_stamp is None:
++            self._load()
++            return
++        self._validate_header()
++        current = self._directory_stamp()
++        next_path = self._index / f"{len(self._records) + 1:012d}.json"
++        if current != self._index_stamp or next_path.exists() or next_path.is_symlink():
++            # Never infer that an external directory change is an append. It could
++            # include a missing index or an unrelated entry beyond a valid tail.
++            # Probe the next index even on filesystems with coarse timestamps.
++            self._load()
++            return
++        if self._records:
++            boundary = self._read_index_record(self._index / f"{len(self._records):012d}.json")
++            if boundary.digest != self._head:
++                self._index_stamp = None
++                raise ValueError("Committed journal boundary changed.")
++        self._pending()
++
++    def audit(self) -> CaptureCheckpoint:
++        """Verify all committed raw/envelope/index content before downstream admission."""
++        with self._writer():
++            self._load()
++            return self._checkpoint()
+ 
+     def records(self) -> tuple[CaptureRecord, ...]:
+         with self._writer():
+@@ -301,15 +371,20 @@ class CaptureJournal:
+ 
+     @property
+     def checkpoint(self) -> CaptureCheckpoint:
++        with self._writer():
++            self._refresh()
++            return self._checkpoint()
++
++    def _checkpoint(self) -> CaptureCheckpoint:
+         pending = self._pending()
+-        charged = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
++        charged = self._charged
+         if pending is not None and pending.local_sequence > len(self._records):
+             charged += _RECORD_CHARGE + pending.raw_size + pending.abandoned_charge
+         return CaptureCheckpoint(
+             capture_id=self.capture_id,
+             config_hash=self.config_hash,
+             committed_records=len(self._records),
+-            frames=sum(r.kind == "frame" for r in self._records),
++            frames=self._frame_count,
+             total_charged_bytes=charged,
+             last_hash=self._head,
+             pending_intent=pending is not None,
+@@ -324,12 +399,11 @@ class CaptureJournal:
+         )
+ 
+     def _budget(self, record: CaptureRecord) -> None:
+-        total = sum(_RECORD_CHARGE + r.raw_size + r.abandoned_charge for r in self._records)
++        total = self._charged
+         charge = _RECORD_CHARGE + record.raw_size + record.abandoned_charge
+         if (
+             len(self._records) + 1 > self.limits.max_records
+-            or sum(r.kind == "frame" for r in self._records) + (record.kind == "frame")
+-            > self.limits.max_frames
++            or self._frame_count + (record.kind == "frame") > self.limits.max_frames
+             or total + charge > self.limits.max_total_bytes
+         ):
+             raise CaptureLimitError("Capture record, frame or conservative disk budget exhausted.")
+@@ -365,8 +439,7 @@ class CaptureJournal:
+             abandoned_charge=abandoned_charge,
+         )
+         self._binding(record)
+-        previous = next((r for r in reversed(self._records) if r.session_id == session_id), None)
+-        if previous is not None and record.monotonic_ns < previous.monotonic_ns:
++        if record.monotonic_ns < self._clocks.get(session_id, 0):
+             raise ValueError("Monotonic receipt clock cannot reverse within a session.")
+         self._budget(record)
+         return record
+@@ -386,8 +459,9 @@ class CaptureJournal:
+             self._index / f"{record.local_sequence:012d}.json",
+             canonical_bytes({"record_hash": digest}),
+         )
+-        self._records.append(record.model_copy(deep=True))
+-        self._head = digest
++        self._remember(record)
++        self._verified_count, self._verified_hash = len(self._records), self._head
++        self._index_stamp = self._directory_stamp()
+         self._clear_pending()
+         return record.model_copy(deep=True)
+ 
+@@ -421,7 +495,7 @@ class CaptureJournal:
+         details: dict[str, Any] | None = None,
+     ) -> CaptureRecord:
+         with self._writer():
+-            self._load()
++            self._refresh()
+             if self._pending() is not None:
+                 raise ValueError("Pending writer intent requires explicit recovery before append.")
+             record = self._record(kind, session_id, received_ns, monotonic_ns, raw, details)
+diff --git a/src/bot_trader/market_data/capture_authority.py b/src/bot_trader/market_data/capture_authority.py
+new file mode 100644
+index 0000000..bc5ee53
+--- /dev/null
++++ b/src/bot_trader/market_data/capture_authority.py
+@@ -0,0 +1,69 @@
++"""Finite data-pilot configuration and recorded user approval; neither is a credential."""
++
++from typing import Literal
++
++from pydantic import Field
++
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import Digest, ImmutableV2, Nanoseconds, content_hash
++from bot_trader.market_data.capture import CaptureLimits
++
++
++class PilotConfiguration(ImmutableV2):
++    version: Literal["kraken-public-pilot-v1"] = "kraken-public-pilot-v1"
++    mode: Literal["public_data_qa"] = "public_data_qa"
++    synthetic: Literal[False] = False
++    symbol: Literal["BTC/EUR"] = "BTC/EUR"
++    endpoint: Literal["wss://ws.kraken.com/v2"] = "wss://ws.kraken.com/v2"
++    partition: Literal["development"] = "development"
++    max_duration_ns: int = Field(
++        default=300_000_000_000, strict=True, ge=300_000_000_000, le=600_000_000_000
++    )
++    receive_timeout_ns: int = Field(default=1_000_000_000, strict=True, gt=0, le=2_000_000_000)
++    handshake_timeout_ns: int = Field(default=15_000_000_000, strict=True, gt=0, le=30_000_000_000)
++    idle_timeout_ns: int = Field(default=15_000_000_000, strict=True, gt=0, le=30_000_000_000)
++    max_reconnects: int = Field(default=2, strict=True, ge=0, le=5)
++    reconnect_delay_ns: int = Field(default=5_000_000_000, strict=True, gt=0, le=10_000_000_000)
++    max_market_rows: int = Field(default=8000, strict=True, ge=1, le=9000)
++    rights_reference: str = Field(min_length=1, max_length=1024)
++    limits: CaptureLimits = CaptureLimits(
++        max_frames=10_000,
++        max_records=20_000,
++        max_total_bytes=67_108_864,
++        min_free_disk_bytes=134_217_728,
++    )
++
++    @property
++    def digest(self) -> str:
++        return content_hash(self.model_dump(mode="json"))
++
++
++class PilotApproval(ImmutableV2):
++    version: Literal["public-capture-approval-v1"] = "public-capture-approval-v1"
++    approved: bool = Field(default=False, strict=True)
++    purpose: Literal["public_data_qa"] = "public_data_qa"
++    capture_id: str = Field(min_length=1, max_length=64)
++    config_hash: Digest
++    approved_by: str = Field(min_length=1, max_length=200)
++    decision_reference: str = Field(min_length=1, max_length=1024)
++    rights_reference: str = Field(min_length=1, max_length=1024)
++    host_id: str = Field(min_length=1, max_length=255)
++    not_before_ns: Nanoseconds
++    expires_ns: Nanoseconds
++
++    def require(
++        self, capture_id: str, config: PilotConfiguration, now_ns: int, host_id: str
++    ) -> None:
++        approval = PilotApproval.model_validate(self.model_dump())
++        if (
++            not approval.approved
++            or approval.capture_id != capture_id
++            or approval.config_hash != config.digest
++            or approval.host_id != host_id
++            or approval.rights_reference != config.rights_reference
++            or not approval.not_before_ns <= now_ns
++            or now_ns + config.max_duration_ns + 15_000_000_000 > approval.expires_ns
++        ):
++            raise AccessDenied(
++                "A matching, current user approval for this finite public pilot is required."
++            )
+diff --git a/src/bot_trader/market_data/capture_cli.py b/src/bot_trader/market_data/capture_cli.py
+new file mode 100644
+index 0000000..3304644
+--- /dev/null
++++ b/src/bot_trader/market_data/capture_cli.py
+@@ -0,0 +1,109 @@
++"""Finite pilot command orchestration; dry plan is the default and never opens a socket."""
++
++import importlib.metadata
++import signal
++import socket
++import threading
++import time
++from argparse import Namespace
++from typing import Any
++
++from bot_trader.application import build_services
++from bot_trader.core.contracts import Principal
++from bot_trader.core.events import canonical_bytes
++from bot_trader.core.settings import Settings
++from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
++
++
++class SystemReceiptClock:
++    def __init__(self) -> None:
++        self.stopped = threading.Event()
++
++    def now(self) -> tuple[int, int]:
++        return time.time_ns(), time.monotonic_ns()
++
++    def sleep_ns(self, duration_ns: int) -> None:
++        self.stopped.wait(duration_ns / 1_000_000_000)
++
++
++def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
++    config = PilotConfiguration.model_validate_json(args.config.read_bytes())
++    try:
++        installed = importlib.metadata.version("websockets")
++    except importlib.metadata.PackageNotFoundError:
++        installed = None
++    if not (args.execute or args.inspect or args.recover_stopped_writer):
++        return {
++            "status": "plan_only",
++            "network_contacted": False,
++            "capture_id": args.capture_id,
++            "config_hash": config.digest,
++            "config": config.model_dump(mode="json"),
++            "websockets_required": "17.4",
++            "websockets_installed": installed,
++            "host_id": socket.gethostname(),
++            "execution_authorized": False,
++            "requires": [
++                "explicit user approval matching this plan",
++                "applicable retention rights",
++                "synchronized host clock and private POSIX disk",
++                "external wall-time watchdog",
++            ],
++            "normalization_artifact_limit_bytes": 33_554_432,
++        }
++    clock = SystemReceiptClock()
++    approval = None
++    if args.execute:
++        if args.approval is None:
++            raise ValueError("Provide the separately authorized finite pilot approval record.")
++        approval = PilotApproval.model_validate_json(args.approval.read_bytes())
++        approval.require(args.capture_id, config, clock.now()[0], socket.gethostname())
++    if args.execute and installed != "17.4":
++        raise ValueError("Install the pinned optional capture extra before an approved pilot.")
++    # Dedicated pilot state; larger bounded sidecars don't change the platform default.
++    settings = settings.model_copy(update={"max_artifact_bytes": 33_554_432})
++    services = build_services(settings)
++    administrator = Principal(id="local-admin", role="admin")
++    stopped = clock.stopped
++    handlers: dict[signal.Signals, Any] = {}
++    try:
++        if args.inspect:
++            report = services.capture.inspect(args.capture_id, config, administrator)
++        elif args.recover_stopped_writer:
++            journal = services.capture.journal(args.capture_id, config, administrator)
++            with journal.capture_lease():
++                recovered = journal.recover(
++                    writer_stopped=True,
++                    session_id="recovery-" + str(clock.now()[0]),
++                    received_ns=clock.now()[0],
++                    monotonic_ns=clock.now()[1],
++                )
++            report = {
++                "status": "recovery_recorded",
++                "network_contacted": False,
++                "recovered": recovered.model_dump(mode="json") if recovered else None,
++            }
++        else:
++            from bot_trader.market_data.kraken_transport import KrakenWebSocketTransport
++
++            for signum in (signal.SIGINT, signal.SIGTERM):
++                handlers[signum] = signal.signal(signum, lambda *_: stopped.set())
++            assert approval is not None
++            report = services.capture.run_public_pilot(
++                args.capture_id,
++                config,
++                administrator,
++                approval,
++                clock=clock,
++                factory=lambda _: KrakenWebSocketTransport(
++                    max_frame_bytes=config.limits.max_frame_bytes
++                ),
++                stop_requested=stopped.is_set,
++            )
++        # Persist a content-addressed technical receipt. No market rows are printed.
++        digest = services.capture.store.put(canonical_bytes(report), "json")
++        return {**report, "report_hash": digest}
++    finally:
++        for signum, handler in handlers.items():
++            signal.signal(signum, handler)
++        services.database.close()
+diff --git a/src/bot_trader/market_data/capture_service.py b/src/bot_trader/market_data/capture_service.py
+index c391f61..d78bac5 100644
+--- a/src/bot_trader/market_data/capture_service.py
++++ b/src/bot_trader/market_data/capture_service.py
+@@ -1,12 +1,9 @@
+-"""Finite simulated public-feed capture composed with the platform's storage and policy.
+-
+-Transport is injected; this module has no socket client or order interface. A future
+-real connector requires separate admission rather than a runtime flag bypass.
+-"""
++"""Finite public-feed QA with separate simulated and explicitly approved pilot entry points."""
+ 
+ import hashlib
+ import os
+ import re
++import socket
+ from collections.abc import Callable
+ from pathlib import Path
+ from typing import Any, Literal, Protocol
+@@ -19,7 +16,13 @@ from bot_trader.core.events import ImmutableV2, canonical_bytes, content_hash, e
+ from bot_trader.core.security import Policy
+ from bot_trader.market_data.archive import LocalArchive, SourceSpec
+ from bot_trader.market_data.capture import CaptureJournal, CaptureLimitError, CaptureLimits
+-from bot_trader.market_data.kraken_ws import SCHEMA, KrakenProtocol, KrakenWSNormalizer
++from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
++from bot_trader.market_data.kraken_ws import (
++    SCHEMA,
++    KrakenProtocol,
++    KrakenWSNormalizer,
++    exact_ws_json,
++)
+ from bot_trader.market_data.replay import CaptureReplayCheckpoint, MarketReplay
+ from bot_trader.market_data.storage import ArtifactStore
+ 
+@@ -38,6 +41,18 @@ class FrameTransport(Protocol):
+     def close(self) -> None: ...
+ 
+ 
++class CaptureStopped(Exception):
++    """Stop requested while connecting or before an outgoing public subscription."""
++
++
++class CaptureDeadline(Exception):
++    """The declared intake window ended; shutdown may use its separately bounded grace."""
++
++
++class ReceivePollTimeout(TimeoutError):
++    """No message in a short poll; service idle/deadline policy decides when to reconnect."""
++
++
+ class FixtureComplete(Exception):
+     """Finite scripted input ended; a real remote disconnect is not this condition."""
+ 
+@@ -60,6 +75,14 @@ class CaptureConfiguration(ImmutableV2):
+         return content_hash(self.model_dump(mode="json"))
+ 
+ 
++CaptureConfig = CaptureConfiguration | PilotConfiguration
++
++
++def validated_config(config: CaptureConfig) -> CaptureConfig:
++    kind = PilotConfiguration if isinstance(config, PilotConfiguration) else CaptureConfiguration
++    return kind.model_validate(config.model_dump())
++
++
+ def collect(
+     journal: CaptureJournal,
+     config: CaptureConfiguration,
+@@ -68,18 +91,22 @@ def collect(
+     stop_requested: Callable[[], bool] = lambda: False,
+ ) -> dict[str, Any]:
+     """Bounded collector; every received raw frame is durable before protocol decoding."""
++    if not isinstance(config, CaptureConfiguration):
++        raise AccessDenied("Use the separately approved pilot entry point for real data.")
+     with journal.capture_lease():
+         return _collect(journal, config, factory, clock, stop_requested)
+ 
+ 
+ def _collect(
+     journal: CaptureJournal,
+-    config: CaptureConfiguration,
++    config: CaptureConfig,
+     factory: Callable[[int], FrameTransport],
+     clock: ReceiptClock,
+     stop_requested: Callable[[], bool],
++    *,
++    expected_simulated: bool = True,
+ ) -> dict[str, Any]:
+-    config = CaptureConfiguration.model_validate(config.model_dump())
++    config = validated_config(config)
+     if config.digest != journal.config_hash:
+         raise ValueError("Collector configuration differs from the journal binding.")
+     if journal.checkpoint.pending_intent:
+@@ -95,8 +122,12 @@ def _collect(
+             "resumed_terminal": True,
+             "sessions_started": sum(r.kind == "session_start" for r in initial),
+             "checkpoint": journal.checkpoint.model_dump(mode="json"),
+-            "diagnostics": [],
+-            "real_capture": False,
++            "diagnostics": [
++                "transport_close:" + str(r.details["outcome"])
++                for r in initial
++                if r.kind == "transport_close"
++            ],
++            "real_capture": not expected_simulated,
+         }
+     utc, started_monotonic = clock.now()
+     exact_ns(utc)
+@@ -107,6 +138,12 @@ def _collect(
+     reason = "reconnect_limit"
+     diagnostics: list[str] = []
+     last_utc = initial[-1].received_ns if initial else utc
++    market_rows = 0
++    for prior in initial:
++        if prior.kind == "frame":
++            value = exact_ws_json(journal.read_frame(prior))
++            if value.get("channel") in ("trade", "ticker"):
++                market_rows += len(value.get("data", []))
+     session = "none"
+     transport: FrameTransport | None = None
+ 
+@@ -130,6 +167,24 @@ def _collect(
+                 current.close()
+             except (OSError, ValueError):
+                 diagnostics.append("transport_close_not_confirmed")
++                return
++            outcome = getattr(current, "close_outcome", None)
++            if outcome is not None:
++                diagnostics.append("transport_close:" + str(outcome))
++                try:
++                    control("transport_close", {"outcome": str(outcome)})
++                except (OSError, ValueError, PlatformError):
++                    diagnostics.append("transport_close_record_not_confirmed")
++
++    def send_request(request: dict[str, Any]) -> None:
++        if stop_requested():
++            raise CaptureStopped
++        now, monotonic = clock.now()
++        if now >= deadline or monotonic - started_monotonic >= config.max_duration_ns:
++            raise CaptureDeadline
++        control("public_request", {"request": request})
++        assert transport is not None
++        transport.send(request)
+ 
+     try:
+         while sessions <= config.max_reconnects:
+@@ -145,17 +200,20 @@ def _collect(
+                 break
+             session = f"session-{sessions + 1}"
+             transport = factory(sessions)
+-            if transport.simulated is not True:
+-                raise AccessDenied("This delivery has no admitted real-capture transport.")
++            if transport.simulated is not expected_simulated:
++                raise AccessDenied(
++                    "Transport classification differs from the admitted configuration."
++                )
+             sessions += 1
++            session_started = clock.now()[1]
++            last_message = session_started
+             protocol = KrakenProtocol()
+             subscribed = False
+             control("session_start", {"attempt": sessions, "deadline_utc_ns": deadline})
+             try:
+                 transport.connect(config.endpoint)
+                 for request in protocol.requests_for_preflight():
+-                    control("public_request", {"request": request})
+-                    transport.send(request)
++                    send_request(request)
+                 while True:
+                     now, monotonic = clock.now()
+                     if now >= deadline or monotonic - started_monotonic >= config.max_duration_ns:
+@@ -170,8 +228,24 @@ def _collect(
+                     remaining = min(
+                         deadline - now, config.max_duration_ns - (monotonic - started_monotonic)
+                     )
+-                    raw = transport.receive(min(config.receive_timeout_ns, remaining))
+-                    received, received_monotonic = clock.now()  # before parsing
++                    if isinstance(config, PilotConfiguration):
++                        if market_rows >= config.max_market_rows:
++                            reason = "market_row_limit"
++                            break
++                        if (
++                            not protocol.ready
++                            and monotonic - session_started >= config.handshake_timeout_ns
++                            or monotonic - last_message >= config.idle_timeout_ns
++                        ):
++                            raise TimeoutError("Public feed handshake or idle deadline exceeded.")
++                    try:
++                        raw = transport.receive(min(config.receive_timeout_ns, remaining))
++                    except ReceivePollTimeout:
++                        continue
++                    received, received_monotonic = (
++                        clock.now()
++                    )  # application delivery, before parsing
++                    last_message = received_monotonic
+                     journal.append_frame(
+                         raw,
+                         session_id=session,
+@@ -192,11 +266,16 @@ def _collect(
+                         break
+                     result = protocol.accept(raw)
+                     diagnostics.extend(result.diagnostics)
++                    if result.kind == "market":
++                        market_rows += len(exact_ws_json(raw)["data"])
+                     if protocol.preflight_ready and not subscribed:
+                         for request in protocol.market_requests():
+-                            control("public_request", {"request": request})
+-                            transport.send(request)
++                            send_request(request)
+                         subscribed = True
++            except CaptureStopped:
++                reason = "user_stop"
++            except CaptureDeadline:
++                reason = "duration_limit"
+             except FixtureComplete:
+                 reason = "fixture_complete"
+             except (ConnectionError, TimeoutError) as error:
+@@ -263,7 +342,7 @@ def _collect(
+         "sessions_started": sessions,
+         "checkpoint": journal.checkpoint.model_dump(mode="json"),
+         "diagnostics": diagnostics,
+-        "real_capture": False,
++        "real_capture": not expected_simulated,
+     }
+ 
+ 
+@@ -274,10 +353,10 @@ class KrakenCaptureService:
+         self.store, self.policy, self.directory = store, policy, directory
+ 
+     def journal(
+-        self, capture_id: str, config: CaptureConfiguration, principal: Principal
++        self, capture_id: str, config: CaptureConfig, principal: Principal
+     ) -> CaptureJournal:
+         self.policy.require(principal, "worker.execute", partition=config.partition)
+-        config = CaptureConfiguration.model_validate(config.model_dump())
++        config = validated_config(config)
+         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", capture_id):
+             raise ValueError("Use a bounded portable capture identity, not a path.")
+         journal = CaptureJournal(
+@@ -286,6 +365,12 @@ class KrakenCaptureService:
+             capture_id=capture_id,
+             config_hash=config.digest,
+             limits=config.limits,
++            synthetic=config.synthetic,
++            rights_reference=(
++                config.rights_reference
++                if isinstance(config, PilotConfiguration)
++                else "synthetic-technical-fixture"
++            ),
+         )
+         if self.store.put(canonical_bytes(config.model_dump(mode="json")), "json") != config.digest:
+             raise ValueError("Configuration artifact identity changed.")
+@@ -294,12 +379,16 @@ class KrakenCaptureService:
+     def run_simulated(
+         self,
+         capture_id: str,
+-        config: CaptureConfiguration,
++        config: CaptureConfig,
+         principal: Principal,
+         factory: Callable[[int], FrameTransport],
+         clock: ReceiptClock,
+         stop_requested: Callable[[], bool] = lambda: False,
+     ) -> dict[str, Any]:
++        if not isinstance(config, CaptureConfiguration):
++            raise AccessDenied(
++                "Simulated entry point requires its original synthetic configuration."
++            )
+         journal = self.journal(capture_id, config, principal)
+         capture = collect(journal, config, factory, clock, stop_requested)
+         if journal.checkpoint.pending_intent:
+@@ -316,10 +405,83 @@ class KrakenCaptureService:
+             }
+         return {**result, "capture": capture}
+ 
++    def run_public_pilot(
++        self,
++        capture_id: str,
++        config: PilotConfiguration,
++        principal: Principal,
++        approval: PilotApproval,
++        *,
++        clock: ReceiptClock,
++        factory: Callable[[int], FrameTransport],
++        host_id: str | None = None,
++        stop_requested: Callable[[], bool] = lambda: False,
++    ) -> dict[str, Any]:
++        self.policy.require(principal, "worker.execute", partition=config.partition)
++        config = PilotConfiguration.model_validate(config.model_dump())
++        approval.require(capture_id, config, clock.now()[0], host_id or socket.gethostname())
++        journal = self.journal(capture_id, config, principal)
++        approval_hash = self.store.put(canonical_bytes(approval.model_dump(mode="json")), "json")
++        with journal.capture_lease():
++            prior = journal.records()
++            terminal = (
++                prior
++                and prior[-1].kind == "capture_stop"
++                and prior[-1].details.get("reason") != "interrupted"
++            )
++            if not terminal and not journal.checkpoint.pending_intent:
++                received, monotonic = clock.now()
++                journal.append_control(
++                    "capture_authorization",
++                    session_id="approval-" + str(received),
++                    received_ns=received,
++                    monotonic_ns=monotonic,
++                    details={"approval_hash": approval_hash},
++                )
++            capture = _collect(
++                journal, config, factory, clock, stop_requested, expected_simulated=False
++            )
++        if journal.checkpoint.pending_intent:
++            return {
++                "status": "blocked_pending_recovery",
++                "capture": capture,
++                "synthetic": False,
++                "approval_hash": approval_hash,
++            }
++        try:
++            result = self.inspect(capture_id, config, principal)
++        except (ValueError, OSError, PlatformError) as error:
++            return {
++                "status": "blocked_normalization",
++                "capture": capture,
++                "synthetic": False,
++                "approval_hash": approval_hash,
++                "error_type": type(error).__name__,
++            }
++        checks = {
++            "data_integrity_and_replay": True,
++            "both_channels_observed": set(result["channels_seen"]) == {"trade", "ticker"},
++            "target_duration_completed": capture["reason"] == "duration_limit",
++            "local_shutdown_confirmed": any(
++                d.startswith("transport_close:") for d in capture["diagnostics"]
++            )
++            and "transport_close_not_confirmed" not in capture["diagnostics"],
++        }
++        return {
++            **result,
++            "capture": capture,
++            "approval_hash": approval_hash,
++            "pilot_acceptance": {
++                "checks": checks,
++                "passed": all(checks.values()),
++                "scope": "finite data QA only; provider completeness remains unknown",
++            },
++        }
++
+     def inspect(
+         self,
+         capture_id: str,
+-        config: CaptureConfiguration,
++        config: CaptureConfig,
+         principal: Principal,
+         *,
+         until_ns: int | None = None,
+@@ -333,7 +495,7 @@ class KrakenCaptureService:
+         self,
+         journal: CaptureJournal,
+         capture_id: str,
+-        config: CaptureConfiguration,
++        config: CaptureConfig,
+         until_ns: int | None,
+         checkpoint: CaptureReplayCheckpoint | None,
+     ) -> dict[str, Any]:
+@@ -360,34 +522,43 @@ class KrakenCaptureService:
+                 stream.write(manifest)
+                 stream.flush()
+                 os.fsync(stream.fileno())
++        data_class: Literal["synthetic", "exposed_structural_only"] = (
++            "synthetic" if config.synthetic else "exposed_structural_only"
++        )
+         source = SourceSpec(
+             source_id="kraken-ws-v2",
+             source_version="1",
+             source_schema=SCHEMA,
+-            locator=f"internal:simulated-capture:{capture_id}",
+-            rights="Invented transport fixtures; no market-data acquisition.",
++            locator=(
++                f"internal:{'simulated' if config.synthetic else 'public'}-capture:{capture_id}"
++            ),
++            rights=(
++                config.rights_reference
++                if isinstance(config, PilotConfiguration)
++                else "Invented transport fixtures; no market-data acquisition."
++            ),
+             acquired_ns=frames[-1].received_ns if frames else 0,
+             raw_sha256=digest,
+             size_bytes=len(manifest),
+-            data_class="synthetic",
++            data_class=data_class,
+         )
+         archive = LocalArchive(self.store)
+         imported = archive.import_step(path, source, max_chunks=1000)
+         if imported.archive_hash is None:
+             raise ValueError("Bounded capture manifest import remains incomplete.")
+         record, declaration, raw = archive.read(imported.archive_hash)
+-        normalizer = KrakenWSNormalizer(self.store, synthetic=True)
++        normalizer = KrakenWSNormalizer(self.store, synthetic=config.synthetic)
+         normalized = normalizer.normalize_with_provenance(
+             raw, declaration, record.source_manifest_hash
+         )
+         replay = MarketReplay().inspect_capture(
+-            normalized.events, data_class="synthetic", until_ns=until_ns, checkpoint=checkpoint
++            normalized.events, data_class=data_class, until_ns=until_ns, checkpoint=checkpoint
+         )
+         sidecar = self.store.put(canonical_bytes(normalized.model_dump(mode="json")), "json")
+         replay_hash = self.store.put(canonical_bytes(replay.model_dump(mode="json")), "json")
+         return {
+             "status": "technical_qa",
+-            "synthetic": True,
++            "synthetic": config.synthetic,
+             "financial_validation": False,
+             "capture_id": capture_id,
+             "config_hash": config.digest,
+@@ -397,5 +568,6 @@ class KrakenCaptureService:
+             "normalization_hash": sidecar,
+             "replay_hash": replay_hash,
+             "market_events": len(replay.events),
++            "channels_seen": sorted({e.stream_id.split("-")[0] for e in replay.events}),
+             "checkpoint": replay.checkpoint.model_dump(mode="json"),
+         }
+diff --git a/src/bot_trader/market_data/kraken_transport.py b/src/bot_trader/market_data/kraken_transport.py
+new file mode 100644
+index 0000000..4f6f2ab
+--- /dev/null
++++ b/src/bot_trader/market_data/kraken_transport.py
+@@ -0,0 +1,240 @@
++"""Bounded public Kraken WebSocket transport; construction never opens a socket.
++
++The optional, pinned library handles TLS/WebSocket framing. This synchronous port
++owns a private asyncio loop and must run outside an active asyncio loop. Application
++receipt is measured by the collector after receive(), not at the network interface.
++OS DNS resolution can outlive cancellation; a supervised process watchdog remains
++necessary for a hard whole-process deadline.
++"""
++
++from __future__ import annotations
++
++import asyncio
++import ssl
++from collections.abc import Awaitable
++from typing import Any, Protocol, TypeVar, cast
++
++from bot_trader.core.events import canonical_bytes
++from bot_trader.market_data.kraken_ws import KrakenProtocol
++
++ENDPOINT = "wss://ws.kraken.com/v2"
++DEPENDENCY_VERSION = "17.4"
++T = TypeVar("T")
++
++
++class _Connection(Protocol):
++    protocol: Any
++    transport: Any
++
++    async def send(self, message: str) -> None: ...
++    async def recv(self, *, decode: bool) -> str | bytes: ...
++    async def close(self, code: int = 1000, reason: str = "") -> None: ...
++
++
++def _duration(value: int, maximum: int) -> int:
++    if type(value) is not int or not 0 < value <= maximum:
++        raise ValueError("Transport duration must be a positive bounded integer in ns.")
++    return value
++
++
++def _public_requests() -> frozenset[bytes]:
++    protocol = KrakenProtocol()
++    # These are the same fixed requests generated after admission by the collector.
++    protocol.instrument_online = True
++    protocol.acknowledged.add("instrument")
++    return frozenset(
++        canonical_bytes(request)
++        for request in (*protocol.requests_for_preflight(), *protocol.market_requests())
++    )
++
++
++class KrakenWebSocketTransport:
++    """One connection session with no private methods, redirects, proxies or auto-retry."""
++
++    simulated = False
++
++    def __init__(
++        self,
++        *,
++        open_timeout_ns: int = 10_000_000_000,
++        send_timeout_ns: int = 2_000_000_000,
++        close_timeout_ns: int = 3_000_000_000,
++        max_frame_bytes: int = 1_048_576,
++    ) -> None:
++        self.open_timeout_ns = _duration(open_timeout_ns, 10_000_000_000)
++        self.send_timeout_ns = _duration(send_timeout_ns, 2_000_000_000)
++        self.close_timeout_ns = _duration(close_timeout_ns, 3_000_000_000)
++        if type(max_frame_bytes) is not int or not 0 < max_frame_bytes <= 1_048_576:
++            raise ValueError("Public message limit must be between 1 byte and 1 MiB.")
++        self.max_frame_bytes = max_frame_bytes
++        self._loop: asyncio.AbstractEventLoop | None = None
++        self._connection: _Connection | None = None
++        self._attempted = False
++        self.close_outcome: str | None = None
++
++    async def _dial(self, endpoint: str, context: ssl.SSLContext) -> _Connection:
++        # Optional extra: default platform import/construction does not require it.
++        from importlib.metadata import version
++
++        from websockets.asyncio.client import connect
++
++        if version("websockets") != DEPENDENCY_VERSION:
++            raise ValueError("The admitted WebSocket library version is not installed.")
++
++        class NoRedirect(connect):
++            def process_redirect(self, exc: Exception) -> Exception | str:
++                return exc
++
++        connection = await NoRedirect(
++            endpoint,
++            ssl=context,
++            proxy=None,
++            compression=None,
++            open_timeout=self.open_timeout_ns / 1_000_000_000,
++            close_timeout=self.close_timeout_ns / 1_000_000_000,
++            ping_interval=None,
++            max_size=self.max_frame_bytes,
++            max_queue=1,
++            write_limit=4096,
++            user_agent_header="bot_trader-public-capture/1",
++        )
++        return cast(_Connection, connection)
++
++    def _run(self, operation: Awaitable[T], duration_ns: int) -> T:
++        if self._loop is None or self._loop.is_closed():
++            raise ValueError("Transport session is not open.")
++        # Float seconds schedule a timeout only; source/receipt timestamps stay exact ints.
++        return self._loop.run_until_complete(
++            asyncio.wait_for(operation, duration_ns / 1_000_000_000)
++        )
++
++    def connect(self, endpoint: str) -> None:
++        if endpoint != ENDPOINT or self._attempted:
++            raise ValueError("Only one exact public Kraken endpoint/session is admitted.")
++        try:
++            asyncio.get_running_loop()
++        except RuntimeError:
++            pass
++        else:
++            raise ValueError("Synchronous capture transport requires a dedicated worker thread.")
++        self._attempted = True
++        self._loop = asyncio.new_event_loop()
++        context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
++        context.check_hostname = True
++        context.verify_mode = ssl.CERT_REQUIRED
++        try:
++            self._connection = self._run(self._dial(endpoint, context), self.open_timeout_ns)
++        except ImportError as error:
++            self._shutdown_loop()
++            raise ValueError(
++                "Install the pinned optional capture extra before acquisition."
++            ) from error
++        except ssl.SSLCertVerificationError as error:
++            self._shutdown_loop()
++            raise ValueError(
++                "TLS certificate verification failed; do not retry insecurely."
++            ) from error
++        except Exception as error:
++            self._shutdown_loop()
++            from websockets.exceptions import InvalidHandshake, InvalidURI, SecurityError
++
++            if isinstance(error, (InvalidHandshake, InvalidURI, SecurityError, ValueError)):
++                raise ValueError(
++                    "Public WebSocket handshake or admitted endpoint rejected."
++                ) from error
++            if isinstance(error, (TimeoutError, OSError)):
++                raise ConnectionError(
++                    "Public WebSocket opening failed within its bound."
++                ) from error
++            raise
++
++    def _link(self) -> _Connection:
++        if self._connection is None or self._loop is None:
++            raise ValueError("Transport has no connected session.")
++        return self._connection
++
++    def send(self, request: dict[str, Any]) -> None:
++        wire = canonical_bytes(request)
++        if wire not in _public_requests():
++            raise ValueError("Only the exact public instrument/trade/ticker requests are allowed.")
++        connection = self._link()
++        try:
++            self._run(connection.send(wire.decode("utf-8")), self.send_timeout_ns)
++        except Exception as error:
++            from websockets.exceptions import ConnectionClosed
++
++            if isinstance(error, (TimeoutError, OSError, ConnectionClosed)):
++                raise ConnectionError(
++                    "Public subscription send failed; outcome is uncertain."
++                ) from error
++            raise
++
++    def receive(self, timeout_ns: int) -> bytes:
++        from bot_trader.market_data.capture_service import ReceivePollTimeout
++
++        duration = _duration(timeout_ns, 10_000_000_000)
++        connection = self._link()
++        try:
++            raw = self._run(connection.recv(decode=False), duration)
++        except TimeoutError as error:
++            raise ReceivePollTimeout("No message within this finite receive poll.") from error
++        except Exception as error:
++            from websockets.exceptions import ConnectionClosed
++
++            if isinstance(error, (OSError, ConnectionClosed)):
++                raise ConnectionError("Public WebSocket disconnected.") from error
++            raise
++        if not isinstance(raw, bytes) or not 0 < len(raw) <= self.max_frame_bytes:
++            raise ValueError("Delivered WebSocket message violates the original-byte limit.")
++        return raw
++
++    def _abort(self) -> None:
++        if self._connection is not None:
++            self._connection.transport.abort()
++            if self._loop is not None and not self._loop.is_closed():
++                self._loop.run_until_complete(asyncio.sleep(0))
++
++    def _shutdown_loop(self) -> None:
++        loop, self._loop = self._loop, None
++        if loop is None or loop.is_closed():
++            return
++        pending = asyncio.all_tasks(loop)
++        for task in pending:
++            task.cancel()
++        if pending:
++            # Cooperative library tasks receive cancellation; no unbounded executor join.
++            loop.run_until_complete(asyncio.wait(pending, timeout=0.1))
++        loop.close()
++
++    def close(self) -> None:
++        connection = self._connection
++        if connection is None:
++            self._shutdown_loop()
++            return
++        failure: Exception | None = None
++        try:
++            try:
++                self._run(
++                    connection.close(code=1000, reason="finite public capture stopped"),
++                    self.close_timeout_ns,
++                )
++            except Exception as error:
++                failure = error
++                self._abort()
++            closed = connection.protocol.state == 3  # websockets.protocol.State.CLOSED
++            received_close = connection.protocol.close_rcvd is not None
++            local_closed = closed
++            if not local_closed:
++                self._abort()
++                local_closed = connection.protocol.state == 3
++            if not local_closed:
++                self.close_outcome = "unconfirmed"
++                raise OSError("Local WebSocket shutdown could not be confirmed.") from failure
++            self.close_outcome = (
++                "graceful"
++                if closed and received_close and failure is None
++                else "local_closed_remote_unknown"
++            )
++        finally:
++            self._connection = None
++            self._shutdown_loop()
+diff --git a/src/bot_trader/market_data/kraken_ws.py b/src/bot_trader/market_data/kraken_ws.py
+index a357f12..d8e3cc7 100644
+--- a/src/bot_trader/market_data/kraken_ws.py
++++ b/src/bot_trader/market_data/kraken_ws.py
+@@ -135,6 +135,7 @@ class KrakenProtocol:
+         if symbol != SYMBOL:
+             raise ValueError("This version admits only the explicit BTC/EUR mapping.")
+         self.instrument_online = False
++        self._instrument: dict[str, Any] | None = None
+         self.acknowledged: set[str] = set()
+ 
+     @property
+@@ -229,7 +230,14 @@ class KrakenProtocol:
+                 value.get("data"), dict
+             ):
+                 raise ValueError("Invalid instrument schema.")
+-            pairs = value["data"].get("pairs")
++            data = value["data"]
++            pairs = data.get("pairs")
++            if (
++                value["type"] == "update"
++                and "pairs" not in data
++                and isinstance(data.get("assets"), list)
++            ):
++                return ProtocolResult("control", "instrument", self.ready)
+             if not isinstance(pairs, list):
+                 raise ValueError("Instrument message has no pair list.")
+             selected = [p for p in pairs if isinstance(p, dict) and p.get("symbol") == SYMBOL]
+@@ -238,12 +246,21 @@ class KrakenProtocol:
+             if len(selected) != 1:
+                 raise ValueError("Requested v2 instrument is absent or ambiguous.")
+             pair = selected[0]
++            if value["type"] == "update":
++                if self._instrument is None:
++                    raise ValueError("Instrument update cannot replace the initial full snapshot.")
++                # A sparse update changes only present fields. Raw frames retain all
++                # metadata; omitted identity/status never silently become missing.
++                pair = self._instrument | pair
+             if (pair.get("base"), pair.get("quote"), pair.get("status")) != (
+                 "BTC",
+                 "EUR",
+                 "online",
+             ):
++                self.instrument_online = False
++                self._instrument = None
+                 raise ValueError("Requested v2 instrument has incompatible identity or status.")
++            self._instrument = dict(pair)
+             self.instrument_online = True
+             return ProtocolResult("control", "instrument", self.ready)
+         if channel in ("trade", "ticker"):
+diff --git a/tests/test_capture_archive.py b/tests/test_capture_archive.py
+index 2aa2c63..f04af33 100644
+--- a/tests/test_capture_archive.py
++++ b/tests/test_capture_archive.py
+@@ -227,3 +227,117 @@ def test_metadata_limit_and_symlink_are_rejected(tmp_path):
+     (capture.directory / "records/000000000001.json").symlink_to(target)
+     with pytest.raises((ValueError, OSError)):
+         capture.records()
++
++
++class CountingStore(MemoryArtifactStore):
++    def __init__(self):
++        super().__init__()
++        self.reads = 0
++
++    def get(self, digest, suffix):
++        self.reads += 1
++        return super().get(digest, suffix)
++
++
++def test_single_writer_append_and_checkpoint_work_scales_linearly(tmp_path, monkeypatch):
++    from pathlib import Path
++
++    directory_scans = []
++    original_iterdir = Path.iterdir
++
++    def counted_iterdir(path):
++        if path.name == "records":
++            directory_scans.append(path)
++        return original_iterdir(path)
++
++    monkeypatch.setattr(Path, "iterdir", counted_iterdir)
++
++    def measured(size, name):
++        store = CountingStore()
++        capture = journal(tmp_path / name, store=store)
++        scans_before = len(directory_scans)
++        store.reads = 0
++        for index in range(size):
++            frame(capture, str(index).encode(), utc=index, mono=index)
++            assert capture.checkpoint.frames == index + 1
++        append_reads = store.reads
++        # A single active collector must not rescan the growing directory per frame.
++        assert len(directory_scans) == scans_before
++        capture.audit()
++        audit_reads = store.reads - append_reads
++        assert len(directory_scans) == scans_before + 1
++        assert size <= audit_reads <= 2 * size + 4
++        return append_reads
++
++    small = measured(20, "small")
++    large = measured(40, "large")
++    assert small > 0
++    assert large <= small * 2.2
++
++
++def test_alternating_instances_audit_handover_and_share_exact_prefix(tmp_path):
++    store = MemoryArtifactStore()
++    first = journal(tmp_path, store=store)
++    second = journal(tmp_path, store=store)
++    expected = []
++    for index in range(8):
++        writer = first if index % 2 == 0 else second
++        expected.append(frame(writer, str(index).encode(), utc=index, mono=index))
++        assert writer.checkpoint.committed_records == index + 1
++    assert first.audit() == second.audit()
++    assert first.records() == second.records() == tuple(expected)
++    assert journal(tmp_path, store=store).records() == tuple(expected)
++
++
++def test_old_same_size_corruption_is_found_at_audit_not_silently_admitted(tmp_path):
++    store = LocalArtifactStore(tmp_path / "blobs")
++    capture = journal(tmp_path, store=store)
++    first = frame(capture, b"first", utc=1, mono=1)
++    frame(capture, b"second", utc=2, mono=2)
++    (store.root / f"{first.raw_sha256}.bin").write_bytes(b"FIRST")
++    # Cached old immutable objects aren't reread per append. This is not a hostile
++    # administrator boundary; downstream admission always requests a full audit.
++    frame(capture, b"third", utc=3, mono=3)
++    with pytest.raises(PlatformError, match="checksum"):
++        capture.audit()
++    with pytest.raises(PlatformError, match="checksum"):
++        capture.records()
++    with pytest.raises(PlatformError, match="checksum"):
++        journal(tmp_path, store=store)
++
++
++def test_latest_boundary_corruption_blocks_append_before_intent(tmp_path):
++    store = LocalArtifactStore(tmp_path / "blobs")
++    capture = journal(tmp_path, store=store)
++    latest = frame(capture, b"latest", utc=1, mono=1)
++    (store.root / f"{latest.raw_sha256}.bin").write_bytes(b"LATEST")
++    with pytest.raises(PlatformError):
++        frame(capture, b"next", utc=2, mono=2)
++    assert not (capture.directory / "pending.json").exists()
++
++
++def test_deleted_boundary_blocks_without_recreating_index(tmp_path):
++    capture = journal(tmp_path)
++    frame(capture, utc=1, mono=1)
++    last = capture.directory / "records/000000000001.json"
++    last.unlink()
++    # Deleting the entire one-record index is indistinguishable from an empty
++    # on-disk journal unless the verified in-memory prefix is compared explicitly.
++    with pytest.raises(ValueError, match="prefix"):
++        frame(capture, utc=2, mono=2)
++    assert not last.exists() and not (capture.directory / "pending.json").exists()
++
++
++def test_external_valid_tail_plus_gap_never_gets_silently_filled(tmp_path):
++    store = MemoryArtifactStore()
++    first = journal(tmp_path, store=store)
++    frame(first, utc=1, mono=1)
++    second = journal(tmp_path, store=store)
++    frame(second, utc=2, mono=2)
++    frame(second, utc=3, mono=3)
++    frame(second, utc=4, mono=4)
++    missing = first.directory / "records/000000000003.json"
++    missing.unlink()
++    with pytest.raises(ValueError, match="missing"):
++        frame(first, utc=5, mono=5)
++    assert not missing.exists() and not (first.directory / "pending.json").exists()
+diff --git a/tests/test_capture_cli.py b/tests/test_capture_cli.py
+new file mode 100644
+index 0000000..071c5ed
+--- /dev/null
++++ b/tests/test_capture_cli.py
+@@ -0,0 +1,86 @@
++"""Pilot command is exercised offline, including its default no-network boundary."""
++
++import json
++import subprocess
++import sys
++from argparse import Namespace
++
++import pytest
++
++from bot_trader.core.events import canonical_bytes
++from bot_trader.core.settings import Settings
++from bot_trader.market_data.capture_authority import PilotConfiguration
++from bot_trader.market_data.capture_cli import execute_command
++
++
++def test_cli_dry_plan_never_opens_a_connection_or_creates_state(tmp_path):
++    path = tmp_path / "config.json"
++    config = PilotConfiguration(rights_reference="pending-retention-review")
++    path.write_bytes(canonical_bytes(config.model_dump(mode="json")))
++    state = tmp_path / "private"
++    result = subprocess.run(
++        [
++            sys.executable,
++            "-m",
++            "bot_trader.cli",
++            "--state-dir",
++            str(state),
++            "capture-pilot",
++            "--capture-id",
++            "pilot-001",
++            "--config",
++            str(path),
++        ],
++        capture_output=True,
++        text=True,
++        timeout=15,
++    )
++    assert result.returncode == 0, result.stderr
++    report = json.loads(result.stdout)
++    assert report["status"] == "plan_only" and not report["network_contacted"]
++    assert not report["execution_authorized"] and report["config_hash"] == config.digest
++    assert not state.exists()
++
++
++def test_cli_execute_requires_approval_before_building_services(tmp_path, monkeypatch):
++    config = tmp_path / "config.json"
++    config.write_text(PilotConfiguration(rights_reference="fixture").model_dump_json())
++    monkeypatch.setattr(
++        "bot_trader.market_data.capture_cli.build_services",
++        lambda *_: pytest.fail("Unauthorized capture created services"),
++    )
++    args = Namespace(
++        config=config,
++        capture_id="pilot",
++        execute=True,
++        inspect=False,
++        recover_stopped_writer=False,
++        approval=None,
++    )
++    with pytest.raises(ValueError, match="approval"):
++        execute_command(args, Settings(data_dir=tmp_path / "private"))
++
++
++def test_offline_recovery_does_not_require_fresh_network_authorization(tmp_path, monkeypatch):
++    from types import SimpleNamespace
++
++    from bot_trader.core.security import Policy
++    from bot_trader.market_data.capture_service import KrakenCaptureService
++    from bot_trader.market_data.storage import LocalArtifactStore
++
++    config_path = tmp_path / "config.json"
++    config_path.write_text(PilotConfiguration(rights_reference="fixture").model_dump_json())
++    store = LocalArtifactStore(tmp_path / "artifacts")
++    capture = KrakenCaptureService(store, Policy(), tmp_path / "captures")
++    services = SimpleNamespace(capture=capture, database=SimpleNamespace(close=lambda: None))
++    monkeypatch.setattr("bot_trader.market_data.capture_cli.build_services", lambda _: services)
++    args = Namespace(
++        config=config_path,
++        capture_id="pilot",
++        execute=False,
++        inspect=False,
++        recover_stopped_writer=True,
++        approval=None,
++    )
++    result = execute_command(args, Settings(data_dir=tmp_path / "private"))
++    assert result["status"] == "recovery_recorded" and not result["network_contacted"]
+diff --git a/tests/test_kraken_transport.py b/tests/test_kraken_transport.py
+new file mode 100644
+index 0000000..e8867d7
+--- /dev/null
++++ b/tests/test_kraken_transport.py
+@@ -0,0 +1,277 @@
++"""Real connector code with invented peers only: no network connection is made."""
++
++import asyncio
++import ssl
++from types import SimpleNamespace
++
++import pytest
++
++from bot_trader.core.events import canonical_bytes
++from bot_trader.market_data.kraken_transport import (
++    ENDPOINT,
++    KrakenWebSocketTransport,
++)
++from bot_trader.market_data.kraken_ws import KrakenProtocol
++
++pytest.importorskip("websockets", reason="Pinned optional capture extra is required.")
++
++
++class FakeConnection:
++    def __init__(self, messages=()):
++        self.messages = iter(messages)
++        self.sent = []
++        self.received_decode = []
++        self.protocol = SimpleNamespace(state=1, close_rcvd=None)
++        self.transport = SimpleNamespace(abort=self.abort)
++        self.abort_count = 0
++        self.close_arguments = None
++        self.send_delay = self.close_delay = False
++        self.confirm_close = True
++        self.abort_completes = True
++
++    async def send(self, message):
++        if self.send_delay:
++            await asyncio.Event().wait()
++        self.sent.append(message)
++
++    async def recv(self, *, decode):
++        self.received_decode.append(decode)
++        value = next(self.messages, None)
++        if value is None:
++            await asyncio.Event().wait()
++        if isinstance(value, BaseException):
++            raise value
++        return value
++
++    async def close(self, *, code, reason):
++        self.close_arguments = code, reason
++        if self.close_delay:
++            await asyncio.Event().wait()
++        if self.confirm_close:
++            self.protocol.state = 3
++            self.protocol.close_rcvd = SimpleNamespace(code=1000)
++
++    def abort(self):
++        self.abort_count += 1
++        if self.abort_completes:
++            self.protocol.state = 3
++
++
++def attach(monkeypatch, connection, **kwargs):
++    client = KrakenWebSocketTransport(**kwargs)
++    calls = []
++
++    async def dial(endpoint, context):
++        calls.append((endpoint, context))
++        return connection
++
++    monkeypatch.setattr(client, "_dial", dial)
++    client.connect(ENDPOINT)
++    return client, calls
++
++
++def test_construction_has_no_connection_and_refuses_other_endpoints(monkeypatch):
++    import socket
++
++    monkeypatch.setattr(socket, "create_connection", lambda *_a, **_k: pytest.fail("network"))
++    client = KrakenWebSocketTransport()
++    assert client._loop is None and client._connection is None
++    for endpoint in (
++        "ws://ws.kraken.com/v2",
++        "wss://evil.invalid/v2",
++        ENDPOINT + "?token=secret",
++        "wss://ws.kraken.com/v2/",
++    ):
++        with pytest.raises(ValueError, match="exact public"):
++            client.connect(endpoint)
++    client.close()
++
++
++def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
++    import websockets
++    from websockets.asyncio import client as library
++
++    assert websockets.__version__ == "17.4"
++    peer = FakeConnection()
++    seen = {}
++
++    class Dial:
++        def __init__(self, endpoint, **kwargs):
++            seen.update(endpoint=endpoint, kwargs=kwargs, dial=self)
++
++        def __await__(self):
++            async def answer():
++                return peer
++
++            return answer().__await__()
++
++    monkeypatch.setattr(library, "connect", Dial)
++    transport = KrakenWebSocketTransport(max_frame_bytes=1024)
++    transport.connect(ENDPOINT)
++    try:
++        settings = seen["kwargs"]
++        assert seen["endpoint"] == ENDPOINT
++        assert settings["ssl"].verify_mode == ssl.CERT_REQUIRED
++        assert settings["ssl"].check_hostname is True
++        assert settings["proxy"] is settings["compression"] is settings["ping_interval"] is None
++        assert settings["max_size"] == 1024 and settings["max_queue"] == 1
++        assert settings["write_limit"] == 4096
++        assert settings["open_timeout"] == 10 and settings["close_timeout"] == 3
++        rejection = ValueError("redirect must not be followed")
++        assert seen["dial"].process_redirect(rejection) is rejection
++        with pytest.raises(ValueError, match="one exact"):
++            transport.connect(ENDPOINT)
++    finally:
++        transport.close()
++    assert transport.close_outcome == "graceful" and transport._loop is None
++
++
++def test_only_exact_public_subscriptions_can_be_sent(monkeypatch):
++    peer = FakeConnection()
++    transport, _ = attach(monkeypatch, peer)
++    try:
++        protocol = KrakenProtocol()
++        protocol.instrument_online = True
++        protocol.acknowledged.add("instrument")
++        requests = (*protocol.requests_for_preflight(), *protocol.market_requests())
++        for request in requests:
++            transport.send(request)
++        assert peer.sent == [canonical_bytes(request).decode() for request in requests]
++        for invalid in (
++            {"method": "add_order", "params": {}},
++            {"method": "subscribe", "params": {"channel": "executions"}},
++            requests[0] | {"token": "private"},
++            requests[0] | {"req_id": True},
++            {"method": "subscribe", "params": {"channel": "trade", "symbol": ["ETH/EUR"]}},
++        ):
++            with pytest.raises(ValueError, match="exact public"):
++                transport.send(invalid)
++        assert len(peer.sent) == 3
++    finally:
++        transport.close()
++
++
++def test_raw_message_bytes_return_unmodified_and_poll_timeout_is_not_disconnect(monkeypatch):
++    from bot_trader.market_data.capture_service import ReceivePollTimeout
++
++    raw = b'{ "channel" : "heartbeat", "synthetic_unicode":"\xc3\xb1" }'
++    peer = FakeConnection([raw, None, raw])
++    transport, _ = attach(monkeypatch, peer)
++    try:
++        assert transport.receive(1_000_000) == raw
++        with pytest.raises(ReceivePollTimeout):
++            transport.receive(1_000_000)
++        assert transport.receive(1_000_000) == raw
++        assert peer.received_decode == [False, False, False]
++    finally:
++        transport.close()
++
++
++@pytest.mark.parametrize("raw", [b"", b"abcde", '{"decoded":true}'])
++def test_invalid_raw_return_or_size_is_rejected(monkeypatch, raw):
++    peer = FakeConnection([raw])
++    transport, _ = attach(monkeypatch, peer, max_frame_bytes=4)
++    try:
++        with pytest.raises(ValueError, match="original-byte"):
++            transport.receive(1_000_000)
++    finally:
++        transport.close()
++
++
++def test_receive_disconnect_and_send_timeout_are_recoverable_errors(monkeypatch):
++    peer = FakeConnection([ConnectionResetError("invented disconnect")])
++    transport, _ = attach(monkeypatch, peer, send_timeout_ns=1_000_000)
++    try:
++        with pytest.raises(ConnectionError, match="disconnected"):
++            transport.receive(1_000_000)
++        peer.send_delay = True
++        with pytest.raises(ConnectionError, match="uncertain"):
++            transport.send(KrakenProtocol.preflight_request())
++    finally:
++        transport.close()
++
++
++@pytest.mark.parametrize(
++    "failure", [ssl.SSLCertVerificationError("fixture"), ValueError("fixture")]
++)
++def test_security_handshake_failure_is_permanent_and_cleans_loop(monkeypatch, failure):
++    transport = KrakenWebSocketTransport()
++
++    async def dial(*_):
++        raise failure
++
++    monkeypatch.setattr(transport, "_dial", dial)
++    with pytest.raises(ValueError):
++        transport.connect(ENDPOINT)
++    assert transport._loop is None
++    transport.close()
++
++
++def test_open_timeout_cleans_loop_without_real_dns(monkeypatch):
++    transport = KrakenWebSocketTransport(open_timeout_ns=1_000_000)
++
++    async def dial(*_):
++        await asyncio.Event().wait()
++
++    monkeypatch.setattr(transport, "_dial", dial)
++    with pytest.raises(ConnectionError, match="opening failed"):
++        transport.connect(ENDPOINT)
++    assert transport._loop is None
++
++
++def test_close_timeout_aborts_locally_without_claiming_remote_ack(monkeypatch):
++    peer = FakeConnection()
++    peer.close_delay = True
++    transport, _ = attach(monkeypatch, peer, close_timeout_ns=1_000_000)
++    transport.close()
++    assert peer.abort_count == 1 and peer.protocol.state == 3
++    assert peer.protocol.close_rcvd is None
++    assert transport.close_outcome == "local_closed_remote_unknown"
++    assert transport._loop is None
++    transport.close()
++
++
++def test_failed_local_shutdown_is_not_reported_closed(monkeypatch):
++    peer = FakeConnection()
++    peer.confirm_close = peer.abort_completes = False
++    transport, _ = attach(monkeypatch, peer)
++    with pytest.raises(OSError, match="could not be confirmed"):
++        transport.close()
++    assert transport.close_outcome == "unconfirmed"
++    assert transport._loop is None
++
++
++def test_remote_drop_allows_new_session_but_preserves_unknown_ack(monkeypatch):
++    peer = FakeConnection()
++    peer.protocol.state = 3
++    peer.confirm_close = False
++    transport, _ = attach(monkeypatch, peer)
++    transport.close()
++    assert transport.close_outcome == "local_closed_remote_unknown"
++
++
++@pytest.mark.parametrize(
++    "kwargs",
++    [
++        {"open_timeout_ns": 0},
++        {"open_timeout_ns": 11_000_000_000},
++        {"send_timeout_ns": True},
++        {"close_timeout_ns": 3.1},
++        {"max_frame_bytes": 1_048_577},
++        {"max_frame_bytes": 0},
++    ],
++)
++def test_constructor_bounds_are_strict(kwargs):
++    with pytest.raises(ValueError):
++        KrakenWebSocketTransport(**kwargs)
++
++
++def test_active_async_loop_rejected_before_dial(monkeypatch):
++    transport = KrakenWebSocketTransport()
++
++    async def operation():
++        with pytest.raises(ValueError, match="dedicated worker"):
++            transport.connect(ENDPOINT)
++
++    asyncio.run(operation())
++    assert transport._loop is None
+diff --git a/tests/test_kraken_ws.py b/tests/test_kraken_ws.py
+index 66aff67..b7bc209 100644
+--- a/tests/test_kraken_ws.py
++++ b/tests/test_kraken_ws.py
+@@ -170,6 +170,107 @@ def test_protocol_rejects_incompatible_or_ambiguous_context(fault):
+         protocol.accept(canonical_bytes(message))
+ 
+ 
++def test_instrument_sparse_updates_preserve_initial_admission_and_raw_provenance():
++    updates = [
++        {"channel": "instrument", "type": "update", "data": {"assets": [{"id": "BTC"}]}},
++        {
++            "channel": "instrument",
++            "type": "update",
++            "data": {
++                "pairs": [
++                    {"symbol": "ETH/EUR", "status": "cancel_only"},
++                ]
++            },
++        },
++        {
++            "channel": "instrument",
++            "type": "update",
++            "data": {
++                "pairs": [
++                    {"symbol": "BTC/EUR", "price_increment": "0.1"},
++                ]
++            },
++        },
++        {
++            "channel": "instrument",
++            "type": "update",
++            "data": {
++                "pairs": [
++                    {"symbol": "BTC/EUR", "status": "online"},
++                ]
++            },
++        },
++    ]
++    protocol = KrakenProtocol()
++    for message in handshake():
++        protocol.accept(canonical_bytes(message))
++    for update in updates:
++        result = protocol.accept(canonical_bytes(update))
++        assert result.kind == "control" and result.ready
++    assert protocol.accept(canonical_bytes(trade())).kind == "market"
++    store, references = frames(session(handshake() + updates + [trade()]))
++    normalized = KrakenWSNormalizer(store).normalize_frames(references, MANIFEST)
++    assert len(normalized.events) == 1
++    for index, update in enumerate(updates, 4):
++        assert store.get(references[index].raw_sha256, "bin") == canonical_bytes(update)
++
++
++@pytest.mark.parametrize(
++    "change",
++    [
++        {"base": "XBT"},
++        {"quote": "USD"},
++        {"status": "cancel_only"},
++        {"base": None},
++        {"status": None},
++    ],
++)
++def test_instrument_delta_rejects_explicit_identity_or_status_changes(change):
++    protocol = KrakenProtocol()
++    for message in handshake():
++        protocol.accept(canonical_bytes(message))
++    update = {
++        "channel": "instrument",
++        "type": "update",
++        "data": {
++            "pairs": [
++                {"symbol": "BTC/EUR", **change},
++            ]
++        },
++    }
++    with pytest.raises(ValueError, match="incompatible identity or status"):
++        protocol.accept(canonical_bytes(update))
++    assert not protocol.preflight_ready
++    with pytest.raises(ValueError, match="handshake"):
++        protocol.accept(canonical_bytes(trade()))
++
++
++def test_instrument_initial_snapshot_cannot_be_replaced_by_update_or_partial_snapshot():
++    protocol = KrakenProtocol()
++    protocol.accept(canonical_bytes(ack("instrument")))
++    update = instrument()
++    update["type"] = "update"
++    with pytest.raises(ValueError, match="initial full snapshot"):
++        protocol.accept(canonical_bytes(update))
++    assert not protocol.preflight_ready
++    partial = instrument()
++    del partial["data"]["pairs"][0]["base"]
++    with pytest.raises(ValueError, match="incompatible identity or status"):
++        protocol.accept(canonical_bytes(partial))
++    assert not protocol.preflight_ready
++    protocol.accept(canonical_bytes(instrument()))
++    assert protocol.preflight_ready
++
++
++def test_oversized_instrument_message_is_rejected_without_partial_interpretation():
++    message = instrument()
++    message["data"]["padding"] = "x" * 1_048_576
++    protocol = KrakenProtocol()
++    with pytest.raises(ValueError, match="declared bound"):
++        protocol.accept(canonical_bytes(message))
++    assert not protocol.preflight_ready
++
++
+ def test_normalizer_preserves_exact_identity_mapping_first_receipt_and_ticker_deliveries():
+     messages = session(handshake() + [trade(snapshot=True), ticker(), ticker()])
+     messages += session(handshake() + [trade(), trade(2)], "session-2")
+diff --git a/tests/test_public_capture.py b/tests/test_public_capture.py
+new file mode 100644
+index 0000000..bae7bf4
+--- /dev/null
++++ b/tests/test_public_capture.py
+@@ -0,0 +1,301 @@
++"""Invented messages exercise the future public branch; these are not observed market data.
++
++Every transport below is an in-process test double. No DNS, socket or provider access occurs.
++"""
++
++import json
++
++import pytest
++from test_capture_service import ADMIN, BASE, Clock, Transport, handshake, ticker, trade
++
++from bot_trader.core.contracts import Principal
++from bot_trader.core.errors import AccessDenied
++from bot_trader.core.events import canonical_bytes
++from bot_trader.core.security import Policy
++from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
++from bot_trader.market_data.capture_service import KrakenCaptureService, ReceivePollTimeout
++from bot_trader.market_data.replay import CaptureReplayCheckpoint
++from bot_trader.market_data.storage import LocalArtifactStore
++
++HOST = "fixture-host"
++
++
++class PublicBranchFixture(Transport):
++    """Only classification matches the future connector; all messages are invented."""
++
++    simulated = False
++    close_outcome = "local_closed_remote_unknown"
++
++
++def pilot(tmp_path, **options):
++    store = LocalArtifactStore(tmp_path / "artifacts", max_bytes=32 * 1024 * 1024)
++    service = KrakenCaptureService(store, Policy(), tmp_path / "captures")
++    config = PilotConfiguration(rights_reference="fixture-rights", **options)
++    approval = PilotApproval(
++        approved=True,
++        capture_id="pilot",
++        config_hash=config.digest,
++        approved_by="fixture-user",
++        decision_reference="invented-approval-for-unit-test-only",
++        rights_reference=config.rights_reference,
++        host_id=HOST,
++        not_before_ns=BASE,
++        expires_ns=BASE + 1_000_000_000_000,
++    )
++    return service, config, approval, Clock()
++
++
++def run(service, config, approval, clock, factory, **options):
++    return service.run_public_pilot(
++        "pilot",
++        config,
++        ADMIN,
++        approval,
++        clock=clock,
++        factory=factory,
++        host_id=HOST,
++        **options,
++    )
++
++
++@pytest.mark.parametrize(
++    "changed",
++    [
++        {"approved": False},
++        {"config_hash": "0" * 64},
++        {"host_id": "another-host"},
++        {"capture_id": "another-capture"},
++        {"rights_reference": "other-rights"},
++        {"not_before_ns": BASE + 1_000_000_000},
++        {"expires_ns": BASE + 300_000_000_000},
++    ],
++)
++def test_public_approval_binding_rejects_before_factory_or_journal(tmp_path, changed):
++    service, config, approval, clock = pilot(tmp_path)
++
++    def forbidden(_):
++        pytest.fail("Unapproved pilot reached transport factory.")
++
++    with pytest.raises(AccessDenied):
++        run(service, config, approval.model_copy(update=changed), clock, forbidden)
++    assert not service.directory.exists()
++
++
++def test_public_approval_requires_administrator_and_simulated_entry_stays_closed(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++
++    def forbidden(_):
++        pytest.fail("Denied caller reached transport factory.")
++
++    with pytest.raises(AccessDenied):
++        service.run_public_pilot(
++            "pilot",
++            config,
++            Principal(id="reader", role="viewer"),
++            approval,
++            clock=clock,
++            factory=forbidden,
++            host_id=HOST,
++        )
++    with pytest.raises(AccessDenied):
++        service.run_simulated("pilot", config, ADMIN, forbidden, clock)
++    assert not service.directory.exists()
++
++
++def test_public_branch_preserves_declaration_eur_receipts_and_replay(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++    transport = PublicBranchFixture(clock, handshake() + [trade(), ticker()])
++    result = run(service, config, approval, clock, lambda _: transport)
++    assert result["status"] == "technical_qa"
++    assert result["synthetic"] is False and not result["financial_validation"]
++    assert result["capture"]["real_capture"] is True  # tested branch, not evidence of real I/O
++    assert result["market_events"] == 2 and transport.closed
++    journal = service.journal("pilot", config, ADMIN)
++    assert journal.read_frame(journal.frames()[-1]) == canonical_bytes(ticker())
++    header = json.loads((service.directory / "pilot" / "capture.json").read_bytes())
++    assert header["synthetic"] is False and header["rights_reference"] == "fixture-rights"
++    assert json.loads(service.store.get(result["approval_hash"], "json")) == approval.model_dump(
++        mode="json"
++    )
++    archive = json.loads(service.store.get(result["archive_hash"], "json"))
++    source = json.loads(service.store.get(archive["source_manifest_hash"], "json"))
++    assert source["data_class"] == "exposed_structural_only"
++    assert source["rights"] == "fixture-rights"
++    normalized = json.loads(service.store.get(result["normalization_hash"], "json"))
++    assert all(event["quote_currency"] == "EUR" for event in normalized["events"])
++    assert normalized["events"][1]["data"]["origin"] == "observed"
++    assert normalized["events"][0]["received_ns"] == journal.frames()[4].received_ns
++    assert any(
++        record.kind == "transport_close"
++        and record.details["outcome"] == "local_closed_remote_unknown"
++        for record in journal.records()
++    )
++    receipt = normalized["events"][0]["received_ns"]
++    before = service.inspect("pilot", config, ADMIN, until_ns=receipt - 1)
++    prefix = service.inspect("pilot", config, ADMIN, until_ns=receipt)
++    assert before["market_events"] == 0 and prefix["market_events"] == 1
++    checkpoint = CaptureReplayCheckpoint.model_validate(prefix["checkpoint"])
++    restarted = KrakenCaptureService(service.store, Policy(), service.directory)
++    resumed = restarted.inspect("pilot", config, ADMIN, checkpoint=checkpoint)
++    assert resumed["checkpoint"] == result["checkpoint"] and resumed["market_events"] == 2
++    repeated = restarted.inspect("pilot", config, ADMIN)
++    assert repeated["replay_hash"] == result["replay_hash"]
++
++
++def test_short_empty_polls_do_not_reconnect_or_invent_messages(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++    transport = PublicBranchFixture(
++        clock,
++        handshake() + [trade(), ReceivePollTimeout(), ReceivePollTimeout(), ticker()],
++        step_ns=1_000_000_000,
++    )
++    result = run(service, config, approval, clock, lambda _: transport)
++    assert result["market_events"] == 2
++    assert result["capture"]["sessions_started"] == 1
++    records = service.journal("pilot", config, ADMIN).records()
++    assert not any(record.kind == "coverage_gap" for record in records)
++    assert len([record for record in records if record.kind == "frame"]) == 6
++
++
++def test_idle_feed_reconnects_at_declared_deadline_and_preserves_duplicate_receipt(tmp_path):
++    service, config, approval, clock = pilot(tmp_path, max_reconnects=1, reconnect_delay_ns=1)
++    first = PublicBranchFixture(
++        clock,
++        handshake() + [trade(), ticker()] + [ReceivePollTimeout() for _ in range(15)],
++        step_ns=1_000_000_000,
++    )
++    second = PublicBranchFixture(clock, handshake() + [trade(), trade(2)])
++    created = []
++
++    def factory(index):
++        created.append(index)
++        return (first, second)[index]
++
++    result = run(service, config, approval, clock, factory)
++    assert created == [0, 1] and first.closed and second.closed
++    assert len(first.timeouts) == 21  # six frames then fifteen one-second empty polls
++    assert result["market_events"] == 3
++    records = service.journal("pilot", config, ADMIN).records()
++    gaps = [record for record in records if record.kind == "coverage_gap"]
++    assert len(gaps) == 1 and gaps[0].details["coverage"] == "unknown"
++    sidecar = json.loads(service.store.get(result["normalization_hash"], "json"))
++    assert sum(row["duplicate_delivery"] for row in sidecar["rows"]) == 1
++    assert any(record.kind == "transport_close" for record in records)
++
++
++def test_heartbeats_cannot_keep_an_unacknowledged_handshake_alive(tmp_path):
++    service, config, approval, clock = pilot(tmp_path, max_reconnects=0)
++    transport = PublicBranchFixture(
++        clock, [{"channel": "heartbeat"} for _ in range(30)], step_ns=1_000_000_000
++    )
++    result = run(service, config, approval, clock, lambda _: transport)
++    assert result["capture"]["reason"] == "reconnect_limit"
++    assert result["capture"]["sessions_started"] == 1 and transport.closed
++    assert len(transport.timeouts) == 15
++    assert result["market_events"] == 0
++    gaps = [
++        r for r in service.journal("pilot", config, ADMIN).records() if r.kind == "coverage_gap"
++    ]
++    assert len(gaps) == 1 and gaps[0].details["cause"] == "TimeoutError"
++
++
++def test_row_stop_keeps_whole_final_message_and_does_not_read_later_information(tmp_path):
++    service, config, approval, clock = pilot(tmp_path, max_market_rows=2)
++    batch = trade()
++    batch["data"] += [trade(2)["data"][0], trade(3)["data"][0]]
++    transport = PublicBranchFixture(clock, handshake() + [batch, ticker()])
++    result = run(service, config, approval, clock, lambda _: transport)
++    assert result["capture"]["reason"] == "market_row_limit" and transport.closed
++    assert result["market_events"] == 3  # threshold stops after the indivisible received message
++    assert len(transport.timeouts) == 5
++    frames = service.journal("pilot", config, ADMIN).frames()
++    assert len(frames) == 5 and frames[-1].raw_sha256
++    assert service.journal("pilot", config, ADMIN).read_frame(frames[-1]) == canonical_bytes(batch)
++    assert config.max_market_rows + 1000 <= 10_000
++
++
++def test_finished_public_branch_retry_never_reconnects(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++    first = run(
++        service,
++        config,
++        approval,
++        clock,
++        lambda _: PublicBranchFixture(clock, handshake() + [trade(), ticker()]),
++    )
++
++    def forbidden(_):
++        pytest.fail("Terminal capture retry created a transport.")
++
++    repeated = run(service, config, approval, clock, forbidden)
++    assert repeated["capture"]["resumed_terminal"] is True
++    assert repeated["replay_hash"] == first["replay_hash"]
++
++
++def test_terminal_pilot_keeps_acceptance_and_durable_authority(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++
++    class EndAtDeadline(PublicBranchFixture):
++        def receive(self, timeout_ns):
++            if len(self.timeouts) == 6:
++                clock.sleep_ns(config.max_duration_ns)
++                return canonical_bytes({"channel": "heartbeat"})
++            return super().receive(timeout_ns)
++
++    first = run(
++        service,
++        config,
++        approval,
++        clock,
++        lambda _: EndAtDeadline(clock, handshake() + [trade(), ticker()]),
++    )
++    assert first["pilot_acceptance"]["passed"] is True
++    records = service.journal("pilot", config, ADMIN).records()
++    assert records[0].kind == "capture_authorization"
++    assert records[0].details["approval_hash"] == first["approval_hash"]
++    second = run(service, config, approval, clock, lambda _: pytest.fail("terminal transport"))
++    assert second["pilot_acceptance"] == first["pilot_acceptance"]
++    assert service.journal("pilot", config, ADMIN).records() == records
++
++
++def test_stop_during_connection_prevents_any_subscription(tmp_path):
++    service, config, approval, clock = pilot(tmp_path)
++    stop = []
++
++    class StopDuringOpen(PublicBranchFixture):
++        def connect(self, endpoint):
++            super().connect(endpoint)
++            stop.append(True)
++
++    transport = StopDuringOpen(clock, [])
++    result = run(
++        service, config, approval, clock, lambda _: transport, stop_requested=lambda: bool(stop)
++    )
++    assert result["capture"]["reason"] == "user_stop" and transport.closed
++    assert not transport.sent
++    assert not result["pilot_acceptance"]["passed"]
++
++
++def test_real_connector_class_composes_entire_pipeline_with_invented_peer(tmp_path, monkeypatch):
++    from test_kraken_transport import FakeConnection
++
++    from bot_trader.market_data.capture_service import FixtureComplete
++    from bot_trader.market_data.kraken_transport import KrakenWebSocketTransport
++
++    service, config, approval, clock = pilot(tmp_path)
++    peer = FakeConnection(
++        [canonical_bytes(m) for m in handshake() + [trade(), ticker()]] + [FixtureComplete()]
++    )
++    transport = KrakenWebSocketTransport()
++
++    async def fake_dial(endpoint, context):
++        assert context.check_hostname and endpoint == config.endpoint
++        return peer
++
++    monkeypatch.setattr(transport, "_dial", fake_dial)
++    result = run(service, config, approval, clock, lambda _: transport)
++    assert result["market_events"] == 2 and result["capture"]["reason"] == "fixture_complete"
++    assert transport.close_outcome == "graceful" and transport._loop is None
++    assert len(peer.sent) == 3
++    repeated = service.inspect("pilot", config, ADMIN)
++    assert result["replay_hash"] == repeated["replay_hash"]
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index e24b800..1f283d0 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -23,6 +23,9 @@ SOURCE_PATHS = (
+     "docs/integration/kraken/sources.json",
+     "docs/integration/kraken/capture-spec.json",
+     "docs/integration/kraken-ws/budget.json",
++    "docs/integration/kraken-ws-client/budget.json",
++    "docs/integration/kraken-ws-client/pilot.json",
++    "docs/integration/kraken-ws-client/approval.template.json",
+ )
+ 
+ 
+diff --git a/uv.lock b/uv.lock
+index 800f72c..cd2c786 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -62,6 +62,11 @@ dependencies = [
+     { name = "uvicorn" },
+ ]
+ 
++[package.optional-dependencies]
++capture = [
++    { name = "websockets" },
++]
++
+ [package.dev-dependencies]
+ dev = [
+     { name = "httpx" },
+@@ -80,7 +85,9 @@ requires-dist = [
+     { name = "pydantic-settings", specifier = ">=2.7,<3" },
+     { name = "sqlalchemy", specifier = ">=2.0,<3" },
+     { name = "uvicorn", specifier = ">=0.34,<1" },
++    { name = "websockets", marker = "extra == 'capture'", specifier = "==17.4" },
+ ]
++provides-extras = ["capture"]
+ 
+ [package.metadata.requires-dev]
+ dev = [
+@@ -534,3 +541,38 @@ sdist = { url = "https://files.pythonhosted.org/packages/da/34/30e9280707135d2cf
+ wheels = [
+     { url = "https://files.pythonhosted.org/packages/38/0c/b54a4fdd7f90a3af8b02ebc9ce6712c2c208b7926a2f7bad95c33ebbe943/uvicorn-0.54.0-py3-none-any.whl", hash = "sha256:505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf", size = 87427, upload-time = "2026-09-25T06:52:35.829Z" },
+ ]
++
++[[package]]
++name = "websockets"
++version = "17.4"
++source = { registry = "https://pypi.org/simple" }
++sdist = { url = "https://files.pythonhosted.org/packages/75/79/590c5f0cc7d1661195aeefccb0e342b79f4c77d368d526d028821a390332/websockets-17.4.tar.gz", hash = "sha256:09d3939b70df0c8ad2da145ebd50978bccaee1d565e838b0e7921a34d38571eb", size = 191391, upload-time = "2026-10-30T15:10:35.873Z" }
++wheels = [
++    { url = "https://files.pythonhosted.org/packages/af/71/b020221345ea6c012dcf7496827a48a744b58696470b2b07fef95a32905a/websockets-17.4-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:3d512e3a6c528c42ce220ed9c3caff83c6fdcd98a1b98249f08ccfc66ad111b1", size = 218779, upload-time = "2026-10-30T15:07:11.522Z" },
++    { url = "https://files.pythonhosted.org/packages/8e/84/1c372ae7c032021a84e5c9e9b76b0dddefb354e9b4af783a97efd4d80ab3/websockets-17.4-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:7390e060f830b3d132f484b21ac2783a2d227b682ef62bb8146e1c1b4ca0e45a", size = 216457, upload-time = "2026-10-30T15:07:13Z" },
++    { url = "https://files.pythonhosted.org/packages/74/b6/cff249107473f149c6c916a49cba967379fa63b0a7d2dce6896d6848f0a3/websockets-17.4-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:bcad49104711f88b2b7c3ba166de172857d837248205e541b044a552558fecc3", size = 216726, upload-time = "2026-10-30T15:07:14.468Z" },
++    { url = "https://files.pythonhosted.org/packages/77/5d/aff8ecbf1c55c4d96f6dacc46a52102895f58b85bb284c8d325aaf31606a/websockets-17.4-cp312-cp312-manylinux1_i686.manylinux_2_28_i686.manylinux_2_5_i686.whl", hash = "sha256:cf99debb17227a50620aee16647bb33a0387f5fa5418d628666c0f05745e0d2a", size = 226043, upload-time = "2026-10-30T15:07:15.937Z" },
++    { url = "https://files.pythonhosted.org/packages/cb/18/6229d6583031ca81d092a0cd887a13a57b402fb555acc323d39b45967eb7/websockets-17.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", hash = "sha256:9ae1429ee9e52b139167ed0169757806a27ed7307e942e8c62037a9184e9843b", size = 226321, upload-time = "2026-10-30T15:07:17.563Z" },
++    { url = "https://files.pythonhosted.org/packages/b8/61/7aba018fd53873e792a25afe1f4c005518133477b727d7455f2f7550c425/websockets-17.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:51adfc30f467077293a6695d8149bcef501c0728386f3a491054f835dadb60b2", size = 227559, upload-time = "2026-10-30T15:07:18.998Z" },
++    { url = "https://files.pythonhosted.org/packages/fb/66/37b207df9cdacaa017aa4487f3a9f2fcd668f6f7cfbafdac5b95ea258ee0/websockets-17.4-cp312-cp312-manylinux2014_armv7l.manylinux_2_17_armv7l.manylinux_2_31_armv7l.whl", hash = "sha256:c564d1e6531611bf87078c28780456ecc75459dcca189629fff2fe7c020d8e67", size = 230386, upload-time = "2026-10-30T15:07:20.431Z" },
++    { url = "https://files.pythonhosted.org/packages/ad/f6/87507e11fbae53817a435945273953b5b020589e309fac4fd60527ee5999/websockets-17.4-cp312-cp312-manylinux2014_ppc64le.manylinux_2_17_ppc64le.manylinux_2_28_ppc64le.whl", hash = "sha256:4c792e6cce24d08f92199d907785c9e64f74c357deeed3dbaf7d699ed5930b64", size = 228193, upload-time = "2026-10-30T15:07:22.112Z" },
++    { url = "https://files.pythonhosted.org/packages/2f/3d/90a04f0aa989b68fbd2efcd38237420afe2abe5a1cab0b5d7c2aa4f0dbb6/websockets-17.4-cp312-cp312-manylinux2014_s390x.manylinux_2_17_s390x.manylinux_2_28_s390x.whl", hash = "sha256:c44776f82b04e623eb9e1b81fcd17ac6e9808ae1ba5cdf8edce1f7c869a95a9b", size = 226952, upload-time = "2026-10-30T15:07:23.643Z" },
++    { url = "https://files.pythonhosted.org/packages/ad/3e/50952af22b8e3e2d03f7e83f0e335851c6b484c3fd88586626fb1c2a34b3/websockets-17.4-cp312-cp312-manylinux_2_31_riscv64.manylinux_2_39_riscv64.whl", hash = "sha256:4d2636a5b61c69e32db0e74b57073dd4a66f1ad195e9398c5f01bba41090deea", size = 224183, upload-time = "2026-10-30T15:07:25.507Z" },
++    { url = "https://files.pythonhosted.org/packages/c4/73/2a4a5d9c6bca1127f24af7bf08f406a69052d7f341bc81f08d9e8eb446b4/websockets-17.4-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:cfbbba4597f19ad717f79fd3f2a67ae7efae647bd6a61e14554e1b5ad242a5bf", size = 226991, upload-time = "2026-10-30T15:07:27.355Z" },
++    { url = "https://files.pythonhosted.org/packages/68/de/90d96a579839bfe541ef214315df81d2bd519d952847c303328518ffdd02/websockets-17.4-cp312-cp312-musllinux_1_2_armv7l.whl", hash = "sha256:c7b996c02de5e032cb63dc65482b73693b7ecaa586654126be2749ddea239c40", size = 225600, upload-time = "2026-10-30T15:07:28.973Z" },
++    { url = "https://files.pythonhosted.org/packages/91/17/12c15ed446d842e40918cd16e79b56ee4422d6fbf210258cb8882f50bbd5/websockets-17.4-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:a920e99155d75d1b1c08172da8aaa7200e7b30871fb628d1631d7891a333e30e", size = 226366, upload-time = "2026-10-30T15:07:30.472Z" },
++    { url = "https://files.pythonhosted.org/packages/9d/73/cb4c927e806a73a0377696e031ef3c0db409028cdb2373f96ee863e8df8e/websockets-17.4-cp312-cp312-musllinux_1_2_ppc64le.whl", hash = "sha256:8c00c5c49f80a588a2c4f99d519d2abed4ce26cdca11273041bc8b7e60af60de", size = 227470, upload-time = "2026-10-30T15:07:32.122Z" },
++    { url = "https://files.pythonhosted.org/packages/33/b3/e682b3ea069933044f4bf4809eea0cd83e3a5bdbdff601d1777a9ae90795/websockets-17.4-cp312-cp312-musllinux_1_2_riscv64.whl", hash = "sha256:52c31d123f5adf14dec694c2a4036bf42c523df7cefc641d31cd05653de56e49", size = 225026, upload-time = "2026-10-30T15:07:33.544Z" },
++    { url = "https://files.pythonhosted.org/packages/2d/e9/d039757260705e5a265a31c9fff36b0d4567b842ce2b54e5d14369f200bd/websockets-17.4-cp312-cp312-musllinux_1_2_s390x.whl", hash = "sha256:d0acd8191c0e5a61d1c27bfa33b6ec8431982299f5d71c02129aa4f16f182ad0", size = 226007, upload-time = "2026-10-30T15:07:34.954Z" },
++    { url = "https://files.pythonhosted.org/packages/db/e7/cb9907fac6f9b28f93beded6efda2953960cd02b633d432acf3451590859/websockets-17.4-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:2a9cb5bbfc33b4ebd3c8d3714d6e09805437f60a14977774e4bd11b5ace46c23", size = 226286, upload-time = "2026-10-30T15:07:36.292Z" },
++    { url = "https://files.pythonhosted.org/packages/39/99/85f6f4dd104a5d9a33a1ef272f501d0f2e8527ddf66be1b383d51f90ce56/websockets-17.4-cp312-cp312-win32.whl", hash = "sha256:c63c0d7832956d5f3bb77888b93c854569d13f806289ff75c43926d25c6e5fd2", size = 219256, upload-time = "2026-10-30T15:07:37.686Z" },
++    { url = "https://files.pythonhosted.org/packages/59/31/d1636ba67ee9232a60033d90483e48686aa3856014e59110f29015f97bd2/websockets-17.4-cp312-cp312-win_amd64.whl", hash = "sha256:dde9cd67f18803949ebf96de8aba12b8ec5ee3115e34c75a2db85a3b0a6c20d5", size = 219561, upload-time = "2026-10-30T15:07:39.19Z" },
++    { url = "https://files.pythonhosted.org/packages/23/aa/e3859d52188f041a5a05c9f3ac005a9c829723f521f0fe60e2c5f9c93bb9/websockets-17.4-cp312-cp312-win_arm64.whl", hash = "sha256:c634053459278cf31fb404ddb5ecd38124e4609e8b609166da621edc2d5796db", size = 219487, upload-time = "2026-10-30T15:07:41.161Z" },
++    { url = "https://files.pythonhosted.org/packages/e9/a3/d8fbc72c5c0e78905caf2d6dcf806e532451e3f48e2a09a8ebe1de9ad412/websockets-17.4-pp312-pypy312_pp80-macosx_10_15_x86_64.whl", hash = "sha256:c7f66a53e9b7ec831abb15e3d9b6cee8f52d6a24cd0a374786bf46c3ec218bc6", size = 216397, upload-time = "2026-10-30T15:10:25.255Z" },
++    { url = "https://files.pythonhosted.org/packages/d3/de/1bf313cd0f4662df4884a7602932cd13347090e59dd6047865eee2bb5aa5/websockets-17.4-pp312-pypy312_pp80-macosx_11_0_arm64.whl", hash = "sha256:4fb2db1f649b6464711846b5bb9c1611bd906ce939d9460cbd1fa419552cd6c3", size = 216664, upload-time = "2026-10-30T15:10:27.016Z" },
++    { url = "https://files.pythonhosted.org/packages/30/e2/7912bd417511b54907853bd495aef2daee111062dbafd43d133a3f7253a7/websockets-17.4-pp312-pypy312_pp80-manylinux1_i686.manylinux_2_28_i686.manylinux_2_5_i686.whl", hash = "sha256:32110d954d9d0e51f36edb0396673bf4d35193a0a80ba7013bf7f7d58a33ca07", size = 217603, upload-time = "2026-10-30T15:10:28.475Z" },
++    { url = "https://files.pythonhosted.org/packages/56/6f/2e8d5610f6184a2e1720bf8ce256402ed99ad30ea87c461fba5bc4d651d9/websockets-17.4-pp312-pypy312_pp80-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", hash = "sha256:88ba8a439b2bad97bb69c38db5bf0ec16a061ee834cf0f244089186ee803e899", size = 217489, upload-time = "2026-10-30T15:10:29.999Z" },
++    { url = "https://files.pythonhosted.org/packages/29/3a/a05bc57eadcd7e8e072d917888128e6d22e1203984afb21a8da3198982fe/websockets-17.4-pp312-pypy312_pp80-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:868744c68e9342768888c7326604da2228c19bb6946aa46b5f9e1ac32ea8d40b", size = 218356, upload-time = "2026-10-30T15:10:31.432Z" },
++    { url = "https://files.pythonhosted.org/packages/b2/49/eed86bfb8863093a82cbaa52c9159be1ce2374d5ace6fe1f8e8031567e7d/websockets-17.4-pp312-pypy312_pp80-win_amd64.whl", hash = "sha256:829bcaa90be8737c132d9515d6a466e8528e3b3d050d3f3466f36ea94d3beb48", size = 306838, upload-time = "2026-10-30T15:10:32.954Z" },
++    { url = "https://files.pythonhosted.org/packages/eb/27/9db924cb0dbf22eade78d98fbae77790f9bf6bc729e6ab29aef9d68e4156/websockets-17.4-py3-none-any.whl", hash = "sha256:c6bd2c9781915592b209160d0f017d4c7c82ad53075e6b0c24d2a89299e7f9e9", size = 212900, upload-time = "2026-10-30T15:10:34.482Z" },
++]

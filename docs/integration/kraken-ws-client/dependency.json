@@ -1,0 +1,14 @@
+{
+  "package": "websockets",
+  "version": "17.4",
+  "source": "https://pypi.org/pypi/websockets/json",
+  "release_uploaded": "2026-10-30",
+  "inspected": "2026-11-13",
+  "purpose": "One necessary optional maintained RFC6455/TLS client; no homemade protocol stack",
+  "installed_only": "/workspace/kraken-ws-real-dev/deps",
+  "stable_environment_modified": false,
+  "wheel_expected_bytes": 226321,
+  "wheel_expected_sha256": "9ae1429ee9e52b139167ed0169757806a27ed7307e942e8c62037a9184e9843b",
+  "lock": "uv.lock contains artifact URLs and hashes; previous dependency entries unchanged",
+  "network_transfer_bytes": "Not fully metered; includes index/metadata and one small wheel; no Kraken traffic"
+}

@@ -1,0 +1,25 @@
+{
+  "baseline_commit": "a5e9997da2552186e8373dacf85135c21b86002a",
+  "files": [
+    {
+      "file": "DECISIONS.md",
+      "published_bytes": 110538,
+      "current_bytes": 113805,
+      "previous_sha256": "1a4d9ba9fba2592f962f4a4a28052b15c180a1d0722a32198a39671d9597105c",
+      "current_sha256": "3ab42cce492150e9f0592456375586d143f19cf481f1aebbd0b2e9e60474a683",
+      "prefix_preserved": true,
+      "explicit_amendment": null
+    },
+    {
+      "file": "EXPERIMENTS.md",
+      "published_bytes": 15540,
+      "current_bytes": 16290,
+      "previous_sha256": "9ed57a1c5e372306e804ef3d2a944b229a9c7ca8e0fe0230ee8d1c4834a9e2a7",
+      "current_sha256": "d18e10573e6a53bc200974afa4d9facda5de128d94439bc48682241b6b52bb1c",
+      "prefix_preserved": true,
+      "explicit_amendment": null
+    }
+  ],
+  "accepted": true,
+  "limit": "Checks content and declared amendment identity, not authenticity of authority."
+}

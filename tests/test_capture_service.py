@@ -449,3 +449,22 @@ def test_existing_platform_composes_capture_without_financial_modules(tmp_path):
         assert services.capture.store is services.slice.store
     finally:
         services.database.close()
+
+
+@pytest.mark.parametrize("during_open", [True, False])
+def test_rejection_does_not_claim_a_raw_frame_that_was_never_delivered(tmp_path, during_open):
+    service, config, clock = setup(tmp_path)
+    transport = Transport(clock, [b'{"unexpected":true}'])
+    if during_open:
+
+        def reject_open(_):
+            raise ValueError("injected TLS/handshake rejection")
+
+        transport.connect = reject_open
+    journal = service.journal("capture", config, ADMIN)
+    result = collect(journal, config, lambda _: transport, clock)
+    assert result["reason"] == "protocol_error"
+    rejection = next(record for record in journal.records() if record.kind == "protocol_error")
+    assert rejection.details["raw_preserved"] is (not during_open)
+    assert rejection.details["stage"] == ("connect" if during_open else "decode")
+    assert len(journal.frames()) == (0 if during_open else 1)

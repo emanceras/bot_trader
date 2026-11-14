@@ -1,0 +1,9 @@
+src/bot_trader/market_data/capture.py:239: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:241: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:276: error: Cannot determine type of "_head"  [has-type]
+src/bot_trader/market_data/capture.py:280: error: Cannot determine type of "_charged"  [has-type]
+src/bot_trader/market_data/capture.py:281: error: Cannot determine type of "_frame_count"  [has-type]
+src/bot_trader/market_data/capture.py:303: error: Attribute "_head" already defined on line 289  [no-redef]
+src/bot_trader/market_data/capture.py:305: error: Attribute "_charged" already defined on line 291  [no-redef]
+src/bot_trader/market_data/capture.py:306: error: Attribute "_frame_count" already defined on line 291  [no-redef]
+Found 8 errors in 1 file (checked 45 source files)

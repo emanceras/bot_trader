@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-13 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-14 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Integración incremental autorizada — D-054
 
@@ -15,6 +15,10 @@ A publicado en `31c1b59`: evidencias compactas reconstruibles y protección appe
 ## Captura simulada Kraken WS y Market Replay — D-059
 
 Implementados y probados el diario bruto incremental, protocolo público BTC/EUR trade+ticker/BBO, normalizador v2 y replay causal de datos. 70 pruebas focalizadas y 260 regresiones backend correctas; sin repetir motores ni conectar a Kraken. [Informe EN](docs/en/integration/kraken-ws.md) / [ES](docs/es/integration/kraken-ws.md), etiqueta `kraken-ws-simulated` y [checkpoint](STATE.md). Recuperación, duplicados, fallos y límites probados con transporte simulado. Próxima etapa: admisión de un conector real y autorización separada de un piloto supervisado de 5–10 min; permisos/host/derechos pendientes. Operación 24/7, escalado y segmentación pospuestos hasta medir carga; no son capacidades acreditadas por esta entrega.
+
+## Cliente público y diario incremental — D-060
+
+Implementados y probados offline el cliente opcional Kraken v2 y la mejora incremental del diario, reutilizando el recorrido existente. 127 pruebas focalizadas correctas; regresión backend previa de 311 pruebas, sin reabrir motores. [Informe EN](docs/en/integration/kraken-ws-client.md) / [ES](docs/es/integration/kraken-ws-client.md), etiqueta `kraken-public-client`. Comando `capture-pilot` preparado con plan por defecto, autorización acotada, cierre y recuperación offline. Se puede solicitar el primer piloto supervisado; antes de ejecutarlo deben concretarse derechos, alojamiento/reloj, runtime, watchdog y aprobación separada. TLS/proveedor reales no probados. IV sigue condicionada; V y paper/live sin autorización.
 
 ## Objetivo y estado general
 
