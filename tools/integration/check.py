@@ -1,4 +1,4 @@
-"""Bounded offline checks with compact Git evidence and an explicit campaign budget."""
+"""Bounded checks; network is opt-in for the existing finite public-pilot command only."""
 
 import argparse
 import fcntl
@@ -23,9 +23,34 @@ def tree_bytes(root):
     return sum(p.stat().st_size for p in root.rglob("*") if p.is_file() and not p.is_symlink())
 
 
+def validate_public_pilot(command, budget):
+    """Constrain the runner, leaving actual approval validation to the existing CLI."""
+    if budget.get("public_pilot") is not True:
+        raise ValueError("This campaign does not permit public-pilot execution.")
+    if (
+        len(command) != 13
+        or Path(os.path.abspath(command[0])) != REPO / ".venv/bin/python"
+        or command[1:4] != ["-m", "bot_trader.cli", "--state-dir"]
+        or command[5:7] != ["capture-pilot", "--capture-id"]
+        or command[8] != "--config"
+        or command[10] != "--approval"
+        or command[12] != "--execute"
+    ):
+        raise ValueError("Network is limited to the existing public capture-pilot command.")
+    root = Path(budget["scratch_root"]).resolve()
+    state = Path(command[4]).resolve()
+    if state == root or not state.is_relative_to(root):
+        raise ValueError("Pilot state must be a private subdirectory of the campaign root.")
+    if not all(Path(command[i]).is_file() for i in (9, 11)):
+        raise ValueError("Pilot configuration and approval must already exist.")
+    if not 5 < budget["command_seconds"] <= 620:
+        raise ValueError("A finite public-pilot watchdog of at most 620 seconds is required.")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--child", action="store_true")
+    parser.add_argument("--public-pilot", action="store_true")
     parser.add_argument("--budget", type=Path, required=True)
     parser.add_argument("label")
     parser.add_argument("command", nargs=argparse.REMAINDER)
@@ -35,10 +60,12 @@ def main():
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if not command:
         raise ValueError("A concrete command is required.")
+    if args.public_pilot:
+        validate_public_pilot(command, budget)
     root.mkdir(exist_ok=True)
     if args.child:
         os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[: budget["cpus"]])
-        restrict(root, False)
+        restrict(root, args.public_pilot)
         os.execvpe(command[0], command, os.environ)
     with (root / "checks.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
@@ -72,12 +99,15 @@ def main():
         before = resource.getrusage(resource.RUSAGE_CHILDREN)
         peak = disk_peak = 0
         stopped = None
+        termination_requested = False
+        allowance = min(budget["command_seconds"], remaining)
         with (output / "output.log").open("xb") as log:
             proc = subprocess.Popen(
                 [
                     sys.executable,
                     __file__,
                     "--child",
+                    *(["--public-pilot"] if args.public_pilot else []),
                     "--budget",
                     str(args.budget.resolve()),
                     args.label,
@@ -95,13 +125,22 @@ def main():
                 size = tree_bytes(root) + max(0, tree_bytes(objects) - object_baseline)
                 size += sum(tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", []))
                 disk_peak = max(disk_peak, size)
-                if time.monotonic() - started > min(budget["command_seconds"], remaining):
+                elapsed = time.monotonic() - started
+                if elapsed > allowance - (5 if args.public_pilot else 0):
                     stopped = "time_budget"
                 if peak > budget["ram_bytes"] * 0.9:
                     stopped = "memory_guard"
                 if disk_peak > budget["temporary_bytes"]:
                     stopped = "disk_guard"
                 if stopped:
+                    # Reserve the last five seconds within the hard bound for local shutdown.
+                    # Resource guards remain immediate; they must not grow through a grace period.
+                    if args.public_pilot and stopped == "time_budget" and elapsed < allowance:
+                        if not termination_requested:
+                            os.killpg(proc.pid, signal.SIGTERM)
+                            termination_requested = True
+                        time.sleep(0.1)
+                        continue
                     os.killpg(proc.pid, signal.SIGKILL)
                     break
                 time.sleep(0.1)
@@ -117,12 +156,18 @@ def main():
             peak_sampled_rss_bytes=peak,
             peak_sampled_temporary_bytes=disk_peak,
             stop_reason=stopped,
+            graceful_stop_requested=termination_requested,
             started_utc=started_utc,
             completed_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             budget=budget,
             source_commit=source["snapshot_commit"],
             evidence_ref=source["evidence_ref"],
-            network="IPv4/IPv6 denied; no new datasets/software downloads",
+            network=(
+                "IPv4/IPv6 allowed for approved public-pilot CLI; application endpoint/request "
+                "allowlist, not a kernel destination firewall"
+                if args.public_pilot
+                else "IPv4/IPv6 denied; no new datasets/software downloads"
+            ),
             limits=(
                 "CPU affinity; sampled RSS/disk, not hard peak certification; "
                 "private output not exported"
