@@ -1,0 +1,101 @@
+{
+  "document_id": "IV-E34-VERIFY-002",
+  "report_revision": 2,
+  "date": "2026-11-16",
+  "baseline_commit": "f09ea3c13b06a111e154b5918a2b7cc6d1f0372c",
+  "scope": "Documentation and illustrative planning arithmetic only; no financial experiments or new source retrieval",
+  "checks": {
+    "local_links_resolved": 209,
+    "table_rows_per_language": 62,
+    "headings_per_language": 12,
+    "protected_files_unchanged": [
+      "RESEARCH.md",
+      "HYPOTHESES.md",
+      "EXPERIMENTS.md",
+      "docs/en/phase-iv/protocol.md",
+      "docs/es/phase-iv/protocol.md",
+      "docs/en/phase-iv/candidates.md",
+      "docs/es/phase-iv/candidates.md",
+      "docs/en/phase-iv/data-execution.md",
+      "docs/es/phase-iv/data-execution.md",
+      "docs/en/phase-iv/staged-amendment.md",
+      "docs/es/phase-iv/staged-amendment.md",
+      "docs/phase-iv/freeze-template.json",
+      "docs/phase-iv/economics/sources.json",
+      "docs/phase-iv/economics/verification.json"
+    ],
+    "economic_resource_bindings_still_null": true,
+    "financial_flags_still_false": true,
+    "specifications_26_claims_3_resamples_9999_preserved": true,
+    "documentation_only_diff": true,
+    "bilingual_semantics": "Model review of same alternatives, formulas, state/authorization boundaries and dependencies; no external human certification"
+  },
+  "planning_examples": [
+    {
+      "hypothetical_capital_usd": 100,
+      "hosting_144_usd_year_percent": "144.00",
+      "cash_margin_annual_arithmetic_usd": "5.00",
+      "increment_margin_annual_arithmetic_usd": "2.00"
+    },
+    {
+      "hypothetical_capital_usd": 1000,
+      "hosting_144_usd_year_percent": "14.400",
+      "cash_margin_annual_arithmetic_usd": "50.00",
+      "increment_margin_annual_arithmetic_usd": "20.00"
+    },
+    {
+      "hypothetical_capital_usd": 5000,
+      "hosting_144_usd_year_percent": "2.8800",
+      "cash_margin_annual_arithmetic_usd": "250.00",
+      "increment_margin_annual_arithmetic_usd": "100.00"
+    },
+    {
+      "hypothetical_capital_usd": 10000,
+      "hosting_144_usd_year_percent": "1.4400",
+      "cash_margin_annual_arithmetic_usd": "500.00",
+      "increment_margin_annual_arithmetic_usd": "200.00"
+    }
+  ],
+  "other_arithmetic_checks": [
+    "100USD equal-notional round-trip at documentary0.80% per side =>1.60USD, before spread",
+    "144USD/year fixed drag at100/50/25=>144/288/576percent",
+    "400USD divided by threshold comparator surplus at1000/100=>20/200years, illustrative only",
+    "20/30/40percent drawdown recovery=>25/42.86/66.67percent",
+    "C2 downside deviation0.90=>squared reduction19percent"
+  ],
+  "published_history": {
+    "baseline_commit": "f09ea3c13b06a111e154b5918a2b7cc6d1f0372c",
+    "files": [
+      {
+        "file": "DECISIONS.md",
+        "published_bytes": 122282,
+        "current_bytes": 126491,
+        "previous_sha256": "c0695789bc65937f5fef19983c6fa5a2935ea71c9e81e61fcc1f00e9b5024c7d",
+        "current_sha256": "50ce56f8312012f00e15c3f144076564d33622a0ac8fe054a28e4319350c8e9d",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      },
+      {
+        "file": "EXPERIMENTS.md",
+        "published_bytes": 17866,
+        "current_bytes": 17866,
+        "previous_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "current_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      }
+    ],
+    "accepted": true,
+    "limit": "Checks content and declared amendment identity, not authenticity of authority."
+  },
+  "independent_read_only_reviews": [
+    "micro feasibility and economic/staged alignment",
+    "minimum nursery and continuity dependencies"
+  ],
+  "limits": [
+    "No current exchange minima, fees or Spain execution eligibility verified",
+    "No sizing of actual user hardware or financial throughput",
+    "No E3/E4 approval, financial scope, new downloads, purchase or paper/live permission",
+    "Prior source ledger and revision1 verification preserved unchanged"
+  ]
+}

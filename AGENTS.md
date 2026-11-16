@@ -1,5 +1,11 @@
 # Instrucciones persistentes del proyecto
 
+## Current E3/E4 review and continuity — D-064
+
+- Read STATE and [economics EN](docs/en/phase-iv/economics.md) / [ES](docs/es/phase-iv/economics.md), revision 2. The user requested a documentary revision from `f09ea3c`, not approval of E3/E4 or implementation. Free suitable history/local resources first; USD 400 remains an unapproved contingency. The old numeric resource ceilings are withdrawn proposals; stage-dependent finite limits/attempt ledgers still must be bound before execution.
+- Historical coverage should be useful, broad, multiactive and multiexchange, including disappeared assets; do not equate research access with lawful/viable execution from Spain. No automatic acquisition, provider lock-in, return-based venue selection or hidden multiplication of the 26 specifications. Current delivery permits no downloads, financial experiments, exchange connections, spending or infrastructure development.
+- USD 1,000 primary research capital is a new proposal, not approved funding; USD 5,000/10,000 remain hypothetical scalability cases. Assess up-to-USD-100 feasibility separately. The user's future paper-then-micro-live intention is not authority to run either. Keep research risk separate from personal/operational limits; no automatic scaling, reinvestment or replenishment. Reuse the existing lifecycle design, not a mandatory F1–F7 ladder. Preserve scientific gates, independent holdout and pending Phase V. Stop after this documentation delivery.
+
 ## Current finite-pilot closure — D-062
 
 - The user authorized a finite real Kraken public BTC/EUR technical pilot in D-061. Read the [EN report](docs/en/integration/kraken-pilot.md) / [ES report](docs/es/integration/kraken-pilot.md) and STATE for its actual results and retained failures. That scope superseded historical no-connection instructions only for this finite campaign.

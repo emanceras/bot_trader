@@ -1,6 +1,6 @@
 # Technical documentation translation policy
 
-Canonical policy language: English. Revision: 13. Updated: 2026-11-16. The Spanish policy is included below.
+Canonical policy language: English. Revision: 14. Updated: 2026-11-16. The Spanish policy is included below.
 
 New engineering documentation uses English as its canonical text, with a synchronized Spanish counterpart. Code, comments, symbols and API contract keys remain English. Each paired document records its revision, update date and a link to the other language. A technical change must update both texts in the same reviewed change, or explicitly identify the untranslated portion; a stale translation must not silently claim synchronization.
 
@@ -23,7 +23,7 @@ New engineering documentation uses English as its canonical text, with a synchro
 | [Method evidence](en/phase-iv/method-evidence.md) | [Evidencia metodológica](es/phase-iv/method-evidence.md) | 1 |
 | [Phase IV acceptance](en/phase-iv/acceptance.md) | [Aceptación IV](es/phase-iv/acceptance.md) | 5 |
 | [Phase IV executive decisions](en/phase-iv/executive-decisions.md) | [Decisiones ejecutivas IV](es/phase-iv/executive-decisions.md) | 2 |
-| [E3/E4 resource and economic proposal](en/phase-iv/economics.md) | [Propuesta económica y de recursos E3/E4](es/phase-iv/economics.md) | 1 |
+| [E3/E4 resource and economic proposal](en/phase-iv/economics.md) | [Propuesta económica y de recursos E3/E4](es/phase-iv/economics.md) | 2 |
 | [Phase IV feasibility](en/phase-iv/feasibility.md) | [Viabilidad IV](es/phase-iv/feasibility.md) | 1 |
 | [Phase IV A/B audit](en/phase-iv/admission.md) | [Auditoría A/B IV](es/phase-iv/admission.md) | Revision stated in each pair |
 | [Phase IV evolution review](en/phase-iv/evolution.md) | [Revisión de evolución IV](es/phase-iv/evolution.md) | 1 |
