@@ -1,0 +1,62 @@
+{
+  "document_id": "IV-E34-VERIFY-001",
+  "date": "2026-11-16",
+  "baseline_commit": "d1abdde8df58cfddd28eb0b218636b12b0a579cd",
+  "scope": "Documentation and planning arithmetic only; no runtime/financial tests or market data access",
+  "source_hashes_verified": 9,
+  "source_bytes_checked_when_recorded": true,
+  "local_links_checked": 155,
+  "paired_report_table_lines": 44,
+  "bilingual_meaning_review": "Reviewed; same proposals, alternatives, formulae and pending-approval status",
+  "planning_arithmetic_checked": [
+    "cloud300pretax/363conditionalVAT/400ceiling",
+    "storage256GiB",
+    "Q3archive_byte_totals",
+    "fit_and_shape_examples",
+    "capital_fixed_cost_and_materiality_scenarios",
+    "simple_payback",
+    "arithmetic_daily_margins",
+    "drawdown_recovery",
+    "C2squared_downside_reduction"
+  ],
+  "protected_files_unchanged": [
+    "docs/en/phase-iv/protocol.md",
+    "docs/es/phase-iv/protocol.md",
+    "docs/en/phase-iv/candidates.md",
+    "docs/es/phase-iv/candidates.md",
+    "docs/en/phase-iv/data-execution.md",
+    "docs/es/phase-iv/data-execution.md",
+    "docs/en/phase-iv/staged-amendment.md",
+    "docs/es/phase-iv/staged-amendment.md",
+    "docs/phase-iv/freeze-template.json",
+    "EXPERIMENTS.md"
+  ],
+  "append_only": {
+    "baseline_commit": "d1abdde8df58cfddd28eb0b218636b12b0a579cd",
+    "files": [
+      {
+        "file": "DECISIONS.md",
+        "published_bytes": 118268,
+        "current_bytes": 122282,
+        "previous_sha256": "b13a19378c97075e6ff1e0669a91a18f6892007e1aadfb455c7bc3f07194f90e",
+        "current_sha256": "c0695789bc65937f5fef19983c6fa5a2935ea71c9e81e61fcc1f00e9b5024c7d",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      },
+      {
+        "file": "EXPERIMENTS.md",
+        "published_bytes": 17866,
+        "current_bytes": 17866,
+        "previous_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "current_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      }
+    ],
+    "accepted": true,
+    "limit": "Checks content and declared amendment identity, not authenticity of authority."
+  },
+  "documentation_only_diff": true,
+  "financial_flags_and_bindings": "unchanged false/null; E3/E4 not approved",
+  "limits": "No financial workload sizing, source admission, current-account tariff certification or economic strategy result."
+}

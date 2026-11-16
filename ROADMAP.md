@@ -26,6 +26,8 @@ Piloto BTC/EUR trade+BBO de cinco minutos completado: 2.449 mensajes originales 
 
 ## Objetivo y estado general
 
+**Actualización documental E3/E4 — 2026-11-16, D-063:** [propuesta EN](docs/en/phase-iv/economics.md) / [ES](docs/es/phase-iv/economics.md), basada en `d1abdde`. Preparados presupuesto finito local/gratuito con contingencia, escenarios de capital USD, márgenes económicos y riesgo/C2, con precios y consumos separados de supuestos. **Pendientes de aprobación**; no se rellenan las vinculaciones ni se autoriza ningún gasto o ensayo. Próximo paso exclusivo: revisión del usuario de tres decisiones agrupadas. Después harían falta alcance financiero separado y manifiesto/admisiones dependientes de T/D/U/V/F. Sin ampliación de infraestructura, datasets nuevos ni cambios de ciencia/holdout; IV no queda cerrada incondicionalmente.
+
 Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. III aceptada por el usuario; IV metodológica autorizada en D-035. V–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
 
 | Fase | Entregable principal | Dependencias | Estado |

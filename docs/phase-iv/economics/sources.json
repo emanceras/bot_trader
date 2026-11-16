@@ -1,0 +1,99 @@
+{
+  "document_id": "IV-E34-SOURCES-001",
+  "date": "2026-11-16",
+  "scope": "Directed documentation/evidence reuse; no exchange API/WebSocket or dataset acquisition, financial run or service purchase",
+  "sources": [
+    {
+      "id": "E34-DATA-01",
+      "consulted_on": "2026-11-16",
+      "original_consulted_on": "2026-10-25",
+      "fresh_network_access": false,
+      "cache_path": "/workspace/literature-cache/phase-iv-feasibility/data/IV-DATA-01.raw",
+      "sha256": "43177febaae266fbd094a780c7dde83cc5504c54841e44d8dc16cef0817c1d12",
+      "bytes": 1003690,
+      "url": "https://support.kraken.com/articles/360047124832-downloadable-historical-ohlcvt-open-high-low-close-volume-trades-data",
+      "scope": "Five approximately2GB full-history parts; OHLCVT schema lacks exact quote notional. Archived documentation only."
+    },
+    {
+      "id": "E34-DATA-02",
+      "consulted_on": "2026-11-16",
+      "original_consulted_on": "2026-10-25",
+      "fresh_network_access": false,
+      "cache_path": "/workspace/literature-cache/phase-iv-feasibility/data/IV-DATA-02.raw",
+      "sha256": "4f4eca7cb9be02da327d5591f86c10cc901904a71f0c841303cf316a3b0fb8e3",
+      "bytes": 993878,
+      "url": "https://support.kraken.com/articles/360047543791-downloadable-historical-market-data-time-and-sales-",
+      "scope": "Per-pair first-trade coverage through2026-09-30, fourteen approximately2GB parts. Advertised scope, not exhaustive audited coverage."
+    },
+    {
+      "id": "E34-FEE-01",
+      "consulted_on": "2026-11-16",
+      "original_consulted_on": "2026-10-25",
+      "fresh_network_access": false,
+      "cache_path": "/workspace/literature-cache/phase-iv-feasibility/costs/IV-COST-01.snapshot",
+      "sha256": "9836e7279598263ed9dc56ca99cef989964ec059c3f53cd6036b5e85b908259b",
+      "bytes": 1357485,
+      "url": "https://www.kraken.com/features/fee-schedule",
+      "scope": "Cached Spot table maker0.38%/taker0.80%; futures cross-platform comparison Spot maker0.40%/taker0.80%. Different table contexts coexist, so prior0.40 summary is not proved erroneous. Use only taker as a documentary market-order scenario; actual current Spain/account/historical applicability unbound."
+    },
+    {
+      "id": "E34-PAID-01",
+      "consulted_on": "2026-11-16",
+      "original_consulted_on": "2026-10-25",
+      "fresh_network_access": false,
+      "cache_path": "/workspace/literature-cache/phase-iv-feasibility/paid/tar-price.html",
+      "sha256": "1e93a2b25f1744d675408a59b0bcc0476395fb9d5b99efc9083ea41546281c16",
+      "bytes": 336603,
+      "url": "https://tardis.dev/",
+      "scope": "Cached broad Spot Solo display$900/month; not a project quote, tax/currency/retention confirmation or narrow-plan price."
+    },
+    {
+      "id": "E34-PAID-02",
+      "consulted_on": "2026-11-16",
+      "original_consulted_on": "2026-10-25",
+      "fresh_network_access": false,
+      "cache_path": "/workspace/literature-cache/phase-iv-feasibility/paid/coin-price.html",
+      "sha256": "cbc2ae71b2eef4f166c463cb23be6f5acb1153929d5a1209bf6349c655d4fb35",
+      "bytes": 139635,
+      "url": "https://www.coinapi.io/products/market-data-api/pricing",
+      "scope": "Cached Startup$79/month with allowances; neither total desired historical cost nor licence/coverage confirmed."
+    },
+    {
+      "id": "E34-PRICE-01",
+      "url": "https://aws.amazon.com/lightsail/pricing/",
+      "retrieved_at": "2026-11-16T16:37:26.493260+00:00",
+      "scope": "Official static pricing document only; no account/service/API or market connection",
+      "status": 200,
+      "final_url": "https://aws.amazon.com/lightsail/pricing/",
+      "bytes": 494048,
+      "sha256": "43f49a4d1e74e88822ebfcc434faf3c9b4cf35c93846c674f994fb65d74fc097",
+      "cache_path": "/workspace/literature-cache/phase-iv-economics/aws-pricing.html",
+      "scope_read": "Public IPv4 Linux/Unix tiers:2GB/2vCPU/60GBSSD12USD/mo,8GB/2vCPU/160GBSSD44USD/mo,16GB/4vCPU/320GBSSD84USD/mo; snapshots0.05USD/GB/mo. No trial/account/server activated. No exchange endpoint contacted.",
+      "fresh_network_access": true
+    },
+    {
+      "id": "E34-MEASURE-01",
+      "source_path": "docs/phase-iv/admission/kraken-results.json",
+      "sha256": "a84c027f6e8dac126e178f9008305add282369ae5c30c5ebe270a0dea0812d15",
+      "scope": "Measured Q3 structural byte/row/CRC/resource audit only; not financial workload sizing.",
+      "consulted_on": "2026-11-16",
+      "fresh_network_access": false
+    },
+    {
+      "id": "E34-MEASURE-02",
+      "source_path": "docs/integration/kraken-pilot/resources.json",
+      "sha256": "171d3b6a3120793b177c99e71532457fc94fa84ab6e93cc290357390086887bf",
+      "scope": "Measured first-version data QA campaign, with failed-run resource unknowns. No financial fit benchmark.",
+      "consulted_on": "2026-11-16",
+      "fresh_network_access": false
+    },
+    {
+      "id": "E34-MEASURE-03",
+      "source_path": "docs/integration/kraken-pilot/final-qa.json",
+      "sha256": "d265605aeed00696c0d5531a13405b78b650eefcefbf5958adf5ef6ae816f45d",
+      "scope": "Finite private BTC/EUR replay validation only; not history/full universe/alpha.",
+      "consulted_on": "2026-11-16",
+      "fresh_network_access": false
+    }
+  ]
+}
