@@ -87,7 +87,8 @@ def test_construction_has_no_connection_and_refuses_other_endpoints(monkeypatch)
     client.close()
 
 
-def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
+@pytest.mark.parametrize("proxy", [None, "http://proxy.invalid:8080", "https://proxy.invalid:8443"])
+def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch, proxy):
     import websockets
     from websockets.asyncio import client as library
 
@@ -106,14 +107,20 @@ def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
             return answer().__await__()
 
     monkeypatch.setattr(library, "connect", Dial)
-    transport = KrakenWebSocketTransport(max_frame_bytes=1024)
+    transport = KrakenWebSocketTransport(max_frame_bytes=1024, proxy_url=proxy)
     transport.connect(ENDPOINT)
     try:
         settings = seen["kwargs"]
         assert seen["endpoint"] == ENDPOINT
         assert settings["ssl"].verify_mode == ssl.CERT_REQUIRED
         assert settings["ssl"].check_hostname is True
-        assert settings["proxy"] is settings["compression"] is settings["ping_interval"] is None
+        assert settings["proxy"] == proxy
+        assert settings["compression"] is settings["ping_interval"] is None
+        if proxy is not None and proxy.startswith("https:"):
+            assert settings["proxy_ssl"].verify_mode == ssl.CERT_REQUIRED
+            assert settings["proxy_ssl"].check_hostname is True
+        else:
+            assert "proxy_ssl" not in settings
         assert settings["max_size"] == 1024 and settings["max_queue"] == 1
         assert settings["write_limit"] == 4096
         assert settings["open_timeout"] == 10 and settings["close_timeout"] == 3
@@ -124,6 +131,22 @@ def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
     finally:
         transport.close()
     assert transport.close_outcome == "graceful" and transport._loop is None
+
+
+@pytest.mark.parametrize(
+    "route",
+    [
+        "", "socks5://proxy.invalid:1080", "http://user:secret@proxy.invalid:8080",
+        "http://proxy.invalid/path", "http://proxy.invalid/", "http://proxy.invalid?query=1",
+        "http://proxy.invalid#fragment", "http://proxy.invalid?", "http://proxy.invalid#",
+        "http://proxy.invalid:65536", "http://proxy.invalid:0", "http://proxy.invalid\n",
+        "http://proxy.invalid\\evil", "http://", "http://[invalid",
+    ],
+)
+def test_proxy_route_rejects_credentials_and_ambiguous_addresses_without_network(route):
+    with pytest.raises(ValueError, match="credential-free") as rejected:
+        KrakenWebSocketTransport(proxy_url=route)
+    assert "secret" not in str(rejected.value)
 
 
 def test_only_exact_public_subscriptions_can_be_sent(monkeypatch):

@@ -1,6 +1,8 @@
 """Finite pilot command orchestration; dry plan is the default and never opens a socket."""
 
+import hashlib
 import importlib.metadata
+import os
 import signal
 import socket
 import threading
@@ -24,6 +26,17 @@ class SystemReceiptClock:
 
     def sleep_ns(self, duration_ns: int) -> None:
         self.stopped.wait(duration_ns / 1_000_000_000)
+
+
+def _proxy_route(config: PilotConfiguration) -> str | None:
+    if config.proxy_environment is None:
+        return None
+    from bot_trader.market_data.kraken_transport import validate_proxy_url
+
+    route = os.environ.get(config.proxy_environment)
+    if not route or hashlib.sha256(route.encode("utf-8")).hexdigest() != config.proxy_url_sha256:
+        raise ValueError("Explicit proxy environment is absent or does not match its approved hash.")
+    return validate_proxy_url(route)
 
 
 def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
@@ -60,6 +73,7 @@ def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
         approval.require(args.capture_id, config, clock.now()[0], socket.gethostname())
     if args.execute and installed != "17.4":
         raise ValueError("Install the pinned optional capture extra before an approved pilot.")
+    proxy_url = _proxy_route(config) if args.execute else None
     # Dedicated pilot state; larger bounded sidecars don't change the platform default.
     settings = settings.model_copy(update={"max_artifact_bytes": 33_554_432})
     services = build_services(settings)
@@ -96,7 +110,8 @@ def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
                 approval,
                 clock=clock,
                 factory=lambda _: KrakenWebSocketTransport(
-                    max_frame_bytes=config.limits.max_frame_bytes
+                    max_frame_bytes=config.limits.max_frame_bytes,
+                    proxy_url=proxy_url,
                 ),
                 stop_requested=stopped.is_set,
             )
