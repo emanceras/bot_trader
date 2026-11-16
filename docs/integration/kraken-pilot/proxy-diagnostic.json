@@ -1,0 +1,7 @@
+{
+  "purpose": "diagnose configured environment proxy; no subscription or capture",
+  "tls_verification": true,
+  "received_market_records": 0,
+  "status": "websocket_handshake_succeeded_no_subscription",
+  "wall_seconds": 1.3923985669999865
+}

@@ -1,0 +1,124 @@
+{
+  "application_source_age_ns": {
+    "ticker:snapshot": {
+      "count": 1,
+      "max_ns": 1940792388,
+      "median_observation_ns": 1940792388,
+      "min_ns": 1940792388
+    },
+    "ticker:update": {
+      "count": 2006,
+      "max_ns": 5644068949,
+      "median_observation_ns": 113051263,
+      "min_ns": 69068685
+    },
+    "trade:snapshot": {
+      "count": 50,
+      "max_ns": 91032564469,
+      "median_observation_ns": 52880837469,
+      "min_ns": 2942594469
+    },
+    "trade:update": {
+      "count": 118,
+      "max_ns": 203863699,
+      "median_observation_ns": 74246872,
+      "min_ns": 69487204
+    }
+  },
+  "artifact_hashes": {
+    "archive_hash": "a5e1d942465959ef98dbf8d32984758bad93588d4edd5b446af2636646e7ccd8",
+    "normalization_hash": "a7ee3b7d58e93f99bc759578a2671579d5ca745dd31abe2429b2481ffdffd0f9",
+    "replay_hash": "f7af25e60517a3f2f3ef4eb6ff9bdc749e038a8ee94b5b3ae010b3bb84054081"
+  },
+  "capture_id": "kraken-btc-eur-pilot-03-20261116",
+  "causal_boundaries_checked": 3,
+  "channel_coverage": {
+    "ticker": {
+      "first_received_ns": 1794821517295560388,
+      "last_received_ns": 1794821816194837633,
+      "receipt_span_ns": 298899277245
+    },
+    "trade": {
+      "first_received_ns": 1794821517282898469,
+      "last_received_ns": 1794821814292836858,
+      "receipt_span_ns": 297009938389
+    }
+  },
+  "checks": {
+    "causal_boundaries_and_checkpoint_resume": true,
+    "duplicate_and_observed_quote_semantics": true,
+    "exact_original_timestamps": true,
+    "fresh_process_artifacts_and_checkpoints_identical": true,
+    "journal_checkpoint_unchanged": true,
+    "journal_integrity_no_pending_intent": true,
+    "local_shutdown_recorded": true,
+    "native_instrument_and_currency": true,
+    "nonempty_both_channels": true,
+    "original_capture_artifacts_preserved_after_restart": true,
+    "original_pilot_accepted": true,
+    "per_session_monotonic_order": true,
+    "raw_to_sidecar_to_event_provenance": true,
+    "receipt_availability_causality": true,
+    "recorded_approval_binding_at_intake": true,
+    "replay_repeat_deterministic": true,
+    "row_accounting": true,
+    "stored_replay_matches_recomputation": true,
+    "target_duration_stop": true,
+    "utc_receipt_order": true
+  },
+  "config_hash": "bd8287b68de155841d2936f76f4698b6c9af00a50dd4e7800035b2f18d0c47bd",
+  "corruption_observed": false,
+  "coverage_gaps_recorded": 0,
+  "duplicate_trade_deliveries": 0,
+  "fault_coverage": "No faults injected into original capture. Unobserved disconnects, corruption and interrupted-write recovery require the separately executed synthetic tests.",
+  "financial_validation": false,
+  "fresh_process": {
+    "exit_code": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e29f87fe4627b855fb32826b9360f7cbac82475296f9e906c094f60bba3c9967"
+  },
+  "journal_checkpoint": {
+    "capture_id": "kraken-btc-eur-pilot-03-20261116",
+    "committed_records": 2456,
+    "config_hash": "bd8287b68de155841d2936f76f4698b6c9af00a50dd4e7800035b2f18d0c47bd",
+    "frames": 2449,
+    "last_hash": "7e26f21564d1cc12c57e7e034654771bd7d3d7cb97fbae798fda716b499c4a31",
+    "pending_intent": false,
+    "total_charged_bytes": 21404366
+  },
+  "market_delivery_counts": {
+    "ticker": 2007,
+    "trade": 168
+  },
+  "message_counts": {
+    "heartbeat": 299,
+    "instrument": 1,
+    "method": 3,
+    "status": 31,
+    "ticker": 2007,
+    "trade": 108
+  },
+  "network_contacted": false,
+  "original_command_report_sha256": "0803662823e21b84fe2ecd1091bb7cf5cddd607708f8572e56d07506a7de4130",
+  "passed": true,
+  "purpose": "private_public_capture_technical_qa",
+  "record_counts": {
+    "capture_authorization": 1,
+    "capture_stop": 1,
+    "public_request": 3,
+    "session_start": 1,
+    "transport_close": 1
+  },
+  "recovery_records_observed": 0,
+  "replay_checkpoint": {
+    "consumed_count": 2175,
+    "prefix_hash": "0befc1d1d176c393153011e95296c7a569615a34e083e661d942c1d5063905d1",
+    "version": "capture-information-qa-v1"
+  },
+  "schema_version": 1,
+  "stage": "complete",
+  "status": "passed",
+  "stop_reason": "duration_limit",
+  "timing_limitations": "Source-to-application receipt age, not measured network latency; host clock synchronization and upstream completeness are not proved by this verifier.",
+  "unique_market_events": 2175
+}

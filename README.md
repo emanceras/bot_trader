@@ -1,6 +1,6 @@
 # bot_trader
 
-Latest delivery: [public Kraken client and incremental journal](docs/en/integration/kraken-ws-client.md) ([español](docs/es/integration/kraken-ws-client.md)). The optional pinned client is implemented and tested offline through the existing pipeline. Journal appends no longer re-read the full prefix. The finite pilot command defaults to a plan and requires separate authorization before connecting; no real capture has run.
+Latest delivery: [finite real Kraken pilot and Market Replay validation](docs/en/integration/kraken-pilot.md) ([español](docs/es/integration/kraken-pilot.md)). A supervised five-minute BTC/EUR trade/BBO capture completed through the existing archive/normalizer/replay path; original/restart hashes and causal checks passed. Market records remain private; failed attempts and technical limits are preserved. No permanent collector or financial execution was activated. Infrastructure work stops here; E3/E4 economic decisions remain next.
 
 Previous delivery: [simulated Kraken WebSocket capture and Market Replay](docs/en/integration/kraken-ws.md) ([español](docs/es/integration/kraken-ws.md)). Public trade/ticker schemas, durable original messages, bounded reconnection, exact normalization and causal data-only replay are integrated and tested with injected transport. No real connection is activated; the report defines the conditional 5–10 minute pilot.
 

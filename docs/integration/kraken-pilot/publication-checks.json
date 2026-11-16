@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "published_baseline_verified": "231602918c856ca0f7db595f96d7e583ffae87bb",
+  "evidence_refs_verified": 25,
+  "evidence_files_verified": 125,
+  "public_files_reviewed": 138,
+  "private_proxy_url_not_published": true,
+  "no_original_market_or_normalization_artifacts_exported": true,
+  "central_contracts_science_dependencies_unchanged": true,
+  "current_serializer_preserves_actual_config_hash": true,
+  "paired_report_links_resolve": true,
+  "active_capture_processes": [],
+  "final_original_message_bytes": 1284814,
+  "final_max_message_bytes": 568789,
+  "final_frames": 2449,
+  "limits": "Hash equality excludes exact artifacts; does not replace human inspection for partial disclosures. Private market state remains local."
+}

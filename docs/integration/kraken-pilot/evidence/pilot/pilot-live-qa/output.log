@@ -1,0 +1,17 @@
+{
+  "capture_id": "kraken-btc-eur-pilot-proxy-20261116",
+  "config_hash": "bd8287b68de155841d2936f76f4698b6c9af00a50dd4e7800035b2f18d0c47bd",
+  "financial_validation": false,
+  "fresh_process": {
+    "exit_code": 1,
+    "stderr_sha256": "4f4c1d2c2a57a34b4a120ebbf4fc787df9f9913991128bf845dbcb72ab1803f8",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "network_contacted": false,
+  "passed": false,
+  "purpose": "private_public_capture_technical_qa",
+  "reason": "fresh_process_inspection_failed",
+  "schema_version": 1,
+  "stage": "fresh_process_inspection",
+  "status": "blocked"
+}

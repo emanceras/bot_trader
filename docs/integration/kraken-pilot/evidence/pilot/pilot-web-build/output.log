@@ -1,0 +1,14 @@
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 31 modules transformed.
+
+(!) outDir /workspace/kraken-replay-pilot/web-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+rendering chunks...
+computing gzip size...
+../kraken-replay-pilot/web-dist/index.html                   0.59 kB │ gzip:   0.37 kB
+../kraken-replay-pilot/web-dist/assets/index-Cd5suuAZ.css   20.85 kB │ gzip:   5.62 kB
+../kraken-replay-pilot/web-dist/assets/index-6Lu7Yh_g.js   434.34 kB │ gzip: 136.52 kB
+
+✓ built in 179ms

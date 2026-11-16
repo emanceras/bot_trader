@@ -1,6 +1,6 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-14 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-16 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
 
 ## Integración incremental autorizada — D-054
 
@@ -19,6 +19,10 @@ Implementados y probados el diario bruto incremental, protocolo público BTC/EUR
 ## Cliente público y diario incremental — D-060
 
 Implementados y probados offline el cliente opcional Kraken v2 y la mejora incremental del diario, reutilizando el recorrido existente. 127 pruebas focalizadas correctas; regresión backend previa de 311 pruebas, sin reabrir motores. [Informe EN](docs/en/integration/kraken-ws-client.md) / [ES](docs/es/integration/kraken-ws-client.md), etiqueta `kraken-public-client`. Comando `capture-pilot` preparado con plan por defecto, autorización acotada, cierre y recuperación offline. Se puede solicitar el primer piloto supervisado; antes de ejecutarlo deben concretarse derechos, alojamiento/reloj, runtime, watchdog y aprobación separada. TLS/proveedor reales no probados. IV sigue condicionada; V y paper/live sin autorización.
+
+## Market Replay validado con piloto real acotado — D-062
+
+Piloto BTC/EUR trade+BBO de cinco minutos completado: 2.449 mensajes originales privados, 2.175 eventos y 20 controles offline correctos, incluidos hashes originales/reinicio y causalidad. Regresión backend352, web7 y navegador2 correctas; fallos de conexión/supervisión y límites preservados. [Informe EN](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md), etiqueta `kraken-market-replay-v1`, [checkpoint](STATE.md). Primera versión validada solo para este recorrido técnico; no certificación 24/7, completitud upstream o calidad financiera. Sin captura permanente ni nuevos motores. **Detener ampliación de infraestructura; siguiente objetivo E3/E4 económicos**, todavía pendientes. Se conservan26 especificaciones,holdout y restricciones de V/paper/live.
 
 ## Objetivo y estado general
 

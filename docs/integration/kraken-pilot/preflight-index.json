@@ -1,0 +1,21 @@
+{
+  "scope": "Technical metadata only; actual probe results, not market observations. Diagnostic durations are measured; CPU/RSS were not sampled for these two short probes. The direct probe used existing transport connect/close; proxy probe used pinned websockets with verified TLS and no subscriptions.",
+  "files": [
+    {
+      "name": "preflight.json",
+      "sha256": "8cfd515ecc098ee9fe1a9d2ec07a38d93eb053809d73a765e943534c3dbe9b8e"
+    },
+    {
+      "name": "resume-preflight.json",
+      "sha256": "d5afd6e2b9884d97d0312f96ca117e9117889b3021c2137ceae5a3c983eac531"
+    },
+    {
+      "name": "connection-diagnostic.json",
+      "sha256": "dc76e398bd3eb2d21e27e317c49de3edf57c8cbc5f1eb6c14584665c38a63880"
+    },
+    {
+      "name": "proxy-diagnostic.json",
+      "sha256": "063d6001e6cef8f6ff488ccf9c35964238719636663ed59f1cc27578e43b0a5d"
+    }
+  ]
+}

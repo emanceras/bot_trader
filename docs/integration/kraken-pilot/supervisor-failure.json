@@ -1,0 +1,9 @@
+{
+  "observed_exception": "FileNotFoundError",
+  "function": "tree_bytes",
+  "operation": "Path.stat",
+  "relative_path": "state/captures/kraken-btc-eur-pilot-proxy-20261116/pending.json",
+  "tool_exit_code": 1,
+  "original_source_commit": "55429267a68be1c6571a7a0c87926013ac21f08a",
+  "preservation": "Original command stdout and source Git ref unchanged; receipt reconstructed with unknown resource fields"
+}

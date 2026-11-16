@@ -1,0 +1,26 @@
+{
+  "status": "connection_blocked",
+  "wall_seconds": 5.064722254999992,
+  "errors": [
+    {
+      "type": "ConnectionError",
+      "errno": null,
+      "message": "Public WebSocket opening failed within its bound."
+    },
+    {
+      "type": "OSError",
+      "errno": null,
+      "message": "Multiple exceptions: [Errno 111] Connect call failed ('104.16.15.28', 443), [Errno 111] Connect call failed ('104.16.14.28', 443)"
+    }
+  ],
+  "proxy_variable_names_present": [
+    "no_proxy",
+    "https_proxy",
+    "NO_PROXY",
+    "HTTPS_PROXY",
+    "HTTP_PROXY",
+    "http_proxy"
+  ],
+  "market_subscriptions": 0,
+  "capture_data_received": 0
+}

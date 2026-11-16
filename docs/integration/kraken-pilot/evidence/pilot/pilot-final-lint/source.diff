@@ -1,0 +1,1322 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 1959a70..1cbcb7f 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,5 +1,11 @@
+ # Instrucciones persistentes del proyecto
+ 
++## Current finite-pilot closure — D-062
++
++- The user authorized a finite real Kraken public BTC/EUR technical pilot in D-061. Read the [EN report](docs/en/integration/kraken-pilot.md) / [ES report](docs/es/integration/kraken-pilot.md) and STATE for its actual results and retained failures. That scope superseded historical no-connection instructions only for this finite campaign.
++- Market Replay is validated for the observed first-version data path, not financial execution or upstream completeness. Keep raw/normalized market data private. Do not repeat this capture or native campaigns by a generic continuation.
++- Stop infrastructure expansion after this delivery. The user's next objective is E3/E4 economics; 26 specifications, scientific gates, holdout and Phase V/paper/live restrictions remain unchanged.
++
+ ## Incremental integration continuity
+ 
+ - Before checks/publication, verify DECISIONS.md and EXPERIMENTS.md as exact byte prefixes of the latest verified published commit with `tools/integration/append_only.py`. A mutable or stale local tracking ref is not a baseline. Exceptional replacements need an explicit hash-bound amendment; never silently restore/rewrite historical content.
+diff --git a/DECISIONS.md b/DECISIONS.md
+index 4e822d2..ae03097 100644
+--- a/DECISIONS.md
++++ b/DECISIONS.md
+@@ -533,3 +533,21 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
+ - **Execution controls:** separate pilot configuration/approval binds identity, hash, host, rights and validity. Default command is plan-only; shipped template approved=false. Approval hash durable before intake. No self-approval implied by code. Offline recovery remains possible after a connection permit expires. SIGINT/SIGTERM stop intake; explicit outer watchdog covers OS DNS/unresponsive-process limits. Journal charge and bounded artifacts are not a filesystem quota or 24/7 certification.
+ - **Evidence:** 127 final focused checks pass; earlier backend regression passed 311 before six further focused cases/fixes. Mypy over 45 source files and scoped Ruff pass; both typing failures and correction diffs preserved. No altered behavioral expectations. Scientific/core/history evidence unchanged. Earlier native campaigns not rerun; no real observations or financial metrics generated.
+ - **Readiness:** no material implementation blocker identified within simulated scope; prepared to request a separately approved 5–10 minute pilot. Before execution bind retention rights, host clock/storage, optional runtime and watchdog. Actual TLS/subscriptions/traffic/latency are pilot questions, not claims already verified. Limits can stop before target duration; valid prefix QA alone cannot count as a completed pilot. E3/E4, 26 specifications, C1/C3, C2, C4/C5, T/D/U/V/F, holdout and V/paper/live unchanged.
++
++
++## D-061 — Authorized finite public Kraken pilot
++
++- **Date/authority:** 2026-11-15. The user explicitly authorizes finishing Market Replay from `2316029`, full applicable regression and a supervised 5–10 minute public WebSocket v2 BTC/EUR trade+ticker/BBO capture. No additional approval is required within that scope. This supersedes D-060’s historical no-connection condition only for this finite private technical pilot.
++- **Execution binding:** reuse `PilotConfiguration`/`PilotApproval`, actual host and finite time window; record the user's instruction as authority, not an invented external verification. Public information is retained privately for technical QA; no market messages, extracts or normalized data will be redistributed. Existing source/rights restrictions remain; no new general licensing research.
++- **Boundaries:** five-minute intake target with existing journal/row/artifact limits, external supervision, four CPU/eight GiB RSS ceiling and 512 MiB fresh temporary budget. No new engine, paid service, financial experiment or permanent collector. Preserve failures and rerun only affected tests. E3/E4 economics, 26 specifications, scientific gates/holdout and Phase V/paper/live remain unchanged.
++- **Status at registration:** authorized, not yet executed. Results will be recorded separately without rewriting this entry. Stop after delivery; next objective is E3/E4.
++
++
++## D-062 — Finite real Kraken pilot validates the first Market Replay data path
++
++- **Date/outcome:** 2026-11-16. D-061 executed from `2316029`; [EN report](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md). Recovery milestone `kraken-market-replay-v1`. The final 300-second intake retained 2,449 original messages / 2,175 market events and passed20 offline controls, including original/restart hashes, exact times, provenance, causal boundaries and checkpoint resumption. Private data only; no orders, economic backtests or model training.
++- **Actual failures retained:** direct opening refused three times, zero frames. A configured-proxy TLS diagnostic succeeded. First proxy capture retained3,465 messages/3,288 events but ended incompletely: supervisor sampling raced a disappearing temporary file; child reported storage_failure with unknown original errno. Their causal relationship is unproved. Partial prefix verifies offline; initial concurrent inspection failure preserved. Failed supervisor resource counters unavailable; its receipt explicitly reconstructs a conservative320-second budget charge, not measured wall time.
++- **Necessary changes:** optional explicit HTTPS_PROXY route and exact URL hash bound to configuration/approval, no credentials or implicit proxy, verified endpoint/proxy TLS and redirect denial. Existing direct hashes preserved; serialization uses APIs within the declared dependency range. Failed acceptance now returns nonzero CLI exit. Supervisor tolerates atomic temporary-file removal and terminates/reaps its child on monitor error; safe storage diagnostics retain type/errno. No central contract, dependency/lock version, engine or scientific change.
++- **Verified scope:**352 backend regression tests,7 web tests,2 browser integration tests, web type/build, strict Python typing and scoped lint; affected tests rerun after subsequent small fixes. Original lint failures retained. Existing native engine campaigns excluded deliberately. No malicious-administrator, native-Windows, 24/7 or financial-execution certification.
++- **Observed limitations:** no final-run reconnect, duplicate trade delivery, corrupt committed record or pending intent; those failure paths retain synthetic coverage. Provider completeness unknown. Local close confirmed but remote close acknowledgement unknown. Source-to-application ages are not isolated network latency; ticker update maximum5.644s, no execution-speed guarantee. UTC discipline status is not an independently measured clock-error bound.
++- **Resources/stop:** completed pilot306.72s wall/11.04s childCPU, sampled133.2MiB childRSS; campaign measured peaks/unknowns and conservative charges in resources.json. No new software, expenses, continuous service or public market-data redistribution. This technical first-version acceptance does not close IV unconditionally or authorize V. Stop infrastructure expansion here; next objective E3/E4 economics.26 specifications,C1/C3,C2,C4/C5,T/D/U/V/F and holdout restrictions unchanged.
+diff --git a/EXPERIMENTS.md b/EXPERIMENTS.md
+index 81df103..68e4e63 100644
+--- a/EXPERIMENTS.md
++++ b/EXPERIMENTS.md
+@@ -113,3 +113,12 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
+ 
+ 
+ - **2026-11-14, cliente Kraken y diario incremental D-060:** 127 pruebas focalizadas finales correctas; regresión backend anterior de 311 pruebas, con cobertura solapada. Cliente real ejercitado únicamente con interlocutores inventados, sin sockets IPv4/IPv6 permitidos en los procesos de prueba. Diario/reconexión/recuperación/normalización/replay y controles de aprobación comprobados; dos fallos de tipos y sus correcciones conservados. Se añadió una dependencia opcional pequeña, aislada; no datos financieros ni servicios. Ninguna conexión Kraken, estrategia, backtest, entrenamiento, retorno o acceso al holdout. **Los siete contadores financieros siguen en cero.** Informe EN/ES y recibos vinculados en D-060; E3/E4 y V pendientes.
++
++
++## Technical data QA — finite real Kraken pilot (2026-11-16, D-061/D-062)
++
++- Not a financial experiment; scientific experiment counters and26 specifications unchanged. No strategy, PnL, training or parameter selection.
++- From2316029, executed existing BTC/EUR public trade+BBO capture → archive → normalization → Market Replay. Final target300s,2,449 original messages/2,175 market events,20 offline controls passed; nativeEUR, exact timestamps, original/restart hashes and causal prefixes preserved.
++- Retained adverse results: three refused direct openings; first proxy pilot incomplete after supervisor sampling race and child storage_failure; concurrent inspection blocked; original measured resource receipt lost and explicitly reconstructed with unknown counters. Partial real prefix QA remains favourable but does not satisfy full pilot acceptance. Final corrected pilot passes.
++-352 backend,7 web unit and2 browser checks passed; subsequent affected checks and strict typing/lint recorded individually. No old native engine campaigns repeated. No fabricated disconnect/duplicate/corruption in final stream: synthetic tests cover unobserved failure paths.
++- Raw messages/sidecars remain private outside Git. [EN](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md), [aggregate QA](docs/integration/kraken-pilot/final-qa.json) and compact source/receipt evidence preserve actual scope. Technical validation only; no upstream completeness,24/7, execution quality or economic advantage claim. E3/E4 next, V/paper/live unauthorized.
+diff --git a/ROADMAP.md b/ROADMAP.md
+index a15ce6f..bc6c05a 100644
+--- a/ROADMAP.md
++++ b/ROADMAP.md
+@@ -1,6 +1,6 @@
+ # Roadmap del proyecto cuantitativo
+ 
+-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-14 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
++Fecha de inicio: 2026-10-13 · Actualización: 2026-11-16 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+ 
+ ## Integración incremental autorizada — D-054
+ 
+@@ -20,6 +20,10 @@ Implementados y probados el diario bruto incremental, protocolo público BTC/EUR
+ 
+ Implementados y probados offline el cliente opcional Kraken v2 y la mejora incremental del diario, reutilizando el recorrido existente. 127 pruebas focalizadas correctas; regresión backend previa de 311 pruebas, sin reabrir motores. [Informe EN](docs/en/integration/kraken-ws-client.md) / [ES](docs/es/integration/kraken-ws-client.md), etiqueta `kraken-public-client`. Comando `capture-pilot` preparado con plan por defecto, autorización acotada, cierre y recuperación offline. Se puede solicitar el primer piloto supervisado; antes de ejecutarlo deben concretarse derechos, alojamiento/reloj, runtime, watchdog y aprobación separada. TLS/proveedor reales no probados. IV sigue condicionada; V y paper/live sin autorización.
+ 
++## Market Replay validado con piloto real acotado — D-062
++
++Piloto BTC/EUR trade+BBO de cinco minutos completado: 2.449 mensajes originales privados, 2.175 eventos y 20 controles offline correctos, incluidos hashes originales/reinicio y causalidad. Regresión backend352, web7 y navegador2 correctas; fallos de conexión/supervisión y límites preservados. [Informe EN](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md), etiqueta `kraken-market-replay-v1`, [checkpoint](STATE.md). Primera versión validada solo para este recorrido técnico; no certificación 24/7, completitud upstream o calidad financiera. Sin captura permanente ni nuevos motores. **Detener ampliación de infraestructura; siguiente objetivo E3/E4 económicos**, todavía pendientes. Se conservan26 especificaciones,holdout y restricciones de V/paper/live.
++
+ ## Objetivo y estado general
+ 
+ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable para un operador particular. Una conclusión negativa y reproducible constituye un resultado útil. I cerrada con límites; II aceptada en `f8f4ff8`; III.A/III.B implementadas y verificadas dentro de su alcance técnico, D-031–D-034. III aceptada por el usuario; IV metodológica autorizada en D-035. V–VI y operativa siguen sin autorización. Los registros fechados anteriores conservan el estado histórico; el encabezado y el punto de reanudación indican el vigente.
+diff --git a/STATE.md b/STATE.md
+index 3e67f33..742edde 100644
+--- a/STATE.md
++++ b/STATE.md
+@@ -1,9 +1,9 @@
+ # Integration checkpoint
+ 
+-- Recovery milestone: `kraken-public-client` (D-060), based on published `a5e9997`; previous `kraken-ws-simulated` remains reproducible. [Current report EN](docs/en/integration/kraken-ws-client.md) / [ES](docs/es/integration/kraken-ws-client.md).
+-- Implemented: optional pinned WebSocket client → existing service/journal/archive/normalizer/Market Replay. Single-writer journal appends/checkpoints now incremental; full audits at restart/read/recovery/external changes. Core contracts and persisted v1 journal unchanged.
+-- Verified offline only: 127 final focused tests; earlier 311 backend regressions (overlap). Mypy over 45 files/scoped Ruff pass; two type failures preserved. 36 prior dependency entries / 4,630 stable files/science/old evidence unchanged. Optional websockets 17.4 installed only in disposable test target; no Kraken connections.
+-- Nine guarded commands: 30.98 s wall / 23.19 s CPU; sampled 222.2 MiB RSS / 7.09 MiB temporary. Evidence and budget under `docs/integration/kraken-ws-client/`; no native engine campaigns repeated.
+-- `capture-pilot` defaults to a local plan. Matching user approval is mandatory for connection; template false/expired. Recovery/inspection offline; terminal retry preserves outcome. Existing data-only permissions do not authorize financial use.
+-- Ready to request a supervised 5–10 min pilot, not execute it: first bind rights, host/reliable clock/private disk, pinned optional runtime, external watchdog and explicit approval. Real TLS/provider access/traffic remain untested. No 24/7 or native-Windows claim; logical limits are not a filesystem quota.
+-- E3/E4 economics, 26 specifications, C1/C3, C2, C4/C5, T/D/U/V/F, holdout and Phase V/paper/live remain unchanged/pending.
++- Milestone: `kraken-market-replay-v1` (D-062), based on `2316029`. [Current report EN](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md).
++- Completed real public BTC/EUR trade+BBO pilot:300s intake,2,449 messages/2,175 events. All20 offline controls pass: raw integrity, exact timestamps, causal boundaries, deterministic original/restart artifacts and checkpoint resumption. No financial execution.
++- Verified:352 backend,7 web and2 browser tests; subsequent affected tests, strict mypy45files, web types/build and scoped lint pass. Native engine campaigns not repeated. Dependencies/core/scientific contracts unchanged.
++- Retained failures: direct connections refused; first proxy pilot incomplete with supervisor temporary-file race and child storage_failure. Partial3,288-event prefix verifies but does not count as full pilot. Failed supervisor counters unknown; conservative320s charge explicit. Supervisor/CLI/proxy fixes tested, original evidence preserved.
++- Completed pilot306.72s wall/11.04s childCPU, sampled133.2MiB RSS. [Resources](docs/integration/kraken-pilot/resources.json) separate measured counts and unknowns. Private raw/normalized data: `/workspace/kraken-replay-pilot/state`; no market records in Git.
++- Limits: upstream completeness unknown; remote close acknowledgement unknown despite confirmed local closure; no final-run reconnection/duplicate/corruption, covered synthetically. Source age is not network latency. No24/7/native-Windows/financial certification.
++- **Stop infrastructure work. Next objective: E3/E4 economic decisions**, still pending.26 specifications,C1/C3,C2,C4/C5,T/D/U/V/F,holdout and PhaseV/paper/live restrictions unchanged. No active collector; do not repeat acquisition or reopen engines on a generic continuation.
+diff --git a/docs/integration/kraken-pilot/budget.json b/docs/integration/kraken-pilot/budget.json
+new file mode 100644
+index 0000000..62e795d
+--- /dev/null
++++ b/docs/integration/kraken-pilot/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
++  "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
++  "machine_seconds": 1200,
++  "command_seconds": 320,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-replay-pilot",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-pilot/evidence",
++  "public_pilot": true,
++  "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
++  "financial_execution": false,
++  "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
++}
+diff --git a/docs/integration/kraken-pilot/pilot-proxy.json b/docs/integration/kraken-pilot/pilot-proxy.json
+new file mode 100644
+index 0000000..524e5db
+--- /dev/null
++++ b/docs/integration/kraken-pilot/pilot-proxy.json
+@@ -0,0 +1 @@
++{"endpoint":"wss://ws.kraken.com/v2","handshake_timeout_ns":15000000000,"idle_timeout_ns":15000000000,"limits":{"max_frame_bytes":1048576,"max_frames":10000,"max_records":20000,"max_total_bytes":67108864,"min_free_disk_bytes":134217728},"max_duration_ns":300000000000,"max_market_rows":8000,"max_reconnects":2,"mode":"public_data_qa","partition":"development","proxy_environment":"HTTPS_PROXY","proxy_url_sha256":"e4d7783ba0b1d7118985e3de887cc689c23041057222c3ad01cb6c9885cc4b09","receive_timeout_ns":1000000000,"reconnect_delay_ns":5000000000,"rights_reference":"D-061: user-authorized finite public-feed technical QA; private retention only, no redistribution; existing Kraken source restrictions apply. User scope declaration, not external legal certification.","symbol":"BTC/EUR","synthetic":false,"version":"kraken-public-pilot-v1"}
+\ No newline at end of file
+diff --git a/docs/integration/kraken-pilot/pilot.json b/docs/integration/kraken-pilot/pilot.json
+new file mode 100644
+index 0000000..71d287f
+--- /dev/null
++++ b/docs/integration/kraken-pilot/pilot.json
+@@ -0,0 +1 @@
++{"endpoint":"wss://ws.kraken.com/v2","handshake_timeout_ns":15000000000,"idle_timeout_ns":15000000000,"limits":{"max_frame_bytes":1048576,"max_frames":10000,"max_records":20000,"max_total_bytes":67108864,"min_free_disk_bytes":134217728},"max_duration_ns":300000000000,"max_market_rows":8000,"max_reconnects":2,"mode":"public_data_qa","partition":"development","receive_timeout_ns":1000000000,"reconnect_delay_ns":5000000000,"rights_reference":"D-061: user-authorized finite public-feed technical QA; private retention only, no redistribution; existing Kraken source restrictions apply. User scope declaration, not external legal certification.","symbol":"BTC/EUR","synthetic":false,"version":"kraken-public-pilot-v1"}
+\ No newline at end of file
+diff --git a/src/bot_trader/cli.py b/src/bot_trader/cli.py
+index cb3c15a..0f4c98e 100644
+--- a/src/bot_trader/cli.py
++++ b/src/bot_trader/cli.py
+@@ -70,6 +70,8 @@ def main() -> None:
+             print(json.dumps(report, sort_keys=True))
+             if str(report.get("status", "")).startswith("blocked"):
+                 parser.exit(1, "Technical capture is blocked; inspect its preserved receipt.\n")
++            if args.execute and not report.get("pilot_acceptance", {}).get("passed", False):
++                parser.exit(1, "Pilot acceptance failed; inspect its preserved receipt.\n")
+             return
+         if args.command in {"init", "migrate"}:
+             database = Database(settings)
+diff --git a/src/bot_trader/market_data/capture_authority.py b/src/bot_trader/market_data/capture_authority.py
+index bc5ee53..0d0eba1 100644
+--- a/src/bot_trader/market_data/capture_authority.py
++++ b/src/bot_trader/market_data/capture_authority.py
+@@ -1,8 +1,8 @@
+ """Finite data-pilot configuration and recorded user approval; neither is a credential."""
+ 
+-from typing import Literal
++from typing import Any, Literal, Self
+ 
+-from pydantic import Field
++from pydantic import Field, SerializerFunctionWrapHandler, model_serializer, model_validator
+ 
+ from bot_trader.core.errors import AccessDenied
+ from bot_trader.core.events import Digest, ImmutableV2, Nanoseconds, content_hash
+@@ -15,6 +15,9 @@ class PilotConfiguration(ImmutableV2):
+     synthetic: Literal[False] = False
+     symbol: Literal["BTC/EUR"] = "BTC/EUR"
+     endpoint: Literal["wss://ws.kraken.com/v2"] = "wss://ws.kraken.com/v2"
++    # Omitted defaults preserve every existing direct-route v1 configuration digest.
++    proxy_environment: Literal["HTTPS_PROXY"] | None = None
++    proxy_url_sha256: Digest | None = None
+     partition: Literal["development"] = "development"
+     max_duration_ns: int = Field(
+         default=300_000_000_000, strict=True, ge=300_000_000_000, le=600_000_000_000
+@@ -33,6 +36,22 @@ class PilotConfiguration(ImmutableV2):
+         min_free_disk_bytes=134_217_728,
+     )
+ 
++    @model_serializer(mode="wrap")
++    def serialize_route(self, handler: SerializerFunctionWrapHandler) -> dict[str, Any]:
++        # Wrap serialization is supported throughout our declared Pydantic range.
++        # Field(exclude_if=...) would silently require a newer minimum version.
++        result: dict[str, Any] = handler(self)
++        if self.proxy_environment is None:
++            result.pop("proxy_environment", None)
++            result.pop("proxy_url_sha256", None)
++        return result
++
++    @model_validator(mode="after")
++    def bound_proxy_route(self) -> Self:
++        if (self.proxy_environment is None) != (self.proxy_url_sha256 is None):
++            raise ValueError("An explicit proxy environment and route hash must be bound together.")
++        return self
++
+     @property
+     def digest(self) -> str:
+         return content_hash(self.model_dump(mode="json"))
+diff --git a/src/bot_trader/market_data/capture_cli.py b/src/bot_trader/market_data/capture_cli.py
+index 3304644..3b043f3 100644
+--- a/src/bot_trader/market_data/capture_cli.py
++++ b/src/bot_trader/market_data/capture_cli.py
+@@ -1,6 +1,8 @@
+ """Finite pilot command orchestration; dry plan is the default and never opens a socket."""
+ 
++import hashlib
+ import importlib.metadata
++import os
+ import signal
+ import socket
+ import threading
+@@ -26,6 +28,19 @@ class SystemReceiptClock:
+         self.stopped.wait(duration_ns / 1_000_000_000)
+ 
+ 
++def _proxy_route(config: PilotConfiguration) -> str | None:
++    if config.proxy_environment is None:
++        return None
++    from bot_trader.market_data.kraken_transport import validate_proxy_url
++
++    route = os.environ.get(config.proxy_environment)
++    if not route or hashlib.sha256(route.encode("utf-8")).hexdigest() != config.proxy_url_sha256:
++        raise ValueError(
++            "Explicit proxy environment is absent or does not match its approved hash."
++        )
++    return validate_proxy_url(route)
++
++
+ def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
+     config = PilotConfiguration.model_validate_json(args.config.read_bytes())
+     try:
+@@ -60,6 +75,7 @@ def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
+         approval.require(args.capture_id, config, clock.now()[0], socket.gethostname())
+     if args.execute and installed != "17.4":
+         raise ValueError("Install the pinned optional capture extra before an approved pilot.")
++    proxy_url = _proxy_route(config) if args.execute else None
+     # Dedicated pilot state; larger bounded sidecars don't change the platform default.
+     settings = settings.model_copy(update={"max_artifact_bytes": 33_554_432})
+     services = build_services(settings)
+@@ -96,7 +112,8 @@ def execute_command(args: Namespace, settings: Settings) -> dict[str, Any]:
+                 approval,
+                 clock=clock,
+                 factory=lambda _: KrakenWebSocketTransport(
+-                    max_frame_bytes=config.limits.max_frame_bytes
++                    max_frame_bytes=config.limits.max_frame_bytes,
++                    proxy_url=proxy_url,
+                 ),
+                 stop_requested=stopped.is_set,
+             )
+diff --git a/src/bot_trader/market_data/capture_service.py b/src/bot_trader/market_data/capture_service.py
+index 4a7d424..d414bd1 100644
+--- a/src/bot_trader/market_data/capture_service.py
++++ b/src/bot_trader/market_data/capture_service.py
+@@ -339,8 +339,10 @@ def _collect(
+             control("capture_stop", {"reason": reason})
+         except (OSError, ValueError):
+             diagnostics.append("stop_record_not_confirmed")
+-    except OSError:
++    except OSError as error:
+         reason = "storage_failure"
++        # Retain a safe diagnostic without paths, payloads or credentials.
++        diagnostics.append(f"storage_failure:{type(error).__name__}:errno={error.errno}")
+     except PlatformError as error:
+         if isinstance(error, AccessDenied):
+             raise
+diff --git a/src/bot_trader/market_data/kraken_transport.py b/src/bot_trader/market_data/kraken_transport.py
+index 4f6f2ab..a4ed4d7 100644
+--- a/src/bot_trader/market_data/kraken_transport.py
++++ b/src/bot_trader/market_data/kraken_transport.py
+@@ -13,6 +13,7 @@ import asyncio
+ import ssl
+ from collections.abc import Awaitable
+ from typing import Any, Protocol, TypeVar, cast
++from urllib.parse import urlsplit
+ 
+ from bot_trader.core.events import canonical_bytes
+ from bot_trader.market_data.kraken_ws import KrakenProtocol
+@@ -48,8 +49,36 @@ def _public_requests() -> frozenset[bytes]:
+     )
+ 
+ 
++def validate_proxy_url(value: str) -> str:
++    """Admit an explicit credential-free CONNECT route without logging its address."""
++    try:
++        if (
++            not isinstance(value, str)
++            or not value.isascii()
++            or any(character.isspace() or ord(character) < 32 or ord(character) == 127
++                   for character in value)
++            or any(character in value for character in "\\?#")
++        ):
++            raise ValueError
++        parsed = urlsplit(value)
++        if (
++            parsed.scheme not in ("http", "https")
++            or not parsed.hostname
++            or parsed.username is not None
++            or parsed.password is not None
++            or parsed.path
++            or parsed.query
++            or parsed.fragment
++            or (parsed.port is not None and parsed.port == 0)
++        ):
++            raise ValueError
++    except (TypeError, ValueError):
++        raise ValueError("Proxy route must be a credential-free HTTP(S) authority only.") from None
++    return value
++
++
+ class KrakenWebSocketTransport:
+-    """One connection session with no private methods, redirects, proxies or auto-retry."""
++    """One public session; no redirects, implicit proxies, private methods or auto-retry."""
+ 
+     simulated = False
+ 
+@@ -60,6 +89,7 @@ class KrakenWebSocketTransport:
+         send_timeout_ns: int = 2_000_000_000,
+         close_timeout_ns: int = 3_000_000_000,
+         max_frame_bytes: int = 1_048_576,
++        proxy_url: str | None = None,
+     ) -> None:
+         self.open_timeout_ns = _duration(open_timeout_ns, 10_000_000_000)
+         self.send_timeout_ns = _duration(send_timeout_ns, 2_000_000_000)
+@@ -67,6 +97,7 @@ class KrakenWebSocketTransport:
+         if type(max_frame_bytes) is not int or not 0 < max_frame_bytes <= 1_048_576:
+             raise ValueError("Public message limit must be between 1 byte and 1 MiB.")
+         self.max_frame_bytes = max_frame_bytes
++        self.proxy_url = validate_proxy_url(proxy_url) if proxy_url is not None else None
+         self._loop: asyncio.AbstractEventLoop | None = None
+         self._connection: _Connection | None = None
+         self._attempted = False
+@@ -85,10 +116,14 @@ class KrakenWebSocketTransport:
+             def process_redirect(self, exc: Exception) -> Exception | str:
+                 return exc
+ 
++        proxy_options: dict[str, Any] = {}
++        if self.proxy_url is not None and urlsplit(self.proxy_url).scheme == "https":
++            # Verify both the TLS proxy and the end-to-end Kraken TLS session.
++            proxy_options["proxy_ssl"] = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+         connection = await NoRedirect(
+             endpoint,
+             ssl=context,
+-            proxy=None,
++            proxy=self.proxy_url,
+             compression=None,
+             open_timeout=self.open_timeout_ns / 1_000_000_000,
+             close_timeout=self.close_timeout_ns / 1_000_000_000,
+@@ -97,6 +132,7 @@ class KrakenWebSocketTransport:
+             max_queue=1,
+             write_limit=4096,
+             user_agent_header="bot_trader-public-capture/1",
++            **proxy_options,
+         )
+         return cast(_Connection, connection)
+ 
+diff --git a/tests/test_capture_cli.py b/tests/test_capture_cli.py
+index 071c5ed..41cf704 100644
+--- a/tests/test_capture_cli.py
++++ b/tests/test_capture_cli.py
+@@ -84,3 +84,28 @@ def test_offline_recovery_does_not_require_fresh_network_authorization(tmp_path,
+     )
+     result = execute_command(args, Settings(data_dir=tmp_path / "private"))
+     assert result["status"] == "recovery_recorded" and not result["network_contacted"]
++
++
++@pytest.mark.parametrize("action,accepted,exit_code", [
++    ("--execute", False, 1), ("--execute", True, 0), ("--inspect", False, 0),
++])
++def test_cli_exit_status_distinguishes_structural_qa_from_completed_pilot(
++    monkeypatch, tmp_path, capsys, action, accepted, exit_code
++):
++    from bot_trader.cli import main
++
++    report = {"status": "technical_qa", "pilot_acceptance": {"passed": accepted}}
++    monkeypatch.setattr("bot_trader.market_data.capture_cli.execute_command", lambda *_: report)
++    monkeypatch.setattr(sys, "argv", [
++        "bot-trader", "--state-dir", str(tmp_path), "capture-pilot",
++        "--capture-id", "pilot", "--config", "unused.json", action,
++    ])
++    if exit_code:
++        with pytest.raises(SystemExit) as result:
++            main()
++        assert result.value.code == exit_code
++    else:
++        main()
++    output = capsys.readouterr()
++    assert json.loads(output.out) == report
++    assert ("Pilot acceptance failed" in output.err) is bool(exit_code)
+diff --git a/tests/test_kraken_transport.py b/tests/test_kraken_transport.py
+index e8867d7..ab4bd86 100644
+--- a/tests/test_kraken_transport.py
++++ b/tests/test_kraken_transport.py
+@@ -87,7 +87,8 @@ def test_construction_has_no_connection_and_refuses_other_endpoints(monkeypatch)
+     client.close()
+ 
+ 
+-def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
++@pytest.mark.parametrize("proxy", [None, "http://proxy.invalid:8080", "https://proxy.invalid:8443"])
++def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch, proxy):
+     import websockets
+     from websockets.asyncio import client as library
+ 
+@@ -106,14 +107,20 @@ def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
+             return answer().__await__()
+ 
+     monkeypatch.setattr(library, "connect", Dial)
+-    transport = KrakenWebSocketTransport(max_frame_bytes=1024)
++    transport = KrakenWebSocketTransport(max_frame_bytes=1024, proxy_url=proxy)
+     transport.connect(ENDPOINT)
+     try:
+         settings = seen["kwargs"]
+         assert seen["endpoint"] == ENDPOINT
+         assert settings["ssl"].verify_mode == ssl.CERT_REQUIRED
+         assert settings["ssl"].check_hostname is True
+-        assert settings["proxy"] is settings["compression"] is settings["ping_interval"] is None
++        assert settings["proxy"] == proxy
++        assert settings["compression"] is settings["ping_interval"] is None
++        if proxy is not None and proxy.startswith("https:"):
++            assert settings["proxy_ssl"].verify_mode == ssl.CERT_REQUIRED
++            assert settings["proxy_ssl"].check_hostname is True
++        else:
++            assert "proxy_ssl" not in settings
+         assert settings["max_size"] == 1024 and settings["max_queue"] == 1
+         assert settings["write_limit"] == 4096
+         assert settings["open_timeout"] == 10 and settings["close_timeout"] == 3
+@@ -126,6 +133,22 @@ def test_secure_dial_parameters_redirect_denial_and_version(monkeypatch):
+     assert transport.close_outcome == "graceful" and transport._loop is None
+ 
+ 
++@pytest.mark.parametrize(
++    "route",
++    [
++        "", "socks5://proxy.invalid:1080", "http://user:secret@proxy.invalid:8080",
++        "http://proxy.invalid/path", "http://proxy.invalid/", "http://proxy.invalid?query=1",
++        "http://proxy.invalid#fragment", "http://proxy.invalid?", "http://proxy.invalid#",
++        "http://proxy.invalid:65536", "http://proxy.invalid:0", "http://proxy.invalid\n",
++        "http://proxy.invalid\\evil", "http://", "http://[invalid",
++    ],
++)
++def test_proxy_route_rejects_credentials_and_ambiguous_addresses_without_network(route):
++    with pytest.raises(ValueError, match="credential-free") as rejected:
++        KrakenWebSocketTransport(proxy_url=route)
++    assert "secret" not in str(rejected.value)
++
++
+ def test_only_exact_public_subscriptions_can_be_sent(monkeypatch):
+     peer = FakeConnection()
+     transport, _ = attach(monkeypatch, peer)
+diff --git a/tests/test_pilot_guard.py b/tests/test_pilot_guard.py
+new file mode 100644
+index 0000000..3b4d7cf
+--- /dev/null
++++ b/tests/test_pilot_guard.py
+@@ -0,0 +1,197 @@
++"""The evidence runner grants network access only to the finite pilot entry point."""
++
++import importlib.util
++import json
++import sys
++from pathlib import Path
++from types import SimpleNamespace
++
++import pytest
++
++
++@pytest.fixture
++def guard(monkeypatch, tmp_path):
++    source = Path(__file__).resolve().parents[1] / "tools/integration/check.py"
++    monkeypatch.syspath_prepend(str(source.parent))
++    spec = importlib.util.spec_from_file_location("pilot_check", source)
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    monkeypatch.setattr(module, "REPO", tmp_path / "repo")
++    return module
++
++
++def pilot_input(guard, tmp_path):
++    root = tmp_path / "private"
++    root.mkdir()
++    config, approval = root / "config.json", root / "approval.json"
++    # This wrapper checks the entry point, not authorization content; the real CLI owns that gate.
++    config.write_text("{}")
++    approval.write_text("{}")
++    budget = {"scratch_root": str(root), "public_pilot": True, "command_seconds": 320, "cpus": 1}
++    command = [
++        str(guard.REPO / ".venv/bin/python"), "-m", "bot_trader.cli",
++        "--state-dir", str(root / "state"), "capture-pilot",
++        "--capture-id", "bounded-test", "--config", str(config),
++        "--approval", str(approval), "--execute",
++    ]
++    return budget, command
++
++
++def test_public_runner_requires_existing_entry_point_and_private_state(guard, tmp_path):
++    budget, command = pilot_input(guard, tmp_path)
++    guard.validate_public_pilot(command, budget)
++    for altered in (
++        ["python", *command[1:]],
++        [*command, "--inspect"],
++        [*command[:-1], "--inspect"],
++        command[:4] + [str(tmp_path / "outside")] + command[5:],
++        command[:4] + [budget["scratch_root"]] + command[5:],
++        command[:10] + ["--approval", str(tmp_path / "missing"), "--execute"],
++    ):
++        with pytest.raises(ValueError):
++            guard.validate_public_pilot(altered, budget)
++    for altered_budget in (
++        budget | {"public_pilot": False},
++        budget | {"public_pilot": 1},
++        budget | {"command_seconds": 621},
++    ):
++        with pytest.raises(ValueError):
++            guard.validate_public_pilot(command, altered_budget)
++
++
++@pytest.mark.parametrize("public", [False, True])
++def test_child_network_default_is_denied_and_opt_in_is_forwarded(
++    guard, tmp_path, monkeypatch, public
++):
++    budget, command = pilot_input(guard, tmp_path)
++    path = tmp_path / "budget.json"
++    path.write_text(json.dumps(budget))
++    calls = []
++    monkeypatch.setattr(guard.os, "sched_setaffinity", lambda *_: None)
++    monkeypatch.setattr(guard, "restrict", lambda root, network: calls.append((root, network)))
++
++    class Executed(Exception):
++        pass
++
++    def execvpe(executable, arguments, environment):
++        assert executable == command[0] and arguments == command
++        raise Executed
++
++    monkeypatch.setattr(guard.os, "execvpe", execvpe)
++    monkeypatch.setattr(
++        sys, "argv", ["check.py", "--child", *(["--public-pilot"] if public else []),
++                      "--budget", str(path), "test", "--", *command],
++    )
++    with pytest.raises(Executed):
++        guard.main()
++    assert calls == [(Path(budget["scratch_root"]), public)]
++
++
++@pytest.mark.parametrize("public", [False, True])
++def test_watchdog_reserves_public_shutdown_grace_inside_total_bound(
++    guard, tmp_path, monkeypatch, public
++):
++    budget, command = pilot_input(guard, tmp_path)
++    budget.update(
++        machine_seconds=1000, ram_bytes=8 * 1024**3, temporary_bytes=512 * 1024**2,
++        published_baseline_commit="test-baseline",
++    )
++    path = tmp_path / "budget.json"
++    path.write_text(json.dumps(budget))
++    signals = []
++    times = iter([0, 316, 318, 320.1, 320.1])
++    monkeypatch.setattr(guard.time, "monotonic", lambda: next(times))
++    monkeypatch.setattr(guard.time, "sleep", lambda _: None)
++    monkeypatch.setattr(guard, "group_rss", lambda _: 1)
++    monkeypatch.setattr(guard, "tree_bytes", lambda _: 0)
++    monkeypatch.setattr(guard, "verify_published_prefix", lambda *_: {})
++    monkeypatch.setattr(
++        guard, "write_snapshot", lambda *_: {"snapshot_commit": "test", "evidence_ref": "test"}
++    )
++    monkeypatch.setattr(guard.os, "killpg", lambda pid, sig: signals.append(sig))
++
++    class UnresponsiveProcess:
++        pid = 123
++
++        def poll(self):
++            return None
++
++        def wait(self):
++            return -9
++
++    monkeypatch.setattr(guard.subprocess, "Popen", lambda *_, **__: UnresponsiveProcess())
++    monkeypatch.setattr(
++        sys, "argv", ["check.py", *(["--public-pilot"] if public else []),
++                      "--budget", str(path), "watchdog", "--", *command],
++    )
++    with pytest.raises(SystemExit) as result:
++        guard.main()
++    assert result.value.code == -9
++    assert signals == (
++        [guard.signal.SIGTERM, guard.signal.SIGKILL] if public else [guard.signal.SIGKILL]
++    )
++    receipt = json.loads((Path(budget["scratch_root"]) / "watchdog/receipt.json").read_text())
++    assert receipt["graceful_stop_requested"] is public
++    assert receipt["stop_reason"] == "time_budget"
++
++
++def test_disk_sampling_ignores_disappearing_atomic_temporary_names(guard):
++    def vanished():
++        raise FileNotFoundError("temporary name was atomically removed")
++
++    temporary = SimpleNamespace(is_symlink=lambda: False, is_file=lambda: True, stat=vanished)
++    committed = SimpleNamespace(
++        is_symlink=lambda: False,
++        is_file=lambda: True,
++        stat=lambda: SimpleNamespace(st_size=123),
++    )
++    root = SimpleNamespace(rglob=lambda _: [temporary, committed])
++    assert guard.tree_bytes(root) == 123
++
++
++@pytest.mark.parametrize("child_code", [0, -9])
++def test_monitor_failure_terminates_owned_child_and_preserves_failed_receipt(
++    guard, tmp_path, monkeypatch, child_code
++):
++    budget, command = pilot_input(guard, tmp_path)
++    budget.update(
++        machine_seconds=1000, ram_bytes=8 * 1024**3, temporary_bytes=512 * 1024**2,
++        published_baseline_commit="test-baseline",
++    )
++    path = tmp_path / "budget.json"
++    path.write_text(json.dumps(budget))
++    signals = []
++
++    def failed_sample(_):
++        raise OSError("private exception detail must not be exported")
++
++    monkeypatch.setattr(guard, "group_rss", failed_sample)
++    monkeypatch.setattr(guard, "tree_bytes", lambda _: 0)
++    monkeypatch.setattr(guard, "verify_published_prefix", lambda *_: {})
++    monkeypatch.setattr(
++        guard, "write_snapshot", lambda *_: {"snapshot_commit": "test", "evidence_ref": "test"}
++    )
++    monkeypatch.setattr(guard.os, "killpg", lambda pid, sig: signals.append((pid, sig)))
++    process = SimpleNamespace(pid=123, poll=lambda: None, wait=lambda: child_code)
++    monkeypatch.setattr(guard.subprocess, "Popen", lambda *_, **__: process)
++    monkeypatch.setattr(sys, "argv", [
++        "check.py", "--public-pilot", "--budget", str(path), "monitor", "--", *command,
++    ])
++    with pytest.raises(SystemExit) as result:
++        guard.main()
++    assert result.value.code == 2
++    assert signals == [(123, guard.signal.SIGKILL)]
++    receipt_path = Path(budget["scratch_root"]) / "monitor/receipt.json"
++    receipt = json.loads(receipt_path.read_text())
++    assert receipt["exit_code"] == 2 and receipt["child_exit_code"] == child_code
++    assert receipt["stop_reason"] == "supervisor_error"
++    assert receipt["monitor_error_type"] == "OSError"
++    assert "private exception detail" not in receipt_path.read_text()
++
++
++def test_signal_race_with_already_stopped_child_does_not_break_receipt(guard, monkeypatch):
++    def already_stopped(*_):
++        raise ProcessLookupError
++
++    monkeypatch.setattr(guard.os, "killpg", already_stopped)
++    guard.signal_owned_group(SimpleNamespace(pid=123), guard.signal.SIGTERM)
+diff --git a/tests/test_pilot_verifier.py b/tests/test_pilot_verifier.py
+new file mode 100644
+index 0000000..49be418
+--- /dev/null
++++ b/tests/test_pilot_verifier.py
+@@ -0,0 +1,47 @@
++"""The offline verifier is exercised with invented messages, never a public feed."""
++
++import importlib.util
++from argparse import Namespace
++from pathlib import Path
++
++from test_capture_service import handshake, ticker, trade
++from test_public_capture import PublicBranchFixture, pilot, run
++
++from bot_trader.core.events import canonical_bytes
++from bot_trader.core.settings import Settings
++from bot_trader.persistence import Database, migrate
++
++
++def test_private_capture_verifier_restarts_and_checks_duplicate_causal_prefixes(tmp_path):
++    source = Path(__file__).resolve().parents[1] / "tools/integration/verify_pilot.py"
++    spec = importlib.util.spec_from_file_location("verify_pilot", source)
++    verifier = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(verifier)
++    db = Database(Settings(data_dir=tmp_path))
++    migrate(db)
++    db.close()
++    service, config, approval, clock = pilot(tmp_path)
++
++    class EndAtDeadline(PublicBranchFixture):
++        def receive(self, timeout_ns):
++            if len(self.timeouts) == 7:
++                clock.sleep_ns(config.max_duration_ns)
++                return canonical_bytes({"channel": "heartbeat"})
++            return super().receive(timeout_ns)
++
++    result = run(service, config, approval, clock, lambda _: EndAtDeadline(
++        clock, handshake() + [trade(), trade(), ticker()]
++    ))
++    assert result["pilot_acceptance"]["passed"]
++    path = tmp_path / "config.json"
++    path.write_text(config.model_dump_json())
++    original = tmp_path / "original.json"
++    original.write_bytes(b"CLI technical diagnostic\n" + canonical_bytes(result))
++    args = Namespace(state_dir=tmp_path, config=path, capture_id="pilot", capture_report=original)
++    report = {}
++    verifier.verify(args, report)
++    assert report["passed"], report
++    assert report["unique_market_events"] == 2
++    assert report["duplicate_trade_deliveries"] == 1
++    assert report["causal_boundaries_checked"] == 2
++    assert report["checks"]["fresh_process_artifacts_and_checkpoints_identical"]
+diff --git a/tests/test_public_capture.py b/tests/test_public_capture.py
+index bae7bf4..48cc168 100644
+--- a/tests/test_public_capture.py
++++ b/tests/test_public_capture.py
+@@ -3,15 +3,19 @@
+ Every transport below is an in-process test double. No DNS, socket or provider access occurs.
+ """
+ 
++import hashlib
+ import json
++from argparse import Namespace
++from pathlib import Path
+ 
+ import pytest
+ from test_capture_service import ADMIN, BASE, Clock, Transport, handshake, ticker, trade
+ 
+ from bot_trader.core.contracts import Principal
+ from bot_trader.core.errors import AccessDenied
+-from bot_trader.core.events import canonical_bytes
++from bot_trader.core.events import canonical_bytes, content_hash
+ from bot_trader.core.security import Policy
++from bot_trader.core.settings import Settings
+ from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
+ from bot_trader.market_data.capture_service import KrakenCaptureService, ReceivePollTimeout
+ from bot_trader.market_data.replay import CaptureReplayCheckpoint
+@@ -299,3 +303,70 @@ def test_real_connector_class_composes_entire_pipeline_with_invented_peer(tmp_pa
+     assert len(peer.sent) == 3
+     repeated = service.inspect("pilot", config, ADMIN)
+     assert result["replay_hash"] == repeated["replay_hash"]
++
++
++def test_optional_proxy_fields_preserve_existing_direct_configuration_identity():
++    old = json.loads(Path("docs/integration/kraken-ws-client/pilot.json").read_bytes())
++    config = PilotConfiguration.model_validate(old)
++    assert config.model_dump(mode="json") == old
++    assert config.digest == content_hash(old)
++    assert config.proxy_environment is config.proxy_url_sha256 is None
++    for invalid in (
++        {"proxy_environment": "HTTPS_PROXY"},
++        {"proxy_url_sha256": "0" * 64},
++        {"proxy_environment": "ALL_PROXY", "proxy_url_sha256": "0" * 64},
++    ):
++        with pytest.raises(ValueError):
++            PilotConfiguration.model_validate(old | invalid)
++
++
++@pytest.mark.parametrize(
++    "declared,actual",
++    [
++        ("http://proxy.invalid:8080", None),
++        ("http://proxy.invalid:8080", "http://other.invalid:8080"),
++        ("http://user:secret@proxy.invalid:8080", "http://user:secret@proxy.invalid:8080"),
++    ],
++)
++def test_proxy_route_rejected_before_services_or_network(tmp_path, monkeypatch, declared, actual):
++    from bot_trader.market_data import capture_cli
++
++    _, config, approval, _ = pilot(
++        tmp_path,
++        proxy_environment="HTTPS_PROXY",
++        proxy_url_sha256=hashlib.sha256(declared.encode()).hexdigest(),
++    )
++    config_path, approval_path = tmp_path / "config.json", tmp_path / "approval.json"
++    config_path.write_text(config.model_dump_json())
++    approval_path.write_text(approval.model_dump_json())
++    if actual is None:
++        monkeypatch.delenv("HTTPS_PROXY", raising=False)
++    else:
++        monkeypatch.setenv("HTTPS_PROXY", actual)
++    monkeypatch.setattr(capture_cli.SystemReceiptClock, "now", lambda _: (BASE, 1))
++    monkeypatch.setattr(capture_cli.socket, "gethostname", lambda: HOST)
++    monkeypatch.setattr(capture_cli.importlib.metadata, "version", lambda _: "17.4")
++    monkeypatch.setattr(capture_cli, "build_services", lambda _: pytest.fail("created services"))
++    args = Namespace(
++        config=config_path, capture_id="pilot", execute=True, inspect=False,
++        recover_stopped_writer=False, approval=approval_path,
++    )
++    with pytest.raises(ValueError) as rejected:
++        capture_cli.execute_command(args, Settings(data_dir=tmp_path / "state"))
++    assert "proxy" in str(rejected.value).lower()
++    assert declared not in str(rejected.value)
++
++
++def test_direct_route_ignores_environment_and_bound_route_is_reused(monkeypatch):
++    from bot_trader.market_data.capture_cli import _proxy_route
++
++    route = "http://proxy.invalid:8080"
++    monkeypatch.setenv("HTTPS_PROXY", route)
++    direct = PilotConfiguration(rights_reference="fixture")
++    assert _proxy_route(direct) is None
++    explicit = PilotConfiguration(
++        rights_reference="fixture", proxy_environment="HTTPS_PROXY",
++        proxy_url_sha256=hashlib.sha256(route.encode()).hexdigest(),
++    )
++    assert _proxy_route(explicit) == route
++    assert explicit.digest != direct.digest
+diff --git a/tools/integration/check.py b/tools/integration/check.py
+index 0b58f5a..b4e04d8 100644
+--- a/tools/integration/check.py
++++ b/tools/integration/check.py
+@@ -1,4 +1,4 @@
+-"""Bounded offline checks with compact Git evidence and an explicit campaign budget."""
++"""Bounded checks; network is opt-in for the existing finite public-pilot command only."""
+ 
+ import argparse
+ import fcntl
+@@ -20,12 +20,53 @@ from runtime_guard import group_rss, restrict  # noqa: E402
+ 
+ 
+ def tree_bytes(root):
+-    return sum(p.stat().st_size for p in root.rglob("*") if p.is_file() and not p.is_symlink())
++    total = 0
++    for path in root.rglob("*"):
++        try:
++            if not path.is_symlink() and path.is_file():
++                total += path.stat().st_size
++        except FileNotFoundError:
++            # Atomic publication removes temporary names while the writer is active.
++            continue
++    return total
++
++
++def signal_owned_group(process, signum):
++    try:
++        os.killpg(process.pid, signum)
++    except ProcessLookupError:
++        # A child may finish between the last poll and the supervision action.
++        pass
++
++
++def validate_public_pilot(command, budget):
++    """Constrain the runner, leaving actual approval validation to the existing CLI."""
++    if budget.get("public_pilot") is not True:
++        raise ValueError("This campaign does not permit public-pilot execution.")
++    if (
++        len(command) != 13
++        or Path(os.path.abspath(command[0])) != REPO / ".venv/bin/python"
++        or command[1:4] != ["-m", "bot_trader.cli", "--state-dir"]
++        or command[5:7] != ["capture-pilot", "--capture-id"]
++        or command[8] != "--config"
++        or command[10] != "--approval"
++        or command[12] != "--execute"
++    ):
++        raise ValueError("Network is limited to the existing public capture-pilot command.")
++    root = Path(budget["scratch_root"]).resolve()
++    state = Path(command[4]).resolve()
++    if state == root or not state.is_relative_to(root):
++        raise ValueError("Pilot state must be a private subdirectory of the campaign root.")
++    if not all(Path(command[i]).is_file() for i in (9, 11)):
++        raise ValueError("Pilot configuration and approval must already exist.")
++    if not 5 < budget["command_seconds"] <= 620:
++        raise ValueError("A finite public-pilot watchdog of at most 620 seconds is required.")
+ 
+ 
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--child", action="store_true")
++    parser.add_argument("--public-pilot", action="store_true")
+     parser.add_argument("--budget", type=Path, required=True)
+     parser.add_argument("label")
+     parser.add_argument("command", nargs=argparse.REMAINDER)
+@@ -35,10 +76,12 @@ def main():
+     command = args.command[1:] if args.command[:1] == ["--"] else args.command
+     if not command:
+         raise ValueError("A concrete command is required.")
++    if args.public_pilot:
++        validate_public_pilot(command, budget)
+     root.mkdir(exist_ok=True)
+     if args.child:
+         os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[: budget["cpus"]])
+-        restrict(root, False)
++        restrict(root, args.public_pilot)
+         os.execvpe(command[0], command, os.environ)
+     with (root / "checks.lock").open("a") as lock:
+         fcntl.flock(lock, fcntl.LOCK_EX)
+@@ -72,12 +115,16 @@ def main():
+         before = resource.getrusage(resource.RUSAGE_CHILDREN)
+         peak = disk_peak = 0
+         stopped = None
++        monitor_error_type = None
++        termination_requested = False
++        allowance = min(budget["command_seconds"], remaining)
+         with (output / "output.log").open("xb") as log:
+             proc = subprocess.Popen(
+                 [
+                     sys.executable,
+                     __file__,
+                     "--child",
++                    *(["--public-pilot"] if args.public_pilot else []),
+                     "--budget",
+                     str(args.budget.resolve()),
+                     args.label,
+@@ -90,39 +137,66 @@ def main():
+                 stderr=subprocess.STDOUT,
+                 start_new_session=True,
+             )
+-            while proc.poll() is None:
+-                peak = max(peak, group_rss(proc.pid))
+-                size = tree_bytes(root) + max(0, tree_bytes(objects) - object_baseline)
+-                size += sum(tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", []))
+-                disk_peak = max(disk_peak, size)
+-                if time.monotonic() - started > min(budget["command_seconds"], remaining):
+-                    stopped = "time_budget"
+-                if peak > budget["ram_bytes"] * 0.9:
+-                    stopped = "memory_guard"
+-                if disk_peak > budget["temporary_bytes"]:
+-                    stopped = "disk_guard"
+-                if stopped:
+-                    os.killpg(proc.pid, signal.SIGKILL)
+-                    break
+-                time.sleep(0.1)
+-            code = proc.wait()
++            try:
++                while proc.poll() is None:
++                    peak = max(peak, group_rss(proc.pid))
++                    size = tree_bytes(root) + max(0, tree_bytes(objects) - object_baseline)
++                    size += sum(
++                        tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", [])
++                    )
++                    disk_peak = max(disk_peak, size)
++                    elapsed = time.monotonic() - started
++                    if elapsed > allowance - (5 if args.public_pilot else 0):
++                        stopped = "time_budget"
++                    if peak > budget["ram_bytes"] * 0.9:
++                        stopped = "memory_guard"
++                    if disk_peak > budget["temporary_bytes"]:
++                        stopped = "disk_guard"
++                    if stopped:
++                        # Reserve the last five seconds inside the hard bound for local shutdown.
++                        # Resource guards remain immediate through the grace period.
++                        if args.public_pilot and stopped == "time_budget" and elapsed < allowance:
++                            if not termination_requested:
++                                signal_owned_group(proc, signal.SIGTERM)
++                                termination_requested = True
++                            time.sleep(0.1)
++                            continue
++                        signal_owned_group(proc, signal.SIGKILL)
++                        break
++                    time.sleep(0.1)
++            except (Exception, KeyboardInterrupt) as error:
++                # A failed supervisor must not silently leave an acquisition child running.
++                # Preserve the exception type, never potentially private exception payloads.
++                stopped = "supervisor_error"
++                monitor_error_type = type(error).__name__
++                signal_owned_group(proc, signal.SIGKILL)
++            child_code = proc.wait()
++            code = 2 if monitor_error_type is not None else child_code
+         after = resource.getrusage(resource.RUSAGE_CHILDREN)
+         record = dict(
+             schema_version=2,
+             label=args.label,
+             command=command,
+             exit_code=code,
++            child_exit_code=child_code,
+             wall_seconds=time.monotonic() - started,
+             cpu_seconds=after.ru_utime + after.ru_stime - before.ru_utime - before.ru_stime,
+             peak_sampled_rss_bytes=peak,
+             peak_sampled_temporary_bytes=disk_peak,
+             stop_reason=stopped,
++            monitor_error_type=monitor_error_type,
++            graceful_stop_requested=termination_requested,
+             started_utc=started_utc,
+             completed_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+             budget=budget,
+             source_commit=source["snapshot_commit"],
+             evidence_ref=source["evidence_ref"],
+-            network="IPv4/IPv6 denied; no new datasets/software downloads",
++            network=(
++                "IPv4/IPv6 allowed for approved public-pilot CLI; application endpoint/request "
++                "allowlist, not a kernel destination firewall"
++                if args.public_pilot
++                else "IPv4/IPv6 denied; no new datasets/software downloads"
++            ),
+             limits=(
+                 "CPU affinity; sampled RSS/disk, not hard peak certification; "
+                 "private output not exported"
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index 1f283d0..4f24487 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -26,6 +26,9 @@ SOURCE_PATHS = (
+     "docs/integration/kraken-ws-client/budget.json",
+     "docs/integration/kraken-ws-client/pilot.json",
+     "docs/integration/kraken-ws-client/approval.template.json",
++    "docs/integration/kraken-pilot/budget.json",
++    "docs/integration/kraken-pilot/pilot.json",
++    "docs/integration/kraken-pilot/pilot-proxy.json",
+ )
+ 
+ 
+diff --git a/tools/integration/verify_pilot.py b/tools/integration/verify_pilot.py
+new file mode 100644
+index 0000000..c59c46a
+--- /dev/null
++++ b/tools/integration/verify_pilot.py
+@@ -0,0 +1,317 @@
++"""Offline, data-only QA of one private public-feed capture; never opens a feed.
++
++Only counts, timing aggregates and hashes leave this verifier. Original messages,
++market values and normalized sidecars remain in the private platform state.
++"""
++
++import argparse
++import hashlib
++import json
++import subprocess
++import sys
++from collections import Counter, defaultdict
++from decimal import Decimal
++from pathlib import Path
++
++from bot_trader.application import build_services
++from bot_trader.core.contracts import Principal
++from bot_trader.core.events import QuoteData, TradeData
++from bot_trader.core.settings import Settings
++from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
++from bot_trader.market_data.kraken_ws import (
++    WSCaptureNormalization,
++    exact_ws_json,
++    rfc3339_ns,
++)
++from bot_trader.market_data.replay import CaptureReplayResult, MarketReplay
++
++REPO = Path(__file__).resolve().parents[2]
++ADMIN = Principal(id="pilot-offline-verifier", role="admin")
++
++
++def timing(values):
++    ordered = sorted(values)
++    if not ordered:
++        return {"count": 0, "min_ns": None, "median_observation_ns": None, "max_ns": None}
++    return {
++        "count": len(ordered),
++        "min_ns": ordered[0],
++        "median_observation_ns": ordered[(len(ordered) - 1) // 2],
++        "max_ns": ordered[-1],
++    }
++
++
++def verify(args, report):
++    config = PilotConfiguration.model_validate_json(args.config.read_bytes())
++    report.update(capture_id=args.capture_id, config_hash=config.digest)
++    report["stage"] = "fresh_process_inspection"
++    command = [
++        sys.executable, "-m", "bot_trader.cli", "--state-dir", str(args.state_dir.resolve()),
++        "capture-pilot", "--capture-id", args.capture_id, "--config",
++        str(args.config.resolve()), "--inspect",
++    ]
++    process = subprocess.run(command, cwd=REPO, capture_output=True, timeout=90, check=False)
++    report["fresh_process"] = {
++        "exit_code": process.returncode,
++        "stdout_sha256": hashlib.sha256(process.stdout).hexdigest(),
++        "stderr_sha256": hashlib.sha256(process.stderr).hexdigest(),
++    }
++    if process.returncode:
++        report.update(status="blocked", reason="fresh_process_inspection_failed", passed=False)
++        return
++    first = json.loads(process.stdout)
++    settings = Settings(
++        data_dir=args.state_dir.resolve(), repository_root=REPO, max_artifact_bytes=33_554_432
++    )
++    services = build_services(settings)
++    try:
++        report["stage"] = "reconstructed_service_inspection"
++        second = services.capture.inspect(args.capture_id, config, ADMIN)
++        checks = report["checks"] = {}
++        identity_keys = (
++            "archive_hash", "normalization_hash", "replay_hash", "journal_checkpoint",
++            "checkpoint", "market_events", "channels_seen", "config_hash",
++        )
++        checks["fresh_process_artifacts_and_checkpoints_identical"] = all(
++            first[key] == second[key] for key in identity_keys
++        )
++        original_bytes = args.capture_report.read_bytes()
++        candidates = [line for line in original_bytes.splitlines() if line.startswith(b"{")]
++        if len(candidates) != 1:
++            raise ValueError("Exactly one original structured capture report is required.")
++        original = json.loads(candidates[0])
++        report["original_command_report_sha256"] = hashlib.sha256(original_bytes).hexdigest()
++        checks["original_capture_artifacts_preserved_after_restart"] = all(
++            original[key] == second[key] for key in identity_keys
++        )
++        checks["original_pilot_accepted"] = (
++            original.get("pilot_acceptance", {}).get("passed") is True
++        )
++        report["artifact_hashes"] = {key: second[key] for key in identity_keys[:3]}
++        report["stage"] = "journal_and_provenance"
++        journal = services.capture.journal(args.capture_id, config, ADMIN)
++        with journal.capture_lease():
++            checkpoint = journal.audit()
++            records = journal.records()
++            frames = journal.frames()
++            checks["journal_integrity_no_pending_intent"] = not checkpoint.pending_intent
++            checks["journal_checkpoint_unchanged"] = (
++                checkpoint.model_dump(mode="json") == second["journal_checkpoint"]
++            )
++            normalized = WSCaptureNormalization.model_validate_json(
++                services.capture.store.get(second["normalization_hash"], "json")
++            )
++            saved = CaptureReplayResult.model_validate_json(
++                services.capture.store.get(second["replay_hash"], "json")
++            )
++            approvals = [r for r in records if r.kind == "capture_authorization"]
++            for record in approvals:
++                approval = PilotApproval.model_validate_json(
++                    services.capture.store.get(record.details["approval_hash"], "json")
++                )
++                # Historical binding at intake; no fresh connection or renewed authority.
++                approval.require(args.capture_id, config, record.received_ns, approval.host_id)
++            checks["recorded_approval_binding_at_intake"] = bool(approvals)
++            checks["utc_receipt_order"] = all(
++                a.received_ns <= b.received_ns for a, b in zip(records, records[1:], strict=False)
++            )
++            session_clocks = {}
++            monotonic_ok = True
++            for record in records:
++                monotonic_ok &= record.monotonic_ns >= session_clocks.get(record.session_id, 0)
++                session_clocks[record.session_id] = record.monotonic_ns
++            checks["per_session_monotonic_order"] = monotonic_ok
++            events = {event.event_id: event for event in normalized.events}
++            sidecars = {(row.frame_sequence, row.item_index): row for row in normalized.rows}
++            exact = causal = units = provenance = duplicate_semantics = True
++            ages = defaultdict(list)
++            coverage = defaultdict(list)
++            messages = Counter()
++            deliveries = Counter()
++            native_seen = {}
++            raw_rows = duplicate_count = 0
++            for frame in frames:
++                value = exact_ws_json(journal.read_frame(frame))
++                channel = value.get("channel", "method")
++                messages[channel] += 1
++                if channel not in ("trade", "ticker"):
++                    continue
++                for index, raw in enumerate(value["data"]):
++                    raw_rows += 1
++                    row = sidecars[(frame.local_sequence, index)]
++                    event = events[row.event_id]
++                    event_ns = rfc3339_ns(raw["timestamp"])
++                    exact &= (
++                        row.timestamp_text == raw["timestamp"]
++                        and event_ns == event.event_ns == event.original_tick
++                        and event.original_unit == "ns"
++                    )
++                    causal &= (
++                        event_ns <= event.received_ns == event.available_ns
++                        and event.effective_ns == event.received_ns <= frame.received_ns
++                    )
++                    units &= raw["symbol"] == row.original_symbol == "BTC/EUR"
++                    units &= event.instrument == "BTC-EUR" and event.quote_currency == "EUR"
++                    provenance &= (
++                        row.raw_sha256 == frame.raw_sha256
++                        and row.received_ns == frame.received_ns
++                        and row.monotonic_ns == frame.monotonic_ns
++                        and row.session_id == frame.session_id
++                    )
++                    if not row.duplicate_delivery:
++                        provenance &= (
++                            event.raw_sha256 == frame.raw_sha256
++                            and event.received_ns == frame.received_ns
++                        )
++                    if channel == "trade":
++                        trade_id = str(raw["trade_id"])
++                        duplicate = trade_id in native_seen
++                        duplicate_semantics &= row.duplicate_delivery == duplicate
++                        duplicate_semantics &= row.native_trade_id == trade_id
++                        signature = (
++                            event_ns, raw["symbol"], raw["side"], raw["ord_type"],
++                            Decimal(str(raw["price"])), Decimal(str(raw["qty"])),
++                        )
++                        if duplicate:
++                            duplicate_semantics &= native_seen[trade_id] == signature
++                        else:
++                            native_seen[trade_id] = signature
++                        duplicate_semantics &= isinstance(event.data, TradeData)
++                        if isinstance(event.data, TradeData):
++                            duplicate_semantics &= (
++                                Decimal(event.data.price) == signature[-2]
++                                and Decimal(event.data.quantity) == signature[-1]
++                            )
++                        duplicate_count += duplicate
++                    else:
++                        duplicate_semantics &= not row.duplicate_delivery
++                        duplicate_semantics &= isinstance(event.data, QuoteData)
++                        if isinstance(event.data, QuoteData):
++                            duplicate_semantics &= event.data.origin == "observed"
++                            for name, levels in (
++                                ("bid", event.data.bids), ("ask", event.data.asks)
++                            ):
++                                duplicate_semantics &= (
++                                    Decimal(levels[0].price) == Decimal(str(raw[name]))
++                                    and Decimal(levels[0].quantity)
++                                    == Decimal(str(raw[name + "_qty"]))
++                                )
++                    kind = "snapshot" if row.snapshot else "update"
++                    provenance &= row.snapshot == (value["type"] == "snapshot")
++                    ages[channel + ":" + kind].append(frame.received_ns - event_ns)
++                    coverage[channel].append(frame.received_ns)
++                    deliveries[channel] += 1
++            checks.update(
++                exact_original_timestamps=exact,
++                receipt_availability_causality=causal,
++                native_instrument_and_currency=units,
++                raw_to_sidecar_to_event_provenance=provenance,
++                duplicate_and_observed_quote_semantics=duplicate_semantics,
++                row_accounting=(raw_rows == len(normalized.rows)
++                                == len(normalized.events) + duplicate_count),
++            )
++        report["stage"] = "causal_replay"
++        replay = MarketReplay()
++        full = replay.inspect_capture(normalized.events, data_class="exposed_structural_only")
++        checks["stored_replay_matches_recomputation"] = full == saved
++        checks["replay_repeat_deterministic"] = full == replay.inspect_capture(
++            normalized.events, data_class="exposed_structural_only"
++        )
++        checks["nonempty_both_channels"] = set(coverage) == {"trade", "ticker"}
++        causal_cutoffs = []
++        for cutoff in sorted({e.effective_ns for e in full.events}):
++            # Three representative boundaries are enough; avoid O(N²) verification.
++            causal_cutoffs.append(cutoff)
++        selected = (
++            sorted({
++                causal_cutoffs[0], causal_cutoffs[len(causal_cutoffs) // 2], causal_cutoffs[-1]
++            })
++            if causal_cutoffs else []
++        )
++        cutoff_checks = []
++        for cutoff in selected:
++            before = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", until_ns=cutoff - 1
++            )
++            at = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", until_ns=cutoff
++            )
++            resumed = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", checkpoint=at.checkpoint
++            )
++            cutoff_checks.append(
++                all(e.effective_ns < cutoff for e in before.events)
++                and at.events == tuple(e for e in full.events if e.effective_ns <= cutoff)
++                and len(at.events) > len(before.events)
++                and resumed.events == full.events and resumed.checkpoint == full.checkpoint
++            )
++        checks["causal_boundaries_and_checkpoint_resume"] = bool(selected) and all(cutoff_checks)
++        controls = Counter(record.kind for record in records if record.kind != "frame")
++        terminal = records[-1] if records else None
++        stop = (
++            terminal.details.get("reason")
++            if terminal and terminal.kind == "capture_stop" else None
++        )
++        checks["target_duration_stop"] = stop == "duration_limit"
++        closes = [r.details.get("outcome") for r in records if r.kind == "transport_close"]
++        checks["local_shutdown_recorded"] = bool(closes) and all(
++            outcome in ("graceful", "local_closed_remote_unknown") for outcome in closes
++        )
++        report.update(
++            status="passed" if all(checks.values()) else "incomplete_or_failed",
++            passed=all(checks.values()), stage="complete",
++            record_counts=dict(controls), message_counts=dict(messages),
++            market_delivery_counts=dict(deliveries), unique_market_events=len(full.events),
++            duplicate_trade_deliveries=duplicate_count,
++            causal_boundaries_checked=len(selected), stop_reason=stop,
++            journal_checkpoint=checkpoint.model_dump(mode="json"),
++            replay_checkpoint=full.checkpoint.model_dump(mode="json"),
++            application_source_age_ns={key: timing(values) for key, values in sorted(ages.items())},
++            channel_coverage={key: {
++                "first_received_ns": min(values), "last_received_ns": max(values),
++                "receipt_span_ns": max(values) - min(values),
++            } for key, values in sorted(coverage.items())},
++            coverage_gaps_recorded=controls["coverage_gap"],
++            recovery_records_observed=controls["interruption"],
++            corruption_observed=False,
++            fault_coverage=(
++                "No faults injected into original capture. Unobserved disconnects, corruption "
++                "and interrupted-write recovery require the separately executed synthetic tests."
++            ),
++            timing_limitations=(
++                "Source-to-application receipt age, not measured network latency; host clock "
++                "synchronization and upstream completeness are not proved by this verifier."
++            ),
++        )
++    finally:
++        services.database.close()
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--state-dir", type=Path, required=True)
++    parser.add_argument("--config", type=Path, required=True)
++    parser.add_argument("--capture-id", required=True)
++    parser.add_argument("--capture-report", type=Path, required=True)
++    parser.add_argument("--output", type=Path)
++    args = parser.parse_args()
++    report = {
++        "schema_version": 1, "purpose": "private_public_capture_technical_qa",
++        "network_contacted": False, "financial_validation": False,
++        "status": "blocked", "passed": False, "stage": "configuration",
++    }
++    try:
++        verify(args, report)
++    except Exception as error:
++        # Never publish exception text or captured provider payloads.
++        report.update(status="blocked", passed=False, error_type=type(error).__name__)
++    encoded = json.dumps(report, indent=2, sort_keys=True) + "\n"
++    if args.output:
++        with args.output.open("x") as output:
++            output.write(encoded)
++    print(encoded, end="")
++    raise SystemExit(0 if report["passed"] else 1)
++
++
++if __name__ == "__main__":
++    main()

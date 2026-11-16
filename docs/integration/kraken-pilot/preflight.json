@@ -1,0 +1,13 @@
+{
+  "host_id": "369685a056a4",
+  "utc_ns": 1794763961515760006,
+  "kernel_adjtimex_return": 0,
+  "kernel_reports_unsynchronized": false,
+  "clock_uncertainty": "kernel status is not independent UTC-offset verification",
+  "config_hash": "450dd8e34569716cc0aa435aa8e8bb9cdae7aaaae5e325fd7183c98688a846e8",
+  "capture_id": "kraken-btc-eur-pilot-20261115",
+  "approval_sha256": "69d4ec66e9e1bb9563cf5273cdfceaf6510c9bb8b715a8f7a3de0a141d99a2d3",
+  "websocket_version": "17.4",
+  "private_directory_mode": "0o700",
+  "free_bytes": 64072888320
+}

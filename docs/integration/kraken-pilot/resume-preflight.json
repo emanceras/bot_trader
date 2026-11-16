@@ -1,0 +1,10 @@
+{
+  "utc_ns": 1794821078197801857,
+  "host_id": "f38a2d8cb438",
+  "kernel_adjtimex_return": 0,
+  "config_hash": "bd8287b68de155841d2936f76f4698b6c9af00a50dd4e7800035b2f18d0c47bd",
+  "unchanged_proxy_configuration": true,
+  "approval_hash": "d58b9a69cbcc270ec7bb0266b5e8c59c2f5ea74ea544b3798ed3d1413ba89062",
+  "free_bytes": 64077094912,
+  "clock_uncertainty": "kernel status is not an independent UTC-offset verification"
+}

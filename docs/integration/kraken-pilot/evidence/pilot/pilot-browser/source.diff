@@ -1,0 +1,675 @@
+diff --git a/DECISIONS.md b/DECISIONS.md
+index 4e822d2..3a5f288 100644
+--- a/DECISIONS.md
++++ b/DECISIONS.md
+@@ -533,3 +533,11 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
+ - **Execution controls:** separate pilot configuration/approval binds identity, hash, host, rights and validity. Default command is plan-only; shipped template approved=false. Approval hash durable before intake. No self-approval implied by code. Offline recovery remains possible after a connection permit expires. SIGINT/SIGTERM stop intake; explicit outer watchdog covers OS DNS/unresponsive-process limits. Journal charge and bounded artifacts are not a filesystem quota or 24/7 certification.
+ - **Evidence:** 127 final focused checks pass; earlier backend regression passed 311 before six further focused cases/fixes. Mypy over 45 source files and scoped Ruff pass; both typing failures and correction diffs preserved. No altered behavioral expectations. Scientific/core/history evidence unchanged. Earlier native campaigns not rerun; no real observations or financial metrics generated.
+ - **Readiness:** no material implementation blocker identified within simulated scope; prepared to request a separately approved 5–10 minute pilot. Before execution bind retention rights, host clock/storage, optional runtime and watchdog. Actual TLS/subscriptions/traffic/latency are pilot questions, not claims already verified. Limits can stop before target duration; valid prefix QA alone cannot count as a completed pilot. E3/E4, 26 specifications, C1/C3, C2, C4/C5, T/D/U/V/F, holdout and V/paper/live unchanged.
++
++
++## D-061 — Authorized finite public Kraken pilot
++
++- **Date/authority:** 2026-11-15. The user explicitly authorizes finishing Market Replay from `2316029`, full applicable regression and a supervised 5–10 minute public WebSocket v2 BTC/EUR trade+ticker/BBO capture. No additional approval is required within that scope. This supersedes D-060’s historical no-connection condition only for this finite private technical pilot.
++- **Execution binding:** reuse `PilotConfiguration`/`PilotApproval`, actual host and finite time window; record the user's instruction as authority, not an invented external verification. Public information is retained privately for technical QA; no market messages, extracts or normalized data will be redistributed. Existing source/rights restrictions remain; no new general licensing research.
++- **Boundaries:** five-minute intake target with existing journal/row/artifact limits, external supervision, four CPU/eight GiB RSS ceiling and 512 MiB fresh temporary budget. No new engine, paid service, financial experiment or permanent collector. Preserve failures and rerun only affected tests. E3/E4 economics, 26 specifications, scientific gates/holdout and Phase V/paper/live remain unchanged.
++- **Status at registration:** authorized, not yet executed. Results will be recorded separately without rewriting this entry. Stop after delivery; next objective is E3/E4.
+diff --git a/docs/integration/kraken-pilot/budget.json b/docs/integration/kraken-pilot/budget.json
+new file mode 100644
+index 0000000..62e795d
+--- /dev/null
++++ b/docs/integration/kraken-pilot/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
++  "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
++  "machine_seconds": 1200,
++  "command_seconds": 320,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-replay-pilot",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-pilot/evidence",
++  "public_pilot": true,
++  "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
++  "financial_execution": false,
++  "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
++}
+diff --git a/docs/integration/kraken-pilot/pilot.json b/docs/integration/kraken-pilot/pilot.json
+new file mode 100644
+index 0000000..71d287f
+--- /dev/null
++++ b/docs/integration/kraken-pilot/pilot.json
+@@ -0,0 +1 @@
++{"endpoint":"wss://ws.kraken.com/v2","handshake_timeout_ns":15000000000,"idle_timeout_ns":15000000000,"limits":{"max_frame_bytes":1048576,"max_frames":10000,"max_records":20000,"max_total_bytes":67108864,"min_free_disk_bytes":134217728},"max_duration_ns":300000000000,"max_market_rows":8000,"max_reconnects":2,"mode":"public_data_qa","partition":"development","receive_timeout_ns":1000000000,"reconnect_delay_ns":5000000000,"rights_reference":"D-061: user-authorized finite public-feed technical QA; private retention only, no redistribution; existing Kraken source restrictions apply. User scope declaration, not external legal certification.","symbol":"BTC/EUR","synthetic":false,"version":"kraken-public-pilot-v1"}
+\ No newline at end of file
+diff --git a/src/bot_trader/cli.py b/src/bot_trader/cli.py
+index cb3c15a..0f4c98e 100644
+--- a/src/bot_trader/cli.py
++++ b/src/bot_trader/cli.py
+@@ -70,6 +70,8 @@ def main() -> None:
+             print(json.dumps(report, sort_keys=True))
+             if str(report.get("status", "")).startswith("blocked"):
+                 parser.exit(1, "Technical capture is blocked; inspect its preserved receipt.\n")
++            if args.execute and not report.get("pilot_acceptance", {}).get("passed", False):
++                parser.exit(1, "Pilot acceptance failed; inspect its preserved receipt.\n")
+             return
+         if args.command in {"init", "migrate"}:
+             database = Database(settings)
+diff --git a/tests/test_capture_cli.py b/tests/test_capture_cli.py
+index 071c5ed..41cf704 100644
+--- a/tests/test_capture_cli.py
++++ b/tests/test_capture_cli.py
+@@ -84,3 +84,28 @@ def test_offline_recovery_does_not_require_fresh_network_authorization(tmp_path,
+     )
+     result = execute_command(args, Settings(data_dir=tmp_path / "private"))
+     assert result["status"] == "recovery_recorded" and not result["network_contacted"]
++
++
++@pytest.mark.parametrize("action,accepted,exit_code", [
++    ("--execute", False, 1), ("--execute", True, 0), ("--inspect", False, 0),
++])
++def test_cli_exit_status_distinguishes_structural_qa_from_completed_pilot(
++    monkeypatch, tmp_path, capsys, action, accepted, exit_code
++):
++    from bot_trader.cli import main
++
++    report = {"status": "technical_qa", "pilot_acceptance": {"passed": accepted}}
++    monkeypatch.setattr("bot_trader.market_data.capture_cli.execute_command", lambda *_: report)
++    monkeypatch.setattr(sys, "argv", [
++        "bot-trader", "--state-dir", str(tmp_path), "capture-pilot",
++        "--capture-id", "pilot", "--config", "unused.json", action,
++    ])
++    if exit_code:
++        with pytest.raises(SystemExit) as result:
++            main()
++        assert result.value.code == exit_code
++    else:
++        main()
++    output = capsys.readouterr()
++    assert json.loads(output.out) == report
++    assert ("Pilot acceptance failed" in output.err) is bool(exit_code)
+diff --git a/tests/test_pilot_guard.py b/tests/test_pilot_guard.py
+new file mode 100644
+index 0000000..97eb3a4
+--- /dev/null
++++ b/tests/test_pilot_guard.py
+@@ -0,0 +1,134 @@
++"""The evidence runner grants network access only to the finite pilot entry point."""
++
++import importlib.util
++import json
++import sys
++from pathlib import Path
++
++import pytest
++
++
++@pytest.fixture
++def guard(monkeypatch, tmp_path):
++    source = Path(__file__).resolve().parents[1] / "tools/integration/check.py"
++    monkeypatch.syspath_prepend(str(source.parent))
++    spec = importlib.util.spec_from_file_location("pilot_check", source)
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    monkeypatch.setattr(module, "REPO", tmp_path / "repo")
++    return module
++
++
++def pilot_input(guard, tmp_path):
++    root = tmp_path / "private"
++    root.mkdir()
++    config, approval = root / "config.json", root / "approval.json"
++    # This wrapper checks the entry point, not authorization content; the real CLI owns that gate.
++    config.write_text("{}")
++    approval.write_text("{}")
++    budget = {"scratch_root": str(root), "public_pilot": True, "command_seconds": 320, "cpus": 1}
++    command = [
++        str(guard.REPO / ".venv/bin/python"), "-m", "bot_trader.cli",
++        "--state-dir", str(root / "state"), "capture-pilot",
++        "--capture-id", "bounded-test", "--config", str(config),
++        "--approval", str(approval), "--execute",
++    ]
++    return budget, command
++
++
++def test_public_runner_requires_existing_entry_point_and_private_state(guard, tmp_path):
++    budget, command = pilot_input(guard, tmp_path)
++    guard.validate_public_pilot(command, budget)
++    for altered in (
++        ["python", *command[1:]],
++        [*command, "--inspect"],
++        [*command[:-1], "--inspect"],
++        command[:4] + [str(tmp_path / "outside")] + command[5:],
++        command[:4] + [budget["scratch_root"]] + command[5:],
++        command[:10] + ["--approval", str(tmp_path / "missing"), "--execute"],
++    ):
++        with pytest.raises(ValueError):
++            guard.validate_public_pilot(altered, budget)
++    for altered_budget in (
++        budget | {"public_pilot": False},
++        budget | {"public_pilot": 1},
++        budget | {"command_seconds": 621},
++    ):
++        with pytest.raises(ValueError):
++            guard.validate_public_pilot(command, altered_budget)
++
++
++@pytest.mark.parametrize("public", [False, True])
++def test_child_network_default_is_denied_and_opt_in_is_forwarded(
++    guard, tmp_path, monkeypatch, public
++):
++    budget, command = pilot_input(guard, tmp_path)
++    path = tmp_path / "budget.json"
++    path.write_text(json.dumps(budget))
++    calls = []
++    monkeypatch.setattr(guard.os, "sched_setaffinity", lambda *_: None)
++    monkeypatch.setattr(guard, "restrict", lambda root, network: calls.append((root, network)))
++
++    class Executed(Exception):
++        pass
++
++    def execvpe(executable, arguments, environment):
++        assert executable == command[0] and arguments == command
++        raise Executed
++
++    monkeypatch.setattr(guard.os, "execvpe", execvpe)
++    monkeypatch.setattr(
++        sys, "argv", ["check.py", "--child", *(["--public-pilot"] if public else []),
++                      "--budget", str(path), "test", "--", *command],
++    )
++    with pytest.raises(Executed):
++        guard.main()
++    assert calls == [(Path(budget["scratch_root"]), public)]
++
++
++@pytest.mark.parametrize("public", [False, True])
++def test_watchdog_reserves_public_shutdown_grace_inside_total_bound(
++    guard, tmp_path, monkeypatch, public
++):
++    budget, command = pilot_input(guard, tmp_path)
++    budget.update(
++        machine_seconds=1000, ram_bytes=8 * 1024**3, temporary_bytes=512 * 1024**2,
++        published_baseline_commit="test-baseline",
++    )
++    path = tmp_path / "budget.json"
++    path.write_text(json.dumps(budget))
++    signals = []
++    times = iter([0, 316, 318, 320.1, 320.1])
++    monkeypatch.setattr(guard.time, "monotonic", lambda: next(times))
++    monkeypatch.setattr(guard.time, "sleep", lambda _: None)
++    monkeypatch.setattr(guard, "group_rss", lambda _: 1)
++    monkeypatch.setattr(guard, "tree_bytes", lambda _: 0)
++    monkeypatch.setattr(guard, "verify_published_prefix", lambda *_: {})
++    monkeypatch.setattr(
++        guard, "write_snapshot", lambda *_: {"snapshot_commit": "test", "evidence_ref": "test"}
++    )
++    monkeypatch.setattr(guard.os, "killpg", lambda pid, sig: signals.append(sig))
++
++    class UnresponsiveProcess:
++        pid = 123
++
++        def poll(self):
++            return None
++
++        def wait(self):
++            return -9
++
++    monkeypatch.setattr(guard.subprocess, "Popen", lambda *_, **__: UnresponsiveProcess())
++    monkeypatch.setattr(
++        sys, "argv", ["check.py", *(["--public-pilot"] if public else []),
++                      "--budget", str(path), "watchdog", "--", *command],
++    )
++    with pytest.raises(SystemExit) as result:
++        guard.main()
++    assert result.value.code == -9
++    assert signals == (
++        [guard.signal.SIGTERM, guard.signal.SIGKILL] if public else [guard.signal.SIGKILL]
++    )
++    receipt = json.loads((Path(budget["scratch_root"]) / "watchdog/receipt.json").read_text())
++    assert receipt["graceful_stop_requested"] is public
++    assert receipt["stop_reason"] == "time_budget"
+diff --git a/tools/integration/check.py b/tools/integration/check.py
+index 0b58f5a..d433de1 100644
+--- a/tools/integration/check.py
++++ b/tools/integration/check.py
+@@ -1,4 +1,4 @@
+-"""Bounded offline checks with compact Git evidence and an explicit campaign budget."""
++"""Bounded checks; network is opt-in for the existing finite public-pilot command only."""
+ 
+ import argparse
+ import fcntl
+@@ -23,9 +23,34 @@ def tree_bytes(root):
+     return sum(p.stat().st_size for p in root.rglob("*") if p.is_file() and not p.is_symlink())
+ 
+ 
++def validate_public_pilot(command, budget):
++    """Constrain the runner, leaving actual approval validation to the existing CLI."""
++    if budget.get("public_pilot") is not True:
++        raise ValueError("This campaign does not permit public-pilot execution.")
++    if (
++        len(command) != 13
++        or Path(os.path.abspath(command[0])) != REPO / ".venv/bin/python"
++        or command[1:4] != ["-m", "bot_trader.cli", "--state-dir"]
++        or command[5:7] != ["capture-pilot", "--capture-id"]
++        or command[8] != "--config"
++        or command[10] != "--approval"
++        or command[12] != "--execute"
++    ):
++        raise ValueError("Network is limited to the existing public capture-pilot command.")
++    root = Path(budget["scratch_root"]).resolve()
++    state = Path(command[4]).resolve()
++    if state == root or not state.is_relative_to(root):
++        raise ValueError("Pilot state must be a private subdirectory of the campaign root.")
++    if not all(Path(command[i]).is_file() for i in (9, 11)):
++        raise ValueError("Pilot configuration and approval must already exist.")
++    if not 5 < budget["command_seconds"] <= 620:
++        raise ValueError("A finite public-pilot watchdog of at most 620 seconds is required.")
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--child", action="store_true")
++    parser.add_argument("--public-pilot", action="store_true")
+     parser.add_argument("--budget", type=Path, required=True)
+     parser.add_argument("label")
+     parser.add_argument("command", nargs=argparse.REMAINDER)
+@@ -35,10 +60,12 @@ def main():
+     command = args.command[1:] if args.command[:1] == ["--"] else args.command
+     if not command:
+         raise ValueError("A concrete command is required.")
++    if args.public_pilot:
++        validate_public_pilot(command, budget)
+     root.mkdir(exist_ok=True)
+     if args.child:
+         os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[: budget["cpus"]])
+-        restrict(root, False)
++        restrict(root, args.public_pilot)
+         os.execvpe(command[0], command, os.environ)
+     with (root / "checks.lock").open("a") as lock:
+         fcntl.flock(lock, fcntl.LOCK_EX)
+@@ -72,12 +99,15 @@ def main():
+         before = resource.getrusage(resource.RUSAGE_CHILDREN)
+         peak = disk_peak = 0
+         stopped = None
++        termination_requested = False
++        allowance = min(budget["command_seconds"], remaining)
+         with (output / "output.log").open("xb") as log:
+             proc = subprocess.Popen(
+                 [
+                     sys.executable,
+                     __file__,
+                     "--child",
++                    *(["--public-pilot"] if args.public_pilot else []),
+                     "--budget",
+                     str(args.budget.resolve()),
+                     args.label,
+@@ -95,13 +125,22 @@ def main():
+                 size = tree_bytes(root) + max(0, tree_bytes(objects) - object_baseline)
+                 size += sum(tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", []))
+                 disk_peak = max(disk_peak, size)
+-                if time.monotonic() - started > min(budget["command_seconds"], remaining):
++                elapsed = time.monotonic() - started
++                if elapsed > allowance - (5 if args.public_pilot else 0):
+                     stopped = "time_budget"
+                 if peak > budget["ram_bytes"] * 0.9:
+                     stopped = "memory_guard"
+                 if disk_peak > budget["temporary_bytes"]:
+                     stopped = "disk_guard"
+                 if stopped:
++                    # Reserve the last five seconds within the hard bound for local shutdown.
++                    # Resource guards remain immediate; they must not grow through a grace period.
++                    if args.public_pilot and stopped == "time_budget" and elapsed < allowance:
++                        if not termination_requested:
++                            os.killpg(proc.pid, signal.SIGTERM)
++                            termination_requested = True
++                        time.sleep(0.1)
++                        continue
+                     os.killpg(proc.pid, signal.SIGKILL)
+                     break
+                 time.sleep(0.1)
+@@ -117,12 +156,18 @@ def main():
+             peak_sampled_rss_bytes=peak,
+             peak_sampled_temporary_bytes=disk_peak,
+             stop_reason=stopped,
++            graceful_stop_requested=termination_requested,
+             started_utc=started_utc,
+             completed_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+             budget=budget,
+             source_commit=source["snapshot_commit"],
+             evidence_ref=source["evidence_ref"],
+-            network="IPv4/IPv6 denied; no new datasets/software downloads",
++            network=(
++                "IPv4/IPv6 allowed for approved public-pilot CLI; application endpoint/request "
++                "allowlist, not a kernel destination firewall"
++                if args.public_pilot
++                else "IPv4/IPv6 denied; no new datasets/software downloads"
++            ),
+             limits=(
+                 "CPU affinity; sampled RSS/disk, not hard peak certification; "
+                 "private output not exported"
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index 1f283d0..580c7f4 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -26,6 +26,8 @@ SOURCE_PATHS = (
+     "docs/integration/kraken-ws-client/budget.json",
+     "docs/integration/kraken-ws-client/pilot.json",
+     "docs/integration/kraken-ws-client/approval.template.json",
++    "docs/integration/kraken-pilot/budget.json",
++    "docs/integration/kraken-pilot/pilot.json",
+ )
+ 
+ 
+diff --git a/tools/integration/verify_pilot.py b/tools/integration/verify_pilot.py
+new file mode 100644
+index 0000000..d05c23e
+--- /dev/null
++++ b/tools/integration/verify_pilot.py
+@@ -0,0 +1,304 @@
++"""Offline, data-only QA of one private public-feed capture; never opens a feed.
++
++Only counts, timing aggregates and hashes leave this verifier. Original messages,
++market values and normalized sidecars remain in the private platform state.
++"""
++
++import argparse
++import hashlib
++import json
++import subprocess
++import sys
++from collections import Counter, defaultdict
++from decimal import Decimal
++from pathlib import Path
++
++from bot_trader.application import build_services
++from bot_trader.core.contracts import Principal
++from bot_trader.core.events import QuoteData, TradeData
++from bot_trader.core.settings import Settings
++from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
++from bot_trader.market_data.kraken_ws import (
++    WSCaptureNormalization,
++    exact_ws_json,
++    rfc3339_ns,
++)
++from bot_trader.market_data.replay import CaptureReplayResult, MarketReplay
++
++REPO = Path(__file__).resolve().parents[2]
++ADMIN = Principal(id="pilot-offline-verifier", role="admin")
++
++
++def timing(values):
++    ordered = sorted(values)
++    if not ordered:
++        return {"count": 0, "min_ns": None, "median_observation_ns": None, "max_ns": None}
++    return {
++        "count": len(ordered),
++        "min_ns": ordered[0],
++        "median_observation_ns": ordered[(len(ordered) - 1) // 2],
++        "max_ns": ordered[-1],
++    }
++
++
++def verify(args, report):
++    config = PilotConfiguration.model_validate_json(args.config.read_bytes())
++    report.update(capture_id=args.capture_id, config_hash=config.digest)
++    report["stage"] = "fresh_process_inspection"
++    command = [
++        sys.executable, "-m", "bot_trader.cli", "--state-dir", str(args.state_dir.resolve()),
++        "capture-pilot", "--capture-id", args.capture_id, "--config",
++        str(args.config.resolve()), "--inspect",
++    ]
++    process = subprocess.run(command, cwd=REPO, capture_output=True, timeout=90, check=False)
++    report["fresh_process"] = {
++        "exit_code": process.returncode,
++        "stdout_sha256": hashlib.sha256(process.stdout).hexdigest(),
++        "stderr_sha256": hashlib.sha256(process.stderr).hexdigest(),
++    }
++    if process.returncode:
++        report.update(status="blocked", reason="fresh_process_inspection_failed", passed=False)
++        return
++    first = json.loads(process.stdout)
++    settings = Settings(
++        data_dir=args.state_dir.resolve(), repository_root=REPO, max_artifact_bytes=33_554_432
++    )
++    services = build_services(settings)
++    try:
++        report["stage"] = "reconstructed_service_inspection"
++        second = services.capture.inspect(args.capture_id, config, ADMIN)
++        checks = report["checks"] = {}
++        identity_keys = (
++            "archive_hash", "normalization_hash", "replay_hash", "journal_checkpoint",
++            "checkpoint", "market_events", "channels_seen", "config_hash",
++        )
++        checks["fresh_process_artifacts_and_checkpoints_identical"] = all(
++            first[key] == second[key] for key in identity_keys
++        )
++        report["artifact_hashes"] = {key: second[key] for key in identity_keys[:3]}
++        report["stage"] = "journal_and_provenance"
++        journal = services.capture.journal(args.capture_id, config, ADMIN)
++        with journal.capture_lease():
++            checkpoint = journal.audit()
++            records = journal.records()
++            frames = journal.frames()
++            checks["journal_integrity_no_pending_intent"] = not checkpoint.pending_intent
++            checks["journal_checkpoint_unchanged"] = (
++                checkpoint.model_dump(mode="json") == second["journal_checkpoint"]
++            )
++            normalized = WSCaptureNormalization.model_validate_json(
++                services.capture.store.get(second["normalization_hash"], "json")
++            )
++            saved = CaptureReplayResult.model_validate_json(
++                services.capture.store.get(second["replay_hash"], "json")
++            )
++            approvals = [r for r in records if r.kind == "capture_authorization"]
++            for record in approvals:
++                approval = PilotApproval.model_validate_json(
++                    services.capture.store.get(record.details["approval_hash"], "json")
++                )
++                # Historical binding at intake; no fresh connection or renewed authority.
++                approval.require(args.capture_id, config, record.received_ns, approval.host_id)
++            checks["recorded_approval_binding_at_intake"] = bool(approvals)
++            checks["utc_receipt_order"] = all(
++                a.received_ns <= b.received_ns for a, b in zip(records, records[1:])
++            )
++            session_clocks = {}
++            monotonic_ok = True
++            for record in records:
++                monotonic_ok &= record.monotonic_ns >= session_clocks.get(record.session_id, 0)
++                session_clocks[record.session_id] = record.monotonic_ns
++            checks["per_session_monotonic_order"] = monotonic_ok
++            events = {event.event_id: event for event in normalized.events}
++            sidecars = {(row.frame_sequence, row.item_index): row for row in normalized.rows}
++            exact = causal = units = provenance = duplicate_semantics = True
++            ages = defaultdict(list)
++            coverage = defaultdict(list)
++            messages = Counter()
++            deliveries = Counter()
++            native_seen = {}
++            raw_rows = duplicate_count = 0
++            for frame in frames:
++                value = exact_ws_json(journal.read_frame(frame))
++                channel = value.get("channel", "method")
++                messages[channel] += 1
++                if channel not in ("trade", "ticker"):
++                    continue
++                for index, raw in enumerate(value["data"]):
++                    raw_rows += 1
++                    row = sidecars[(frame.local_sequence, index)]
++                    event = events[row.event_id]
++                    event_ns = rfc3339_ns(raw["timestamp"])
++                    exact &= (
++                        row.timestamp_text == raw["timestamp"]
++                        and event_ns == event.event_ns == event.original_tick
++                        and event.original_unit == "ns"
++                    )
++                    causal &= (
++                        event_ns <= event.received_ns == event.available_ns
++                        and event.effective_ns == event.received_ns <= frame.received_ns
++                    )
++                    units &= raw["symbol"] == row.original_symbol == "BTC/EUR"
++                    units &= event.instrument == "BTC-EUR" and event.quote_currency == "EUR"
++                    provenance &= (
++                        row.raw_sha256 == frame.raw_sha256
++                        and row.received_ns == frame.received_ns
++                        and row.monotonic_ns == frame.monotonic_ns
++                        and row.session_id == frame.session_id
++                    )
++                    if not row.duplicate_delivery:
++                        provenance &= (
++                            event.raw_sha256 == frame.raw_sha256
++                            and event.received_ns == frame.received_ns
++                        )
++                    if channel == "trade":
++                        trade_id = str(raw["trade_id"])
++                        duplicate = trade_id in native_seen
++                        duplicate_semantics &= row.duplicate_delivery == duplicate
++                        duplicate_semantics &= row.native_trade_id == trade_id
++                        signature = (
++                            event_ns, raw["symbol"], raw["side"], raw["ord_type"],
++                            Decimal(str(raw["price"])), Decimal(str(raw["qty"])),
++                        )
++                        if duplicate:
++                            duplicate_semantics &= native_seen[trade_id] == signature
++                        else:
++                            native_seen[trade_id] = signature
++                        duplicate_semantics &= isinstance(event.data, TradeData)
++                        if isinstance(event.data, TradeData):
++                            duplicate_semantics &= (
++                                Decimal(event.data.price) == signature[-2]
++                                and Decimal(event.data.quantity) == signature[-1]
++                            )
++                        duplicate_count += duplicate
++                    else:
++                        duplicate_semantics &= not row.duplicate_delivery
++                        duplicate_semantics &= isinstance(event.data, QuoteData)
++                        if isinstance(event.data, QuoteData):
++                            duplicate_semantics &= event.data.origin == "observed"
++                            for name, levels in (
++                                ("bid", event.data.bids), ("ask", event.data.asks)
++                            ):
++                                duplicate_semantics &= (
++                                    Decimal(levels[0].price) == Decimal(str(raw[name]))
++                                    and Decimal(levels[0].quantity)
++                                    == Decimal(str(raw[name + "_qty"]))
++                                )
++                    kind = "snapshot" if row.snapshot else "update"
++                    provenance &= row.snapshot == (value["type"] == "snapshot")
++                    ages[channel + ":" + kind].append(frame.received_ns - event_ns)
++                    coverage[channel].append(frame.received_ns)
++                    deliveries[channel] += 1
++            checks.update(
++                exact_original_timestamps=exact,
++                receipt_availability_causality=causal,
++                native_instrument_and_currency=units,
++                raw_to_sidecar_to_event_provenance=provenance,
++                duplicate_and_observed_quote_semantics=duplicate_semantics,
++                row_accounting=(raw_rows == len(normalized.rows)
++                                == len(normalized.events) + duplicate_count),
++            )
++        report["stage"] = "causal_replay"
++        replay = MarketReplay()
++        full = replay.inspect_capture(normalized.events, data_class="exposed_structural_only")
++        checks["stored_replay_matches_recomputation"] = full == saved
++        checks["replay_repeat_deterministic"] = full == replay.inspect_capture(
++            normalized.events, data_class="exposed_structural_only"
++        )
++        checks["nonempty_both_channels"] = set(coverage) == {"trade", "ticker"}
++        causal_cutoffs = []
++        for cutoff in sorted({e.effective_ns for e in full.events}):
++            # Three representative boundaries are enough; avoid O(N²) verification.
++            causal_cutoffs.append(cutoff)
++        selected = (
++            sorted({
++                causal_cutoffs[0], causal_cutoffs[len(causal_cutoffs) // 2], causal_cutoffs[-1]
++            })
++            if causal_cutoffs else []
++        )
++        cutoff_checks = []
++        for cutoff in selected:
++            before = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", until_ns=cutoff - 1
++            )
++            at = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", until_ns=cutoff
++            )
++            resumed = replay.inspect_capture(
++                normalized.events, data_class="exposed_structural_only", checkpoint=at.checkpoint
++            )
++            cutoff_checks.append(
++                all(e.effective_ns < cutoff for e in before.events)
++                and at.events == tuple(e for e in full.events if e.effective_ns <= cutoff)
++                and len(at.events) > len(before.events)
++                and resumed.events == full.events and resumed.checkpoint == full.checkpoint
++            )
++        checks["causal_boundaries_and_checkpoint_resume"] = bool(selected) and all(cutoff_checks)
++        controls = Counter(record.kind for record in records if record.kind != "frame")
++        terminal = records[-1] if records else None
++        stop = (
++            terminal.details.get("reason")
++            if terminal and terminal.kind == "capture_stop" else None
++        )
++        checks["target_duration_stop"] = stop == "duration_limit"
++        closes = [r.details.get("outcome") for r in records if r.kind == "transport_close"]
++        checks["local_shutdown_recorded"] = bool(closes) and all(
++            outcome in ("graceful", "local_closed_remote_unknown") for outcome in closes
++        )
++        report.update(
++            status="passed" if all(checks.values()) else "incomplete_or_failed",
++            passed=all(checks.values()), stage="complete",
++            record_counts=dict(controls), message_counts=dict(messages),
++            market_delivery_counts=dict(deliveries), unique_market_events=len(full.events),
++            duplicate_trade_deliveries=duplicate_count,
++            causal_boundaries_checked=len(selected), stop_reason=stop,
++            journal_checkpoint=checkpoint.model_dump(mode="json"),
++            replay_checkpoint=full.checkpoint.model_dump(mode="json"),
++            application_source_age_ns={key: timing(values) for key, values in sorted(ages.items())},
++            channel_coverage={key: {
++                "first_received_ns": min(values), "last_received_ns": max(values),
++                "receipt_span_ns": max(values) - min(values),
++            } for key, values in sorted(coverage.items())},
++            disconnects_observed=controls["coverage_gap"],
++            recovery_records_observed=controls["interruption"],
++            corruption_observed=False,
++            fault_coverage=(
++                "No faults injected into original capture. Unobserved disconnects, corruption "
++                "and interrupted-write recovery require the separately executed synthetic tests."
++            ),
++            timing_limitations=(
++                "Source-to-application receipt age, not measured network latency; host clock "
++                "synchronization and upstream completeness are not proved by this verifier."
++            ),
++        )
++    finally:
++        services.database.close()
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--state-dir", type=Path, required=True)
++    parser.add_argument("--config", type=Path, required=True)
++    parser.add_argument("--capture-id", required=True)
++    parser.add_argument("--output", type=Path)
++    args = parser.parse_args()
++    report = {
++        "schema_version": 1, "purpose": "private_public_capture_technical_qa",
++        "network_contacted": False, "financial_validation": False,
++        "status": "blocked", "passed": False, "stage": "configuration",
++    }
++    try:
++        verify(args, report)
++    except Exception as error:
++        # Never publish exception text or captured provider payloads.
++        report.update(status="blocked", passed=False, error_type=type(error).__name__)
++    encoded = json.dumps(report, indent=2, sort_keys=True) + "\n"
++    if args.output:
++        with args.output.open("x") as output:
++            output.write(encoded)
++    print(encoded, end="")
++    raise SystemExit(0 if report["passed"] else 1)
++
++
++if __name__ == "__main__":
++    main()

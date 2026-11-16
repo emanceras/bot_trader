@@ -1,0 +1,75 @@
+{
+  "application_source_age_ns": {},
+  "artifact_hashes": {
+    "archive_hash": "803d44dad9dda90536dc68a6a2cd90481421231c8f23688a326c7972cac6d32c",
+    "normalization_hash": "4b8dff468d644b15919255d834864523d2fd6ae0e5bbdd65f9d20109b4ca9cb2",
+    "replay_hash": "d5b9537bb9ecb5ea13b1b885d9660a3aa55e8ff4a435a8f7b6e15e3abba14a0b"
+  },
+  "capture_id": "kraken-btc-eur-pilot-20261115",
+  "causal_boundaries_checked": 0,
+  "channel_coverage": {},
+  "checks": {
+    "causal_boundaries_and_checkpoint_resume": false,
+    "duplicate_and_observed_quote_semantics": true,
+    "exact_original_timestamps": true,
+    "fresh_process_artifacts_and_checkpoints_identical": true,
+    "journal_checkpoint_unchanged": true,
+    "journal_integrity_no_pending_intent": true,
+    "local_shutdown_recorded": false,
+    "native_instrument_and_currency": true,
+    "nonempty_both_channels": false,
+    "per_session_monotonic_order": true,
+    "raw_to_sidecar_to_event_provenance": true,
+    "receipt_availability_causality": true,
+    "recorded_approval_binding_at_intake": true,
+    "replay_repeat_deterministic": true,
+    "row_accounting": true,
+    "stored_replay_matches_recomputation": true,
+    "target_duration_stop": false,
+    "utc_receipt_order": true
+  },
+  "config_hash": "450dd8e34569716cc0aa435aa8e8bb9cdae7aaaae5e325fd7183c98688a846e8",
+  "corruption_observed": false,
+  "disconnects_observed": 3,
+  "duplicate_trade_deliveries": 0,
+  "fault_coverage": "No faults injected into original capture. Unobserved disconnects, corruption and interrupted-write recovery require the separately executed synthetic tests.",
+  "financial_validation": false,
+  "fresh_process": {
+    "exit_code": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e945984cb56043c2f973e6a327e406dcdcb99d9a61ead9d73c8001e73f0a3649"
+  },
+  "journal_checkpoint": {
+    "capture_id": "kraken-btc-eur-pilot-20261115",
+    "committed_records": 10,
+    "config_hash": "450dd8e34569716cc0aa435aa8e8bb9cdae7aaaae5e325fd7183c98688a846e8",
+    "frames": 0,
+    "last_hash": "5d0ad857e231322c0ea80151abcb5cc71aef90b6e4179f7d3cadd29a77250333",
+    "pending_intent": false,
+    "total_charged_bytes": 81920
+  },
+  "market_delivery_counts": {},
+  "message_counts": {},
+  "network_contacted": false,
+  "passed": false,
+  "purpose": "private_public_capture_technical_qa",
+  "record_counts": {
+    "capture_authorization": 1,
+    "capture_stop": 1,
+    "coverage_gap": 3,
+    "reconnect_wait": 2,
+    "session_start": 3
+  },
+  "recovery_records_observed": 0,
+  "replay_checkpoint": {
+    "consumed_count": 0,
+    "prefix_hash": "55080784f7f4e4c53570efde7e0d84ef5e740c6fb025c02bdcf9403e6288cf59",
+    "version": "capture-information-qa-v1"
+  },
+  "schema_version": 1,
+  "stage": "complete",
+  "status": "incomplete_or_failed",
+  "stop_reason": "reconnect_limit",
+  "timing_limitations": "Source-to-application receipt age, not measured network latency; host clock synchronization and upstream completeness are not proved by this verifier.",
+  "unique_market_events": 0
+}

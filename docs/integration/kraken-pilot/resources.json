@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "guarded_commands": 25,
+  "measured_guarded_wall_seconds": 448.63160353399996,
+  "conservative_failed_guard_charge_seconds": 320,
+  "budget_charged_seconds": 768.631603534,
+  "additional_diagnostic_wall_seconds": 6.457120821999979,
+  "measured_child_cpu_seconds": 101.453398,
+  "peak_measured_child_rss_bytes": 695275520,
+  "peak_measured_temporary_bytes": 57740519,
+  "private_campaign_bytes_at_summary": 57218723,
+  "unknown": "Failed pilot-live-02 CPU/RSS/disk peaks and supervisor overhead are unavailable. Short network probes have measured wall only. Engineering time not instrumented. Measured counters are not complete campaign hard-peak certification. Git/public export overhead is separate. Manual preparation/monitoring/inspection and publication are not fully instrumented.",
+  "downloads": "No software downloads; only authorized finite public messages. No paid services.",
+  "limits": {
+    "schema_version": 1,
+    "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
+    "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
+    "machine_seconds": 1200,
+    "command_seconds": 320,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-replay-pilot",
+    "additional_temp_roots": [],
+    "public_evidence": "docs/integration/kraken-pilot/evidence",
+    "public_pilot": true,
+    "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
+    "financial_execution": false,
+    "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
+  }
+}

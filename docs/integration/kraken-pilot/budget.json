@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
+  "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
+  "machine_seconds": 1200,
+  "command_seconds": 320,
+  "cpus": 4,
+  "ram_bytes": 8589934592,
+  "temporary_bytes": 536870912,
+  "scratch_root": "/workspace/kraken-replay-pilot",
+  "additional_temp_roots": [],
+  "public_evidence": "docs/integration/kraken-pilot/evidence",
+  "public_pilot": true,
+  "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
+  "financial_execution": false,
+  "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
+}

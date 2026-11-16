@@ -1,0 +1,42 @@
+E501 Line too long (101 > 100)
+  --> src/bot_trader/market_data/capture_cli.py:38:101
+   |
+36 |     route = os.environ.get(config.proxy_environment)
+37 |     if not route or hashlib.sha256(route.encode("utf-8")).hexdigest() != config.proxy_url_sha256:
+38 |         raise ValueError("Explicit proxy environment is absent or does not match its approved hash.")
+   |                                                                                                     ^
+39 |     return validate_proxy_url(route)
+   |
+
+E501 Line too long (102 > 100)
+  --> tools/integration/verify_pilot.py:87:101
+   |
+85 |             original[key] == second[key] for key in identity_keys
+86 |         )
+87 |         checks["original_pilot_accepted"] = original.get("pilot_acceptance", {}).get("passed") is True
+   |                                                                                                     ^^
+88 |         report["artifact_hashes"] = {key: second[key] for key in identity_keys[:3]}
+89 |         report["stage"] = "journal_and_provenance"
+   |
+
+B905 `zip()` without an explicit `strict=` parameter
+   --> tools/integration/verify_pilot.py:114:60
+    |
+112 |             checks["recorded_approval_binding_at_intake"] = bool(approvals)
+113 |             checks["utc_receipt_order"] = all(
+114 |                 a.received_ns <= b.received_ns for a, b in zip(records, records[1:])
+    |                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+115 |             )
+116 |             session_clocks = {}
+    |
+help: Add explicit value for parameter `strict=`
+    |
+113 |             checks["utc_receipt_order"] = all(
+    -                 a.received_ns <= b.received_ns for a, b in zip(records, records[1:])
+114 +                 a.received_ns <= b.received_ns for a, b in zip(records, records[1:], strict=False)
+115 |             )
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+Found 3 errors.
+1 unsafe fix available with `--fix --unsafe-fixes`.

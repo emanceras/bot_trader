@@ -1,0 +1,52 @@
+diff --git a/DECISIONS.md b/DECISIONS.md
+index 4e822d2..3a5f288 100644
+--- a/DECISIONS.md
++++ b/DECISIONS.md
+@@ -533,3 +533,11 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
+ - **Execution controls:** separate pilot configuration/approval binds identity, hash, host, rights and validity. Default command is plan-only; shipped template approved=false. Approval hash durable before intake. No self-approval implied by code. Offline recovery remains possible after a connection permit expires. SIGINT/SIGTERM stop intake; explicit outer watchdog covers OS DNS/unresponsive-process limits. Journal charge and bounded artifacts are not a filesystem quota or 24/7 certification.
+ - **Evidence:** 127 final focused checks pass; earlier backend regression passed 311 before six further focused cases/fixes. Mypy over 45 source files and scoped Ruff pass; both typing failures and correction diffs preserved. No altered behavioral expectations. Scientific/core/history evidence unchanged. Earlier native campaigns not rerun; no real observations or financial metrics generated.
+ - **Readiness:** no material implementation blocker identified within simulated scope; prepared to request a separately approved 5–10 minute pilot. Before execution bind retention rights, host clock/storage, optional runtime and watchdog. Actual TLS/subscriptions/traffic/latency are pilot questions, not claims already verified. Limits can stop before target duration; valid prefix QA alone cannot count as a completed pilot. E3/E4, 26 specifications, C1/C3, C2, C4/C5, T/D/U/V/F, holdout and V/paper/live unchanged.
++
++
++## D-061 — Authorized finite public Kraken pilot
++
++- **Date/authority:** 2026-11-15. The user explicitly authorizes finishing Market Replay from `2316029`, full applicable regression and a supervised 5–10 minute public WebSocket v2 BTC/EUR trade+ticker/BBO capture. No additional approval is required within that scope. This supersedes D-060’s historical no-connection condition only for this finite private technical pilot.
++- **Execution binding:** reuse `PilotConfiguration`/`PilotApproval`, actual host and finite time window; record the user's instruction as authority, not an invented external verification. Public information is retained privately for technical QA; no market messages, extracts or normalized data will be redistributed. Existing source/rights restrictions remain; no new general licensing research.
++- **Boundaries:** five-minute intake target with existing journal/row/artifact limits, external supervision, four CPU/eight GiB RSS ceiling and 512 MiB fresh temporary budget. No new engine, paid service, financial experiment or permanent collector. Preserve failures and rerun only affected tests. E3/E4 economics, 26 specifications, scientific gates/holdout and Phase V/paper/live remain unchanged.
++- **Status at registration:** authorized, not yet executed. Results will be recorded separately without rewriting this entry. Stop after delivery; next objective is E3/E4.
+diff --git a/docs/integration/kraken-pilot/budget.json b/docs/integration/kraken-pilot/budget.json
+new file mode 100644
+index 0000000..62e795d
+--- /dev/null
++++ b/docs/integration/kraken-pilot/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
++  "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
++  "machine_seconds": 1200,
++  "command_seconds": 320,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-replay-pilot",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-pilot/evidence",
++  "public_pilot": true,
++  "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
++  "financial_execution": false,
++  "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
++}
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index 1f283d0..580c7f4 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -26,6 +26,8 @@ SOURCE_PATHS = (
+     "docs/integration/kraken-ws-client/budget.json",
+     "docs/integration/kraken-ws-client/pilot.json",
+     "docs/integration/kraken-ws-client/approval.template.json",
++    "docs/integration/kraken-pilot/budget.json",
++    "docs/integration/kraken-pilot/pilot.json",
+ )
+ 
+ 

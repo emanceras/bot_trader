@@ -1,0 +1,179 @@
+diff --git a/DECISIONS.md b/DECISIONS.md
+index 4e822d2..3a5f288 100644
+--- a/DECISIONS.md
++++ b/DECISIONS.md
+@@ -533,3 +533,11 @@ Las entradas son fechadas y conservan su justificación. Una propuesta no equiva
+ - **Execution controls:** separate pilot configuration/approval binds identity, hash, host, rights and validity. Default command is plan-only; shipped template approved=false. Approval hash durable before intake. No self-approval implied by code. Offline recovery remains possible after a connection permit expires. SIGINT/SIGTERM stop intake; explicit outer watchdog covers OS DNS/unresponsive-process limits. Journal charge and bounded artifacts are not a filesystem quota or 24/7 certification.
+ - **Evidence:** 127 final focused checks pass; earlier backend regression passed 311 before six further focused cases/fixes. Mypy over 45 source files and scoped Ruff pass; both typing failures and correction diffs preserved. No altered behavioral expectations. Scientific/core/history evidence unchanged. Earlier native campaigns not rerun; no real observations or financial metrics generated.
+ - **Readiness:** no material implementation blocker identified within simulated scope; prepared to request a separately approved 5–10 minute pilot. Before execution bind retention rights, host clock/storage, optional runtime and watchdog. Actual TLS/subscriptions/traffic/latency are pilot questions, not claims already verified. Limits can stop before target duration; valid prefix QA alone cannot count as a completed pilot. E3/E4, 26 specifications, C1/C3, C2, C4/C5, T/D/U/V/F, holdout and V/paper/live unchanged.
++
++
++## D-061 — Authorized finite public Kraken pilot
++
++- **Date/authority:** 2026-11-15. The user explicitly authorizes finishing Market Replay from `2316029`, full applicable regression and a supervised 5–10 minute public WebSocket v2 BTC/EUR trade+ticker/BBO capture. No additional approval is required within that scope. This supersedes D-060’s historical no-connection condition only for this finite private technical pilot.
++- **Execution binding:** reuse `PilotConfiguration`/`PilotApproval`, actual host and finite time window; record the user's instruction as authority, not an invented external verification. Public information is retained privately for technical QA; no market messages, extracts or normalized data will be redistributed. Existing source/rights restrictions remain; no new general licensing research.
++- **Boundaries:** five-minute intake target with existing journal/row/artifact limits, external supervision, four CPU/eight GiB RSS ceiling and 512 MiB fresh temporary budget. No new engine, paid service, financial experiment or permanent collector. Preserve failures and rerun only affected tests. E3/E4 economics, 26 specifications, scientific gates/holdout and Phase V/paper/live remain unchanged.
++- **Status at registration:** authorized, not yet executed. Results will be recorded separately without rewriting this entry. Stop after delivery; next objective is E3/E4.
+diff --git a/docs/integration/kraken-pilot/budget.json b/docs/integration/kraken-pilot/budget.json
+new file mode 100644
+index 0000000..62e795d
+--- /dev/null
++++ b/docs/integration/kraken-pilot/budget.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
++  "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
++  "machine_seconds": 1200,
++  "command_seconds": 320,
++  "cpus": 4,
++  "ram_bytes": 8589934592,
++  "temporary_bytes": 536870912,
++  "scratch_root": "/workspace/kraken-replay-pilot",
++  "additional_temp_roots": [],
++  "public_evidence": "docs/integration/kraken-pilot/evidence",
++  "public_pilot": true,
++  "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
++  "financial_execution": false,
++  "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
++}
+diff --git a/docs/integration/kraken-pilot/pilot.json b/docs/integration/kraken-pilot/pilot.json
+new file mode 100644
+index 0000000..71d287f
+--- /dev/null
++++ b/docs/integration/kraken-pilot/pilot.json
+@@ -0,0 +1 @@
++{"endpoint":"wss://ws.kraken.com/v2","handshake_timeout_ns":15000000000,"idle_timeout_ns":15000000000,"limits":{"max_frame_bytes":1048576,"max_frames":10000,"max_records":20000,"max_total_bytes":67108864,"min_free_disk_bytes":134217728},"max_duration_ns":300000000000,"max_market_rows":8000,"max_reconnects":2,"mode":"public_data_qa","partition":"development","receive_timeout_ns":1000000000,"reconnect_delay_ns":5000000000,"rights_reference":"D-061: user-authorized finite public-feed technical QA; private retention only, no redistribution; existing Kraken source restrictions apply. User scope declaration, not external legal certification.","symbol":"BTC/EUR","synthetic":false,"version":"kraken-public-pilot-v1"}
+\ No newline at end of file
+diff --git a/tools/integration/check.py b/tools/integration/check.py
+index 0b58f5a..d433de1 100644
+--- a/tools/integration/check.py
++++ b/tools/integration/check.py
+@@ -1,4 +1,4 @@
+-"""Bounded offline checks with compact Git evidence and an explicit campaign budget."""
++"""Bounded checks; network is opt-in for the existing finite public-pilot command only."""
+ 
+ import argparse
+ import fcntl
+@@ -23,9 +23,34 @@ def tree_bytes(root):
+     return sum(p.stat().st_size for p in root.rglob("*") if p.is_file() and not p.is_symlink())
+ 
+ 
++def validate_public_pilot(command, budget):
++    """Constrain the runner, leaving actual approval validation to the existing CLI."""
++    if budget.get("public_pilot") is not True:
++        raise ValueError("This campaign does not permit public-pilot execution.")
++    if (
++        len(command) != 13
++        or Path(os.path.abspath(command[0])) != REPO / ".venv/bin/python"
++        or command[1:4] != ["-m", "bot_trader.cli", "--state-dir"]
++        or command[5:7] != ["capture-pilot", "--capture-id"]
++        or command[8] != "--config"
++        or command[10] != "--approval"
++        or command[12] != "--execute"
++    ):
++        raise ValueError("Network is limited to the existing public capture-pilot command.")
++    root = Path(budget["scratch_root"]).resolve()
++    state = Path(command[4]).resolve()
++    if state == root or not state.is_relative_to(root):
++        raise ValueError("Pilot state must be a private subdirectory of the campaign root.")
++    if not all(Path(command[i]).is_file() for i in (9, 11)):
++        raise ValueError("Pilot configuration and approval must already exist.")
++    if not 5 < budget["command_seconds"] <= 620:
++        raise ValueError("A finite public-pilot watchdog of at most 620 seconds is required.")
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--child", action="store_true")
++    parser.add_argument("--public-pilot", action="store_true")
+     parser.add_argument("--budget", type=Path, required=True)
+     parser.add_argument("label")
+     parser.add_argument("command", nargs=argparse.REMAINDER)
+@@ -35,10 +60,12 @@ def main():
+     command = args.command[1:] if args.command[:1] == ["--"] else args.command
+     if not command:
+         raise ValueError("A concrete command is required.")
++    if args.public_pilot:
++        validate_public_pilot(command, budget)
+     root.mkdir(exist_ok=True)
+     if args.child:
+         os.sched_setaffinity(0, sorted(os.sched_getaffinity(0))[: budget["cpus"]])
+-        restrict(root, False)
++        restrict(root, args.public_pilot)
+         os.execvpe(command[0], command, os.environ)
+     with (root / "checks.lock").open("a") as lock:
+         fcntl.flock(lock, fcntl.LOCK_EX)
+@@ -72,12 +99,15 @@ def main():
+         before = resource.getrusage(resource.RUSAGE_CHILDREN)
+         peak = disk_peak = 0
+         stopped = None
++        termination_requested = False
++        allowance = min(budget["command_seconds"], remaining)
+         with (output / "output.log").open("xb") as log:
+             proc = subprocess.Popen(
+                 [
+                     sys.executable,
+                     __file__,
+                     "--child",
++                    *(["--public-pilot"] if args.public_pilot else []),
+                     "--budget",
+                     str(args.budget.resolve()),
+                     args.label,
+@@ -95,13 +125,22 @@ def main():
+                 size = tree_bytes(root) + max(0, tree_bytes(objects) - object_baseline)
+                 size += sum(tree_bytes(Path(p)) for p in budget.get("additional_temp_roots", []))
+                 disk_peak = max(disk_peak, size)
+-                if time.monotonic() - started > min(budget["command_seconds"], remaining):
++                elapsed = time.monotonic() - started
++                if elapsed > allowance - (5 if args.public_pilot else 0):
+                     stopped = "time_budget"
+                 if peak > budget["ram_bytes"] * 0.9:
+                     stopped = "memory_guard"
+                 if disk_peak > budget["temporary_bytes"]:
+                     stopped = "disk_guard"
+                 if stopped:
++                    # Reserve the last five seconds within the hard bound for local shutdown.
++                    # Resource guards remain immediate; they must not grow through a grace period.
++                    if args.public_pilot and stopped == "time_budget" and elapsed < allowance:
++                        if not termination_requested:
++                            os.killpg(proc.pid, signal.SIGTERM)
++                            termination_requested = True
++                        time.sleep(0.1)
++                        continue
+                     os.killpg(proc.pid, signal.SIGKILL)
+                     break
+                 time.sleep(0.1)
+@@ -117,12 +156,18 @@ def main():
+             peak_sampled_rss_bytes=peak,
+             peak_sampled_temporary_bytes=disk_peak,
+             stop_reason=stopped,
++            graceful_stop_requested=termination_requested,
+             started_utc=started_utc,
+             completed_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+             budget=budget,
+             source_commit=source["snapshot_commit"],
+             evidence_ref=source["evidence_ref"],
+-            network="IPv4/IPv6 denied; no new datasets/software downloads",
++            network=(
++                "IPv4/IPv6 allowed for approved public-pilot CLI; application endpoint/request "
++                "allowlist, not a kernel destination firewall"
++                if args.public_pilot
++                else "IPv4/IPv6 denied; no new datasets/software downloads"
++            ),
+             limits=(
+                 "CPU affinity; sampled RSS/disk, not hard peak certification; "
+                 "private output not exported"
+diff --git a/tools/integration/evidence.py b/tools/integration/evidence.py
+index 1f283d0..580c7f4 100644
+--- a/tools/integration/evidence.py
++++ b/tools/integration/evidence.py
+@@ -26,6 +26,8 @@ SOURCE_PATHS = (
+     "docs/integration/kraken-ws-client/budget.json",
+     "docs/integration/kraken-ws-client/pilot.json",
+     "docs/integration/kraken-ws-client/approval.template.json",
++    "docs/integration/kraken-pilot/budget.json",
++    "docs/integration/kraken-pilot/pilot.json",
+ )
+ 
+ 

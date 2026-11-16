@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "label": "pilot-browser",
+  "command": [
+    ".venv/bin/python",
+    "scripts/browser-check.py",
+    "--state-dir",
+    "/workspace/kraken-replay-pilot/browser-state"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 23.211791691999906,
+  "cpu_seconds": 8.757212,
+  "peak_sampled_rss_bytes": 695275520,
+  "peak_sampled_temporary_bytes": 5673580,
+  "stop_reason": null,
+  "started_utc": "2026-11-15T17:36:50Z",
+  "completed_utc": "2026-11-15T17:37:13Z",
+  "budget": {
+    "schema_version": 1,
+    "authority": "User FINALIZAR Y VALIDAR MARKET REPLAY: explicit supervised public Kraken BTC/EUR trade+ticker capture of 5\u201310 minutes; private data QA only",
+    "ceiling_origin": "Fresh conservative technical campaign limits; no reuse of earlier permissions",
+    "machine_seconds": 1200,
+    "command_seconds": 320,
+    "cpus": 4,
+    "ram_bytes": 8589934592,
+    "temporary_bytes": 536870912,
+    "scratch_root": "/workspace/kraken-replay-pilot",
+    "additional_temp_roots": [],
+    "public_evidence": "docs/integration/kraken-pilot/evidence",
+    "public_pilot": true,
+    "new_downloads": "Authorized finite public market pilot only; existing optional software reused",
+    "financial_execution": false,
+    "published_baseline_commit": "231602918c856ca0f7db595f96d7e583ffae87bb"
+  },
+  "source_commit": "13f20afe3c999e7866b60865287031d11d392519",
+  "evidence_ref": "refs/tags/evidence/kraken-pilot-browser",
+  "network": "Existing browser helper: loopback API/Chromium; no external feed command or kernel network filter",
+  "limits": "4CPU affinity;180s external process group watchdog;sampled RSS/disk; browser helper owns API and worker"
+}
