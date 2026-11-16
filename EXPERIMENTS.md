@@ -113,3 +113,12 @@ No hay resultados numéricos propios, gráficos de rendimiento propios ni estima
 
 
 - **2026-11-14, cliente Kraken y diario incremental D-060:** 127 pruebas focalizadas finales correctas; regresión backend anterior de 311 pruebas, con cobertura solapada. Cliente real ejercitado únicamente con interlocutores inventados, sin sockets IPv4/IPv6 permitidos en los procesos de prueba. Diario/reconexión/recuperación/normalización/replay y controles de aprobación comprobados; dos fallos de tipos y sus correcciones conservados. Se añadió una dependencia opcional pequeña, aislada; no datos financieros ni servicios. Ninguna conexión Kraken, estrategia, backtest, entrenamiento, retorno o acceso al holdout. **Los siete contadores financieros siguen en cero.** Informe EN/ES y recibos vinculados en D-060; E3/E4 y V pendientes.
+
+
+## Technical data QA — finite real Kraken pilot (2026-11-16, D-061/D-062)
+
+- Not a financial experiment; scientific experiment counters and26 specifications unchanged. No strategy, PnL, training or parameter selection.
+- From2316029, executed existing BTC/EUR public trade+BBO capture → archive → normalization → Market Replay. Final target300s,2,449 original messages/2,175 market events,20 offline controls passed; nativeEUR, exact timestamps, original/restart hashes and causal prefixes preserved.
+- Retained adverse results: three refused direct openings; first proxy pilot incomplete after supervisor sampling race and child storage_failure; concurrent inspection blocked; original measured resource receipt lost and explicitly reconstructed with unknown counters. Partial real prefix QA remains favourable but does not satisfy full pilot acceptance. Final corrected pilot passes.
+-352 backend,7 web unit and2 browser checks passed; subsequent affected checks and strict typing/lint recorded individually. No old native engine campaigns repeated. No fabricated disconnect/duplicate/corruption in final stream: synthetic tests cover unobserved failure paths.
+- Raw messages/sidecars remain private outside Git. [EN](docs/en/integration/kraken-pilot.md) / [ES](docs/es/integration/kraken-pilot.md), [aggregate QA](docs/integration/kraken-pilot/final-qa.json) and compact source/receipt evidence preserve actual scope. Technical validation only; no upstream completeness,24/7, execution quality or economic advantage claim. E3/E4 next, V/paper/live unauthorized.

@@ -339,8 +339,10 @@ def _collect(
             control("capture_stop", {"reason": reason})
         except (OSError, ValueError):
             diagnostics.append("stop_record_not_confirmed")
-    except OSError:
+    except OSError as error:
         reason = "storage_failure"
+        # Retain a safe diagnostic without paths, payloads or credentials.
+        diagnostics.append(f"storage_failure:{type(error).__name__}:errno={error.errno}")
     except PlatformError as error:
         if isinstance(error, AccessDenied):
             raise

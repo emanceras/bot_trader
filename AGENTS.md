@@ -1,5 +1,11 @@
 # Instrucciones persistentes del proyecto
 
+## Current finite-pilot closure — D-062
+
+- The user authorized a finite real Kraken public BTC/EUR technical pilot in D-061. Read the [EN report](docs/en/integration/kraken-pilot.md) / [ES report](docs/es/integration/kraken-pilot.md) and STATE for its actual results and retained failures. That scope superseded historical no-connection instructions only for this finite campaign.
+- Market Replay is validated for the observed first-version data path, not financial execution or upstream completeness. Keep raw/normalized market data private. Do not repeat this capture or native campaigns by a generic continuation.
+- Stop infrastructure expansion after this delivery. The user's next objective is E3/E4 economics; 26 specifications, scientific gates, holdout and Phase V/paper/live restrictions remain unchanged.
+
 ## Incremental integration continuity
 
 - Before checks/publication, verify DECISIONS.md and EXPERIMENTS.md as exact byte prefixes of the latest verified published commit with `tools/integration/append_only.py`. A mutable or stale local tracking ref is not a baseline. Exceptional replacements need an explicit hash-bound amendment; never silently restore/rewrite historical content.
