@@ -1,8 +1,8 @@
 """Finite data-pilot configuration and recorded user approval; neither is a credential."""
 
-from typing import Literal
+from typing import Any, Literal, Self
 
-from pydantic import Field
+from pydantic import Field, SerializerFunctionWrapHandler, model_serializer, model_validator
 
 from bot_trader.core.errors import AccessDenied
 from bot_trader.core.events import Digest, ImmutableV2, Nanoseconds, content_hash
@@ -15,6 +15,9 @@ class PilotConfiguration(ImmutableV2):
     synthetic: Literal[False] = False
     symbol: Literal["BTC/EUR"] = "BTC/EUR"
     endpoint: Literal["wss://ws.kraken.com/v2"] = "wss://ws.kraken.com/v2"
+    # Omitted defaults preserve every existing direct-route v1 configuration digest.
+    proxy_environment: Literal["HTTPS_PROXY"] | None = None
+    proxy_url_sha256: Digest | None = None
     partition: Literal["development"] = "development"
     max_duration_ns: int = Field(
         default=300_000_000_000, strict=True, ge=300_000_000_000, le=600_000_000_000
@@ -32,6 +35,22 @@ class PilotConfiguration(ImmutableV2):
         max_total_bytes=67_108_864,
         min_free_disk_bytes=134_217_728,
     )
+
+    @model_serializer(mode="wrap")
+    def serialize_route(self, handler: SerializerFunctionWrapHandler) -> dict[str, Any]:
+        # Wrap serialization is supported throughout our declared Pydantic range.
+        # Field(exclude_if=...) would silently require a newer minimum version.
+        result: dict[str, Any] = handler(self)
+        if self.proxy_environment is None:
+            result.pop("proxy_environment", None)
+            result.pop("proxy_url_sha256", None)
+        return result
+
+    @model_validator(mode="after")
+    def bound_proxy_route(self) -> Self:
+        if (self.proxy_environment is None) != (self.proxy_url_sha256 is None):
+            raise ValueError("An explicit proxy environment and route hash must be bound together.")
+        return self
 
     @property
     def digest(self) -> str:
