@@ -3,15 +3,19 @@
 Every transport below is an in-process test double. No DNS, socket or provider access occurs.
 """
 
+import hashlib
 import json
+from argparse import Namespace
+from pathlib import Path
 
 import pytest
 from test_capture_service import ADMIN, BASE, Clock, Transport, handshake, ticker, trade
 
 from bot_trader.core.contracts import Principal
 from bot_trader.core.errors import AccessDenied
-from bot_trader.core.events import canonical_bytes
+from bot_trader.core.events import canonical_bytes, content_hash
 from bot_trader.core.security import Policy
+from bot_trader.core.settings import Settings
 from bot_trader.market_data.capture_authority import PilotApproval, PilotConfiguration
 from bot_trader.market_data.capture_service import KrakenCaptureService, ReceivePollTimeout
 from bot_trader.market_data.replay import CaptureReplayCheckpoint
@@ -299,3 +303,70 @@ def test_real_connector_class_composes_entire_pipeline_with_invented_peer(tmp_pa
     assert len(peer.sent) == 3
     repeated = service.inspect("pilot", config, ADMIN)
     assert result["replay_hash"] == repeated["replay_hash"]
+
+
+def test_optional_proxy_fields_preserve_existing_direct_configuration_identity():
+    old = json.loads(Path("docs/integration/kraken-ws-client/pilot.json").read_bytes())
+    config = PilotConfiguration.model_validate(old)
+    assert config.model_dump(mode="json") == old
+    assert config.digest == content_hash(old)
+    assert config.proxy_environment is config.proxy_url_sha256 is None
+    for invalid in (
+        {"proxy_environment": "HTTPS_PROXY"},
+        {"proxy_url_sha256": "0" * 64},
+        {"proxy_environment": "ALL_PROXY", "proxy_url_sha256": "0" * 64},
+    ):
+        with pytest.raises(ValueError):
+            PilotConfiguration.model_validate(old | invalid)
+
+
+@pytest.mark.parametrize(
+    "declared,actual",
+    [
+        ("http://proxy.invalid:8080", None),
+        ("http://proxy.invalid:8080", "http://other.invalid:8080"),
+        ("http://user:secret@proxy.invalid:8080", "http://user:secret@proxy.invalid:8080"),
+    ],
+)
+def test_proxy_route_rejected_before_services_or_network(tmp_path, monkeypatch, declared, actual):
+    from bot_trader.market_data import capture_cli
+
+    _, config, approval, _ = pilot(
+        tmp_path,
+        proxy_environment="HTTPS_PROXY",
+        proxy_url_sha256=hashlib.sha256(declared.encode()).hexdigest(),
+    )
+    config_path, approval_path = tmp_path / "config.json", tmp_path / "approval.json"
+    config_path.write_text(config.model_dump_json())
+    approval_path.write_text(approval.model_dump_json())
+    if actual is None:
+        monkeypatch.delenv("HTTPS_PROXY", raising=False)
+    else:
+        monkeypatch.setenv("HTTPS_PROXY", actual)
+    monkeypatch.setattr(capture_cli.SystemReceiptClock, "now", lambda _: (BASE, 1))
+    monkeypatch.setattr(capture_cli.socket, "gethostname", lambda: HOST)
+    monkeypatch.setattr(capture_cli.importlib.metadata, "version", lambda _: "17.4")
+    monkeypatch.setattr(capture_cli, "build_services", lambda _: pytest.fail("created services"))
+    args = Namespace(
+        config=config_path, capture_id="pilot", execute=True, inspect=False,
+        recover_stopped_writer=False, approval=approval_path,
+    )
+    with pytest.raises(ValueError) as rejected:
+        capture_cli.execute_command(args, Settings(data_dir=tmp_path / "state"))
+    assert "proxy" in str(rejected.value).lower()
+    assert declared not in str(rejected.value)
+
+
+def test_direct_route_ignores_environment_and_bound_route_is_reused(monkeypatch):
+    from bot_trader.market_data.capture_cli import _proxy_route
+
+    route = "http://proxy.invalid:8080"
+    monkeypatch.setenv("HTTPS_PROXY", route)
+    direct = PilotConfiguration(rights_reference="fixture")
+    assert _proxy_route(direct) is None
+    explicit = PilotConfiguration(
+        rights_reference="fixture", proxy_environment="HTTPS_PROXY",
+        proxy_url_sha256=hashlib.sha256(route.encode()).hexdigest(),
+    )
+    assert _proxy_route(explicit) == route
+    assert explicit.digest != direct.digest
