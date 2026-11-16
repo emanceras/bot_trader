@@ -70,6 +70,8 @@ def main() -> None:
             print(json.dumps(report, sort_keys=True))
             if str(report.get("status", "")).startswith("blocked"):
                 parser.exit(1, "Technical capture is blocked; inspect its preserved receipt.\n")
+            if args.execute and not report.get("pilot_acceptance", {}).get("passed", False):
+                parser.exit(1, "Pilot acceptance failed; inspect its preserved receipt.\n")
             return
         if args.command in {"init", "migrate"}:
             database = Database(settings)
