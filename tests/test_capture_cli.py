@@ -84,3 +84,28 @@ def test_offline_recovery_does_not_require_fresh_network_authorization(tmp_path,
     )
     result = execute_command(args, Settings(data_dir=tmp_path / "private"))
     assert result["status"] == "recovery_recorded" and not result["network_contacted"]
+
+
+@pytest.mark.parametrize("action,accepted,exit_code", [
+    ("--execute", False, 1), ("--execute", True, 0), ("--inspect", False, 0),
+])
+def test_cli_exit_status_distinguishes_structural_qa_from_completed_pilot(
+    monkeypatch, tmp_path, capsys, action, accepted, exit_code
+):
+    from bot_trader.cli import main
+
+    report = {"status": "technical_qa", "pilot_acceptance": {"passed": accepted}}
+    monkeypatch.setattr("bot_trader.market_data.capture_cli.execute_command", lambda *_: report)
+    monkeypatch.setattr(sys, "argv", [
+        "bot-trader", "--state-dir", str(tmp_path), "capture-pilot",
+        "--capture-id", "pilot", "--config", "unused.json", action,
+    ])
+    if exit_code:
+        with pytest.raises(SystemExit) as result:
+            main()
+        assert result.value.code == exit_code
+    else:
+        main()
+    output = capsys.readouterr()
+    assert json.loads(output.out) == report
+    assert ("Pilot acceptance failed" in output.err) is bool(exit_code)

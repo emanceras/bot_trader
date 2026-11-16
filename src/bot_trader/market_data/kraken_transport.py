@@ -13,6 +13,7 @@ import asyncio
 import ssl
 from collections.abc import Awaitable
 from typing import Any, Protocol, TypeVar, cast
+from urllib.parse import urlsplit
 
 from bot_trader.core.events import canonical_bytes
 from bot_trader.market_data.kraken_ws import KrakenProtocol
@@ -48,8 +49,36 @@ def _public_requests() -> frozenset[bytes]:
     )
 
 
+def validate_proxy_url(value: str) -> str:
+    """Admit an explicit credential-free CONNECT route without logging its address."""
+    try:
+        if (
+            not isinstance(value, str)
+            or not value.isascii()
+            or any(character.isspace() or ord(character) < 32 or ord(character) == 127
+                   for character in value)
+            or any(character in value for character in "\\?#")
+        ):
+            raise ValueError
+        parsed = urlsplit(value)
+        if (
+            parsed.scheme not in ("http", "https")
+            or not parsed.hostname
+            or parsed.username is not None
+            or parsed.password is not None
+            or parsed.path
+            or parsed.query
+            or parsed.fragment
+            or (parsed.port is not None and parsed.port == 0)
+        ):
+            raise ValueError
+    except (TypeError, ValueError):
+        raise ValueError("Proxy route must be a credential-free HTTP(S) authority only.") from None
+    return value
+
+
 class KrakenWebSocketTransport:
-    """One connection session with no private methods, redirects, proxies or auto-retry."""
+    """One public session; no redirects, implicit proxies, private methods or auto-retry."""
 
     simulated = False
 
@@ -60,6 +89,7 @@ class KrakenWebSocketTransport:
         send_timeout_ns: int = 2_000_000_000,
         close_timeout_ns: int = 3_000_000_000,
         max_frame_bytes: int = 1_048_576,
+        proxy_url: str | None = None,
     ) -> None:
         self.open_timeout_ns = _duration(open_timeout_ns, 10_000_000_000)
         self.send_timeout_ns = _duration(send_timeout_ns, 2_000_000_000)
@@ -67,6 +97,7 @@ class KrakenWebSocketTransport:
         if type(max_frame_bytes) is not int or not 0 < max_frame_bytes <= 1_048_576:
             raise ValueError("Public message limit must be between 1 byte and 1 MiB.")
         self.max_frame_bytes = max_frame_bytes
+        self.proxy_url = validate_proxy_url(proxy_url) if proxy_url is not None else None
         self._loop: asyncio.AbstractEventLoop | None = None
         self._connection: _Connection | None = None
         self._attempted = False
@@ -85,10 +116,14 @@ class KrakenWebSocketTransport:
             def process_redirect(self, exc: Exception) -> Exception | str:
                 return exc
 
+        proxy_options: dict[str, Any] = {}
+        if self.proxy_url is not None and urlsplit(self.proxy_url).scheme == "https":
+            # Verify both the TLS proxy and the end-to-end Kraken TLS session.
+            proxy_options["proxy_ssl"] = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
         connection = await NoRedirect(
             endpoint,
             ssl=context,
-            proxy=None,
+            proxy=self.proxy_url,
             compression=None,
             open_timeout=self.open_timeout_ns / 1_000_000_000,
             close_timeout=self.close_timeout_ns / 1_000_000_000,
@@ -97,6 +132,7 @@ class KrakenWebSocketTransport:
             max_queue=1,
             write_limit=4096,
             user_agent_header="bot_trader-public-capture/1",
+            **proxy_options,
         )
         return cast(_Connection, connection)
 
