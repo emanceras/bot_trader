@@ -1,0 +1,136 @@
+{
+  "document_id": "IV-E34-VERIFY-003",
+  "date": "2026-11-17",
+  "baseline_commit": "fa303d98ff9d74db328387cc2eed4755371120d9",
+  "scope": "Documentary verification only; no Windows/WSL user-machine execution, source request, dataset, financial experiment or infrastructure change",
+  "context": {
+    "method": "sum of per-file ceil(UTF-8 bytes/4), with conservative sensitivity proxy ceil(bytes/3); not an actual model tokenizer",
+    "before": [
+      {
+        "file": "STATE.md",
+        "bytes": 2188,
+        "characters": 2176,
+        "estimated_tokens_bytes_div_4": 547,
+        "conservative_proxy_bytes_div_3": 730
+      },
+      {
+        "file": "AGENTS.md",
+        "bytes": 37321,
+        "characters": 36968,
+        "estimated_tokens_bytes_div_4": 9331,
+        "conservative_proxy_bytes_div_3": 12441
+      },
+      {
+        "file": "DECISIONS_INDEX.md",
+        "bytes": 0,
+        "characters": 0,
+        "estimated_tokens_bytes_div_4": 0,
+        "conservative_proxy_bytes_div_3": 0
+      }
+    ],
+    "after": [
+      {
+        "file": "STATE.md",
+        "utf8_bytes": 2211,
+        "characters": 2201,
+        "estimated_tokens_bytes_div_4": 553,
+        "conservative_proxy_bytes_div_3": 737
+      },
+      {
+        "file": "AGENTS.md",
+        "utf8_bytes": 4807,
+        "characters": 4805,
+        "estimated_tokens_bytes_div_4": 1202,
+        "conservative_proxy_bytes_div_3": 1603
+      },
+      {
+        "file": "DECISIONS_INDEX.md",
+        "utf8_bytes": 3389,
+        "characters": 3370,
+        "estimated_tokens_bytes_div_4": 848,
+        "conservative_proxy_bytes_div_3": 1130
+      }
+    ],
+    "estimated_before": 9878,
+    "estimated_after": 2603,
+    "conservative_before": 13171,
+    "conservative_after": 3470,
+    "estimated_reduction_percent": 73.65,
+    "under_8000_conservative": true,
+    "historical_index_absent_counted_as_zero": true
+  },
+  "checks": {
+    "local_links": 286,
+    "paired_table_rows": 35,
+    "local_command_blocks_identical_en_es": true,
+    "commands_executed_on_user_pc": false,
+    "unchanged_documents": [
+      "RESEARCH.md",
+      "HYPOTHESES.md",
+      "EXPERIMENTS.md",
+      "docs/en/phase-iv/candidates.md",
+      "docs/es/phase-iv/candidates.md",
+      "docs/en/phase-iv/data-execution.md",
+      "docs/es/phase-iv/data-execution.md",
+      "docs/en/phase-iv/staged-amendment.md",
+      "docs/es/phase-iv/staged-amendment.md",
+      "docs/phase-iv/economics/sources.json",
+      "docs/phase-iv/economics/verification.json",
+      "docs/phase-iv/economics/verification-r2.json"
+    ],
+    "protocol_sections_2_to_end_unchanged_both_languages": true,
+    "existing_freeze_fields_preserved_except_approved_status_constants": true,
+    "scientific_inference_search_envelope_unchanged": true,
+    "all_financial_and_stage_ready_flags_false": true,
+    "exact_resources_interval_margins_cash_still_unbound": true,
+    "storage_and_known_archive_arithmetic": "passed",
+    "only_documentation_changes": true,
+    "bilingual_and_independent_read_only_review": "Reviewed source inventory, WSL/storage instructions and stage/admission semantics; no external certification"
+  },
+  "published_history": {
+    "baseline_commit": "fa303d98ff9d74db328387cc2eed4755371120d9",
+    "files": [
+      {
+        "file": "DECISIONS.md",
+        "published_bytes": 126491,
+        "current_bytes": 132602,
+        "previous_sha256": "50ce56f8312012f00e15c3f144076564d33622a0ac8fe054a28e4319350c8e9d",
+        "current_sha256": "bb39266678bb844368ba0ccd449b9b5433490483645555c8b8ec1fc65109a346",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      },
+      {
+        "file": "EXPERIMENTS.md",
+        "published_bytes": 17866,
+        "current_bytes": 17866,
+        "previous_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "current_sha256": "7e439f6a08eec2b9284b944b453a58fa7d106a9d09c7edb2537ff86a390a01c6",
+        "prefix_preserved": true,
+        "explicit_amendment": null
+      }
+    ],
+    "accepted": true,
+    "limit": "Checks content and declared amendment identity, not authenticity of authority."
+  },
+  "delivery_resources": {
+    "engineering_target_hours": 3,
+    "engineering_effort_estimate_hours": 1.5,
+    "engineering_estimate_limit": "Estimate of editing/review including delegation, not metered active person-hours. Environment was interrupted; elapsed wall span is not active engineering.",
+    "first_recorded_start_utc": "2026-11-17T08:24:17Z",
+    "last_check_utc": "2026-11-17T15:55:01.344718+00:00",
+    "automated_check_limit_seconds": 600,
+    "this_check_measured_wall_seconds": 0.242153,
+    "earlier_short_uninstrumented_document_checks_conservative_charge_seconds": 30,
+    "charged_check_seconds": 30.242153,
+    "software_or_dataset_downloads": 0,
+    "expenses_usd": 0,
+    "new_exchange_connections": 0
+  },
+  "authorization": "E3/E4 policy approved D-065; H-LIB-1 proposed only, no acquisition or financial execution approval",
+  "limits": [
+    "Binance total library size and exact dates unknown",
+    "Kraken full-history totals advertised, not measured",
+    "User computer, backup and effective WSL capacity unverified",
+    "No financial admission or unconditional Phase IV completion"
+  ]
+}

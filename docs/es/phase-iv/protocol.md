@@ -1,10 +1,10 @@
-# Fase IV — protocolo experimental para revisión
+# Fase IV — protocolo experimental
 
-Documento: PROTOCOL-IV-001 · Versión: 3 · Fecha: 2026-10-28 · Traducción española. [Original canónico en inglés](../../en/phase-iv/protocol.md).
+Documento: PROTOCOL-IV-001 · Versión: 4 · Fecha: 2026-11-17 · Traducción española. [Original canónico en inglés](../../en/phase-iv/protocol.md).
 
 ## 1. Autorización, estado y orden de lectura
 
-**Actualización de estado, D-044:** E1/E2 conservan su aprobación condicionada de D-038. El usuario ha [aprobado el principio de admisión por etapas](../../phase-iv/APPROVAL-STAGED.es.md) de `9aeae39`; la [enmienda IV-AMEND-001](staged-amendment.md) registra T/D/U/V/F y el momento prospectivo de completar vinculaciones dependientes. Esta aprobación metodológica no concede ejecución financiera ni alcance de Fase V. E3/E4, manifiestos concretos de cada función y autorizaciones de ejecución siguen pendientes. La versión 3 cambia secuencia y registros; conserva estimandos, comparaciones, criterios económicos, techo de 26 especificaciones y política inferencial.
+**Estado vigente, D-065:** E1/E2 (D-038), T/D/U/V/F por etapas (D-044) y ahora [E3/E4](../../phase-iv/APPROVAL-E3-E4.es.md) están aprobadas como decisiones metodológicas/económicas. El [paquete único de cierre práctico/biblioteca](economics.md) registra los valores aprobados y las vinculaciones pendientes por etapa. No se autoriza adquisición, gasto, implementación/evaluación financiera, Fase V, paper/live ni apertura del holdout. La revisión 4 actualiza solo autoridad/estado; las secciones científicas 2–7 permanecen intactas desde `fa303d9`. El texto de aprobación fechado anterior en esas secciones es histórico, no una petición de aprobar otra vez E1/E2/E3/E4. Faltan manifiestos, presupuestos de recursos, admisión de datos/ejecución y custodia independiente antes del acceso dependiente, conforme a [IV-AMEND-001](staged-amendment.md).
 
 La [solicitud](../../phase-iv/REQUEST.es.md) acepta la entrega de Fase III y autoriza el **trabajo metodológico** IV.1–IV.11, su documentación y publicación. No se autorizan V, experimentos/entrenamiento con mercados, servicios de pago, paper trading prospectivo ni cuentas/órdenes reales. La ejecución permanece exclusivamente técnica; esta entrega no modifica permisos ni código de la aplicación. La compatibilidad con Windows no se ha comprobado y no es requisito de este trabajo metodológico.
 

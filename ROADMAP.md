@@ -1,6 +1,16 @@
 # Roadmap del proyecto cuantitativo
 
-Fecha de inicio: 2026-10-13 · Actualización: 2026-11-16 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+Fecha de inicio: 2026-10-13 · Actualización: 2026-11-17 · Versión: 1.1 · Alcance autorizado: **Fase IV metodológica; sin Fase V**.
+
+## Estado vigente — aprobación E3/E4 y cierre práctico, 2026-11-17
+
+D-065 registra la [aprobación del usuario](docs/phase-iv/APPROVAL-E3-E4.es.md). **Las decisiones metodológicas/económicas de IV están aprobadas; las admisiones concretas de datos/ejecución siguen pendientes por etapa.** No pedir otra vez E3/E4 ni declarar preparación financiera incondicional. Arranque reducido: [STATE](STATE.md) → [AGENTS](AGENTS.md) → [índice](DECISIONS_INDEX.md); históricos solo cuando aporten información necesaria.
+
+[Paquete único EN](docs/en/phase-iv/economics.md) / [ES](docs/es/phase-iv/economics.md), revisión 3: inventario multiactivo/multiexchange, biblioteca desde la primera historia fiable, tandas verificables y presupuesto propuesto de 300 GB de trabajo +100 GB de recuperación local +200 GB de margen Windows sobre los ~600 GB compartidos. Copia independiente aparte, capacidad real por comprobar localmente. Kraken trades amplios y Binance complementario prioritarios; ninguna adquisición autorizada todavía. Primera fuente financiera provisional: Kraken spot/USD con universo histórico dinámico, deslistados y regla causal de liquidez/operabilidad por concretar, no una lista de supervivientes.
+
+Única siguiente propuesta **H-LIB-1**: preparación/admisión y adquisición técnica condicionada de una tanda amplia, hasta 40 GB transferidos contando reintentos y 80 GB de ocupación adicional máxima, solo tras autorización separada, verificaciones locales y manifiesto exacto de objetos/derechos/recursos. No ejecutada; sin Fase V ni nuevo permiso financiero. Las vinculaciones derivables de D/U y fechas finales V/F mantienen su momento legítimo; no se adelantan como bloqueo genérico a D.
+
+Dirección conservada: cierre práctico → biblioteca amplia → C1/C3 y C2 secundaria autorizadas → News Intelligence adicional → cantera mínima → paper separado → mejoras avanzadas justificadas → micro-live eventual ≤100 USD con nueva autorización. Sin escalado ni reinversión automáticos. Las entregas fechadas siguientes son históricas y conservan su evidencia; este estado las actualiza sin borrarlas.
 
 ## Integración incremental autorizada — D-054
 
@@ -38,7 +48,7 @@ Determinar si existe evidencia suficiente de una ventaja neta, robusta y viable 
 | II. Comparación y selección | Matriz con evidencia y candidatos falsables | I aceptada y aprobación explícita | Aceptada por el usuario en D-031, con reservas y dependencias |
 | III.A Arquitectura | Investigación tecnológica y arquitectura integral EN/ES | II aceptada; fuentes técnicas oficiales | Completada y revisada; D-032/D-033, fuentes oficiales y límites |
 | III.B Plataforma y laboratorio | Núcleo modular, persistencia, APIs, laboratorio sintético, web y pruebas A–F | Criterios de III.A satisfechos; ya autorizada | Implementada y probada; cierre técnico D-034, [verificación](docs/es/verification.md) |
-| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; M/R ejecutados; E con correcciones D-051 y ejecución causal acotada D-053; E3/E4, instanciación/sellado pendientes |
+| IV. Protocolo experimental | Registro prospectivo, particiones, costes y pruebas | II; viabilidad técnica de III; sin resultados de selección | E1/E2 aprobadas condicionalmente; A/B documentados con límites; admisión por etapas aprobada D-044; M/R ejecutados; E con correcciones D-051 y ejecución causal acotada D-053; E3/E4 aprobadas D-065; instanciación/admisiones/custodia pendientes según T/D/U/V/F |
 | V. Experimentos | Comparación reproducible, resultados positivos y negativos | III y IV aceptadas | Planificada |
 | VI. Sistema y evaluación prospectiva | Arquitectura del bot y paper trading supervisado | Evidencia suficiente en V y nueva aprobación | Planificada y condicionada |
 | Operativa real | Decisión independiente del usuario | Paper trading aceptado y autorización explícita separada | No autorizada |

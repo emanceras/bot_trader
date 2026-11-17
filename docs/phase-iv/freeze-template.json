@@ -1,9 +1,9 @@
 {
   "document_id": "FREEZE-IV-001",
   "schema_version": 1,
-  "revision": 4,
-  "date": "2026-10-28",
-  "status": "staged_methodology_approved_unbound_template",
+  "revision": 5,
+  "date": "2026-11-17",
+  "status": "method_and_economic_choices_approved_stage_bindings_pending",
   "execution_ready": false,
   "phase_v_authorized": false,
   "warning": "Documentary template only; no executable configuration, financial permission or sealed dataset. Every stage-dependent binding must be complete before that access; all original final bindings remain mandatory before F.",
@@ -65,7 +65,19 @@
       "v_scope": null,
       "data_acquisition_permission": null,
       "financial_execution_permission": null,
-      "budget_approval": null
+      "budget_approval": null,
+      "e3_e4_review": {
+        "status": "approved_policy_only",
+        "date": "2026-11-17",
+        "reviewed_commit": "fa303d98ff9d74db328387cc2eed4755371120d9",
+        "decisions": [
+          "E3",
+          "E4"
+        ],
+        "authority": "docs/phase-iv/APPROVAL-E3-E4.es.md",
+        "decision_record": "D-065",
+        "limit": "No purchase, acquisition, financial implementation/execution, Phase V, paper/live or holdout opening. Exact stage/workload budgets and admissions still required."
+      }
     },
     "sources": {
       "providers": null,
@@ -107,13 +119,34 @@
       "independent_support_assessment": null
     },
     "economics": {
-      "reference_capital_usd": null,
+      "reference_capital_usd": 1000,
       "cash_benchmark": null,
       "delta_increment_per_interval": null,
       "delta_cash_per_interval": null,
-      "risk_feasibility_bounds": null,
-      "c2_risk_objective_and_return_tradeoff": null,
-      "fixed_cost_allocation": null
+      "risk_feasibility_bounds": {
+        "primary_maximum_drawdown": 0.3,
+        "sensitivity_drawdowns": [
+          0.2,
+          0.4
+        ],
+        "role": "research_eligibility_not_trading_stop_or_personal_loss_permission",
+        "evaluation_windows_and_stress_rule": null
+      },
+      "c2_risk_objective_and_return_tradeoff": {
+        "functional": "sqrt(E[min(r_strategy - r_cash, 0)^2]) over all common reporting intervals",
+        "comparator": "C2-F training-exposure-matched",
+        "maximum_downside_deviation_ratio": 0.9,
+        "minimum_annual_arithmetic_net_return_difference": -0.01,
+        "minimum_return_difference_per_interval": null,
+        "applicability_and_joint_uncertainty_rule": null
+      },
+      "fixed_cost_allocation": null,
+      "annual_arithmetic_materiality": {
+        "cash": 0.05,
+        "increment": 0.02,
+        "per_interval_rule": "annual_margin / reporting_intervals_per_year",
+        "reporting_intervals_per_year": null
+      }
     },
     "execution": {
       "product_and_venue": null,
@@ -274,5 +307,23 @@
       "All final bindings and explicit one-time opening authority remain mandatory before F.",
       "Stage transition or method approval never grants execution authority."
     ]
+  },
+  "approved_resource_policy": {
+    "authority": "D-065",
+    "local_and_free_suitable_data_first": true,
+    "broad_reusable_multiexchange_library": true,
+    "contingency_usd": 400,
+    "spending_authorized": false,
+    "initial_cloud_contracting_authorized": false,
+    "finite_workload_derived_budgets_required": true,
+    "complete_stage_budgets_bound": false
+  },
+  "micro_feasibility": {
+    "maximum_hypothetical_capital_usd": 100,
+    "separate_from_primary_claims": true,
+    "real_capital_committed": false,
+    "paper_authorized": false,
+    "live_authorized": false,
+    "automatic_scaling_or_reinvestment_authorized": false
   }
 }

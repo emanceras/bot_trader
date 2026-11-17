@@ -1,10 +1,10 @@
-# Phase IV — experimental protocol for review
+# Phase IV — experimental protocol
 
-Document ID: PROTOCOL-IV-001 · Version: 3 · Date: 2026-10-28 · English canonical. [Spanish](../../es/phase-iv/protocol.md).
+Document ID: PROTOCOL-IV-001 · Version: 4 · Date: 2026-11-17 · English canonical. [Spanish](../../es/phase-iv/protocol.md).
 
 ## 1. Authority, status and reading order
 
-**Status update, D-044:** E1/E2 remain conditionally approved under D-038. The user has [approved the staged-admission principle](../../phase-iv/APPROVAL-STAGED.es.md) from `9aeae39`; [amendment IV-AMEND-001](staged-amendment.md) now records T/D/U/V/F and the prospective timing of dependent bindings. This methodological approval grants no financial execution or Phase V scope. E3/E4, exact stage manifests and their execution authorities remain pending. Version 3 changes admission timing and records only; estimands, comparisons, economic gates, the 26-slot ceiling and inference policy are preserved.
+**Current status, D-065:** E1/E2 (D-038), staged T/D/U/V/F (D-044) and now [E3/E4](../../phase-iv/APPROVAL-E3-E4.es.md) are approved as methodological/economic choices. The [single practical-closeout/library package](economics.md) records exact approved constants and remaining stage-specific bindings. No acquisition, spending, financial implementation/evaluation, Phase V, paper/live or holdout opening is authorized. Revision 4 updates this authority/status only; scientific sections 2–7 remain unchanged from `fa303d9`. Earlier dated approval wording in those sections is historical, not a request to approve E1/E2/E3/E4 again. Exact manifests, resource budgets, data/execution admission and independent custody remain to be bound before their dependent access under [IV-AMEND-001](staged-amendment.md).
 
 The [request](../../phase-iv/REQUEST.es.md) accepts the Phase III delivery and authorizes IV.1–IV.11 **methodological work**, documentation and publication. V, market experiments/training, paid services, prospective paper trading and real accounts/orders are not authorized. Runtime stays technical-only; no application permissions or code change in this delivery. Windows compatibility has not been tested and is not a prerequisite for this methodological work.
 
